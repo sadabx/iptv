@@ -1,76 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family IPTV Stream & Chat</title>
-    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    <style>
-        :root {
-            --bg-dark: #0f0f12;
-            --panel-bg: #18181b;
-            --border-color: #2d2d30;
-            --accent-color: #7c3aed;
-        }
-        body { margin: 0; padding: 0; background: var(--bg-dark); color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; height: 100vh; overflow: hidden; }
-        
-        /* 3-Column Grid Layout */
-        .sidebar { width: 260px; background: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; }
-        .main-stage { flex: 3; display: flex; background: #000; align-items: center; justify-content: center; position: relative; }
-        .chat-panel { width: 340px; background: var(--panel-bg); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
-
-        /* Sidebar Elements */
-        .sidebar-header { padding: 15px; font-weight: bold; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.2); text-align: center; color: #a78bfa; }
-        .channel-list { flex: 1; overflow-y: auto; list-style: none; margin: 0; padding: 0; }
-        .channel-item { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; display: flex; align-items: center; transition: 0.2s; font-size: 0.95rem; }
-        .channel-item:hover { background: rgba(255,255,255,0.05); }
-        .channel-item.active { background: var(--accent-color); font-weight: bold; }
-        
-        /* Video Element overrides */
-        .video-js { width: 100% !important; height: 100% !important; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="T9tube — Watch live Bangladeshi TV channels with Discord chat." />
+  <title>T9tube — Live TV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="sidebar-header">📺 IPTV CHANNELS</div>
-        <ul class="channel-list" id="channels">
-            <li class="channel-item active" data-stream="https://btv.secureswiftcontent.com/han/btv/btv10005r/srtoutput/manifest.m3u8">Bangladesh Television (BTV)</li>
-            <li class="channel-item" data-stream="https://bozztv.com/rongo/rongo-BTVChattagram/index.m3u8">BTV Chattogram</li>
-            <li class="channel-item" data-stream="https://example-stream-url/news/index.m3u8">Global News Feed</li>
-        </ul>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="logo">
+      <div class="logo-mark">
+        <!-- play icon -->
+        <svg width="13" height="14" viewBox="0 0 13 14" fill="none">
+          <path d="M2 1.5L11.5 7L2 12.5V1.5Z" fill="white"/>
+        </svg>
+      </div>
+      T9tube
     </div>
 
-    <div class="main-stage">
-        <video id="iptv-player" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay preload="auto">
-            <source src="https://btv.secureswiftcontent.com/han/btv/btv10005r/srtoutput/manifest.m3u8" type="application/x-mpegURL">
-        </video>
+    <div class="sep"></div>
+
+    <div class="now-playing">
+      <span class="live-pill"><span class="live-dot"></span>Live</span>
+      <span class="np-name">Now watching: <strong id="np-name">—</strong></span>
     </div>
 
-    <div class="chat-panel">
-        <iframe src="https://tlk.io/our-family-lounge" width="100%" height="100%" frameborder="0"></iframe>
-    </div>
+    <button class="bar-btn" id="btn-sidebar" title="Toggle channels" aria-label="Toggle channels">
+      <svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor">
+        <rect width="15" height="1.5" rx=".75"/>
+        <rect y="5.25" width="10" height="1.5" rx=".75"/>
+        <rect y="10.5" width="15" height="1.5" rx=".75"/>
+      </svg>
+    </button>
+    <button class="bar-btn" id="btn-chat" title="Toggle chat" aria-label="Toggle chat">
+      <svg width="15" height="14" viewBox="0 0 15 14" fill="currentColor">
+        <path d="M13 0H2C.9 0 0 .9 0 2v8c0 1.1.9 2 2 2h2l2 2 2-2h5c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z"/>
+      </svg>
+    </button>
+  </header>
 
-    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
-    <script>
-        const player = videojs('iptv-player');
-        const channelItems = document.querySelectorAll('.channel-item');
+  <!-- App Body -->
+  <div class="app">
 
-        channelItems.forEach(item => {
-            item.addEventListener('click', function() {
-                // Remove active styling class from other channels
-                document.querySelector('.channel-item.active').classList.remove('active');
-                this.classList.add('active');
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-search">
+        <div class="search-wrap">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="5.5" cy="5.5" r="4.5"/>
+            <path d="M9 9l3 3"/>
+          </svg>
+          <input
+            id="search-input"
+            class="search-input"
+            type="search"
+            placeholder="Search channels…"
+            autocomplete="off"
+          />
+        </div>
+      </div>
 
-                // Get new source URL and update the player live
-                const newStreamUrl = this.getAttribute('data-stream');
-                player.src({
-                    src: newStreamUrl,
-                    type: 'application/x-mpegURL'
-                });
-                player.play();
-            });
-        });
-    </script>
+      <div class="ch-scroll" id="ch-list">
+        <!-- populated by app.js from channels.js -->
+      </div>
+      <div class="no-results" id="no-results">No channels found</div>
+    </aside>
+
+    <!-- Video Stage -->
+    <main class="stage">
+      <video id="player" playsinline></video>
+
+      <!-- Loading overlay -->
+      <div class="state-overlay" id="overlay-loading">
+        <div class="spin"></div>
+        <span class="state-msg">Connecting to stream…</span>
+      </div>
+
+      <!-- Error overlay -->
+      <div class="err-overlay" id="overlay-error">
+        <span class="err-icon">📡</span>
+        <span class="err-title">Stream unavailable</span>
+        <span class="err-sub" id="err-sub">This channel may be offline or geo-restricted.</span>
+        <button class="retry-btn" id="retry-btn">Try again</button>
+      </div>
+
+      <!-- Custom control bar -->
+      <div class="ctrl-bar">
+        <!-- Play/Pause -->
+        <button class="ctrl-btn" id="ctrl-play" title="Play / Pause">
+          <!-- pause icon by default (starts playing) -->
+          <svg id="icon-play" width="14" height="16" viewBox="0 0 14 16" fill="currentColor" style="display:none">
+            <path d="M0 0L14 8L0 16V0Z"/>
+          </svg>
+          <svg id="icon-pause" width="12" height="16" viewBox="0 0 12 16" fill="currentColor">
+            <rect x="0" width="4" height="16" rx="1"/>
+            <rect x="8" width="4" height="16" rx="1"/>
+          </svg>
+        </button>
+
+        <!-- Live badge -->
+        <button class="ctrl-live-btn" id="ctrl-live" title="Jump to live">
+          <span class="ctrl-live-dot"></span>Live
+        </button>
+
+        <div class="ctrl-spacer"></div>
+
+        <!-- Channel name -->
+        <span class="ctrl-channel-name" id="ctrl-ch-name"></span>
+
+        <div class="ctrl-spacer"></div>
+
+        <!-- Volume -->
+        <div class="vol-wrap">
+          <button class="ctrl-btn" id="ctrl-mute" title="Mute / Unmute">
+            <svg id="icon-vol" width="16" height="14" viewBox="0 0 16 14" fill="currentColor">
+              <path d="M0 5v4h2.67L6 12.33V1.67L2.67 5H0zm10.5 2c0-1.77-1-3.29-2.5-4.03v8.05c1.5-.73 2.5-2.25 2.5-4.02z"/>
+              <path d="M8 0v1.56c2.37.97 4 3.31 4 6.04s-1.63 5.07-4 6.04V15c3.28-.97 5.5-4 5.5-7.5S11.28.97 8 0z" id="icon-vol-hi"/>
+            </svg>
+            <svg id="icon-muted" width="16" height="14" viewBox="0 0 16 14" fill="currentColor" style="display:none">
+              <path d="M6 1.67L2.67 5H0v4h2.67L6 12.33V1.67zm7.5 5.33l1.5-1.5-1.06-1.06L12.44 6l-1.5-1.5L9.88 5.56 11.38 7l-1.5 1.5 1.06 1.06L12.44 8l1.5 1.5 1.06-1.06L13.5 7z"/>
+            </svg>
+          </button>
+          <input class="vol-slider" id="vol-slider" type="range" min="0" max="1" step="0.02" value="1" />
+        </div>
+
+        <!-- Fullscreen -->
+        <button class="ctrl-btn" id="ctrl-fs" title="Fullscreen">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+            <path d="M1 1h4V0H0v5h1V1zm9-1v1h4v4h1V0h-5zm-9 14v-4H0v5h5v-1H1zm13 0h-4v1h5v-5h-1v4z"/>
+          </svg>
+        </button>
+      </div>
+    </main>
+
+    <!-- Chat -->
+    <aside class="chat" id="chat">
+      <div class="chat-head">
+        <span class="chat-title">Discord</span>
+        <span class="chat-live">
+          <span class="chat-live-dot"></span>
+          T9tube server
+        </span>
+      </div>
+      <div class="chat-body">
+        <!-- Widgetbot — embeds real Discord chat. Requires bot in your server: widgetbot.io -->
+        <iframe
+          src="https://e.widgetbot.io/channels/1492834744063496294/1514301716319699165"
+          title="T9tube Discord chat"
+          allow="clipboard-write; fullscreen"
+          style="width:100%; height:100%; border:none; display:block;"
+        ></iframe>
+      </div>
+    </aside>
+
+  </div><!-- /.app -->
+
+  <div class="toasts" id="toasts"></div>
+
+  <!-- HLS.js — lightweight, reliable, no UI overhead -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js"></script>
+
+  <!-- Channel data -->
+  <script src="channels.js"></script>
+
+  <!-- App logic -->
+  <script src="app.js"></script>
 </body>
 </html>
