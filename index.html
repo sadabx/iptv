@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family IPTV Stream & Chat</title>
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-dark: #0f0f12;
+            --panel-bg: #18181b;
+            --border-color: #2d2d30;
+            --accent-color: #7c3aed;
+        }
+        body { margin: 0; padding: 0; background: var(--bg-dark); color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* 3-Column Grid Layout */
+        .sidebar { width: 260px; background: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .main-stage { flex: 3; display: flex; background: #000; align-items: center; justify-content: center; position: relative; }
+        .chat-panel { width: 340px; background: var(--panel-bg); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
+
+        /* Sidebar Elements */
+        .sidebar-header { padding: 15px; font-weight: bold; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.2); text-align: center; color: #a78bfa; }
+        .channel-list { flex: 1; overflow-y: auto; list-style: none; margin: 0; padding: 0; }
+        .channel-item { padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; display: flex; align-items: center; transition: 0.2s; font-size: 0.95rem; }
+        .channel-item:hover { background: rgba(255,255,255,0.05); }
+        .channel-item.active { background: var(--accent-color); font-weight: bold; }
+        
+        /* Video Element overrides */
+        .video-js { width: 100% !important; height: 100% !important; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">📺 IPTV CHANNELS</div>
+        <ul class="channel-list" id="channels">
+            <li class="channel-item active" data-stream="https://btv.secureswiftcontent.com/han/btv/btv10005r/srtoutput/manifest.m3u8">Bangladesh Television (BTV)</li>
+            <li class="channel-item" data-stream="https://bozztv.com/rongo/rongo-BTVChattagram/index.m3u8">BTV Chattogram</li>
+            <li class="channel-item" data-stream="https://example-stream-url/news/index.m3u8">Global News Feed</li>
+        </ul>
+    </div>
+
+    <div class="main-stage">
+        <video id="iptv-player" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay preload="auto">
+            <source src="https://btv.secureswiftcontent.com/han/btv/btv10005r/srtoutput/manifest.m3u8" type="application/x-mpegURL">
+        </video>
+    </div>
+
+    <div class="chat-panel">
+        <iframe src="https://tlk.io/our-family-lounge" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+
+    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
+    <script>
+        const player = videojs('iptv-player');
+        const channelItems = document.querySelectorAll('.channel-item');
+
+        channelItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active styling class from other channels
+                document.querySelector('.channel-item.active').classList.remove('active');
+                this.classList.add('active');
+
+                // Get new source URL and update the player live
+                const newStreamUrl = this.getAttribute('data-stream');
+                player.src({
+                    src: newStreamUrl,
+                    type: 'application/x-mpegURL'
+                });
+                player.play();
+            });
+        });
+    </script>
+</body>
+</html>
