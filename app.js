@@ -1,5 +1,5 @@
 /* ==========================================
-   app.js — FamilyStream
+   app.js — IPTV
    Player: HLS.js + native <video>
    Data:   CHANNELS_DATA from channels.js
    ========================================== */
@@ -15,7 +15,7 @@ let $video, $chList, $npName, $ctrlChName,
     $search, $ovLoad, $ovErr, $errSub,
     $btnPlay, $iconPlay, $iconPause,
     $btnMute, $iconVol, $iconMuted,
-    $volSlider, $toasts, $noResults;
+    $volSlider, $toasts, $noResults, $chCount;
 
 // ══════════════════════════════════════════
 //  BOOT
@@ -38,20 +38,39 @@ document.addEventListener('DOMContentLoaded', () => {
   $volSlider   = document.getElementById('vol-slider');
   $toasts      = document.getElementById('toasts');
   $noResults   = document.getElementById('no-results');
+  $chCount     = document.getElementById('channel-count');
 
-  // Sidebar / chat toggles
-  document.getElementById('btn-sidebar').addEventListener('click', () => {
-    const sb = document.getElementById('sidebar');
-    const btn = document.getElementById('btn-sidebar');
-    sb.classList.toggle('closed');
-    btn.classList.toggle('on', sb.classList.contains('closed'));
+  const $sidebar  = document.getElementById('sidebar');
+  const $chat     = document.getElementById('chat');
+  const $btnSB    = document.getElementById('btn-sidebar');
+  const $btnChat  = document.getElementById('btn-chat');
+
+  // Chat is hidden by default — mark button as "closed"
+  $chat.classList.add('closed');
+
+  // Sidebar toggle
+  $btnSB.addEventListener('click', () => {
+    $sidebar.classList.toggle('closed');
+    $btnSB.classList.toggle('on', !$sidebar.classList.contains('closed'));
+  });
+  // Start with sidebar open (button shows "on")
+  $btnSB.classList.add('on');
+
+  // Chat toggle
+  $btnChat.addEventListener('click', () => {
+    $chat.classList.toggle('closed');
+    $btnChat.classList.toggle('on', !$chat.classList.contains('closed'));
   });
 
-  document.getElementById('btn-chat').addEventListener('click', () => {
-    const ch = document.getElementById('chat');
-    const btn = document.getElementById('btn-chat');
-    ch.classList.toggle('closed');
-    btn.classList.toggle('on', ch.classList.contains('closed'));
+  // Close sidebar on channel click (mobile)
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768) {
+      const chItem = e.target.closest('.ch-item');
+      if (chItem && !$sidebar.classList.contains('closed')) {
+        $sidebar.classList.add('closed');
+        $btnSB.classList.remove('on');
+      }
+    }
   });
 
   // Controls
@@ -93,8 +112,8 @@ function initChannels() {
   CHANNELS_DATA.categories.forEach(cat => {
     const lbl = document.createElement('div');
     lbl.className = 'cat-label';
-    lbl.textContent = cat.name;
     lbl.dataset.cat = cat.name;
+    lbl.innerHTML = `<span class="cat-icon">${cat.icon}</span>${cat.name}`;
     $chList.appendChild(lbl);
 
     cat.channels.forEach(ch => {
@@ -102,6 +121,9 @@ function initChannels() {
       $chList.appendChild(buildChItem(ch));
     });
   });
+
+  // Update count
+  if ($chCount) $chCount.textContent = channels.length;
 
   // Auto-play first
   if (channels.length) loadChannel(channels[0].id);
@@ -114,15 +136,17 @@ function buildChItem(ch) {
   el.dataset.id = ch.id;
   el.dataset.search = ch.name.toLowerCase();
 
-  const initials = ch.shortName.slice(0, 3);
-  const qClass = ch.quality === 'HD' ? 'hd' : 'sd';
+  const initials = ch.shortName.slice(0, 4);
+  const q = (ch.quality || 'HD').toLowerCase();
+  const qClass = q === 'fhd' ? 'fhd' : q === 'hd' ? 'hd' : 'sd';
 
   el.innerHTML = `
     <div class="ch-avatar">
       ${ch.logo
-        ? `<img src="${ch.logo}" alt="${ch.shortName}" onerror="this.parentElement.textContent='${initials}'">`
-        : initials
+        ? `<img src="${ch.logo}" alt="${ch.shortName}" referrerpolicy="no-referrer" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">`
+        : ''
       }
+      <span class="ch-initials" style="${ch.logo ? 'display:none' : ''}">${initials}</span>
     </div>
     <div class="ch-info">
       <div class="ch-name">${ch.name}</div>
@@ -158,7 +182,7 @@ function loadChannel(id) {
   showLoad(true);
   hideErr();
   startHLS(ch.stream);
-  toast(ch.name);
+  toast(`▶ ${ch.name}`);
 }
 
 function startHLS(url) {

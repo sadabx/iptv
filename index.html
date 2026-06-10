@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="T9tube — Watch live Bangladeshi TV channels with Discord chat." />
-  <title>T9tube — Live TV</title>
+  <meta name="description" content="IPTV — Watch live Bangladeshi TV channels. Free, fast, no login." />
+  <title>IPTV — Live TV Bangladesh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,33 +17,36 @@
   <header class="topbar">
     <div class="logo">
       <div class="logo-mark">
-        <!-- play icon -->
-        <svg width="13" height="14" viewBox="0 0 13 14" fill="none">
-          <path d="M2 1.5L11.5 7L2 12.5V1.5Z" fill="white"/>
+        <!-- Terminal / signal icon -->
+        <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+          <path d="M1 1L6 7L1 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="8" y1="13" x2="15" y2="13" stroke="white" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </div>
-      T9tube
+      <span class="logo-text">IPTV<span class="logo-blink">_</span></span>
     </div>
 
     <div class="sep"></div>
 
     <div class="now-playing">
-      <span class="live-pill"><span class="live-dot"></span>Live</span>
+      <span class="live-pill"><span class="live-dot"></span>LIVE</span>
       <span class="np-name">Now watching: <strong id="np-name">—</strong></span>
     </div>
 
-    <button class="bar-btn" id="btn-sidebar" title="Toggle channels" aria-label="Toggle channels">
-      <svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor">
-        <rect width="15" height="1.5" rx=".75"/>
-        <rect y="5.25" width="10" height="1.5" rx=".75"/>
-        <rect y="10.5" width="15" height="1.5" rx=".75"/>
-      </svg>
-    </button>
-    <button class="bar-btn" id="btn-chat" title="Toggle chat" aria-label="Toggle chat">
-      <svg width="15" height="14" viewBox="0 0 15 14" fill="currentColor">
-        <path d="M13 0H2C.9 0 0 .9 0 2v8c0 1.1.9 2 2 2h2l2 2 2-2h5c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z"/>
-      </svg>
-    </button>
+    <div class="topbar-actions">
+      <button class="bar-btn" id="btn-sidebar" title="Toggle channels" aria-label="Toggle channels">
+        <svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor">
+          <rect width="15" height="1.5" rx=".75"/>
+          <rect y="5.25" width="10" height="1.5" rx=".75"/>
+          <rect y="10.5" width="15" height="1.5" rx=".75"/>
+        </svg>
+      </button>
+      <button class="bar-btn" id="btn-chat" title="Toggle chat" aria-label="Toggle chat">
+        <svg width="15" height="14" viewBox="0 0 15 14" fill="currentColor">
+          <path d="M13 0H2C.9 0 0 .9 0 2v8c0 1.1.9 2 2 2h2l2 2 2-2h5c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
   <!-- App Body -->
@@ -49,6 +54,14 @@
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
+          Channels
+        </span>
+        <span class="channel-count" id="channel-count">—</span>
+      </div>
+
       <div class="sidebar-search">
         <div class="search-wrap">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -77,8 +90,9 @@
 
       <!-- Loading overlay -->
       <div class="state-overlay" id="overlay-loading">
-        <div class="spin"></div>
-        <span class="state-msg">Connecting to stream…</span>
+        <div class="terminal-loader">
+          <span class="tl-line">$ connecting to stream<span class="tl-cursor">▊</span></span>
+        </div>
       </div>
 
       <!-- Error overlay -->
@@ -86,14 +100,13 @@
         <span class="err-icon">📡</span>
         <span class="err-title">Stream unavailable</span>
         <span class="err-sub" id="err-sub">This channel may be offline or geo-restricted.</span>
-        <button class="retry-btn" id="retry-btn">Try again</button>
+        <button class="retry-btn" id="retry-btn">↺ Retry</button>
       </div>
 
       <!-- Custom control bar -->
       <div class="ctrl-bar">
         <!-- Play/Pause -->
         <button class="ctrl-btn" id="ctrl-play" title="Play / Pause">
-          <!-- pause icon by default (starts playing) -->
           <svg id="icon-play" width="14" height="16" viewBox="0 0 14 16" fill="currentColor" style="display:none">
             <path d="M0 0L14 8L0 16V0Z"/>
           </svg>
@@ -105,7 +118,7 @@
 
         <!-- Live badge -->
         <button class="ctrl-live-btn" id="ctrl-live" title="Jump to live">
-          <span class="ctrl-live-dot"></span>Live
+          <span class="ctrl-live-dot"></span>LIVE
         </button>
 
         <div class="ctrl-spacer"></div>
@@ -144,14 +157,14 @@
         <span class="chat-title">Discord</span>
         <span class="chat-live">
           <span class="chat-live-dot"></span>
-          T9tube server
+          IPTV server
         </span>
       </div>
       <div class="chat-body">
         <!-- Widgetbot — embeds real Discord chat. Requires bot in your server: widgetbot.io -->
         <iframe
           src="https://e.widgetbot.io/channels/1492834744063496294/1514301716319699165"
-          title="T9tube Discord chat"
+          title="IPTV Discord chat"
           allow="clipboard-write; fullscreen"
           style="width:100%; height:100%; border:none; display:block;"
         ></iframe>
