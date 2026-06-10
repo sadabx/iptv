@@ -165,22 +165,6 @@ const CHANNELS_DATA = {
       icon: '📺',
       channels: [
         {
-          id: 'btv-national',
-          name: 'BTV National',
-          shortName: 'BTV',
-          logo: 'https://i.imgur.com/5OE2FDt.png',
-          stream: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/1709.m3u8',
-          quality: 'FHD'
-        },
-        {
-          id: 'btv-world',
-          name: 'BTV World',
-          shortName: 'BTVW',
-          logo: 'https://i.imgur.com/sSnrg7o.png',
-          stream: 'https://tvsen6.aynaott.com/btv_world/index.m3u8',
-          quality: 'HD'
-        },
-        {
           id: 'atn-bangla',
           name: 'ATN Bangla',
           shortName: 'ATNB',
@@ -299,6 +283,22 @@ const CHANNELS_DATA = {
       icon: '🏛️',
       channels: [
         {
+          id: 'btv-national',
+          name: 'BTV National',
+          shortName: 'BTV',
+          logo: 'https://i.imgur.com/5OE2FDt.png',
+          stream: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/1709.m3u8',
+          quality: 'FHD'
+        },
+        {
+          id: 'btv-world',
+          name: 'BTV World',
+          shortName: 'BTVW',
+          logo: 'https://i.imgur.com/sSnrg7o.png',
+          stream: 'https://tvsen6.aynaott.com/btv_world/index.m3u8',
+          quality: 'HD'
+        },
+        {
           id: 'btv-chattogram',
           name: 'BTV Chattogram',
           shortName: 'BTVC',
@@ -371,6 +371,38 @@ const CHANNELS_DATA = {
           shortName: 'MCB',
           logo: 'https://i.imgur.com/vIJTVia.png',
           stream: 'https://streaming.madanichannel.tv/static/streaming-playlists/hls/d3e49b76-ac06-4689-a641-9200445b647f/master.m3u8',
+          quality: 'FHD'
+        },
+        {
+          id: 'al-quran-tv',
+          name: 'Al Quran Al Kareem TV',
+          shortName: 'QURAN',
+          logo: 'https://aloula.faulio.com/storage/mediagallery/da/6c/fullhd_7eaf7e165c4cad5b3a45eff65d2011e18be5d670.png',
+          stream: 'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8',
+          quality: 'SD'
+        },
+        {
+          id: 'al-sunnah-tv',
+          name: 'Al Sunnah Al Nabawiyah TV',
+          shortName: 'SUNNAH',
+          logo: 'https://aloula.faulio.com/storage/mediagallery/33/92/fullhd_879e557011826f507a045b4e0b4c3b57ba93edae.png',
+          stream: 'https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8',
+          quality: 'SD'
+        },
+        {
+          id: 'peace-tv-bangla',
+          name: 'Peace TV Bangla',
+          shortName: 'PEACE',
+          logo: 'https://i.imgur.com/1ztVXUi.png',
+          stream: 'https://dzkyvlfyge.erbvr.com/PeaceTvBangla/index.m3u8',
+          quality: 'FHD'
+        },
+        {
+          id: 'peace-tv-english',
+          name: 'Peace TV English',
+          shortName: 'PTVE',
+          logo: 'https://i.imgur.com/rjgCM2B.png',
+          stream: 'https://dzkyvlfyge.erbvr.com/PeaceTvEnglish/index.m3u8',
           quality: 'FHD'
         },
       ]

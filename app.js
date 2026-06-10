@@ -10,6 +10,15 @@ let activeId = null;
 let channels = [];   // flat list
 let muted = false;
 
+// ── SVG Icons
+const ICONS = {
+  play:     `<svg id="icon-play" width="14" height="16" viewBox="0 0 14 16" fill="currentColor" class="hidden"><path d="M0 0L14 8L0 16V0Z"/></svg>
+             <svg id="icon-pause" width="12" height="16" viewBox="0 0 12 16" fill="currentColor"><rect x="0" width="4" height="16" rx="1"/><rect x="8" width="4" height="16" rx="1"/></svg>`,
+  vol:      `<svg id="icon-vol" width="16" height="14" viewBox="0 0 16 14" fill="currentColor"><path d="M0 5v4h2.67L6 12.33V1.67L2.67 5H0zm10.5 2c0-1.77-1-3.29-2.5-4.03v8.05c1.5-.73 2.5-2.25 2.5-4.02z"/><path d="M8 0v1.56c2.37.97 4 3.31 4 6.04s-1.63 5.07-4 6.04V15c3.28-.97 5.5-4 5.5-7.5S11.28.97 8 0z"/></svg>
+             <svg id="icon-muted" width="16" height="14" viewBox="0 0 16 14" fill="currentColor" class="hidden"><path d="M6 1.67L2.67 5H0v4h2.67L6 12.33V1.67zm7.5 5.33l1.5-1.5-1.06-1.06L12.44 6l-1.5-1.5L9.88 5.56 11.38 7l-1.5 1.5 1.06 1.06L12.44 8l1.5 1.5 1.06-1.06L13.5 7z"/></svg>`,
+  fullscreen:`<svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M1 1h4V0H0v5h1V1zm9-1v1h4v4h1V0h-5zm-9 14v-4H0v5h5v-1H1zm13 0h-4v1h5v-5h-1v4z"/></svg>`,
+};
+
 // ── DOM refs
 let $video, $chList, $npName, $ctrlChName,
     $search, $ovLoad, $ovErr, $errSub,
@@ -30,9 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
   $ovErr       = document.getElementById('overlay-error');
   $errSub      = document.getElementById('err-sub');
   $btnPlay     = document.getElementById('ctrl-play');
+  $btnMute     = document.getElementById('ctrl-mute');
+  document.getElementById('ctrl-fs').innerHTML = ICONS.fullscreen;
+  $btnPlay.innerHTML = ICONS.play;
+  $btnMute.innerHTML = ICONS.vol;
   $iconPlay    = document.getElementById('icon-play');
   $iconPause   = document.getElementById('icon-pause');
-  $btnMute     = document.getElementById('ctrl-mute');
   $iconVol     = document.getElementById('icon-vol');
   $iconMuted   = document.getElementById('icon-muted');
   $volSlider   = document.getElementById('vol-slider');
@@ -72,6 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  // Auto-hide controls on idle
+  const $stage = document.querySelector('.stage');
+  let idleTimer = null;
+  const IDLE_MS = 3000;
+
+  function resetIdle() {
+    $stage.classList.remove('idle');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => $stage.classList.add('idle'), IDLE_MS);
+  }
+
+  $stage.addEventListener('mousemove', resetIdle);
+  $stage.addEventListener('mousedown', resetIdle);
+  $stage.addEventListener('touchstart', resetIdle, { passive: true });
+  resetIdle(); // start timer immediately
+
 
   // Controls
   $btnPlay.addEventListener('click', togglePlay);
@@ -125,8 +154,10 @@ function initChannels() {
   // Update count
   if ($chCount) $chCount.textContent = channels.length;
 
-  // Auto-play first
-  if (channels.length) loadChannel(channels[0].id);
+  // Restore last watched channel, else play first
+  const lastId = localStorage.getItem('iptv-last-channel');
+  const startId = (lastId && channels.find(c => c.id === lastId)) ? lastId : channels[0]?.id;
+  if (startId) loadChannel(startId);
 }
 
 function buildChItem(ch) {
@@ -176,6 +207,7 @@ function loadChannel(id) {
   }
 
   activeId = id;
+  localStorage.setItem('iptv-last-channel', id);
   $npName.textContent = ch.name;
   $ctrlChName.textContent = ch.name;
 
@@ -227,8 +259,8 @@ function togglePlay() {
 }
 
 function setPaused(paused) {
-  $iconPlay.style.display  = paused  ? '' : 'none';
-  $iconPause.style.display = paused ? 'none' : '';
+  $iconPlay.classList.toggle('hidden', !paused);
+  $iconPause.classList.toggle('hidden', paused);
 }
 
 function toggleMute() {
@@ -238,8 +270,8 @@ function toggleMute() {
 function setMuted(val) {
   muted = val;
   $video.muted = muted;
-  $iconVol.style.display    = muted ? 'none' : '';
-  $iconMuted.style.display  = muted ? ''     : 'none';
+  $iconVol.classList.toggle('hidden', muted);
+  $iconMuted.classList.toggle('hidden', !muted);
   if (muted) $volSlider.value = 0;
   else { $volSlider.value = $video.volume || 1; $video.volume = $video.volume || 1; }
 }

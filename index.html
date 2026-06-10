@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="IPTV — Watch live Bangladeshi TV channels. Free, fast, no login." />
-  <title>IPTV — Live TV Bangladesh</title>
+  <title>IPTV - Live TV</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <!-- Top Bar -->
   <header class="topbar">
     <div class="logo">
       <div class="logo-mark">
-        <!-- Terminal / signal icon -->
         <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-          <path d="M1 1L6 7L1 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="8" y1="13" x2="15" y2="13" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M1 1L6 7L1 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <line x1="8" y1="13" x2="15" y2="13" stroke="white" stroke-width="2" stroke-linecap="round" />
         </svg>
       </div>
       <span class="logo-text">IPTV<span class="logo-blink">_</span></span>
@@ -36,66 +38,54 @@
     <div class="topbar-actions">
       <button class="bar-btn" id="btn-sidebar" title="Toggle channels" aria-label="Toggle channels">
         <svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor">
-          <rect width="15" height="1.5" rx=".75"/>
-          <rect y="5.25" width="10" height="1.5" rx=".75"/>
-          <rect y="10.5" width="15" height="1.5" rx=".75"/>
+          <rect width="15" height="1.5" rx=".75" />
+          <rect y="5.25" width="10" height="1.5" rx=".75" />
+          <rect y="10.5" width="15" height="1.5" rx=".75" />
         </svg>
       </button>
       <button class="bar-btn" id="btn-chat" title="Toggle chat" aria-label="Toggle chat">
         <svg width="15" height="14" viewBox="0 0 15 14" fill="currentColor">
-          <path d="M13 0H2C.9 0 0 .9 0 2v8c0 1.1.9 2 2 2h2l2 2 2-2h5c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z"/>
+          <path d="M13 0H2C.9 0 0 .9 0 2v8c0 1.1.9 2 2 2h2l2 2 2-2h5c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z" />
         </svg>
       </button>
     </div>
   </header>
 
-  <!-- App Body -->
   <div class="app">
 
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <span class="sidebar-title">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><circle cx="5" cy="5" r="5"/></svg>
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+            <circle cx="5" cy="5" r="5" />
+          </svg>
           Channels
         </span>
         <span class="channel-count" id="channel-count">—</span>
       </div>
-
       <div class="sidebar-search">
         <div class="search-wrap">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="5.5" cy="5.5" r="4.5"/>
-            <path d="M9 9l3 3"/>
+            <circle cx="5.5" cy="5.5" r="4.5" />
+            <path d="M9 9l3 3" />
           </svg>
-          <input
-            id="search-input"
-            class="search-input"
-            type="search"
-            placeholder="Search channels…"
-            autocomplete="off"
-          />
+          <input id="search-input" class="search-input" type="search" placeholder="Search channels…"
+            autocomplete="off" />
         </div>
       </div>
-
-      <div class="ch-scroll" id="ch-list">
-        <!-- populated by app.js from channels.js -->
-      </div>
+      <div class="ch-scroll" id="ch-list"></div>
       <div class="no-results" id="no-results">No channels found</div>
     </aside>
 
-    <!-- Video Stage -->
     <main class="stage">
       <video id="player" playsinline></video>
 
-      <!-- Loading overlay -->
       <div class="state-overlay" id="overlay-loading">
         <div class="terminal-loader">
           <span class="tl-line">$ connecting to stream<span class="tl-cursor">▊</span></span>
         </div>
       </div>
 
-      <!-- Error overlay -->
       <div class="err-overlay" id="overlay-error">
         <span class="err-icon">📡</span>
         <span class="err-title">Stream unavailable</span>
@@ -103,55 +93,26 @@
         <button class="retry-btn" id="retry-btn">↺ Retry</button>
       </div>
 
-      <!-- Custom control bar -->
       <div class="ctrl-bar">
-        <!-- Play/Pause -->
-        <button class="ctrl-btn" id="ctrl-play" title="Play / Pause">
-          <svg id="icon-play" width="14" height="16" viewBox="0 0 14 16" fill="currentColor" style="display:none">
-            <path d="M0 0L14 8L0 16V0Z"/>
-          </svg>
-          <svg id="icon-pause" width="12" height="16" viewBox="0 0 12 16" fill="currentColor">
-            <rect x="0" width="4" height="16" rx="1"/>
-            <rect x="8" width="4" height="16" rx="1"/>
-          </svg>
-        </button>
+        <button class="ctrl-btn" id="ctrl-play" title="Play / Pause"></button>
 
-        <!-- Live badge -->
         <button class="ctrl-live-btn" id="ctrl-live" title="Jump to live">
           <span class="ctrl-live-dot"></span>LIVE
         </button>
 
         <div class="ctrl-spacer"></div>
-
-        <!-- Channel name -->
         <span class="ctrl-channel-name" id="ctrl-ch-name"></span>
-
         <div class="ctrl-spacer"></div>
 
-        <!-- Volume -->
         <div class="vol-wrap">
-          <button class="ctrl-btn" id="ctrl-mute" title="Mute / Unmute">
-            <svg id="icon-vol" width="16" height="14" viewBox="0 0 16 14" fill="currentColor">
-              <path d="M0 5v4h2.67L6 12.33V1.67L2.67 5H0zm10.5 2c0-1.77-1-3.29-2.5-4.03v8.05c1.5-.73 2.5-2.25 2.5-4.02z"/>
-              <path d="M8 0v1.56c2.37.97 4 3.31 4 6.04s-1.63 5.07-4 6.04V15c3.28-.97 5.5-4 5.5-7.5S11.28.97 8 0z" id="icon-vol-hi"/>
-            </svg>
-            <svg id="icon-muted" width="16" height="14" viewBox="0 0 16 14" fill="currentColor" style="display:none">
-              <path d="M6 1.67L2.67 5H0v4h2.67L6 12.33V1.67zm7.5 5.33l1.5-1.5-1.06-1.06L12.44 6l-1.5-1.5L9.88 5.56 11.38 7l-1.5 1.5 1.06 1.06L12.44 8l1.5 1.5 1.06-1.06L13.5 7z"/>
-            </svg>
-          </button>
+          <button class="ctrl-btn" id="ctrl-mute" title="Mute / Unmute"></button>
           <input class="vol-slider" id="vol-slider" type="range" min="0" max="1" step="0.02" value="1" />
         </div>
 
-        <!-- Fullscreen -->
-        <button class="ctrl-btn" id="ctrl-fs" title="Fullscreen">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
-            <path d="M1 1h4V0H0v5h1V1zm9-1v1h4v4h1V0h-5zm-9 14v-4H0v5h5v-1H1zm13 0h-4v1h5v-5h-1v4z"/>
-          </svg>
-        </button>
+        <button class="ctrl-btn" id="ctrl-fs" title="Fullscreen"></button>
       </div>
     </main>
 
-    <!-- Chat -->
     <aside class="chat" id="chat">
       <div class="chat-head">
         <span class="chat-title">Discord</span>
@@ -161,27 +122,19 @@
         </span>
       </div>
       <div class="chat-body">
-        <!-- Widgetbot — embeds real Discord chat. Requires bot in your server: widgetbot.io -->
-        <iframe
-          src="https://e.widgetbot.io/channels/1492834744063496294/1514301716319699165"
-          title="IPTV Discord chat"
-          allow="clipboard-write; fullscreen"
-          style="width:100%; height:100%; border:none; display:block;"
-        ></iframe>
+        <iframe src="https://e.widgetbot.io/channels/1492834744063496294/1514301716319699165" title="IPTV Discord chat"
+          allow="clipboard-write; fullscreen"></iframe>
       </div>
     </aside>
 
-  </div><!-- /.app -->
+  </div>
 
   <div class="toasts" id="toasts"></div>
 
-  <!-- HLS.js — lightweight, reliable, no UI overhead -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js"></script>
-
-  <!-- Channel data -->
   <script src="channels.js"></script>
-
-  <!-- App logic -->
   <script src="app.js"></script>
+
 </body>
+
 </html>

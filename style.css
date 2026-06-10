@@ -1,8 +1,8 @@
-/* ── Fonts & Mobile-first ─────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap');
-
 /* ── Reset ─────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Utility ────────────────────────────────── */
+.hidden { display: none !important; }
 
 /* ── Tokens ─────────────────────────────────── */
 :root {
@@ -27,14 +27,12 @@
 
   /* Status */
   --red:       #ff4757;
-  --green:     #00e676;
   --orange:    #ff9f43;
 
   /* Layout */
   --sidebar-w: 264px;
   --chat-w:    340px;
   --bar-h:     52px;
-  --ctrl-h:    54px;
   --radius:    4px;
   --ease:      cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -43,11 +41,7 @@
   --font-ui:   'Inter', system-ui, sans-serif;
 }
 
-/* ── Base ─────────────────────────────────── */
-html, body {
-  height: 100%;
-}
-
+/* ── Base ────────────────────────────────── */
 body {
   font-family: var(--font-ui);
   background: var(--bg);
@@ -445,8 +439,8 @@ body::after {
 }
 
 .ch-item.active .ch-live-dot {
-  background: var(--green);
-  box-shadow: 0 0 4px var(--green);
+  background: var(--accent);
+  box-shadow: 0 0 4px var(--accent);
   animation: blink 1.6s ease-in-out infinite;
 }
 
@@ -454,32 +448,39 @@ body::after {
 .stage {
   flex: 1;
   background: #000;
-  display: flex;
-  flex-direction: column;
   position: relative;
   min-width: 0;
   overflow: hidden;
+  cursor: default;
 }
 
-/* Native video */
+.stage.idle { cursor: none; }
+
 #player {
   width: 100%;
-  flex: 1;
+  height: 100%;
   display: block;
   background: #000;
-  min-height: 0;
+  object-fit: contain;
 }
 
-/* ── Custom Controls ─────────────────────────────── */
+/* ── Floating Control Bar ─────────────────────────── */
 .ctrl-bar {
-  height: var(--ctrl-h);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 40px 20px 18px;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
   display: flex;
   align-items: center;
-  padding: 0 16px;
   gap: 12px;
-  flex-shrink: 0;
+  z-index: 5;
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.stage.idle .ctrl-bar {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
 }
 
 .ctrl-btn {
@@ -574,11 +575,10 @@ body::after {
   white-space: nowrap;
 }
 
-/* ── Player States ─────────────────────────────── */
+/* ── Player State Overlays ─────────────────────────── */
 .state-overlay {
   position: absolute;
   inset: 0;
-  bottom: var(--ctrl-h);
   display: none;
   flex-direction: column;
   align-items: center;
@@ -620,7 +620,6 @@ body::after {
 .err-overlay {
   position: absolute;
   inset: 0;
-  bottom: var(--ctrl-h);
   display: none;
   flex-direction: column;
   align-items: center;
@@ -714,8 +713,8 @@ body::after {
 .chat-live-dot {
   width: 5px; height: 5px;
   border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 5px var(--green);
+  background: var(--accent);
+  box-shadow: 0 0 5px var(--accent);
 }
 
 .chat-body { flex: 1; overflow: hidden; }
@@ -804,7 +803,6 @@ body::after {
     --sidebar-w: 100vw;
     --chat-w: 100vw;
     --bar-h: 48px;
-    --ctrl-h: 50px;
   }
 
   /* Sidebar slides over video (overlay mode) */
@@ -847,18 +845,8 @@ body::after {
     box-shadow: none;
   }
 
-  /* Stage takes full width always */
-  .stage { flex: 1; min-width: 0; }
-
-  /* Player: square-ish on phones */
-  #player {
-    max-height: 52vw;
-    min-height: 200px;
-  }
-
-  /* Ctrl bar adjustments */
   .ctrl-bar {
-    padding: 0 10px;
+    padding: 24px 12px 12px;
     gap: 8px;
   }
 
