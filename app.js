@@ -604,8 +604,9 @@ function buildQualMenuFromHlsLevels() {
   });
   $qualMenu.appendChild(autoItem);
 
-  // Level Options
-  hls.levels.forEach((lvl, idx) => {
+  // Level Options (High to Low)
+  for (let idx = hls.levels.length - 1; idx >= 0; idx--) {
+    const lvl = hls.levels[idx];
     const item = document.createElement('div');
     const height = lvl.height || (lvl.bitrate ? `${Math.round(lvl.bitrate / 1000)}k` : idx);
     const label = height ? `${height}p` : `Level ${idx + 1}`;
@@ -622,7 +623,7 @@ function buildQualMenuFromHlsLevels() {
       toast(`Quality: ${label}`);
     });
     $qualMenu.appendChild(item);
-  });
+  }
 
   if (hls.currentLevel === -1) {
     $qualLabel.textContent = 'AUTO';
