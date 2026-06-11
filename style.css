@@ -51,6 +51,12 @@ body.is-watching .yt-player-shell { display: flex; flex: 1; }
 body.is-watching .yt-idle-screen { display: none; }
 body.is-watching .yt-main { background: #000; }
 
+/* Chat panel and button only appear when a channel is playing */
+.yt-chat { display: none !important; }
+#btn-chat { display: none !important; }
+body.is-watching .yt-chat { display: flex !important; }
+body.is-watching #btn-chat { display: inline-flex !important; }
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 99px; }
@@ -907,7 +913,6 @@ body.is-watching .yt-player-shell {
   width: var(--chat-w);
   background: var(--bg);
   border-left: 1px solid var(--border);
-  display: flex;
   flex-direction: column;
   flex-shrink: 0;
   overflow: hidden;
@@ -937,6 +942,66 @@ body.is-watching .yt-player-shell {
 
 .chat-body { flex: 1; overflow: hidden; }
 .chat-body iframe { display: block; width: 100%; height: 100%; border: none; }
+
+/* ── Watch-More (mobile only) ── */
+.watch-more { display: none; }
+
+.wm-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text2);
+  padding: 14px 14px 10px;
+  border-top: 1px solid var(--border);
+}
+
+.wm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  padding: 0 12px 16px;
+}
+
+.wm-card {
+  cursor: pointer;
+  transition: transform 0.18s var(--ease);
+}
+.wm-card:hover { transform: scale(1.03); }
+
+.wm-name {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wm-meta {
+  font-size: 0.7rem;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+
+/* ── Footer ── */
+.app-footer {
+  margin-top: auto;
+  padding: 24px 0 14px;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--text3);
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}
+.app-footer a {
+  color: var(--text2);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: color 0.15s;
+}
+.app-footer a:hover { color: var(--text); }
 
 /* ── Toasts ── */
 .toasts {
@@ -1015,8 +1080,8 @@ body.is-watching .yt-player-shell {
   }
   .yt-guide.closed { transform: translateX(-100%); }
 
-  /* Main */
-  .yt-main { overflow: visible; min-height: 0; }
+  /* Main — preserve scroll on home, only shrink when watching */
+  .yt-main { min-height: 0; }
 
   /* Video stage — 16:9, full width */
   .stage {
@@ -1025,38 +1090,46 @@ body.is-watching .yt-player-shell {
     width: 100%;
   }
 
-  /* Watch mode: lock app to screen, video on top, chat fills rest */
-  body.is-watching .app {
-    flex-direction: column;
-    height: calc(100dvh - var(--nav-h));
-    overflow: hidden;
-  }
-  body.is-watching .yt-main {
-    flex: none;
-    overflow: visible;
-  }
+  /* Watch mode: video on top, page scrolls (watch-more visible below) */
+  body.is-watching .yt-main { flex: none; }
   body.is-watching .stage { aspect-ratio: 16 / 9; height: auto; flex: none; }
   body.is-watching .yt-player-shell { flex-direction: column; flex: none; }
 
-  /* Chat fills remaining space directly below video */
+  /* Hide chat by default on mobile watch mode */
   body.is-watching .yt-chat {
-    flex: 1;
-    min-height: 0;
-    height: auto;
-    max-height: none;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden;
+    border: none;
   }
 
-  /* Chat always full-width on mobile */
+  /* When chat is explicitly opened: lock layout, chat fills space */
+  body.is-watching.chat-open .app {
+    height: calc(100dvh - var(--nav-h));
+    overflow: hidden;
+  }
+  body.is-watching.chat-open .yt-main { flex: none; }
+  body.is-watching.chat-open .yt-chat {
+    flex: 1 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    border-top: 1px solid var(--border) !important;
+  }
+  body.is-watching.chat-open #watch-more { display: none !important; }
+
+  /* Chat full-width on mobile */
   .yt-chat {
     width: 100% !important;
     border-left: none;
-    border-top: 1px solid var(--border);
   }
-  .yt-chat.closed {
-    height: 44px;
-    min-height: 44px;
-    max-height: 44px;
-    overflow: hidden;
+
+  /* watch-more: shown when watching on mobile (chat closed) */
+  body.is-watching #watch-more {
+    display: block;
+    padding-bottom: 24px;
   }
 
   /* Home browse */

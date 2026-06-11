@@ -97,7 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Chat toggle
   $btnChat.addEventListener('click', () => {
     $chat.classList.toggle('closed');
-    $btnChat.classList.toggle('on', !$chat.classList.contains('closed'));
+    const isOpen = !$chat.classList.contains('closed');
+    $btnChat.classList.toggle('on', isOpen);
+    document.body.classList.toggle('chat-open', isOpen);
   });
 
   // Close guide after picking a channel
@@ -390,6 +392,12 @@ function initHomePage() {
     section.appendChild(carousel);
     $stageHome.appendChild(section);
   });
+
+  // Append footer dynamically so it is part of the scroll container
+  const footer = document.createElement('footer');
+  footer.className = 'app-footer';
+  footer.innerHTML = 'Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">TRIONINE</a>';
+  $stageHome.appendChild(footer);
 }
 
 function showHomePage() {
@@ -493,11 +501,47 @@ function loadChannel(id, streamIdx) {
   showLoad(true);
   hideErr();
   startHLS(url);
+  populateWatchMore(id);
 }
 
-// Helper: get the streams array for a channel (normalises legacy single-stream format)
+// Helper: get the streams array for a channel
 function getStreams(ch) {
   return ch.streams || [{ label: 'Auto', url: ch.stream }];
+}
+
+// Populate the mobile watch-more section with same-category channels
+function populateWatchMore(currentId) {
+  const $wm = document.getElementById('watch-more');
+  if (!$wm) return;
+
+  let catChannels = [];
+  for (const cat of CHANNELS_DATA.categories) {
+    if (cat.channels.some(c => c.id === currentId)) {
+      catChannels = cat.channels.filter(c => c.id !== currentId);
+      break;
+    }
+  }
+
+  if (!catChannels.length) { $wm.innerHTML = ''; return; }
+
+  $wm.innerHTML = `
+    <div class="wm-title">More Channels</div>
+    <div class="wm-grid">
+      ${catChannels.map(ch => `
+        <div class="wm-card" data-id="${ch.id}">
+          <div class="wm-thumb ch-logo-box ch-logo-box--tile">
+            <img class="ch-logo-img" src="${ch.logo}" alt="${ch.name}"
+              onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">
+            <span class="ch-logo-fallback">${ch.shortName}</span>
+          </div>
+          <div class="wm-name">${ch.name}</div>
+          <div class="wm-meta">${ch.quality}</div>
+        </div>`).join('')}
+    </div>`;
+
+  $wm.querySelectorAll('.wm-card').forEach(card => {
+    card.addEventListener('click', () => loadChannel(card.dataset.id));
+  });
 }
 
 function buildQualMenu(ch) {
