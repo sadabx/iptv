@@ -593,29 +593,12 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "1080p-2",
-              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/1709.m3u8"
-            },
-            {
               label: "1080p",
               url: "https://www.btvlive.gov.bd/streams/ef8b8bbc-98b7-4ba7-a49d-a0adaf259d35/ES/355ba051-9a60-48aa-adcf-5a6c64da8c5c/355ba051-9a60-48aa-adcf-5a6c64da8c5c_3_playlist.m3u8"
             },
             {
               label: "720p",
               url: "https://tvsen6.aynaott.com/btvhd/index.m3u8"
-            }
-          ]
-        },
-        {
-          id: "btv-news",
-          name: "BTV News",
-          shortName: "BTVN",
-          logo: "https://www.btvlive.gov.bd/_next/image?url=https%3A%2F%2Fd38ll44lbmt52p.cloudfront.net%2Fcms%2Fchannel_poster%2F1735648543857_Poster.jpg&w=3840&q=75",
-          quality: "HD",
-          streams: [
-            {
-              label: "720p",
-              url: "https://tvsen6.aynaott.com/BTVNews/index.m3u8"
             }
           ]
         },
@@ -645,6 +628,14 @@ const CHANNELS_DATA = {
           streams: [
             {
               label: "1080p",
+              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/1709.m3u8"
+            },
+            {
+              label: "720p",
+              url: "https://tvsen6.aynaott.com/BTVNews/index.m3u8"
+            },
+            {
+              label: "480p",
               url: "https://bozztv.com/rongo/rongo-SangsadTV/index.m3u8"
             }
           ]
