@@ -324,7 +324,7 @@ body.is-watching .np-name strong { color: var(--text); }
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(180deg, #1e1e1e 0%, #141414 100%);
+  background: #ffffff;
   border: 1px solid var(--border);
   flex-shrink: 0;
 }
@@ -513,19 +513,15 @@ body.is-watching .yt-player-shell {
 .section-icon { margin-right: 6px; }
 
 .carousel-track {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 12px;
-  overflow-x: auto;
   padding: 4px 2px 8px;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
 }
-.carousel-track::-webkit-scrollbar { display: none; }
 
 .home-ch-card,
 .yt-tile {
-  flex-shrink: 0;
-  width: 200px;
+  width: 100%;
   cursor: pointer;
   transition: transform 0.2s var(--ease);
 }
@@ -534,12 +530,12 @@ body.is-watching .yt-player-shell {
 
 .home-ch-avatar,
 .yt-tile-thumb {
-  width: 200px;
-  height: 112px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
   border-radius: var(--radius);
   overflow: hidden;
   position: relative;
-  flex-shrink: 0;
 }
 
 .yt-tile-live {
@@ -611,27 +607,29 @@ body.is-watching .yt-player-shell {
 .ctrl-live-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 5px;
+  padding: 4px 8px;
   border: none;
-  background: var(--red);
-  border-radius: 4px;
+  background: transparent;
+  border-radius: 3px;
   color: #fff;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   cursor: pointer;
   transition: background 0.15s;
   flex-shrink: 0;
 }
-.ctrl-live-btn:hover { background: var(--red-dim); }
+.ctrl-live-btn:hover { background: rgba(255, 255, 255, 0.1); }
 
 .ctrl-live-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--red);
+  flex-shrink: 0;
   animation: blink 1.6s infinite;
+  box-shadow: 0 0 6px var(--red);
 }
 
 .ctrl-spacer { flex: 1; }
@@ -943,27 +941,24 @@ body.is-watching .yt-player-shell {
 /* ── Toasts ── */
 .toasts {
   position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 70px;
+  right: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-end;
+  gap: 6px;
   z-index: 999;
   pointer-events: none;
 }
 
 .toast {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--red);
-  border-radius: var(--radius);
-  padding: 12px 18px;
-  font-size: 0.82rem;
-  color: var(--text);
+  font-size: 0.78rem;
+  color: var(--text2);
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   animation: tIn 0.2s var(--ease) both;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 .toast.out { animation: tOut 0.2s var(--ease) both; }
 
@@ -992,17 +987,22 @@ body.is-watching .yt-player-shell {
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
-  :root { --nav-h: 52px; --guide-w: 100vw; }
+  :root { --nav-h: 52px; --guide-w: 85vw; }
 
   body { overflow: auto; height: 100dvh; }
 
-  .yt-nav { padding: 0 8px; gap: 8px; }
-  .yt-nav-center { max-width: none; }
+  /* Nav */
+  .yt-nav { padding: 0 8px; gap: 6px; }
+  .yt-nav-center { flex: 1; min-width: 0; }
   .yt-brand-name { display: none; }
-  .yt-search .search-input { font-size: 0.82rem; height: 36px; }
+  .yt-tv-badge { display: none; }
+  .yt-search .search-input { font-size: 0.82rem; height: 36px; padding: 0 12px 0 36px; }
+  .yt-search-icon { left: 10px; }
 
+  /* Layout */
   .app { flex-direction: column; overflow: visible; }
 
+  /* Guide slides over as full-height overlay */
   .yt-guide {
     position: fixed;
     top: var(--nav-h);
@@ -1010,45 +1010,100 @@ body.is-watching .yt-player-shell {
     bottom: 0;
     width: var(--guide-w);
     transform: translateX(0);
+    z-index: 300;
     box-shadow: 4px 0 40px rgba(0, 0, 0, 0.85);
   }
-  .yt-guide.closed { transform: translateX(-100%); width: var(--guide-w); }
+  .yt-guide.closed { transform: translateX(-100%); }
 
-  .yt-main { overflow: visible; }
+  /* Main */
+  .yt-main { overflow: visible; min-height: 0; }
 
+  /* Video stage — 16:9, full width */
   .stage {
     max-height: none;
     aspect-ratio: 16 / 9;
+    width: 100%;
   }
 
-  body.is-watching .stage { aspect-ratio: 16 / 9; height: auto; }
+  /* Watch mode: lock app to screen, video on top, chat fills rest */
+  body.is-watching .app {
+    flex-direction: column;
+    height: calc(100dvh - var(--nav-h));
+    overflow: hidden;
+  }
+  body.is-watching .yt-main {
+    flex: none;
+    overflow: visible;
+  }
+  body.is-watching .stage { aspect-ratio: 16 / 9; height: auto; flex: none; }
+  body.is-watching .yt-player-shell { flex-direction: column; flex: none; }
 
-  .yt-browse { padding: 16px 14px 32px; }
+  /* Chat fills remaining space directly below video */
+  body.is-watching .yt-chat {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+  }
 
-  .home-ch-card,
-  .yt-tile { width: 160px; }
-  .home-ch-avatar,
-  .yt-tile-thumb { width: 160px; height: 90px; }
-  .ch-logo-box--tile { padding: 10px 12px; }
-
+  /* Chat always full-width on mobile */
   .yt-chat {
     width: 100% !important;
     border-left: none;
     border-top: 1px solid var(--border);
-    min-height: 240px;
-    max-height: calc(100dvh - var(--nav-h) - 56.25vw);
   }
   .yt-chat.closed {
+    height: 44px;
     min-height: 44px;
     max-height: 44px;
     overflow: hidden;
   }
 
-  .ctrl-bar { padding: 32px 12px 10px; gap: 6px; }
-  .vol-wrap { display: none; }
-  .toasts { bottom: 16px; }
+  /* Home browse */
+  .yt-browse { padding: 14px 12px 40px; gap: 20px; }
+  .section-title, .yt-row-title { font-size: 1rem; }
+  .carousel-track {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+
+  /* Controls */
+  .ctrl-bar { padding: 28px 10px 10px; gap: 4px; }
+  .ctrl-btn { width: 36px; height: 36px; }
+  .ctrl-live-btn { padding: 3px 6px; font-size: 0.7rem; }
+  .vol-slider { display: none; }  /* hide slider, keep mute btn */
+  .toasts { top: 60px; right: 10px; }
+
+  /* Logo box padding on tiles */
+  .ch-logo-box--tile { padding: 10px 12px; }
+
+  /* Err bar */
+  .err-bar { max-width: calc(100% - 16px); }
+  .err-bar-msg { max-width: 160px; }
 }
 
+/* ── Small phones ── */
 @media (max-width: 480px) {
-  .qual-wrap { display: none; }
+  :root { --guide-w: 92vw; }
+
+  .yt-nav-center { max-width: 180px; }
+  .yt-search .search-input { height: 34px; font-size: 0.78rem; }
+
+  /* 2-column grid on tiny screens */
+  .carousel-track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .yt-browse { padding: 10px 10px 40px; gap: 16px; }
+  .section-title, .yt-row-title { font-size: 0.9rem; }
+
+  /* Bigger touch targets on controls */
+  .ctrl-btn { width: 40px; height: 40px; }
+  .ctrl-bar { gap: 2px; padding: 24px 8px 8px; }
+  .ctrl-qual-btn { height: 28px; padding: 0 8px; font-size: 0.65rem; }
+
+  /* Channel list items easier to tap */
+  .ch-item { padding: 12px 14px; }
+  .ch-logo-box--guide { width: 38px; height: 38px; }
 }

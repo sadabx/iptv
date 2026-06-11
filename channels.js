@@ -6,242 +6,106 @@
 const CHANNELS_DATA = {
   categories: [
     {
-      name: 'Sports', icon: '⚽',
+      name: 'Sports',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>',
       channels: [
-        { id: 't-sports', name: 'T Sports', shortName: 'TSPT', logo: 'https://i.imgur.com/2JzlorD.png', quality: 'HD',
+        {
+          id: 't-sports', name: 'T Sports', shortName: 'TSPT', logo: 'https://i.imgur.com/2JzlorD.png', quality: 'HD',
           streams: [
             { label: '720p-2', url: 'https://tvsen7.aynaott.com/tsportsfhd/index.m3u8' },
             { label: '720p', url: 'https://tvsen7.aynaott.com/tsports-hd/index.m3u8' },
           ]
         },
+
       ]
     },
     {
-      name: 'News', icon: '📰',
+      name: 'News',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>',
       channels: [
-        { id: 'somoy-tv', name: 'Somoy News TV', shortName: 'SOMOY', logo: 'https://i.imgur.com/i54AQic.png', quality: 'FHD',
+        {
+          id: 'somoy-tv', name: 'Somoy TV', shortName: 'SOMOY', logo: 'https://i.imgur.com/i54AQic.png', quality: 'FHD',
           streams: [
             { label: '1080p-2', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1702/output/index.m3u8' },
             { label: '1080p', url: 'https://bozztv.com/rongo/rongo-somoy/index.m3u8' },
             { label: '720p', url: 'https://tvsen6.aynaott.com/somoytv/index.m3u8' },
           ]
         },
-        { id: 'channel-24', name: 'Channel 24', shortName: 'CH24', logo: 'https://i.imgur.com/4JLkaF7.png', quality: 'FHD',
+        {
+          id: 'channel-24', name: 'Channel 24', shortName: 'CH24', logo: 'https://i.imgur.com/4JLkaF7.png', quality: 'FHD',
           streams: [
             { label: '1080p-2', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1703/output/index.m3u8' },
             { label: '1080p', url: 'https://bozztv.com/rongo/rongo-Channel24HD/index.m3u8' },
           ]
         },
-        { id: 'independent-tv', name: 'Independent TV', shortName: 'ITV', logo: 'https://i.imgur.com/POXFhGN.png', quality: 'FHD',
+        {
+          id: 'independent-tv', name: 'Independent TV', shortName: 'ITV', logo: 'https://i.imgur.com/POXFhGN.png', quality: 'FHD',
           streams: [
             { label: '1080p-2', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1704/output/1704.m3u8' },
             { label: '1080p', url: 'https://bozztv.com/rongo/rongo-IndependentTV/index.m3u8' },
             { label: '480p', url: 'https://tvsen6.aynaott.com/independenttv/index.m3u8' },
           ]
         },
-        { id: 'ekattor-tv', name: 'Ekattor TV', shortName: '71TV', logo: 'https://i.imgur.com/zoLwwUK.png', quality: 'FHD',
+        {
+          id: 'ekattor-tv', name: 'Ekattor TV', shortName: '71TV', logo: 'https://i.imgur.com/zoLwwUK.png', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1705/output/1705.m3u8' },
             { label: '720p', url: 'https://tvsen6.aynaott.com/ekattorbdtv/index.m3u8' },
           ]
         },
-        { id: 'atn-news', name: 'ATN News', shortName: 'ATNN', logo: 'https://i.imgur.com/4qZQKjo.png', quality: 'FHD',
+        {
+          id: 'atn-news', name: 'ATN News', shortName: 'ATNN', logo: 'https://i.imgur.com/4qZQKjo.png', quality: 'FHD',
           streams: [
             { label: '1080p-2', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1706/output/1706.m3u8' },
             { label: '1080p', url: 'https://bozztv.com/rongo/rongo-ATNNews/index.m3u8' },
           ]
         },
-        { id: 'jamuna-tv', name: 'Jamuna TV', shortName: 'JTV', logo: 'https://www.jamuna.tv/wp-content/themes/jtv-news/img/logo.png', quality: 'FHD',
+        {
+          id: 'jamuna-tv', name: 'Jamuna TV', shortName: 'JTV', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Jamuna_TV_logo.svg', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://bozztv.com/rongo/rongo-JamunaTelevision/index.m3u8' },
             { label: '480p', url: 'https://tvsen6.aynaott.com/jamunatv/index.m3u8' },
           ]
         },
-        { id: 'news-24', name: 'News 24', shortName: 'N24', logo: 'https://i.imgur.com/fkTHh75.png', quality: 'FHD',
+        {
+          id: 'news-24', name: 'News 24', shortName: 'N24', logo: 'https://i.imgur.com/fkTHh75.png', quality: 'FHD',
           streams: [
             { label: '1080p-2', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1708/output/1708.m3u8' },
             { label: '1080p', url: 'https://bozztv.com/rongo/rongo-News24HD/index.m3u8' },
             { label: '720p', url: 'https://tvsen6.aynaott.com/news24/index.m3u8' },
           ]
         },
-        { id: 'desh-tv', name: 'Desh TV', shortName: 'DESH', logo: 'https://i.imgur.com/ItrZok1.png', quality: 'FHD',
+        {
+          id: 'desh-tv', name: 'Desh TV', shortName: 'DESH', logo: 'https://i.imgur.com/ItrZok1.png', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://bozztv.com/rongo/rongo-DeshTV/index.m3u8' },
             { label: '720p', url: 'https://tvsen6.aynaott.com/deshtv/index.m3u8' },
           ]
         },
-        { id: 'ekushey-tv', name: 'Ekushey TV', shortName: 'ETV', logo: 'https://i.imgur.com/lRpkGHj.png', quality: 'HD',
+        {
+          id: 'ekushey-tv', name: 'Ekushey TV', shortName: 'ETV', logo: 'https://i.imgur.com/lRpkGHj.png', quality: 'HD',
           streams: [
             { label: '720p', url: 'https://tvsen6.aynaott.com/etv/index.m3u8' },
             { label: '480p', url: 'https://ekusheyserver.com/etvlivesn.m3u8' },
           ]
         },
-        { id: 'dbc-news', name: 'DBC News', shortName: 'DBC', logo: 'https://i.imgur.com/Qbt6q4z.png', quality: 'FHD',
+        {
+          id: 'dbc-news', name: 'DBC News', shortName: 'DBC', logo: 'https://i.imgur.com/Qbt6q4z.png', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1728/output/index.m3u8' },
             { label: '720p', url: 'https://tvsen6.aynaott.com/dbcnews/index.m3u8' },
             { label: '480p', url: 'http://tvn3.chowdhury-shaheb.com/dbc/index.m3u8' },
           ]
         },
-        { id: 'bijoy-tv', name: 'Bijoy TV', shortName: 'BIJOY', logo: 'https://i.imgur.com/Faetm0C.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/bijoytv/index.m3u8' },
-          ]
-        },
-        { id: 'ekhon-tv', name: 'Ekhon TV', shortName: 'EKHON', logo: 'https://i.imgur.com/tRrDh6z.png', quality: 'FHD',
+        {
+          id: 'ekhon-tv', name: 'Ekhon TV', shortName: 'EKHON', logo: 'https://i.imgur.com/tRrDh6z.png', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://tplay.live/out/bangladesh/ekhontv.index.m3u8' },
             { label: '720p', url: 'https://tvsen6.aynaott.com/ekhontv/index.m3u8' },
           ]
         },
-      ]
-    },
-    {
-      name: 'Entertainment', icon: '🎬',
-      channels: [
-        { id: 'ananda-tv', name: 'Ananda TV', shortName: 'AND', logo: 'https://i.imgur.com/jkbo7Qe.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-AnandaTV/index.m3u8' },
-            { label: '720p', url: 'https://tvsen6.aynaott.com/anandatv/index.m3u8' },
-            { label: '480p', url: 'http://103.99.249.139/anandatv/index.m3u8' },
-          ]
-        },
-        { id: 'asian-tv', name: 'Asian TV', shortName: 'ASIAN', logo: 'https://i.imgur.com/k2adSjA.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/asiantv/index.m3u8' },
-          ]
-        },
-        { id: 'deepto-tv', name: 'Deepto TV', shortName: 'DPTO', logo: 'https://i.imgur.com/F62GUqS.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1711/output/index.m3u8' },
-            { label: '720p', url: 'https://tvsen5.aynaott.com/DeeptoTVHD/index.m3u8' },
-          ]
-        },
-        { id: 'maasranga-tv', name: 'Maasranga TV', shortName: 'MSTV', logo: 'https://i.imgur.com/uVZJMed.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1722/output/index.m3u8' },
-            { label: '720p', url: 'https://tvsen5.aynaott.com/maasrangatv/index.m3u8' },
-          ]
-        },
-      ]
-    },
-    {
-      name: 'General', icon: '📺',
-      channels: [
-        { id: 'atn-bangla', name: 'ATN Bangla', shortName: 'ATNB', logo: 'https://i.imgur.com/K1HmMRz.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen5.aynaott.com/atnbangla/index.m3u8' },
-          ]
-        },
-        { id: 'bangla-tv', name: 'Bangla TV', shortName: 'BNG', logo: 'https://i.imgur.com/DLGjTfI.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/banglatv/index.m3u8' },
-          ]
-        },
-        { id: 'bangla-vision', name: 'Bangla Vision', shortName: 'BV', logo: 'https://i.imgur.com/nCWgp38.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8' },
-            { label: '720p', url: 'https://tvsen5.aynaott.com/banglavision/index.m3u8' },
-          ]
-        },
-        { id: 'boishakhi-tv', name: 'Boishakhi TV', shortName: 'BOIS', logo: 'https://i.imgur.com/gxL05Y4.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/boishakhitv/index.m3u8' },
-            { label: 'Auto', url: 'https://boishakhi.sonarbanglatv.com/boishakhi/boishakhitv/index.m3u8' },
-          ]
-        },
-        { id: 'channel-9', name: 'Channel 9', shortName: 'CH9', logo: 'https://i.imgur.com/Xf5YuoE.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1729/output/index.m3u8' },
-            { label: '720p', url: 'https://tvsen6.aynaott.com/channel9/index.m3u8' },
-          ]
-        },
-        { id: 'channel-i', name: 'Channel I', shortName: 'CHI', logo: 'https://i.imgur.com/X0JJlOX.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1723/output/index.m3u8' },
-            { label: '720p', url: 'https://tvsen6.aynaott.com/channeli/index.m3u8' },
-          ]
-        },
-        { id: 'gazi-tv', name: 'Gazi TV', shortName: 'GAZI', logo: 'https://i.imgur.com/2Lzhiq6.png', quality: 'HD',
-          streams: [
-            { label: '1080p', url: 'http://tvn1.chowdhury-shaheb.com/gazitv/index.m3u8' },
-            { label: '720p', url: 'https://tvsen5.aynaott.com/Ravc7gPCZpxk/index.m3u8' },
-          ]
-        },
-        { id: 'global-tv', name: 'Global TV', shortName: 'GLB', logo: 'https://i.imgur.com/oe0pq1R.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/globaltvhd/index.m3u8' },
-          ]
-        },
-        { id: 'mohona-tv', name: 'Mohona TV', shortName: 'MOHO', logo: 'https://i.imgur.com/E6doEWH.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-MohonaTV/index.m3u8' },
-            { label: '720p', url: 'https://tvsen6.aynaott.com/mohonatv/index.m3u8' },
-          ]
-        },
-        { id: 'my-tv', name: 'My TV', shortName: 'MYTV', logo: 'https://i.imgur.com/475qK5T.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/mytv/index.m3u8' },
-          ]
-        },
-        { id: 'ntv', name: 'NTV', shortName: 'NTV', logo: 'https://i.imgur.com/l75bDTx.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8' },
-            { label: '720p', url: 'https://tvsen5.aynaott.com/xV4jEKf3D9zc/index.m3u8' },
-          ]
-        },
-        { id: 'rtv', name: 'RTV', shortName: 'RTV', logo: 'https://i.imgur.com/yu8ugqt.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-RTV/index.m3u8' },
-            { label: '720p', url: 'https://tvsen5.aynaott.com/RtvHD/index.m3u8' },
-            { label: '480p', url: 'http://tvn3.chowdhury-shaheb.com/rtv/index.m3u8' },
-          ]
-        },
-        { id: 'sa-tv', name: 'SA TV', shortName: 'SATV', logo: 'https://i.imgur.com/tL9kxxB.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/satv/index.m3u8' },
-          ]
-        },
-        { id: 'vokta-tv', name: 'Vokta TV', shortName: 'VKTA', logo: 'https://i.imgur.com/szAGBCU.png', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://vokta.raytahost.com/live/voktatv/index.m3u8' },
-          ]
-        },
-      ]
-    },
-    {
-      name: 'BTV', icon: '🏛️',
-      channels: [
-        { id: 'btv-national', name: 'BTV National', shortName: 'BTV', logo: 'https://i.imgur.com/5OE2FDt.png', quality: 'FHD',
-          streams: [
-            { label: '1080p-2', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/1709.m3u8' },
-            { label: '1080p', url: 'https://www.btvlive.gov.bd/streams/ef8b8bbc-98b7-4ba7-a49d-a0adaf259d35/ES/355ba051-9a60-48aa-adcf-5a6c64da8c5c/355ba051-9a60-48aa-adcf-5a6c64da8c5c_3_playlist.m3u8' },
-            { label: '720p', url: 'https://tvsen6.aynaott.com/btvhd/index.m3u8' },
-          ]
-        },
-        { id: 'btv-world', name: 'BTV World', shortName: 'BTVW', logo: 'https://i.imgur.com/sSnrg7o.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://www.btvlive.gov.bd/streams/ef8b8bbc-98b7-4ba7-a49d-a0adaf259d35/ES/d96eb7f4-83c2-4472-9597-3568390a8ebf/d96eb7f4-83c2-4472-9597-3568390a8ebf_3_playlist.m3u8' },
-            { label: '720p', url: 'https://tvsen6.aynaott.com/btv_world/index.m3u8' },
-          ]
-        },
-        { id: 'btv-chattogram', name: 'BTV Chattogram', shortName: 'BTVC', logo: 'https://i.imgur.com/hvpyuek.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-BTVChattagram/index.m3u8' },
-            { label: '480p', url: 'https://tvsen6.aynaott.com/btvctg/index.m3u8' },
-          ]
-        },
-        { id: 'btv-news', name: 'BTV News', shortName: 'BTVN', logo: 'https://www.btvlive.gov.bd/_next/image?url=https%3A%2F%2Fd38ll44lbmt52p.cloudfront.net%2Fcms%2Fchannel_poster%2F1735648543857_Poster.jpg&w=3840&q=75', quality: 'HD',
-          streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/BTVNews/index.m3u8' },
-          ]
-        },
-        { id: 'sangsad-tv', name: 'Sangsad TV', shortName: 'SANG', logo: 'https://i.imgur.com/jkouxLg.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-SangsadTV/index.m3u8' },
-          ]
-        },
-        { id: 'star-news', name: 'Star News', shortName: 'STAR', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Star_News_Bangladesh_Logo.svg/1280px-Star_News_Bangladesh_Logo.svg.png', quality: 'FHD',
+        {
+          id: 'star-news', name: 'Star News', shortName: 'STAR', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Star_News_Bangladesh_Logo.svg/1280px-Star_News_Bangladesh_Logo.svg.png', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1710/output/index.m3u8' },
           ]
@@ -249,82 +113,226 @@ const CHANNELS_DATA = {
       ]
     },
     {
-      name: 'Music', icon: '🎵',
+      name: 'General & Entertainment',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>',
       channels: [
-        { id: 'atn-music', name: 'ATN Music', shortName: 'ATNM', logo: 'https://www.jagobd.com/wp-content/uploads/2015/12/atnmusic.jpg?x50681', quality: 'SD',
+        {
+          id: 'gazi-tv', name: 'Gazi TV', shortName: 'GAZI', logo: 'https://i.imgur.com/2Lzhiq6.png', quality: 'HD',
           streams: [
-            { label: '360p', url: 'https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/atnmusic.stream/playlist.m3u8' },
+            { label: '1080p', url: 'http://tvn1.chowdhury-shaheb.com/gazitv/index.m3u8' },
+            { label: '720p', url: 'https://tvsen5.aynaott.com/Ravc7gPCZpxk/index.m3u8' },
           ]
         },
-        { id: 'global-tv-music', name: 'Global TV Music', shortName: 'GLBM', logo: 'https://i.imgur.com/oe0pq1R.png', quality: 'HD',
+        {
+          id: 'channel-9', name: 'Channel 9', shortName: 'CH9', logo: 'https://i.imgur.com/Xf5YuoE.png', quality: 'FHD',
           streams: [
-            { label: '720p', url: 'https://tvsen6.aynaott.com/globaltvhd/index.m3u8' },
+            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1729/output/index.m3u8' },
+            { label: '720p', url: 'https://tvsen6.aynaott.com/channel9/index.m3u8' },
           ]
+        },
+        {
+          id: 'atn-bangla', name: 'ATN Bangla', shortName: 'ATNB', logo: 'https://upload.wikimedia.org/wikipedia/commons/9/95/ATN_Bangla_Logo_without_slogan.svg', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen5.aynaott.com/atnbangla/index.m3u8' }]
+        },
+        {
+          id: 'ananda-tv', name: 'Ananda TV', shortName: 'AND', logo: 'https://i.imgur.com/jkbo7Qe.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-AnandaTV/index.m3u8' },
+            { label: '720p', url: 'https://tvsen6.aynaott.com/anandatv/index.m3u8' },
+            { label: '480p', url: 'http://103.99.249.139/anandatv/index.m3u8' },
+          ]
+        },
+        {
+          id: 'asian-tv', name: 'Asian TV', shortName: 'ASIAN', logo: 'https://i.imgur.com/k2adSjA.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/asiantv/index.m3u8' }]
+        },
+        {
+          id: 'bangla-tv', name: 'Bangla TV', shortName: 'BNG', logo: 'https://i.imgur.com/DLGjTfI.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/banglatv/index.m3u8' }]
+        },
+        {
+          id: 'bangla-vision', name: 'Bangla Vision', shortName: 'BV', logo: 'https://i.imgur.com/nCWgp38.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8' },
+            { label: '720p', url: 'https://tvsen5.aynaott.com/banglavision/index.m3u8' },
+          ]
+        },
+        {
+          id: 'bijoy-tv', name: 'Bijoy TV', shortName: 'BIJOY', logo: 'https://i.imgur.com/Faetm0C.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/bijoytv/index.m3u8' }]
+        },
+        {
+          id: 'boishakhi-tv', name: 'Boishakhi TV', shortName: 'BOIS', logo: 'https://i.imgur.com/gxL05Y4.png', quality: 'HD',
+          streams: [
+            { label: '720p', url: 'https://tvsen6.aynaott.com/boishakhitv/index.m3u8' },
+            { label: 'Auto', url: 'https://boishakhi.sonarbanglatv.com/boishakhi/boishakhitv/index.m3u8' },
+          ]
+        },
+        {
+          id: 'channel-i', name: 'Channel I', shortName: 'CHI', logo: 'https://i.imgur.com/X0JJlOX.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1723/output/index.m3u8' },
+            { label: '720p', url: 'https://tvsen6.aynaott.com/channeli/index.m3u8' },
+          ]
+        },
+        {
+          id: 'deepto-tv', name: 'Deepto TV', shortName: 'DPTO', logo: 'https://i.imgur.com/F62GUqS.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1711/output/index.m3u8' },
+            { label: '720p', url: 'https://tvsen5.aynaott.com/DeeptoTVHD/index.m3u8' },
+          ]
+        },
+        {
+          id: 'global-tv', name: 'Global TV', shortName: 'GLB', logo: 'https://i.imgur.com/oe0pq1R.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/globaltvhd/index.m3u8' }]
+        },
+        {
+          id: 'maasranga-tv', name: 'Maasranga TV', shortName: 'MSTV', logo: 'https://i.imgur.com/uVZJMed.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1722/output/index.m3u8' },
+            { label: '720p', url: 'https://tvsen5.aynaott.com/maasrangatv/index.m3u8' },
+          ]
+        },
+        {
+          id: 'mohona-tv', name: 'Mohona TV', shortName: 'MOHO', logo: 'https://i.imgur.com/E6doEWH.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-MohonaTV/index.m3u8' },
+            { label: '720p', url: 'https://tvsen6.aynaott.com/mohonatv/index.m3u8' },
+          ]
+        },
+        {
+          id: 'my-tv', name: 'My TV', shortName: 'MYTV', logo: 'https://i.imgur.com/475qK5T.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/mytv/index.m3u8' }]
+        },
+        {
+          id: 'ntv', name: 'NTV', shortName: 'NTV', logo: 'https://upload.wikimedia.org/wikipedia/en/e/ef/NTV_%28Bangladesh%29_logo.svg', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8' },
+            { label: '720p', url: 'https://tvsen5.aynaott.com/xV4jEKf3D9zc/index.m3u8' },
+          ]
+        },
+        {
+          id: 'rtv', name: 'RTV', shortName: 'RTV', logo: 'https://i.imgur.com/yu8ugqt.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-RTV/index.m3u8' },
+            { label: '720p', url: 'https://tvsen5.aynaott.com/RtvHD/index.m3u8' },
+            { label: '480p', url: 'http://tvn3.chowdhury-shaheb.com/rtv/index.m3u8' },
+          ]
+        },
+        {
+          id: 'sa-tv', name: 'SA TV', shortName: 'SATV', logo: 'https://i.imgur.com/tL9kxxB.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/satv/index.m3u8' }]
+        },
+        {
+          id: 'vokta-tv', name: 'Vokta TV', shortName: 'VKTA', logo: 'https://i.imgur.com/szAGBCU.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://vokta.raytahost.com/live/voktatv/index.m3u8' }]
         },
       ]
     },
     {
-      name: 'Kids', icon: '🧒',
+      name: 'Bangladesh Television',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>',
       channels: [
-        { id: 'duronto-tv', name: 'Duronto TV', shortName: 'DRNT', logo: 'https://i.imgur.com/gXsddRK.png', quality: 'HD',
+        {
+          id: 'btv-national', name: 'BTV National', shortName: 'BTV', logo: 'https://i.imgur.com/5OE2FDt.png', quality: 'FHD',
+          streams: [
+            { label: '1080p-2', url: 'https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/1709.m3u8' },
+            { label: '1080p', url: 'https://www.btvlive.gov.bd/streams/ef8b8bbc-98b7-4ba7-a49d-a0adaf259d35/ES/355ba051-9a60-48aa-adcf-5a6c64da8c5c/355ba051-9a60-48aa-adcf-5a6c64da8c5c_3_playlist.m3u8' },
+            { label: '720p', url: 'https://tvsen6.aynaott.com/btvhd/index.m3u8' },
+          ]
+        },
+        {
+          id: 'btv-world', name: 'BTV World', shortName: 'BTVW', logo: 'https://i.imgur.com/sSnrg7o.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://www.btvlive.gov.bd/streams/ef8b8bbc-98b7-4ba7-a49d-a0adaf259d35/ES/d96eb7f4-83c2-4472-9597-3568390a8ebf/d96eb7f4-83c2-4472-9597-3568390a8ebf_3_playlist.m3u8' },
+            { label: '720p', url: 'https://tvsen6.aynaott.com/btv_world/index.m3u8' },
+          ]
+        },
+        {
+          id: 'btv-chattogram', name: 'BTV Chattogram', shortName: 'BTVC', logo: 'https://i.imgur.com/hvpyuek.png', quality: 'FHD',
+          streams: [
+            { label: '1080p', url: 'https://bozztv.com/rongo/rongo-BTVChattagram/index.m3u8' },
+            { label: '480p', url: 'https://tvsen6.aynaott.com/btvctg/index.m3u8' },
+          ]
+        },
+        {
+          id: 'btv-news', name: 'BTV News', shortName: 'BTVN', logo: 'https://www.btvlive.gov.bd/_next/image?url=https%3A%2F%2Fd38ll44lbmt52p.cloudfront.net%2Fcms%2Fchannel_poster%2F1735648543857_Poster.jpg&w=3840&q=75', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/BTVNews/index.m3u8' }]
+        },
+        {
+          id: 'sangsad-tv', name: 'Sangsad TV', shortName: 'SANG', logo: 'https://i.imgur.com/jkouxLg.png', quality: 'FHD',
+          streams: [{ label: '1080p', url: 'https://bozztv.com/rongo/rongo-SangsadTV/index.m3u8' }]
+        },
+      ]
+    },
+    {
+      name: 'Kids & Family',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      channels: [
+        {
+          id: 'duronto-tv', name: 'Duronto TV', shortName: 'DRNT', logo: 'https://i.imgur.com/gXsddRK.png', quality: 'HD',
           streams: [
             { label: '720p-2', url: 'https://tvsen6.aynaott.com/durontotv-live/index.m3u8' },
             { label: '720p', url: 'https://tvsen5.aynaott.com/durontotv/index.m3u8' },
           ]
         },
-      ]
-    },
-    {
-      name: 'Movies', icon: '🎞️',
-      channels: [
-        { id: 'movie-bangla', name: 'Movie Bangla', shortName: 'MBNGL', logo: 'https://www.jagobd.com/wp-content/uploads/2016/02/moviebangla.jpg?x50681', quality: 'SD',
+        {
+          id: 'green-tv', name: 'Green TV', shortName: 'GRN', logo: 'https://www.jagobd.com/wp-content/uploads/2022/12/green-tv.jpg', quality: 'FHD',
           streams: [
-            { label: 'Auto', url: 'http://alvetv.com/moviebanglatv/8080/index.m3u8' },
+            { label: '1080p', url: 'https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/greentv.stream/live-orgin/greentv.stream/playlist.m3u8' },
           ]
         },
       ]
     },
     {
-      name: 'Religious', icon: '🕌',
+      name: 'Infotainment & Culture',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>',
       channels: [
-        { id: 'madani-channel', name: 'Madani Channel Bangla', shortName: 'MCB', logo: 'https://i.imgur.com/vIJTVia.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://streaming.madanichannel.tv/static/streaming-playlists/hls/d3e49b76-ac06-4689-a641-9200445b647f/master.m3u8' },
-          ]
+        {
+          id: 'movie-bangla', name: 'Movie Bangla', shortName: 'MBNGL', logo: 'https://www.jagobd.com/wp-content/uploads/2016/02/moviebangla.jpg?x50681', quality: 'SD',
+          streams: [{ label: 'Auto', url: 'http://alvetv.com/moviebanglatv/8080/index.m3u8' }]
         },
-        { id: 'al-quran-tv', name: 'Al Quran Al Kareem TV', shortName: 'QURAN', logo: 'https://aloula.faulio.com/storage/mediagallery/da/6c/fullhd_7eaf7e165c4cad5b3a45eff65d2011e18be5d670.png', quality: 'FHD',
+        {
+          id: 'atn-music', name: 'ATN Music', shortName: 'ATNM', logo: 'https://www.jagobd.com/wp-content/uploads/2015/12/atnmusic.jpg?x50681', quality: 'SD',
+          streams: [{ label: '360p', url: 'https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/atnmusic.stream/playlist.m3u8' }]
+        },
+        {
+          id: 'global-tv-music', name: 'Global TV Music', shortName: 'GLBM', logo: 'https://i.imgur.com/oe0pq1R.png', quality: 'HD',
+          streams: [{ label: '720p', url: 'https://tvsen6.aynaott.com/globaltvhd/index.m3u8' }]
+        },
+      ]
+    },
+    {
+      name: 'Religious',
+      icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+      channels: [
+        {
+          id: 'madani-channel', name: 'Madani Channel Bangla', shortName: 'MCB', logo: 'https://i.imgur.com/vIJTVia.png', quality: 'FHD',
+          streams: [{ label: '1080p', url: 'https://streaming.madanichannel.tv/static/streaming-playlists/hls/d3e49b76-ac06-4689-a641-9200445b647f/master.m3u8' }]
+        },
+        {
+          id: 'al-quran-tv', name: 'Al Quran Al Kareem TV', shortName: 'QURAN', logo: 'https://aloula.faulio.com/storage/mediagallery/da/6c/fullhd_7eaf7e165c4cad5b3a45eff65d2011e18be5d670.png', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://aloula-redirect.vercel.app/7/playlist.m3u8' },
             { label: '720p', url: 'http://m.live.net.sa:1935/live/quran/playlist.m3u8' },
             { label: '360p', url: 'https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8' },
           ]
         },
-        { id: 'al-sunnah-tv', name: 'Al Sunnah Al Nabawiyah TV', shortName: 'SUNNAH', logo: 'https://aloula.faulio.com/storage/mediagallery/33/92/fullhd_879e557011826f507a045b4e0b4c3b57ba93edae.png', quality: 'FHD',
+        {
+          id: 'al-sunnah-tv', name: 'Al Sunnah Al Nabawiyah TV', shortName: 'SUNNAH', logo: 'https://aloula.faulio.com/storage/mediagallery/33/92/fullhd_879e557011826f507a045b4e0b4c3b57ba93edae.png', quality: 'FHD',
           streams: [
             { label: '1080p', url: 'https://aloula-redirect.vercel.app/6/playlist.m3u8' },
             { label: '720p', url: 'http://m.live.net.sa:1935/live/sunnah/playlist.m3u8' },
             { label: '360p', url: 'https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8' },
           ]
         },
-        { id: 'peace-tv-bangla', name: 'Peace TV Bangla', shortName: 'PEACE', logo: 'https://i.imgur.com/1ztVXUi.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://dzkyvlfyge.erbvr.com/PeaceTvBangla/index.m3u8' },
-          ]
+        {
+          id: 'peace-tv-bangla', name: 'Peace TV Bangla', shortName: 'PEACE', logo: 'https://i.imgur.com/1ztVXUi.png', quality: 'FHD',
+          streams: [{ label: '1080p', url: 'https://dzkyvlfyge.erbvr.com/PeaceTvBangla/index.m3u8' }]
         },
-        { id: 'peace-tv-english', name: 'Peace TV English', shortName: 'PTVE', logo: 'https://i.imgur.com/rjgCM2B.png', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://dzkyvlfyge.erbvr.com/PeaceTvEnglish/index.m3u8' },
-          ]
-        },
-      ]
-    },
-    {
-      name: 'Family', icon: '👨‍👩‍👧',
-      channels: [
-        { id: 'green-tv', name: 'Green TV', shortName: 'GRN', logo: 'https://www.jagobd.com/wp-content/uploads/2022/12/green-tv.jpg', quality: 'FHD',
-          streams: [
-            { label: '1080p', url: 'https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/greentv.stream/live-orgin/greentv.stream/playlist.m3u8' },
-          ]
+        {
+          id: 'peace-tv-english', name: 'Peace TV English', shortName: 'PTVE', logo: 'https://i.imgur.com/rjgCM2B.png', quality: 'FHD',
+          streams: [{ label: '1080p', url: 'https://dzkyvlfyge.erbvr.com/PeaceTvEnglish/index.m3u8' }]
         },
       ]
     },
