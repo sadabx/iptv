@@ -1002,6 +1002,7 @@ body.is-watching .yt-player-shell {
 
 .vol-slider {
     -webkit-appearance: none;
+    appearance: none;
     width: 72px;
     height: 3px;
     border-radius: 99px;
