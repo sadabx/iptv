@@ -1,8 +1,8 @@
 /* ==========================================
-   sidebar.css — Live Guide Drawer, Categories, and Custom Scrolls
+   sidebar.css — Modern YouTube Live Guide with Smooth Categories (No Sticky)
    ========================================== */
 
-/* ── Live Guide Sidebar Base (desktop & mobile) ── */
+/* ── Live Guide Sidebar Base ── */
 .yt-guide {
     display: flex;
     flex-direction: column;
@@ -30,10 +30,8 @@
     }
 }
 
-/* Note: Desktop (.yt-guide) positioning & width is handled in style.css @media (min-width: 769px) */
-
 .yt-guide-head {
-    padding: 16px 18px 12px;
+    padding: 16px 20px 12px;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -43,54 +41,58 @@
 
 .yt-guide-title {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text);
 }
 
 .channel-count {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--text2);
     background: var(--surface);
-    padding: 3px 10px;
-    border-radius: 12px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 500;
 }
 
 .ch-scroll {
     flex: 1;
     overflow-y: auto;
-    padding: 8px 0 16px;
+    padding: 8px 0 20px;
 }
 
+/* Category labels — now scroll normally, no sticky */
 .cat-label {
-    padding: 18px 18px 8px;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    padding: 16px 20px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--text3);
+    background: transparent;
 }
 
 .ch-item {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 12px 18px;
+    padding: 10px 20px;
     cursor: pointer;
-    transition: background 0.12s;
+    transition: all var(--transition-fast);
     border-left: 3px solid transparent;
     min-height: 56px;
 }
 
 .ch-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(2px);
 }
 
 .ch-item:active {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .ch-item.active {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     border-left-color: var(--red);
 }
 
@@ -102,8 +104,13 @@
     justify-content: center;
     overflow: hidden;
     background: #ffffff;
-    border: 1px solid var(--border);
+    border-radius: 10px;
     flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.ch-item:hover .ch-logo-box {
+    transform: scale(1.02);
 }
 
 .ch-logo-box--guide {
@@ -111,6 +118,7 @@
     height: 44px;
     border-radius: 10px;
     padding: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 .ch-logo-box--tile {
@@ -141,7 +149,7 @@
 }
 
 .ch-logo-box--guide .ch-logo-fallback {
-    font-size: 0.62rem;
+    font-size: 0.65rem;
 }
 
 .ch-logo-box--tile .ch-logo-fallback {
@@ -162,8 +170,8 @@
 }
 
 .ch-name {
-    font-size: 0.88rem;
-    font-weight: 400;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: var(--text2);
     white-space: nowrap;
     overflow: hidden;
@@ -172,14 +180,14 @@
 
 .ch-item.active .ch-name {
     color: var(--text);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .ch-meta {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-top: 3px;
+    gap: 8px;
+    margin-top: 4px;
 }
 
 .ch-live-dot {
@@ -195,17 +203,17 @@
 }
 
 .q-badge {
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 1px 6px;
-    border-radius: 3px;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 20px;
     text-transform: uppercase;
 }
 
 .q-badge.fhd {
     color: var(--blue);
-    background: rgba(62, 166, 255, 0.1);
+    background: rgba(62, 166, 255, 0.12);
 }
 
 .q-badge.hd {
@@ -215,11 +223,13 @@
 
 .q-badge.sd {
     color: var(--orange);
-    background: rgba(251, 146, 60, 0.1);
+    background: rgba(251, 146, 60, 0.12);
 }
 
 .cat-icon {
-    margin-right: 4px;
+    margin-right: 8px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .ch-initials {
@@ -229,8 +239,8 @@
 }
 
 .no-results {
-    padding: 32px 18px;
-    font-size: 0.82rem;
+    padding: 40px 20px;
+    font-size: 0.85rem;
     color: var(--text3);
     text-align: center;
     display: none;

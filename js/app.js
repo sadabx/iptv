@@ -315,6 +315,10 @@ document.addEventListener("DOMContentLoaded", () => {
     $logo.addEventListener("click", showHomePage);
   }
 
+  // Hide preloader
+  const $preloader = document.getElementById("preloader");
+  if ($preloader) $preloader.classList.add("hidden");
+
   // Initialize
   initChannels();
   startAutomaticStatusCheck();

@@ -1,5 +1,5 @@
 /* ==========================================
-   style.css — Global styles, design variables, and resets
+   style.css — Modern YouTube-style global styles, design variables, and resets
    ========================================== */
 
 *,
@@ -16,14 +16,14 @@
 
 :root {
     --bg: #0f0f0f;
-    --bg-elevated: #181818;
+    --bg-elevated: #1a1a1a;
     --surface: #212121;
-    --surface2: #272727;
-    --surface3: #3f3f3f;
-    --border: rgba(255, 255, 255, 0.08);
-    --border2: rgba(255, 255, 255, 0.14);
+    --surface2: #2a2a2a;
+    --surface3: #3a3a3a;
+    --border: rgba(255, 255, 255, 0.1);
+    --border2: rgba(255, 255, 255, 0.2);
 
-    --text: #f1f1f1;
+    --text: #ffffff;
     --text2: #aaaaaa;
     --text3: #717171;
 
@@ -38,16 +38,20 @@
     --guide-w: 320px;
     --chat-w: 360px;
     --nav-h: 56px;
-    --radius: 8px;
-    --radius-lg: 12px;
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --radius: 10px;
+    --radius-lg: 14px;
+    --ease: cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    --transition-fast: 0.15s var(--ease);
+    --transition-normal: 0.25s var(--ease);
+    --transition-slow: 0.35s var(--ease);
 
     --font-mono: 'JetBrains Mono', monospace;
-    --font-ui: 'Roboto', system-ui, sans-serif;
+    --font-ui: 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 html {
     color-scheme: dark;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -95,8 +99,8 @@ body.is-watching #btn-chat {
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -106,28 +110,20 @@ body.is-watching #btn-chat {
 ::-webkit-scrollbar-thumb {
     background: var(--surface3);
     border-radius: 99px;
+    transition: background var(--transition-fast);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #5a5a5a;
 }
 
 @keyframes blink {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.3;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 @keyframes tIn {
@@ -135,7 +131,6 @@ body.is-watching #btn-chat {
         opacity: 0;
         transform: translateY(8px);
     }
-
     to {
         opacity: 1;
         transform: none;
@@ -152,9 +147,8 @@ body.is-watching #btn-chat {
 @keyframes qmIn {
     from {
         opacity: 0;
-        transform: translateY(6px) scale(0.97);
+        transform: translateY(8px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: none;
@@ -166,19 +160,16 @@ body.is-watching #btn-chat {
         transform: scale(0.6);
         opacity: 0;
     }
-
-    25% {
+    20% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    80% {
         transform: scale(1);
         opacity: 1;
     }
-
-    75% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
     100% {
-        transform: scale(1.15);
+        transform: scale(1.2);
         opacity: 0;
     }
 }
@@ -191,25 +182,27 @@ body.is-watching #btn-chat {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
-    gap: 16px;
+    padding: 0 20px;
+    gap: 20px;
     flex-shrink: 0;
     z-index: 300;
     user-select: none;
     position: relative;
+    backdrop-filter: blur(8px);
+    background: rgba(15, 15, 15, 0.92);
 }
 
 .yt-nav-left,
 .yt-nav-right {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
     flex-shrink: 0;
 }
 
 .yt-nav-center {
     flex: 1;
-    max-width: 560px;
+    max-width: 600px;
     min-width: 0;
 }
 
@@ -219,16 +212,18 @@ body.is-watching #btn-chat {
     height: 44px;
     border: none;
     background: transparent;
-    color: var(--text);
+    color: var(--text2);
     border-radius: 50%;
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: all var(--transition-fast);
 }
 
 .yt-nav-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    transform: scale(1.02);
 }
 
 .yt-nav-btn.on {
@@ -244,19 +239,21 @@ body.is-watching #btn-chat {
     background: transparent;
     color: var(--text);
     cursor: pointer;
-    padding: 6px 8px;
+    padding: 6px 10px;
     border-radius: var(--radius);
-    transition: background 0.15s;
+    transition: all var(--transition-fast);
 }
 
 .yt-brand:hover {
     background: rgba(255, 255, 255, 0.06);
+    transform: scale(1.02);
 }
 
 .yt-brand-icon {
     width: 32px;
     height: 32px;
     object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 .yt-tv-badge {
@@ -264,10 +261,11 @@ body.is-watching #btn-chat {
     color: #fff;
     font-size: 0.62rem;
     font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 2px 8px;
+    border-radius: 6px;
     letter-spacing: 0.04em;
     line-height: 1.3;
+    box-shadow: 0 0 6px rgba(255,0,0,0.4);
 }
 
 .yt-search {
@@ -278,23 +276,24 @@ body.is-watching #btn-chat {
 
 .yt-search-icon {
     position: absolute;
-    left: 14px;
+    left: 16px;
     color: var(--text3);
     pointer-events: none;
+    transition: color var(--transition-fast);
 }
 
 .search-input {
     width: 100%;
     height: 40px;
-    padding: 0 16px 0 42px;
+    padding: 0 18px 0 42px;
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 40px;
     color: var(--text);
     font-family: var(--font-ui);
     font-size: 0.9rem;
     outline: none;
-    transition: border-color 0.15s, background 0.15s;
+    transition: all var(--transition-fast);
 }
 
 .search-input::placeholder {
@@ -302,8 +301,10 @@ body.is-watching #btn-chat {
 }
 
 .search-input:focus {
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
     background: #000;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 .search-input::-webkit-search-cancel-button {
@@ -313,9 +314,12 @@ body.is-watching #btn-chat {
 .yt-now-playing {
     display: flex;
     align-items: center;
-    gap: 8px;
-    max-width: 220px;
+    gap: 10px;
+    max-width: 240px;
     overflow: hidden;
+    padding: 4px 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 40px;
 }
 
 .yt-live-dot {
@@ -325,7 +329,7 @@ body.is-watching #btn-chat {
     background: var(--red);
     flex-shrink: 0;
     animation: blink 1.6s ease-in-out infinite;
-    box-shadow: 0 0 8px var(--accent-glow);
+    box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .np-name {
@@ -338,7 +342,7 @@ body.is-watching #btn-chat {
 
 .np-name strong {
     color: var(--text);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 body.is-watching .np-name strong {
@@ -357,10 +361,11 @@ body.is-watching .np-name strong {
     position: fixed;
     inset: var(--nav-h) 0 0 0;
     background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
     z-index: 150;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s var(--ease);
+    transition: opacity var(--transition-normal);
 }
 
 .yt-backdrop.show {
@@ -380,17 +385,17 @@ body.is-watching .np-name strong {
 /* ── Search Dropdown Results ── */
 .search-results {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + 8px);
     left: 0;
     right: 0;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     max-height: 70vh;
     overflow-y: auto;
     z-index: 400;
     display: none;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
     max-width: 100%;
 }
 
@@ -402,9 +407,9 @@ body.is-watching .np-name strong {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 14px;
+    padding: 10px 16px;
     cursor: pointer;
-    transition: background 0.12s;
+    transition: background var(--transition-fast);
 }
 
 .sr-item:hover {
@@ -444,22 +449,64 @@ body.is-watching .np-name strong {
     color: var(--text3);
 }
 
+/* ── Preloader ── */
+.preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    transition: opacity 0.4s var(--ease), visibility 0.4s var(--ease);
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.preloader-spinner {
+    width: 44px;
+    height: 44px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+.preloader-text {
+    font-size: 0.82rem;
+    color: var(--text2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
 /* ── Toasts ── */
 .toasts {
     position: fixed;
     top: 70px;
-    right: 16px;
+    right: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 6px;
+    gap: 8px;
     z-index: 999;
     pointer-events: none;
 }
 
 .toast {
-    font-size: 0.78rem;
-    color: var(--text2);
+    font-size: 0.82rem;
+    color: var(--text);
+    background: rgba(30,30,30,0.95);
+    backdrop-filter: blur(8px);
+    padding: 8px 16px;
+    border-radius: 40px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     max-width: calc(100vw - 32px);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -472,7 +519,7 @@ body.is-watching .np-name strong {
 }
 
 /* ============================================
-   DESKTOP FIX: Responsive Push Sidebar (Hamburger Restored)
+   DESKTOP FIX: Responsive Push Sidebar
    ============================================ */
 @media (min-width: 769px) {
     .app {
@@ -504,16 +551,16 @@ body.is-watching .np-name strong {
     }
 }
 
-/* ── Responsive Queries (Mobile & Tablet remain same) ── */
+/* ── Responsive Queries ── */
 @media (min-width: 1400px) {
     .yt-browse {
-        padding: 40px 48px 56px;
+        padding: 40px 56px 56px;
         gap: 48px;
     }
 
     .carousel-track {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 24px;
     }
 
     .section-title,
@@ -543,8 +590,8 @@ body.is-watching .np-name strong {
     }
 
     .carousel-track {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 14px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 16px;
     }
 }
 
@@ -564,8 +611,8 @@ body.is-watching .np-name strong {
     }
 
     .carousel-track {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 14px;
     }
 }
 
@@ -781,10 +828,6 @@ body.is-watching .np-name strong {
         top: 60px;
         right: 12px;
         left: 12px;
-    }
-
-    .ch-logo-box--tile {
-        padding: 6px 10px;
     }
 
     .err-bar {
