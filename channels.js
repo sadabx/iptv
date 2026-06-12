@@ -36,7 +36,7 @@ const CHANNELS_DATA = {
           id: "atn-news",
           name: "ATN News",
           shortName: "ATNN",
-          logo: "assets/logos/4qZQKjo.png",
+          logo: "assets/logos/atn-news.png",
           quality: "FHD",
           streams: [
             {
@@ -53,7 +53,7 @@ const CHANNELS_DATA = {
           id: "channel-1",
           name: "Channel 1",
           shortName: "CH1",
-          logo: "assets/logos/%E0%A6%9A%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%87%E0%A6%B2_%E0%A6%93%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A8%E0%A7%87%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.svg",
+          logo: "assets/logos/channel-1.svg",
           quality: "FHD",
           streams: [
             {
@@ -66,7 +66,7 @@ const CHANNELS_DATA = {
           id: "channel-24",
           name: "Channel 24",
           shortName: "CH24",
-          logo: "assets/logos/4JLkaF7.png",
+          logo: "assets/logos/channel-24.png",
           quality: "FHD",
           streams: [
             {
@@ -83,7 +83,7 @@ const CHANNELS_DATA = {
           id: "dbc-news",
           name: "DBC News",
           shortName: "DBC",
-          logo: "assets/logos/Qbt6q4z.png",
+          logo: "assets/logos/dbc-news.png",
           quality: "FHD",
           streams: [
             {
@@ -104,7 +104,7 @@ const CHANNELS_DATA = {
           id: "desh-tv",
           name: "Desh TV",
           shortName: "DESH",
-          logo: "assets/logos/ItrZok1.png",
+          logo: "assets/logos/desh-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -121,7 +121,7 @@ const CHANNELS_DATA = {
           id: "ekattor-tv",
           name: "Ekattor TV",
           shortName: "71TV",
-          logo: "assets/logos/zoLwwUK.png",
+          logo: "assets/logos/ekattor-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -138,7 +138,7 @@ const CHANNELS_DATA = {
           id: "ekhon-tv",
           name: "Ekhon TV",
           shortName: "EKHON",
-          logo: "assets/logos/tRrDh6z.png",
+          logo: "assets/logos/ekhon-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -155,7 +155,7 @@ const CHANNELS_DATA = {
           id: "ekushey-tv",
           name: "Ekushey TV",
           shortName: "ETV",
-          logo: "assets/logos/lRpkGHj.png",
+          logo: "assets/logos/ekushey-tv.png",
           quality: "HD",
           streams: [
             {
@@ -172,7 +172,7 @@ const CHANNELS_DATA = {
           id: "independent-tv",
           name: "Independent TV",
           shortName: "ITV",
-          logo: "assets/logos/POXFhGN.png",
+          logo: "assets/logos/independent-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -193,7 +193,7 @@ const CHANNELS_DATA = {
           id: "jamuna-tv",
           name: "Jamuna TV",
           shortName: "JTV",
-          logo: "assets/logos/Jamuna_TV_logo.svg",
+          logo: "assets/logos/jamuna-tv.svg",
           quality: "FHD",
           streams: [
             {
@@ -210,7 +210,7 @@ const CHANNELS_DATA = {
           id: "news-24",
           name: "News 24",
           shortName: "N24",
-          logo: "assets/logos/fkTHh75.png",
+          logo: "assets/logos/news-24.png",
           quality: "FHD",
           streams: [
             {
@@ -231,7 +231,7 @@ const CHANNELS_DATA = {
           id: "somoy-tv",
           name: "Somoy TV",
           shortName: "SOMOY",
-          logo: "assets/logos/i54AQic.png",
+          logo: "assets/logos/somoy-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -248,7 +248,7 @@ const CHANNELS_DATA = {
           id: "star-news",
           name: "Star News",
           shortName: "STAR",
-          logo: "assets/logos/1280px-Star_News_Bangladesh_Logo.svg.png",
+          logo: "assets/logos/star-news.png",
           quality: "FHD",
           streams: [
             {
@@ -267,7 +267,7 @@ const CHANNELS_DATA = {
           id: "ananda-tv",
           name: "Ananda TV",
           shortName: "AND",
-          logo: "assets/logos/jkbo7Qe.png",
+          logo: "assets/logos/ananda-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -288,7 +288,7 @@ const CHANNELS_DATA = {
           id: "asian-tv",
           name: "Asian TV",
           shortName: "ASIAN",
-          logo: "assets/logos/k2adSjA.png",
+          logo: "assets/logos/asian-tv.png",
           quality: "HD",
           streams: [
             {
@@ -301,7 +301,7 @@ const CHANNELS_DATA = {
           id: "atn-bangla",
           name: "ATN Bangla",
           shortName: "ATNB",
-          logo: "assets/logos/ATN_Bangla_Logo_without_slogan.svg",
+          logo: "assets/logos/atn-bangla.svg",
           quality: "HD",
           streams: [
             {
@@ -314,7 +314,7 @@ const CHANNELS_DATA = {
           id: "bangla-tv",
           name: "Bangla TV",
           shortName: "BNG",
-          logo: "assets/logos/DLGjTfI.png",
+          logo: "assets/logos/bangla-tv.png",
           quality: "HD",
           streams: [
             {
@@ -327,7 +327,7 @@ const CHANNELS_DATA = {
           id: "bangla-vision",
           name: "Bangla Vision",
           shortName: "BV",
-          logo: "assets/logos/nCWgp38.png",
+          logo: "assets/logos/bangla-vision.png",
           quality: "FHD",
           streams: [
             {
@@ -344,7 +344,7 @@ const CHANNELS_DATA = {
           id: "bijoy-tv",
           name: "Bijoy TV",
           shortName: "BIJOY",
-          logo: "assets/logos/Faetm0C.png",
+          logo: "assets/logos/bijoy-tv.png",
           quality: "HD",
           streams: [
             {
@@ -357,7 +357,7 @@ const CHANNELS_DATA = {
           id: "boishakhi-tv",
           name: "Boishakhi TV",
           shortName: "BOIS",
-          logo: "assets/logos/gxL05Y4.png",
+          logo: "assets/logos/boishakhi-tv.png",
           quality: "HD",
           streams: [
             {
@@ -374,7 +374,7 @@ const CHANNELS_DATA = {
           id: "channel-9",
           name: "Channel 9",
           shortName: "CH9",
-          logo: "assets/logos/Xf5YuoE.png",
+          logo: "assets/logos/channel-9.png",
           quality: "FHD",
           streams: [
             {
@@ -391,7 +391,7 @@ const CHANNELS_DATA = {
           id: "channel-i",
           name: "Channel I",
           shortName: "CHI",
-          logo: "assets/logos/X0JJlOX.png",
+          logo: "assets/logos/channel-i.png",
           quality: "FHD",
           streams: [
             {
@@ -408,7 +408,7 @@ const CHANNELS_DATA = {
           id: "deepto-tv",
           name: "Deepto TV",
           shortName: "DPTO",
-          logo: "assets/logos/F62GUqS.png",
+          logo: "assets/logos/deepto-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -425,7 +425,7 @@ const CHANNELS_DATA = {
           id: "gazi-tv",
           name: "Gazi TV",
           shortName: "GAZI",
-          logo: "assets/logos/2Lzhiq6.png",
+          logo: "assets/logos/gazi-tv.png",
           quality: "HD",
           streams: [
             {
@@ -442,7 +442,7 @@ const CHANNELS_DATA = {
           id: "global-tv",
           name: "Global TV",
           shortName: "GLB",
-          logo: "assets/logos/oe0pq1R.png",
+          logo: "assets/logos/global-tv.png",
           quality: "HD",
           streams: [
             {
@@ -455,7 +455,7 @@ const CHANNELS_DATA = {
           id: "maasranga-tv",
           name: "Maasranga TV",
           shortName: "MSTV",
-          logo: "assets/logos/uVZJMed.png",
+          logo: "assets/logos/maasranga-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -472,7 +472,7 @@ const CHANNELS_DATA = {
           id: "mohona-tv",
           name: "Mohona TV",
           shortName: "MOHO",
-          logo: "assets/logos/E6doEWH.png",
+          logo: "assets/logos/mohona-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -489,7 +489,7 @@ const CHANNELS_DATA = {
           id: "my-tv",
           name: "My TV",
           shortName: "MYTV",
-          logo: "assets/logos/475qK5T.png",
+          logo: "assets/logos/my-tv.png",
           quality: "HD",
           streams: [
             {
@@ -502,7 +502,7 @@ const CHANNELS_DATA = {
           id: "ntv",
           name: "NTV",
           shortName: "NTV",
-          logo: "assets/logos/NTV_%28Bangladesh%29_logo.svg",
+          logo: "assets/logos/ntv.svg",
           quality: "FHD",
           streams: [
             {
@@ -519,7 +519,7 @@ const CHANNELS_DATA = {
           id: "rtv",
           name: "RTV",
           shortName: "RTV",
-          logo: "assets/logos/yu8ugqt.png",
+          logo: "assets/logos/rtv.png",
           quality: "FHD",
           streams: [
             {
@@ -540,7 +540,7 @@ const CHANNELS_DATA = {
           id: "sa-tv",
           name: "SA TV",
           shortName: "SATV",
-          logo: "assets/logos/tL9kxxB.png",
+          logo: "assets/logos/sa-tv.png",
           quality: "HD",
           streams: [
             {
@@ -553,7 +553,7 @@ const CHANNELS_DATA = {
           id: "vokta-tv",
           name: "Vokta TV",
           shortName: "VKTA",
-          logo: "assets/logos/szAGBCU.png",
+          logo: "assets/logos/vokta-tv.png",
           quality: "HD",
           streams: [
             {
@@ -572,7 +572,7 @@ const CHANNELS_DATA = {
           id: "btv-chattogram",
           name: "BTV Chattogram",
           shortName: "BTVC",
-          logo: "assets/logos/hvpyuek.png",
+          logo: "assets/logos/btv-chattogram.png",
           quality: "FHD",
           streams: [
             {
@@ -589,7 +589,7 @@ const CHANNELS_DATA = {
           id: "btv-national",
           name: "BTV National",
           shortName: "BTV",
-          logo: "assets/logos/5OE2FDt.png",
+          logo: "assets/logos/btv-national.png",
           quality: "FHD",
           streams: [
             {
@@ -606,7 +606,7 @@ const CHANNELS_DATA = {
           id: "btv-world",
           name: "BTV World",
           shortName: "BTVW",
-          logo: "assets/logos/sSnrg7o.png",
+          logo: "assets/logos/btv-world.png",
           quality: "FHD",
           streams: [
             {
@@ -623,7 +623,7 @@ const CHANNELS_DATA = {
           id: "sangsad-tv",
           name: "Sangsad TV",
           shortName: "SANG",
-          logo: "assets/logos/jkouxLg.png",
+          logo: "assets/logos/sangsad-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -650,7 +650,7 @@ const CHANNELS_DATA = {
           id: "duronto-tv",
           name: "Duronto TV",
           shortName: "DRNT",
-          logo: "assets/logos/gXsddRK.png",
+          logo: "assets/logos/duronto-tv.png",
           quality: "HD",
           streams: [
             {
@@ -686,7 +686,7 @@ const CHANNELS_DATA = {
           id: "atn-music",
           name: "ATN Music",
           shortName: "ATNM",
-          logo: "assets/logos/atnmusic.jpg",
+          logo: "assets/logos/atn-music.jpg",
           quality: "SD",
           streams: [
             {
@@ -699,7 +699,7 @@ const CHANNELS_DATA = {
           id: "global-tv-music",
           name: "Global TV Music",
           shortName: "GLBM",
-          logo: "assets/logos/oe0pq1R.png",
+          logo: "assets/logos/global-tv.png",
           quality: "HD",
           streams: [
             {
@@ -712,7 +712,7 @@ const CHANNELS_DATA = {
           id: "movie-bangla",
           name: "Movie Bangla",
           shortName: "MBNGL",
-          logo: "assets/logos/moviebangla.jpg",
+          logo: "assets/logos/movie-bangla.jpg",
           quality: "SD",
           streams: [
             {
@@ -731,7 +731,7 @@ const CHANNELS_DATA = {
           id: "al-quran-tv",
           name: "Al Quran Al Kareem TV",
           shortName: "QURAN",
-          logo: "assets/logos/fullhd_7eaf7e165c4cad5b3a45eff65d2011e18be5d670.png",
+          logo: "assets/logos/al-quran-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -752,7 +752,7 @@ const CHANNELS_DATA = {
           id: "al-sunnah-tv",
           name: "Al Sunnah Al Nabawiyah TV",
           shortName: "SUNNAH",
-          logo: "assets/logos/fullhd_879e557011826f507a045b4e0b4c3b57ba93edae.png",
+          logo: "assets/logos/al-sunnah-tv.png",
           quality: "FHD",
           streams: [
             {
@@ -773,7 +773,7 @@ const CHANNELS_DATA = {
           id: "madani-channel",
           name: "Madani Channel Bangla",
           shortName: "MCB",
-          logo: "assets/logos/vIJTVia.png",
+          logo: "assets/logos/madani-channel.png",
           quality: "FHD",
           streams: [
             {
@@ -786,7 +786,7 @@ const CHANNELS_DATA = {
           id: "peace-tv-bangla",
           name: "Peace TV Bangla",
           shortName: "PEACE",
-          logo: "assets/logos/1ztVXUi.png",
+          logo: "assets/logos/peace-tv-bangla.png",
           quality: "FHD",
           streams: [
             {
@@ -799,7 +799,7 @@ const CHANNELS_DATA = {
           id: "peace-tv-english",
           name: "Peace TV English",
           shortName: "PTVE",
-          logo: "assets/logos/rjgCM2B.png",
+          logo: "assets/logos/peace-tv-english.png",
           quality: "FHD",
           streams: [
             {
