@@ -13,7 +13,7 @@ const CHANNELS_DATA = {
           id: "t-sports",
           name: "T Sports",
           shortName: "TSPT",
-          logo: "https://i.imgur.com/2JzlorD.png",
+          logo: "assets/logos/2JzlorD.png",
           quality: "HD",
           streams: [
             {
@@ -36,7 +36,7 @@ const CHANNELS_DATA = {
           id: "atn-news",
           name: "ATN News",
           shortName: "ATNN",
-          logo: "https://i.imgur.com/4qZQKjo.png",
+          logo: "assets/logos/4qZQKjo.png",
           quality: "FHD",
           streams: [
             {
@@ -53,7 +53,7 @@ const CHANNELS_DATA = {
           id: "channel-1",
           name: "Channel 1",
           shortName: "CH1",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/c/c3/%E0%A6%9A%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%87%E0%A6%B2_%E0%A6%93%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A8%E0%A7%87%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.svg",
+          logo: "assets/logos/%E0%A6%9A%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%87%E0%A6%B2_%E0%A6%93%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A8%E0%A7%87%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.svg",
           quality: "FHD",
           streams: [
             {
@@ -66,7 +66,7 @@ const CHANNELS_DATA = {
           id: "channel-24",
           name: "Channel 24",
           shortName: "CH24",
-          logo: "https://i.imgur.com/4JLkaF7.png",
+          logo: "assets/logos/4JLkaF7.png",
           quality: "FHD",
           streams: [
             {
@@ -83,7 +83,7 @@ const CHANNELS_DATA = {
           id: "dbc-news",
           name: "DBC News",
           shortName: "DBC",
-          logo: "https://i.imgur.com/Qbt6q4z.png",
+          logo: "assets/logos/Qbt6q4z.png",
           quality: "FHD",
           streams: [
             {
@@ -104,7 +104,7 @@ const CHANNELS_DATA = {
           id: "desh-tv",
           name: "Desh TV",
           shortName: "DESH",
-          logo: "https://i.imgur.com/ItrZok1.png",
+          logo: "assets/logos/ItrZok1.png",
           quality: "FHD",
           streams: [
             {
@@ -121,7 +121,7 @@ const CHANNELS_DATA = {
           id: "ekattor-tv",
           name: "Ekattor TV",
           shortName: "71TV",
-          logo: "https://i.imgur.com/zoLwwUK.png",
+          logo: "assets/logos/zoLwwUK.png",
           quality: "FHD",
           streams: [
             {
@@ -138,7 +138,7 @@ const CHANNELS_DATA = {
           id: "ekhon-tv",
           name: "Ekhon TV",
           shortName: "EKHON",
-          logo: "https://i.imgur.com/tRrDh6z.png",
+          logo: "assets/logos/tRrDh6z.png",
           quality: "FHD",
           streams: [
             {
@@ -155,7 +155,7 @@ const CHANNELS_DATA = {
           id: "ekushey-tv",
           name: "Ekushey TV",
           shortName: "ETV",
-          logo: "https://i.imgur.com/lRpkGHj.png",
+          logo: "assets/logos/lRpkGHj.png",
           quality: "HD",
           streams: [
             {
@@ -172,7 +172,7 @@ const CHANNELS_DATA = {
           id: "independent-tv",
           name: "Independent TV",
           shortName: "ITV",
-          logo: "https://i.imgur.com/POXFhGN.png",
+          logo: "assets/logos/POXFhGN.png",
           quality: "FHD",
           streams: [
             {
@@ -193,7 +193,7 @@ const CHANNELS_DATA = {
           id: "jamuna-tv",
           name: "Jamuna TV",
           shortName: "JTV",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/f/fe/Jamuna_TV_logo.svg",
+          logo: "assets/logos/Jamuna_TV_logo.svg",
           quality: "FHD",
           streams: [
             {
@@ -210,7 +210,7 @@ const CHANNELS_DATA = {
           id: "news-24",
           name: "News 24",
           shortName: "N24",
-          logo: "https://i.imgur.com/fkTHh75.png",
+          logo: "assets/logos/fkTHh75.png",
           quality: "FHD",
           streams: [
             {
@@ -231,7 +231,7 @@ const CHANNELS_DATA = {
           id: "somoy-tv",
           name: "Somoy TV",
           shortName: "SOMOY",
-          logo: "https://i.imgur.com/i54AQic.png",
+          logo: "assets/logos/i54AQic.png",
           quality: "FHD",
           streams: [
             {
@@ -248,7 +248,7 @@ const CHANNELS_DATA = {
           id: "star-news",
           name: "Star News",
           shortName: "STAR",
-          logo: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Star_News_Bangladesh_Logo.svg/1280px-Star_News_Bangladesh_Logo.svg.png",
+          logo: "assets/logos/1280px-Star_News_Bangladesh_Logo.svg.png",
           quality: "FHD",
           streams: [
             {
@@ -267,7 +267,7 @@ const CHANNELS_DATA = {
           id: "ananda-tv",
           name: "Ananda TV",
           shortName: "AND",
-          logo: "https://i.imgur.com/jkbo7Qe.png",
+          logo: "assets/logos/jkbo7Qe.png",
           quality: "FHD",
           streams: [
             {
@@ -288,7 +288,7 @@ const CHANNELS_DATA = {
           id: "asian-tv",
           name: "Asian TV",
           shortName: "ASIAN",
-          logo: "https://i.imgur.com/k2adSjA.png",
+          logo: "assets/logos/k2adSjA.png",
           quality: "HD",
           streams: [
             {
@@ -301,7 +301,7 @@ const CHANNELS_DATA = {
           id: "atn-bangla",
           name: "ATN Bangla",
           shortName: "ATNB",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/9/95/ATN_Bangla_Logo_without_slogan.svg",
+          logo: "assets/logos/ATN_Bangla_Logo_without_slogan.svg",
           quality: "HD",
           streams: [
             {
@@ -314,7 +314,7 @@ const CHANNELS_DATA = {
           id: "bangla-tv",
           name: "Bangla TV",
           shortName: "BNG",
-          logo: "https://i.imgur.com/DLGjTfI.png",
+          logo: "assets/logos/DLGjTfI.png",
           quality: "HD",
           streams: [
             {
@@ -327,7 +327,7 @@ const CHANNELS_DATA = {
           id: "bangla-vision",
           name: "Bangla Vision",
           shortName: "BV",
-          logo: "https://i.imgur.com/nCWgp38.png",
+          logo: "assets/logos/nCWgp38.png",
           quality: "FHD",
           streams: [
             {
@@ -344,7 +344,7 @@ const CHANNELS_DATA = {
           id: "bijoy-tv",
           name: "Bijoy TV",
           shortName: "BIJOY",
-          logo: "https://i.imgur.com/Faetm0C.png",
+          logo: "assets/logos/Faetm0C.png",
           quality: "HD",
           streams: [
             {
@@ -357,7 +357,7 @@ const CHANNELS_DATA = {
           id: "boishakhi-tv",
           name: "Boishakhi TV",
           shortName: "BOIS",
-          logo: "https://i.imgur.com/gxL05Y4.png",
+          logo: "assets/logos/gxL05Y4.png",
           quality: "HD",
           streams: [
             {
@@ -374,7 +374,7 @@ const CHANNELS_DATA = {
           id: "channel-9",
           name: "Channel 9",
           shortName: "CH9",
-          logo: "https://i.imgur.com/Xf5YuoE.png",
+          logo: "assets/logos/Xf5YuoE.png",
           quality: "FHD",
           streams: [
             {
@@ -391,7 +391,7 @@ const CHANNELS_DATA = {
           id: "channel-i",
           name: "Channel I",
           shortName: "CHI",
-          logo: "https://i.imgur.com/X0JJlOX.png",
+          logo: "assets/logos/X0JJlOX.png",
           quality: "FHD",
           streams: [
             {
@@ -408,7 +408,7 @@ const CHANNELS_DATA = {
           id: "deepto-tv",
           name: "Deepto TV",
           shortName: "DPTO",
-          logo: "https://i.imgur.com/F62GUqS.png",
+          logo: "assets/logos/F62GUqS.png",
           quality: "FHD",
           streams: [
             {
@@ -425,7 +425,7 @@ const CHANNELS_DATA = {
           id: "gazi-tv",
           name: "Gazi TV",
           shortName: "GAZI",
-          logo: "https://i.imgur.com/2Lzhiq6.png",
+          logo: "assets/logos/2Lzhiq6.png",
           quality: "HD",
           streams: [
             {
@@ -442,7 +442,7 @@ const CHANNELS_DATA = {
           id: "global-tv",
           name: "Global TV",
           shortName: "GLB",
-          logo: "https://i.imgur.com/oe0pq1R.png",
+          logo: "assets/logos/oe0pq1R.png",
           quality: "HD",
           streams: [
             {
@@ -455,7 +455,7 @@ const CHANNELS_DATA = {
           id: "maasranga-tv",
           name: "Maasranga TV",
           shortName: "MSTV",
-          logo: "https://i.imgur.com/uVZJMed.png",
+          logo: "assets/logos/uVZJMed.png",
           quality: "FHD",
           streams: [
             {
@@ -472,7 +472,7 @@ const CHANNELS_DATA = {
           id: "mohona-tv",
           name: "Mohona TV",
           shortName: "MOHO",
-          logo: "https://i.imgur.com/E6doEWH.png",
+          logo: "assets/logos/E6doEWH.png",
           quality: "FHD",
           streams: [
             {
@@ -489,7 +489,7 @@ const CHANNELS_DATA = {
           id: "my-tv",
           name: "My TV",
           shortName: "MYTV",
-          logo: "https://i.imgur.com/475qK5T.png",
+          logo: "assets/logos/475qK5T.png",
           quality: "HD",
           streams: [
             {
@@ -502,7 +502,7 @@ const CHANNELS_DATA = {
           id: "ntv",
           name: "NTV",
           shortName: "NTV",
-          logo: "https://upload.wikimedia.org/wikipedia/en/e/ef/NTV_%28Bangladesh%29_logo.svg",
+          logo: "assets/logos/NTV_%28Bangladesh%29_logo.svg",
           quality: "FHD",
           streams: [
             {
@@ -519,7 +519,7 @@ const CHANNELS_DATA = {
           id: "rtv",
           name: "RTV",
           shortName: "RTV",
-          logo: "https://i.imgur.com/yu8ugqt.png",
+          logo: "assets/logos/yu8ugqt.png",
           quality: "FHD",
           streams: [
             {
@@ -540,7 +540,7 @@ const CHANNELS_DATA = {
           id: "sa-tv",
           name: "SA TV",
           shortName: "SATV",
-          logo: "https://i.imgur.com/tL9kxxB.png",
+          logo: "assets/logos/tL9kxxB.png",
           quality: "HD",
           streams: [
             {
@@ -553,7 +553,7 @@ const CHANNELS_DATA = {
           id: "vokta-tv",
           name: "Vokta TV",
           shortName: "VKTA",
-          logo: "https://i.imgur.com/szAGBCU.png",
+          logo: "assets/logos/szAGBCU.png",
           quality: "HD",
           streams: [
             {
@@ -572,7 +572,7 @@ const CHANNELS_DATA = {
           id: "btv-chattogram",
           name: "BTV Chattogram",
           shortName: "BTVC",
-          logo: "https://i.imgur.com/hvpyuek.png",
+          logo: "assets/logos/hvpyuek.png",
           quality: "FHD",
           streams: [
             {
@@ -589,7 +589,7 @@ const CHANNELS_DATA = {
           id: "btv-national",
           name: "BTV National",
           shortName: "BTV",
-          logo: "https://i.imgur.com/5OE2FDt.png",
+          logo: "assets/logos/5OE2FDt.png",
           quality: "FHD",
           streams: [
             {
@@ -606,7 +606,7 @@ const CHANNELS_DATA = {
           id: "btv-world",
           name: "BTV World",
           shortName: "BTVW",
-          logo: "https://i.imgur.com/sSnrg7o.png",
+          logo: "assets/logos/sSnrg7o.png",
           quality: "FHD",
           streams: [
             {
@@ -623,7 +623,7 @@ const CHANNELS_DATA = {
           id: "sangsad-tv",
           name: "Sangsad TV",
           shortName: "SANG",
-          logo: "https://i.imgur.com/jkouxLg.png",
+          logo: "assets/logos/jkouxLg.png",
           quality: "FHD",
           streams: [
             {
@@ -650,7 +650,7 @@ const CHANNELS_DATA = {
           id: "duronto-tv",
           name: "Duronto TV",
           shortName: "DRNT",
-          logo: "https://i.imgur.com/gXsddRK.png",
+          logo: "assets/logos/gXsddRK.png",
           quality: "HD",
           streams: [
             {
@@ -667,7 +667,7 @@ const CHANNELS_DATA = {
           id: "green-tv",
           name: "Green TV",
           shortName: "GRN",
-          logo: "https://www.jagobd.com/wp-content/uploads/2022/12/green-tv.jpg",
+          logo: "assets/logos/green-tv.jpg",
           quality: "FHD",
           streams: [
             {
@@ -686,7 +686,7 @@ const CHANNELS_DATA = {
           id: "atn-music",
           name: "ATN Music",
           shortName: "ATNM",
-          logo: "https://www.jagobd.com/wp-content/uploads/2015/12/atnmusic.jpg?x50681",
+          logo: "assets/logos/atnmusic.jpg",
           quality: "SD",
           streams: [
             {
@@ -699,7 +699,7 @@ const CHANNELS_DATA = {
           id: "global-tv-music",
           name: "Global TV Music",
           shortName: "GLBM",
-          logo: "https://i.imgur.com/oe0pq1R.png",
+          logo: "assets/logos/oe0pq1R.png",
           quality: "HD",
           streams: [
             {
@@ -712,7 +712,7 @@ const CHANNELS_DATA = {
           id: "movie-bangla",
           name: "Movie Bangla",
           shortName: "MBNGL",
-          logo: "https://www.jagobd.com/wp-content/uploads/2016/02/moviebangla.jpg?x50681",
+          logo: "assets/logos/moviebangla.jpg",
           quality: "SD",
           streams: [
             {
@@ -731,7 +731,7 @@ const CHANNELS_DATA = {
           id: "al-quran-tv",
           name: "Al Quran Al Kareem TV",
           shortName: "QURAN",
-          logo: "https://aloula.faulio.com/storage/mediagallery/da/6c/fullhd_7eaf7e165c4cad5b3a45eff65d2011e18be5d670.png",
+          logo: "assets/logos/fullhd_7eaf7e165c4cad5b3a45eff65d2011e18be5d670.png",
           quality: "FHD",
           streams: [
             {
@@ -752,7 +752,7 @@ const CHANNELS_DATA = {
           id: "al-sunnah-tv",
           name: "Al Sunnah Al Nabawiyah TV",
           shortName: "SUNNAH",
-          logo: "https://aloula.faulio.com/storage/mediagallery/33/92/fullhd_879e557011826f507a045b4e0b4c3b57ba93edae.png",
+          logo: "assets/logos/fullhd_879e557011826f507a045b4e0b4c3b57ba93edae.png",
           quality: "FHD",
           streams: [
             {
@@ -773,7 +773,7 @@ const CHANNELS_DATA = {
           id: "madani-channel",
           name: "Madani Channel Bangla",
           shortName: "MCB",
-          logo: "https://i.imgur.com/vIJTVia.png",
+          logo: "assets/logos/vIJTVia.png",
           quality: "FHD",
           streams: [
             {
@@ -786,7 +786,7 @@ const CHANNELS_DATA = {
           id: "peace-tv-bangla",
           name: "Peace TV Bangla",
           shortName: "PEACE",
-          logo: "https://i.imgur.com/1ztVXUi.png",
+          logo: "assets/logos/1ztVXUi.png",
           quality: "FHD",
           streams: [
             {
@@ -799,7 +799,7 @@ const CHANNELS_DATA = {
           id: "peace-tv-english",
           name: "Peace TV English",
           shortName: "PTVE",
-          logo: "https://i.imgur.com/rjgCM2B.png",
+          logo: "assets/logos/rjgCM2B.png",
           quality: "FHD",
           streams: [
             {
