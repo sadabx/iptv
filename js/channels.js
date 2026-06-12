@@ -235,16 +235,16 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "YouTube Live",
-              url: "https://www.youtube.com/live/ITx_k7uNFP4?si=dX5MAtRDxnMkaE6M",
-            },
-            {
               label: "1080p",
               url: "https://bozztv.com/rongo/rongo-somoy/index.m3u8",
             },
             {
               label: "720p",
               url: "https://tvsen6.aynaott.com/somoytv/index.m3u8",
+            },
+            {
+              label: "YouTube Live",
+              url: "https://youtu.be/ITx_k7uNFP4",
             },
           ],
         },
@@ -452,6 +452,19 @@ const CHANNELS_DATA = {
             {
               label: "720p",
               url: "https://tvsen6.aynaott.com/globaltvhd/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "green-tv",
+          name: "Green TV",
+          shortName: "GRN",
+          logo: "assets/logos/green-tv.jpg",
+          quality: "FHD",
+          streams: [
+            {
+              label: "1080p",
+              url: "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/greentv.stream/live-orgin/greentv.stream/playlist.m3u8",
             },
           ],
         },
@@ -677,19 +690,6 @@ const CHANNELS_DATA = {
             {
               label: "720p-2",
               url: "https://tvsen6.aynaott.com/durontotv-live/index.m3u8",
-            },
-          ],
-        },
-        {
-          id: "green-tv",
-          name: "Green TV",
-          shortName: "GRN",
-          logo: "assets/logos/green-tv.jpg",
-          quality: "FHD",
-          streams: [
-            {
-              label: "1080p",
-              url: "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/greentv.stream/live-orgin/greentv.stream/playlist.m3u8",
             },
           ],
         },

@@ -1,0 +1,230 @@
+/* ==========================================
+   chat.css — Firebase Native Text Timeline and Loaders
+   ========================================== */
+
+/* ── Chat Panel ── */
+.yt-chat {
+    width: var(--chat-w);
+    background: var(--bg);
+    border-left: 1px solid var(--border);
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+    transition: width 0.25s var(--ease);
+}
+
+.yt-chat.closed {
+    width: 0;
+    border-left: none;
+}
+
+.chat-body {
+    flex: 1;
+    overflow: hidden;
+}
+
+.chat-body iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ── YouTube Live Chat Theme ── */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.chat-live-badge {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.05em;
+}
+
+.chat-live-badge::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #ff4e45;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #ff4e45;
+}
+
+.chat-close-btn {
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.chat-close-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-msg {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    word-break: break-word;
+}
+
+.chat-msg-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+.chat-msg-content {
+    flex: 1;
+}
+
+.chat-msg-user {
+    font-weight: 600;
+    color: #aaaaaa;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.chat-msg-user:hover {
+    text-decoration: underline;
+}
+
+.chat-msg-text {
+    color: var(--text);
+}
+
+.chat-input-area {
+    padding: 8px 12px 10px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.chat-join-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat-join-label {
+    font-size: 0.75rem;
+    color: var(--text2);
+}
+
+.chat-join-row {
+    display: flex;
+    gap: 8px;
+}
+
+.chat-username-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.chat-username-input:focus {
+    border-color: var(--accent);
+}
+
+.chat-join-btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 0 14px;
+    border-radius: 18px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.chat-join-btn:hover {
+    opacity: 0.9;
+}
+
+.chat-message-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-text-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.chat-text-input:focus {
+    border-color: var(--accent);
+}
+
+.chat-send-btn {
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.chat-send-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}

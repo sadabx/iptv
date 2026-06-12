@@ -18,6 +18,10 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/player.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/browse.css" />
+    <link rel="stylesheet" href="css/chat.css" />
     <!-- Firebase SDK (v8 compat) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -103,7 +107,8 @@
               id="embed-player"
               class="hidden"
               allowfullscreen
-              allow="autoplay; encrypted-media"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
 
             <div class="yt-idle-screen" id="idle-screen">
@@ -243,7 +248,11 @@
       <aside class="yt-chat closed" id="chat">
         <div class="chat-header">
           <span class="chat-live-badge">LIVE CHAT</span>
-          <button class="chat-close-btn" id="btn-close-chat" aria-label="Close chat">
+          <button
+            class="chat-close-btn"
+            id="btn-close-chat"
+            aria-label="Close chat"
+          >
             &times;
           </button>
         </div>
@@ -255,7 +264,10 @@
     <div class="toasts" id="toasts"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js"></script>
-    <script src="channels.js"></script>
-    <script src="app.js"></script>
+    <script src="js/channels.js"></script>
+    <script src="js/core-player.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/chat-engine.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
