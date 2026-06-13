@@ -104,6 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
     $stage.classList.remove("idle");
     clearTimeout(idleTimer);
 
+    // Skip idle timer when YouTube embed is active (no website controls to hide)
+    if (isEmbedActive) return;
+
     // Only auto-hide controls if video is playing AND overlays are hidden
     const isError = $ovErr && $ovErr.classList.contains("show");
     const isLoading = $ovLoad && $ovLoad.classList.contains("show");
@@ -162,8 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.addEventListener("click", () => $qualMenu.classList.add("hidden"));
 
-  // Video click & double-click interactions
+  // Video click & double-click interactions (skip when YouTube embed is active)
   $video.addEventListener("click", (e) => {
+    if (isEmbedActive) return;
     if (clickTimeout) {
       clearTimeout(clickTimeout);
       clickTimeout = null;
@@ -285,14 +289,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Video Media Engine Events
+  // Video Media Engine Events (skip when YouTube embed is active)
   $video.addEventListener("pause", () => {
+    if (isEmbedActive) return;
     setPaused(true);
     clearPlayTimeoutWatchdog();
   });
-  $video.addEventListener("play", () => setPaused(false));
-  $video.addEventListener("waiting", () => showLoad(true));
+  $video.addEventListener("play", () => {
+    if (!isEmbedActive) setPaused(false);
+  });
+  $video.addEventListener("waiting", () => {
+    if (!isEmbedActive) showLoad(true);
+  });
   $video.addEventListener("playing", () => {
+    if (isEmbedActive) return;
     showLoad(false);
     hideErr();
     clearPlayTimeoutWatchdog();
@@ -301,6 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   $video.addEventListener("error", () => {
+    if (isEmbedActive) return;
     clearPlayTimeoutWatchdog();
     if (!hls) {
       handleNativeVideoError();

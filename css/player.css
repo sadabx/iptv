@@ -56,8 +56,36 @@ body.is-watching .yt-player-shell {
     z-index: 5;
 }
 
-/* When embed is active, hide the native video */
+/* When embed is active, hide the native video and website controls */
 .stage.is-embed #player {
+    display: none !important;
+}
+
+.stage.is-embed .ctrl-bar {
+    display: none !important;
+}
+
+.stage.is-embed .state-overlay {
+    display: none !important;
+}
+
+.stage.is-embed .err-bar {
+    display: none !important;
+}
+
+.stage.is-embed .flash-overlay {
+    display: none !important;
+}
+
+.stage.is-embed .stats-panel {
+    display: none !important;
+}
+
+.stage.is-embed .context-menu {
+    display: none !important;
+}
+
+.stage.is-embed .yt-idle-screen {
     display: none !important;
 }
 

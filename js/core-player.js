@@ -76,19 +76,21 @@ function loadChannel(id, streamIdx) {
   const $stage = document.querySelector(".stage");
 
   if (youtubeId) {
+    // ── YouTube Embed Mode ──
     isEmbedActive = true;
     if (hls) {
       hls.destroy();
       hls = null;
     }
     $video.pause();
-    $video.src = "";
+    $video.removeAttribute("src");
+    $video.load();
     $video.classList.add("hidden");
     stopStatsInterval();
     clearPlayTimeoutWatchdog();
 
     if ($embedPlayer) {
-      $embedPlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+      $embedPlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
       $embedPlayer.classList.remove("hidden");
     }
     if ($stage) $stage.classList.add("is-embed");
@@ -96,6 +98,7 @@ function loadChannel(id, streamIdx) {
     showLoad(false);
     hideErr();
   } else {
+    // ── Standard HLS Mode ──
     isEmbedActive = false;
     if ($embedPlayer) {
       $embedPlayer.src = "";
@@ -723,6 +726,7 @@ function toggleFullscreen() {
 }
 
 function retryStream() {
+  if (isEmbedActive) return;
   const ch = channels.find((c) => c.id === activeId);
   if (!ch) return;
   const streams = ch.streams || [{ label: "Auto", url: ch.stream }];
