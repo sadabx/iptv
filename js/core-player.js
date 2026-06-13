@@ -416,7 +416,8 @@ function startPlayTimeoutWatchdog() {
         }
       }
       showLoad(false);
-      showErr("Stream load timed out");
+      hideErr();
+      toast("Stream load timed out");
       markChannelOffline(activeId);
     }
   }, STREAM_LOAD_TIMEOUT_MS);
