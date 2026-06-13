@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>T9 IPTV - Advanced Local Playlist Auditor</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #09090b;
+        color: #fafafa;
+        padding: 24px;
+        margin: 0;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #f4f4f5;
+      }
+      p {
+        color: #71717a;
+        font-size: 0.85rem;
+        margin-bottom: 20px;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: 1fr 2.4fr;
+        gap: 20px;
+      }
+      textarea {
+        width: 100%;
+        height: 560px;
+        background: #18181b;
+        border: 1px solid #27272a;
+        border-radius: 6px;
+        color: #f4f4f5;
+        font-family: monospace;
+        font-size: 0.75rem;
+        padding: 12px;
+        resize: none;
+        outline: none;
+      }
+      textarea:focus {
+        border-color: #2563eb;
+      }
+
+      .results-panel {
+        background: #18181b;
+        border: 1px solid #27272a;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        height: 560px;
+        overflow: hidden;
+      }
+
+      /* Toolbar Components */
+      .toolbar {
+        background: #1c1c1f;
+        padding: 12px;
+        border-bottom: 1px solid #27272a;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .toolbar-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      /* Search Input */
+      .search-box {
+        position: relative;
+        flex: 1;
+        min-width: 200px;
+      }
+      .search-box input {
+        width: 100%;
+        background: #09090b;
+        border: 1px solid #27272a;
+        padding: 6px 12px;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 0.8rem;
+        outline: none;
+      }
+      .search-box input:focus {
+        border-color: #2563eb;
+      }
+
+      .stats {
+        display: flex;
+        gap: 6px;
+        font-size: 0.75rem;
+        font-weight: bold;
+      }
+      .stat-item {
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: #09090b;
+      }
+      .stat-item.total {
+        color: #3b82f6;
+      }
+      .stat-item.working {
+        color: #10b981;
+      }
+      .stat-item.dead {
+        color: #ef4444;
+      }
+
+      .filter-group {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .filter-btn {
+        background: #27272a;
+        color: #a1a1aa;
+        border: 1px solid #3f3f46;
+        padding: 4px 10px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .filter-btn:hover {
+        background: #3f3f46;
+        color: #fff;
+      }
+      .filter-btn.active {
+        background: #2563eb;
+        color: #fff;
+        border-color: #3b82f6;
+      }
+
+      /* Dedicated Green Filter Button Highlight */
+      .filter-btn.green-only.active {
+        background: #10b981;
+        border-color: #059669;
+      }
+
+      .action-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 5px 12px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .action-btn:hover {
+        background: #1d4ed8;
+      }
+
+      /* Output Logs Frame */
+      .log-output {
+        flex: 1;
+        overflow-y: auto;
+        padding: 4px;
+        font-family: monospace;
+        font-size: 0.75rem;
+      }
+      .log-entry {
+        padding: 6px 8px;
+        border-bottom: 1px solid #27272a;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .log-entry.working {
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.02);
+      }
+      .log-entry.dead {
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.02);
+      }
+      .log-entry.cors {
+        color: #f59e0b;
+        background: rgba(245, 158, 11, 0.02);
+      }
+      .log-url {
+        color: #71717a;
+        max-width: 520px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.7rem;
+      }
+
+      .run-btn {
+        width: 100%;
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background 0.15s;
+      }
+      .run-btn:hover {
+        background: #1d4ed8;
+      }
+      .run-btn:disabled {
+        background: #27272a;
+        color: #71717a;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>T9 IPTV -Bluk Link Auditor & Filtering Sandbox</h1>
+      <p>
+        High-speed parallel local link parsing sandbox with instant text
+        searching arrays and explicit color status isolators.
+      </p>
+
+      <div class="workspace">
+        <div>
+          <textarea
+            id="m3u-input"
+            placeholder="#EXTM3U&#10;#EXTINF:-1,Channel Name&#10;http://example.com/stream.m3u8...&#10;&#10;Drop your entire 300+ playlist stream block copy lines directly here..."
+          ></textarea>
+          <button id="run-btn" class="run-btn" onclick="startBulkAudit()">
+            Run Concurrent Diagnostic Pipeline
+          </button>
+        </div>
+
+        <div class="results-panel">
+          <div class="toolbar">
+            <div class="toolbar-row">
+              <div class="search-box">
+                <input
+                  type="text"
+                  id="search-filter"
+                  oninput="applyOutputFilters()"
+                  placeholder="🔍 Search specific channel by name..."
+                />
+              </div>
+              <div class="stats">
+                <div class="stat-item total">
+                  Total: <span id="stat-total">0</span>
+                </div>
+                <div class="stat-item" style="color: #a1a1aa">
+                  Checked: <span id="stat-progress">0</span>
+                </div>
+                <div class="stat-item working">
+                  Online: <span id="stat-working">0</span>
+                </div>
+                <div class="stat-item dead">
+                  Dead: <span id="stat-dead">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="toolbar-row">
+              <div class="filter-group">
+                <button
+                  class="filter-btn active"
+                  data-filter="all"
+                  onclick="changeActiveFilter('all', this)"
+                >
+                  All Channels
+                </button>
+                <button
+                  class="filter-btn"
+                  data-filter="online"
+                  onclick="changeActiveFilter('online', this)"
+                >
+                  Working Logs
+                </button>
+                <button
+                  class="filter-btn green-only"
+                  data-filter="green"
+                  onclick="changeActiveFilter('green', this)"
+                >
+                  🟢 Green Filter Only
+                </button>
+                <button
+                  class="filter-btn"
+                  data-filter="dead"
+                  onclick="changeActiveFilter('dead', this)"
+                >
+                  Dead Only
+                </button>
+              </div>
+
+              <button class="action-btn" onclick="copyFilteredToClipboard()">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path
+                    d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                  ></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+                Copy Filtered Links
+              </button>
+            </div>
+          </div>
+
+          <div class="log-output" id="console-logs">
+            <div style="color: #71717a; text-align: center; margin-top: 220px">
+              Console idle. Populate source text stream on left column area.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const CONCURRENCY_LIMIT = 20; // Increased concurrency to chew through 300+ items rapidly
+      let auditedStreams = [];
+      let activeFilterType = "all";
+
+      async function startBulkAudit() {
+        const inputData = document.getElementById("m3u-input").value.trim();
+        if (!inputData)
+          return alert(
+            "Please paste your M3U list data content strings first!",
+          );
+
+        document.getElementById("run-btn").disabled = true;
+        const consoleLogs = document.getElementById("console-logs");
+        consoleLogs.innerHTML = "";
+        auditedStreams = [];
+
+        // Parse lines
+        const lines = inputData.split("\n");
+        let currentName = "Unnamed Channel";
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line.startsWith("#EXTINF:")) {
+            const parts = line.split(",");
+            currentName = parts[parts.length - 1] || "Unnamed Channel";
+          } else if (
+            line.startsWith("http://") ||
+            line.startsWith("https://")
+          ) {
+            auditedStreams.push({
+              name: currentName,
+              url: line,
+              status: "waiting",
+              code: "—",
+              isGreen: false,
+            });
+          }
+        }
+
+        let total = auditedStreams.length;
+        let processed = 0;
+        let working = 0;
+        let dead = 0;
+
+        document.getElementById("stat-total").textContent = total;
+        document.getElementById("stat-progress").textContent = processed;
+        document.getElementById("stat-working").textContent = working;
+        document.getElementById("stat-dead").textContent = dead;
+
+        if (total === 0) {
+          consoleLogs.innerHTML = `<div style="color:#ef4444; padding:10px;">Parser Error: Zero source links resolved. Check file layout tags.</div>`;
+          document.getElementById("run-btn").disabled = false;
+          return;
+        }
+
+        // Parallel HTTP Queue Probers
+        const queueIterator = auditedStreams.entries();
+
+        const workerPool = async () => {
+          for (let [index, item] of queueIterator) {
+            if (
+              item.url.includes("://10.16.") ||
+              item.url.includes("://192.168.")
+            ) {
+              processed++;
+              dead++;
+              item.status = "dead";
+              item.code = "LAN Block";
+              document.getElementById("stat-progress").textContent = processed;
+              document.getElementById("stat-dead").textContent = dead;
+              appendLogToDOM(item, index);
+              continue;
+            }
+
+            const result = await checkLink(item.url);
+            processed++;
+            document.getElementById("stat-progress").textContent = processed;
+
+            if (result.status === "online") {
+              working++;
+              item.status = "online";
+              item.isGreen = true; // Flawless HTTP 200 OK links are tagged as pure Green
+              item.code = `OK (${result.code})`;
+              document.getElementById("stat-working").textContent = working;
+            } else if (result.status === "cors") {
+              working++;
+              item.status = "online";
+              item.isGreen = false; // CORS elements are alive but restricted inside browsers
+              item.code = "CORS (Alive)";
+              document.getElementById("stat-working").textContent = working;
+            } else {
+              dead++;
+              item.status = "dead";
+              item.code = result.code;
+              document.getElementById("stat-dead").textContent = dead;
+            }
+            appendLogToDOM(item, index);
+          }
+        };
+
+        const workers = Array(Math.min(CONCURRENCY_LIMIT, total))
+          .fill(null)
+          .map(workerPool);
+        await Promise.all(workers);
+
+        document.getElementById("run-btn").disabled = false;
+        showToastNotification("✓ Complete audit pipeline loop completed");
+      }
+
+      function checkLink(url) {
+        return new Promise(async (resolve) => {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 4000); // 4s slightly more aggressive timeout window
+
+          try {
+            const res = await fetch(url, {
+              method: "GET",
+              signal: controller.signal,
+              headers: { Accept: "*/*" },
+            });
+            clearTimeout(timer);
+            if (res.ok) resolve({ status: "online", code: res.status });
+            else resolve({ status: "offline", code: `HTTP ${res.status}` });
+          } catch (err) {
+            clearTimeout(timer);
+            if (err.name === "AbortError")
+              resolve({ status: "offline", code: "Timeout" });
+            else resolve({ status: "cors", code: "CORS" });
+          }
+        });
+      }
+
+      function appendLogToDOM(item, index) {
+        const consoleLogs = document.getElementById("console-logs");
+        const entry = document.createElement("div");
+
+        let statusClass = item.status === "online" ? "working" : "dead";
+        if (item.code === "CORS (Alive)") statusClass = "cors";
+
+        entry.className = `log-entry ${statusClass}`;
+        entry.id = `log-id-${index}`;
+        entry.dataset.name = item.name.toLowerCase();
+        entry.dataset.status = item.status;
+        entry.dataset.green = item.isGreen ? "true" : "false";
+
+        entry.innerHTML = `
+            <div><strong>${item.name}</strong> <span style="font-size:10px; margin-left:8px; opacity:0.85;">[${item.code}]</span></div>
+            <div class="log-url" title="${item.url}">${item.url}</div>
+        `;
+
+        consoleLogs.appendChild(entry);
+
+        // Match sorting viewport states immediately
+        evaluateVisibilityFilterForNode(entry);
+        consoleLogs.scrollTop = consoleLogs.scrollHeight;
+      }
+
+      function changeActiveFilter(filterType, buttonEl) {
+        activeFilterType = filterType;
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        buttonEl.classList.add("active");
+        applyOutputFilters();
+      }
+
+      /**
+       * Unified Filter Engine: Intersects Text Query String with Status Badges
+       */
+      function applyOutputFilters() {
+        const query = document
+          .getElementById("search-filter")
+          .value.toLowerCase()
+          .trim();
+
+        document.querySelectorAll(".log-entry").forEach((entry) => {
+          const matchesSearch = !query || entry.dataset.name.includes(query);
+          let matchesStatus = false;
+
+          if (activeFilterType === "all") {
+            matchesStatus = true;
+          } else if (activeFilterType === "online") {
+            matchesStatus = entry.dataset.status === "online";
+          } else if (activeFilterType === "green") {
+            matchesStatus = entry.dataset.green === "true";
+          } else if (activeFilterType === "dead") {
+            matchesStatus = entry.dataset.status === "dead";
+          }
+
+          if (matchesSearch && matchesStatus) {
+            entry.style.display = "";
+          } else {
+            entry.style.display = "none";
+          }
+        });
+      }
+
+      function evaluateVisibilityFilterForNode(node) {
+        const query = document
+          .getElementById("search-filter")
+          .value.toLowerCase()
+          .trim();
+        const matchesSearch = !query || node.dataset.name.includes(query);
+        let matchesStatus = false;
+
+        if (activeFilterType === "all") matchesStatus = true;
+        else if (activeFilterType === "online")
+          matchesStatus = node.dataset.status === "online";
+        else if (activeFilterType === "green")
+          matchesStatus = node.dataset.green === "true";
+        else if (activeFilterType === "dead")
+          matchesStatus = node.dataset.status === "dead";
+
+        node.style.display = matchesSearch && matchesStatus ? "" : "none";
+      }
+
+      function copyFilteredToClipboard() {
+        if (auditedStreams.length === 0)
+          return alert("Audit a dataset first before executing export calls!");
+        const query = document
+          .getElementById("search-filter")
+          .value.toLowerCase()
+          .trim();
+
+        // Compile matches intersecting both filters
+        const filteredCollection = auditedStreams.filter((item) => {
+          const matchesSearch =
+            !query || item.name.toLowerCase().includes(query);
+          let matchesStatus = false;
+
+          if (activeFilterType === "all") matchesStatus = true;
+          else if (activeFilterType === "online")
+            matchesStatus = item.status === "online";
+          else if (activeFilterType === "green") matchesStatus = item.isGreen;
+          else if (activeFilterType === "dead")
+            matchesStatus = item.status === "dead";
+
+          return matchesSearch && matchesStatus;
+        });
+
+        if (filteredCollection.length === 0) {
+          return alert(
+            "No stream components match your active search and filter constraints.",
+          );
+        }
+
+        let m3uTemplate = "#EXTM3U\n";
+        filteredCollection.forEach((item) => {
+          m3uTemplate += `#EXTINF:-1,${item.name}\n${item.url}\n`;
+        });
+
+        navigator.clipboard
+          .writeText(m3uTemplate)
+          .then(() => {
+            showToastNotification(
+              `✓ Exported ${filteredCollection.length} channels to clipboard!`,
+            );
+          })
+          .catch(() => {
+            alert(
+              "Clipboard capture blocked by operating system security restrictions.",
+            );
+          });
+      }
+
+      function showToastNotification(msg) {
+        const toast = document.createElement("div");
+        toast.style.cssText =
+          "position:fixed; bottom:24px; right:24px; background:#10b981; color:white; padding:12px 24px; border-radius:6px; font-size:0.8rem; font-weight:600; z-index:99999; box-shadow:0 10px 25px rgba(0,0,0,0.6); animation: tIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);";
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+      }
+    </script>
+  </body>
+</html>
