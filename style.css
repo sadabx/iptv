@@ -794,6 +794,27 @@ body.is-watching .np-name strong {
         padding-bottom: 24px;
     }
 
+    /* Fix: Ensure the iframe expands to fill the 16/9 sticky viewport container */
+    .stage.is-embed #embed-player {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        background: #000;
+    }
+
+    /* Prevent background compression rules from overriding the layout shell */
+    body.is-watching .stage.is-embed {
+        display: block;
+        position: relative;
+        aspect-ratio: 16 / 9;
+        height: auto;
+        width: 100%;
+    }
+
     .yt-browse {
         padding: 16px 14px 40px;
         gap: 24px;
@@ -992,5 +1013,10 @@ body.is-watching .np-name strong {
     .wm-meta {
         font-size: 0.62rem;
         margin-top: 1px;
+    }
+
+    #embed-player:not(.hidden) {
+        display: block !important;
+        border: none;
     }
 }
