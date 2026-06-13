@@ -140,7 +140,7 @@ function initHomePage() {
   const footer = document.createElement("footer");
   footer.className = "app-footer";
   footer.innerHTML =
-    'Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">TRIONINE</a>';
+    'Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">TRIONINE</a> • <a href="link-auditor/index.html" target="_blank">Link Auditor</a>';
   $stageHome.appendChild(footer);
 }
 
@@ -153,6 +153,10 @@ function showHomePage() {
   if (hls) {
     hls.destroy();
     hls = null;
+  }
+  if (mpegtsPlayer) {
+    mpegtsPlayer.destroy();
+    mpegtsPlayer = null;
   }
   $video.src = "";
   $video.load();
@@ -369,6 +373,11 @@ async function checkChannelStatus(ch) {
       });
       clearTimeout(timeoutId);
       if (!res.ok) continue;
+
+      const isTs = /\.(ts|mpegts|m2ts)(\?|$)/i.test(url);
+      if (isTs) {
+        return true;
+      }
 
       const text = await res.text();
       if (!text.trim().startsWith("#EXTM3U")) continue;

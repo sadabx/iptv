@@ -4,6 +4,7 @@
 
 // ── State
 let hls = null;
+let mpegtsPlayer = null;
 let activeId = null;
 let currentChannel = null;
 let muted = false;
@@ -82,23 +83,27 @@ function loadChannel(id, streamIdx) {
       hls.destroy();
       hls = null;
     }
+    if (mpegtsPlayer) {
+      mpegtsPlayer.destroy();
+      mpegtsPlayer = null;
+    }
     $video.pause();
     $video.removeAttribute("src");
     $video.load();
     $video.classList.add("hidden");
     stopStatsInterval();
     clearPlayTimeoutWatchdog();
-
+ 
     if ($embedPlayer) {
       $embedPlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
       $embedPlayer.classList.remove("hidden");
     }
     if ($stage) $stage.classList.add("is-embed");
-
+ 
     showLoad(false);
     hideErr();
   } else {
-    // ── Standard HLS Mode ──
+    // ── Standard HLS / TS Mode ──
     isEmbedActive = false;
     if ($embedPlayer) {
       $embedPlayer.src = "";
@@ -106,10 +111,14 @@ function loadChannel(id, streamIdx) {
     }
     if ($stage) $stage.classList.remove("is-embed");
     $video.classList.remove("hidden");
-
+ 
     showLoad(true);
     hideErr();
-    startHLS(url);
+    if (isTsUrl(url)) {
+      startMpegTS(url);
+    } else {
+      startHLS(url);
+    }
   }
 
   populateWatchMore(id);
@@ -125,6 +134,11 @@ function getYouTubeId(url) {
     /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|live\/)([^#\&\?]*).*/;
   const match = url.match(regExp);
   return match && match[2].length === 11 ? match[2] : null;
+}
+
+function isTsUrl(url) {
+  if (!url) return false;
+  return /\.(ts|mpegts|m2ts)(\?|$)/i.test(url);
 }
 
 function getStreams(ch) {
@@ -290,6 +304,13 @@ function startHLS(url) {
     hls.destroy();
     hls = null;
   }
+  if (mpegtsPlayer) {
+    mpegtsPlayer.destroy();
+    mpegtsPlayer = null;
+  }
+  $video.pause();
+  $video.removeAttribute("src");
+  $video.load();
   stopStatsInterval();
   clearPlayTimeoutWatchdog();
   startPlayTimeoutWatchdog();
@@ -356,6 +377,83 @@ function startHLS(url) {
     showLoad(false);
     showErr("HLS not supported in this browser");
   }
+}
+
+function startMpegTS(url) {
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+  if (mpegtsPlayer) {
+    mpegtsPlayer.destroy();
+    mpegtsPlayer = null;
+  }
+  $video.pause();
+  $video.removeAttribute("src");
+  $video.load();
+  stopStatsInterval();
+  clearPlayTimeoutWatchdog();
+  startPlayTimeoutWatchdog();
+
+  if (mpegts.getFeatureList().mseLivePlayback) {
+    mpegtsPlayer = mpegts.createPlayer({
+      type: "mpegts",
+      isLive: true,
+      url: url,
+    }, {
+      enableWorker: true,
+      lazyLoadMaxDuration: 3 * 60,
+      seekType: "range",
+    });
+    mpegtsPlayer.attachMediaElement($video);
+    mpegtsPlayer.load();
+
+    mpegtsPlayer.play()
+      .then(() => {
+        retryCount = 0;
+        $qualBtn.style.display = "none";
+        $qualLabel.textContent = "ORIGINAL";
+      })
+      .catch((err) => {
+        console.warn("MpegTS play error:", err);
+      });
+
+    mpegtsPlayer.on(mpegts.Events.ERROR, (type, detail, info) => {
+      console.warn("MpegTS Fatal Error:", type, detail, info);
+      if (retryCount < MAX_RETRIES) {
+        retryCount++;
+        toast(`MpegTS issue. Retrying (${retryCount}/${MAX_RETRIES})...`);
+        mpegtsPlayer.unload();
+        mpegtsPlayer.load();
+        mpegtsPlayer.play().catch(() => {});
+      } else {
+        handleMpegTSError(type, detail, info);
+      }
+    });
+  } else {
+    showLoad(false);
+    showErr("MPEG-TS not supported in this browser");
+  }
+}
+
+function handleMpegTSError(type, detail, info) {
+  if (!activeId) return;
+  const ch = channels.find((c) => c.id === activeId);
+  if (ch) {
+    const streams = getStreams(ch);
+    if (activeStreamIdx + 1 < streams.length) {
+      const nextIdx = activeStreamIdx + 1;
+      toast(`Stream failed. Switching to backup ${streams[nextIdx].label}...`);
+      clearPlayTimeoutWatchdog();
+      setTimeout(() => {
+        if (activeId) loadChannel(activeId, nextIdx);
+      }, 500);
+      return;
+    }
+  }
+  showLoad(false);
+  showErr(detail || "MpegTS error");
+  markChannelOffline(activeId);
 }
 
 function handleFatalError(data) {
@@ -655,12 +753,11 @@ function updateStats() {
   if ($bufferHealth) $bufferHealth.textContent = `${bufLen.toFixed(1)} s`;
 
   // Bitrate
-  let currentBitrate = 0;
   if (hls && hls.levels && hls.levels.length) {
     if (hls.currentLevel === -1) {
       // Auto: try to get estimated bandwidth
       if (hls.bandwidthEstimate) {
-        currentBitrate = hls.bandwidthEstimate;
+        let currentBitrate = hls.bandwidthEstimate;
         if ($bitrate)
           $bitrate.textContent = `${(currentBitrate / 1_000_000).toFixed(2)} Mbps (Auto)`;
         if ($connection)
@@ -671,7 +768,7 @@ function updateStats() {
       }
     } else {
       const lvl = hls.levels[hls.currentLevel];
-      currentBitrate = lvl?.bitrate || 0;
+      let currentBitrate = lvl?.bitrate || 0;
       if ($bitrate)
         $bitrate.textContent = currentBitrate
           ? `${(currentBitrate / 1_000_000).toFixed(2)} Mbps`
@@ -680,6 +777,16 @@ function updateStats() {
         $connection.textContent = currentBitrate
           ? `${(currentBitrate / 1000).toFixed(0)} Kbps`
           : "—";
+    }
+  } else if (mpegtsPlayer && mpegtsPlayer.statisticsInfo) {
+    const stats = mpegtsPlayer.statisticsInfo;
+    const speedKbps = stats.speed ? Math.round(stats.speed * 8) : 0;
+    const speedMbps = speedKbps ? (speedKbps / 1000).toFixed(2) : null;
+    if ($bitrate) {
+      $bitrate.textContent = speedMbps ? `${speedMbps} Mbps` : "—";
+    }
+    if ($connection) {
+      $connection.textContent = speedKbps ? `${speedKbps} Kbps` : "—";
     }
   } else {
     if ($bitrate) $bitrate.textContent = hls ? "—" : "N/A";
@@ -692,8 +799,15 @@ function updateStats() {
 
   // Codecs (simulated, but can be extended with MediaSource)
   if ($codecs) {
-    const videoCodec = hls ? "avc1.640028" : "unknown";
-    const audioCodec = "mp4a.40.2";
+    let videoCodec = "unknown";
+    let audioCodec = "unknown";
+    if (hls) {
+      videoCodec = "avc1.640028";
+      audioCodec = "mp4a.40.2";
+    } else if (mpegtsPlayer && mpegtsPlayer.mediaInfo) {
+      videoCodec = mpegtsPlayer.mediaInfo.videoCodec || "unknown";
+      audioCodec = mpegtsPlayer.mediaInfo.audioCodec || "unknown";
+    }
     $codecs.textContent = `${videoCodec} / ${audioCodec}`;
   }
 
@@ -710,7 +824,11 @@ function updateStats() {
     $volumeRow.innerHTML = `<span>Volume / Normalized</span><span>${volPercent}% / 100% DRC (cont.-18.0dB tgt.-14.0dB)</span>`;
   }
 
-  if ($engine) $engine.textContent = hls ? "HLS.js" : "Native";
+  if ($engine) {
+    if (hls) $engine.textContent = "HLS.js";
+    else if (mpegtsPlayer) $engine.textContent = "MpegTS.js";
+    else $engine.textContent = "Native";
+  }
 }
 
 function jumpToLive() {
@@ -731,9 +849,14 @@ function retryStream() {
   const ch = channels.find((c) => c.id === activeId);
   if (!ch) return;
   const streams = ch.streams || [{ label: "Auto", url: ch.stream }];
+  const url = streams[activeStreamIdx]?.url || streams[0].url;
   hideErr();
   showLoad(true);
-  startHLS(streams[activeStreamIdx]?.url || streams[0].url);
+  if (isTsUrl(url)) {
+    startMpegTS(url);
+  } else {
+    startHLS(url);
+  }
 }
 
 // Add copy debug info functionality

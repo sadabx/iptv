@@ -20,12 +20,25 @@ const CHANNELS_DATA = {
               url: "http://66.102.126.10:8000/play/a022/index.m3u8",
             },
             {
-              label: "FIFA+ Server",
+              label: "FIFA+",
               url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
             },
             {
               label: "Caze TV (BR)",
               url: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "f1-tv",
+          name: "F1 TV",
+          shortName: "EURO",
+          logo: "https://logodownload.org/wp-content/uploads/2024/05/f1-tv-logo.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://hakunamatata5.org:8088/hls/sky-f1.m3u8",
             },
           ],
         },
@@ -93,7 +106,7 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "Server B",
+              label: "Auto",
               url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/513.ts",
             },
           ],
@@ -131,10 +144,6 @@ const CHANNELS_DATA = {
           logo: "https://static.wikia.nocookie.net/logopedia/images/7/7d/Willow_2023_stacked.svg/revision/latest?cb=20240927132511",
           quality: "FHD",
           streams: [
-            {
-              label: "1080p",
-              url: "https://d36r8jifhgsk5j.cloudfront.net/Willow_TV.m3u8",
-            },
             {
               label: "link.ts",
               url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/517.ts",
@@ -793,29 +802,12 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "tv9-bangla",
-          name: "TV9 Bangla",
-          shortName: "TV9",
-          logo: "https://static.wikia.nocookie.net/etv-gspn-bangla/images/2/23/TV9_Bangla_logo_%282021%29.png/revision/latest?cb=20210424025435",
-          quality: "HD",
-          streams: [
-            {
-              label: "Cloudfront",
-              url: "https://dyjmyiv3bp2ez.cloudfront.net/pub-iotv9banaen8yq/liveabr/playlist.m3u8",
-            },
-          ],
-        },
-        {
           id: "zee-24-ghanta",
           name: "Zee 24 Ghanta",
           shortName: "ZEE24",
           logo: "https://static.wikia.nocookie.net/etv-gspn-bangla/images/6/6b/Zee_24_Ghanta_English_logo_%282018%29.png/revision/latest/scale-to-width-down/1561?cb=20210528110709",
           quality: "HD",
           streams: [
-            {
-              label: "Cloudfront",
-              url: "https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index_5.m3u8",
-            },
             {
               label: "Alternative CDN",
               url: "https://d2dsoyvkr33m05.cloudfront.net/index_1.m3u8",
@@ -1005,13 +997,13 @@ const CHANNELS_DATA = {
       channels: [
         {
           id: "discovery-hd",
-          name: "Discovery HD Hindi",
+          name: "Discovery HD",
           shortName: "DSCH",
           logo: "https://upload.wikimedia.org/wikipedia/tr/6/69/Discovery_HD_logo.PNG",
           quality: "HD",
           streams: [
             {
-              label: "1080p",
+              label: "Auto",
               url: "http://202.70.146.135:8000/play/a05z/index.m3u8",
             },
           ],
@@ -1047,15 +1039,11 @@ const CHANNELS_DATA = {
           name: "Travel XP UK",
           shortName: "TRXP",
           logo: "https://static.wikia.nocookie.net/logopedia/images/5/5b/Travelxp_HD.svg/revision/latest?cb=20200102200127",
-          quality: "FHD",
+          quality: "HD",
           streams: [
             {
-              label: "1080p",
+              label: "Auto",
               url: "https://travelxp-travelxp-1-eu.rakuten.wurl.tv/playlist.m3u8",
-            },
-            {
-              label: "1200 Chunk Endpoint",
-              url: "https://travelxp-travelxp-1-eu.rakuten.wurl.tv/1200.m3u8",
             },
           ],
         },

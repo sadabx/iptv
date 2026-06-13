@@ -125,25 +125,25 @@ body.is-watching .yt-player-shell {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 56px 20px 14px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
+    padding: 40px 20px 14px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
     display: flex;
     align-items: center;
     gap: 8px;
     z-index: 15;
-    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(0);
 }
 
 .stage.idle .ctrl-bar {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
     pointer-events: none;
 }
 
 .ctrl-btn {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border: none;
     background: transparent;
     color: #fff;
@@ -151,14 +151,13 @@ body.is-watching .yt-player-shell {
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: background-color 0.2s ease, opacity 0.2s ease;
     flex-shrink: 0;
     backdrop-filter: blur(4px);
 }
 
 .ctrl-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .ctrl-live-btn {
@@ -167,7 +166,7 @@ body.is-watching .yt-player-shell {
     gap: 6px;
     padding: 5px 12px;
     border: none;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
     border-radius: 20px;
     color: #fff;
@@ -175,23 +174,21 @@ body.is-watching .yt-player-shell {
     font-weight: 600;
     letter-spacing: 0.04em;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: background-color 0.2s ease;
     flex-shrink: 0;
 }
 
 .ctrl-live-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .ctrl-live-dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--red);
     flex-shrink: 0;
     animation: blink 1.6s infinite;
-    box-shadow: 0 0 8px var(--red);
 }
 
 .ctrl-spacer {
@@ -215,10 +212,10 @@ body.is-watching .yt-player-shell {
 }
 
 .ctrl-qual-btn {
-    height: 34px;
-    padding: 0 14px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(0, 0, 0, 0.6);
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     color: #fff;
     border-radius: 20px;
@@ -226,13 +223,12 @@ body.is-watching .yt-player-shell {
     font-weight: 600;
     letter-spacing: 0.04em;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ctrl-qual-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .qual-menu {
@@ -305,23 +301,33 @@ body.is-watching .yt-player-shell {
 .vol-wrap {
     display: flex;
     align-items: center;
-    gap: 6px;
 }
 
 .vol-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 80px;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
     height: 3px;
     border-radius: 99px;
     background: rgba(255, 255, 255, 0.3);
     outline: none;
     cursor: pointer;
-    transition: height var(--transition-fast);
+    margin-left: 0;
+    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, height 0.15s ease;
 }
 
 .vol-slider:hover {
     height: 5px;
+}
+
+.vol-wrap:hover .vol-slider,
+.vol-wrap:focus-within .vol-slider {
+    width: 60px;
+    opacity: 1;
+    pointer-events: auto;
+    margin-left: 6px;
 }
 
 .vol-slider::-webkit-slider-thumb {
@@ -329,9 +335,8 @@ body.is-watching .yt-player-shell {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--red);
+    background: #fff;
     cursor: pointer;
-    box-shadow: 0 0 6px var(--red);
     transition: transform var(--transition-fast);
 }
 
@@ -347,8 +352,7 @@ body.is-watching .yt-player-shell {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.45);
     z-index: 10;
 }
 
@@ -367,34 +371,31 @@ body.is-watching .yt-player-shell {
     width: 48px;
     height: 48px;
     border: 3px solid rgba(255, 255, 255, 0.15);
-    border-top-color: var(--red);
+    border-top-color: #fff;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
 
 .yt-spinner-text {
-    font-size: 0.8rem;
-    color: var(--text2);
-    letter-spacing: 0.06em;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .err-bar {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    inset: 0;
     display: none;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 8px 14px 8px 12px;
-    background: rgba(20, 20, 20, 0.9);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 0, 0, 0.4);
-    border-radius: 40px;
+    justify-content: center;
+    gap: 16px;
+    background: #0f0f0f;
     z-index: 12;
-    max-width: calc(100% - 40px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    padding: 24px;
+    box-sizing: border-box;
 }
 
 .err-bar.show {
@@ -402,42 +403,33 @@ body.is-watching .yt-player-shell {
 }
 
 .err-bar-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--red);
-    flex-shrink: 0;
-    animation: blink 1.4s ease-in-out infinite;
+    display: none;
 }
 
 .err-bar-msg {
-    font-size: 0.8rem;
-    color: var(--text2);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 260px;
+    font-size: 0.95rem;
+    color: #f1f1f1;
+    text-align: center;
+    max-width: 440px;
+    font-weight: 500;
+    line-height: 1.4;
 }
 
 .err-bar-retry {
-    padding: 4px 12px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    color: var(--text2);
-    font-size: 0.75rem;
-    font-weight: 500;
+    padding: 8px 20px;
+    background: #f1f1f1;
+    border: none;
+    border-radius: 18px;
+    color: #0f0f0f;
+    font-size: 0.8rem;
+    font-weight: 600;
     cursor: pointer;
-    white-space: nowrap;
-    transition: all var(--transition-fast);
+    transition: background-color 0.2s ease;
     flex-shrink: 0;
 }
 
 .err-bar-retry:hover {
-    border-color: var(--red);
-    color: var(--text);
-    background: rgba(255,0,0,0.1);
-    transform: scale(1.02);
+    background: #d9d9d9;
 }
 
 /* ── Flash & Video Stats Overlays ── */
@@ -457,17 +449,17 @@ body.is-watching .yt-player-shell {
 }
 
 .flash-circle {
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: none;
 }
 
 .flash-overlay.show .flash-circle {
