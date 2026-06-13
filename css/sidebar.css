@@ -226,11 +226,6 @@
     background: rgba(251, 146, 60, 0.12);
 }
 
-.cat-icon {
-    margin-right: 8px;
-    display: inline-flex;
-    align-items: center;
-}
 
 .ch-initials {
     font-family: var(--font-mono);

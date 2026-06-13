@@ -6,7 +6,6 @@ const CHANNELS_DATA = {
   categories: [
     {
       name: "Sports",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>`,
       channels: [
         {
           id: "fifa-wc-2026",
@@ -32,7 +31,7 @@ const CHANNELS_DATA = {
         {
           id: "f1-tv",
           name: "F1 TV",
-          shortName: "EURO",
+          shortName: "F1TV",
           logo: "https://logodownload.org/wp-content/uploads/2024/05/f1-tv-logo.png",
           quality: "HD",
           streams: [
@@ -63,18 +62,14 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "720p-2",
+              label: "Auto",
               url: "https://tvsen7.aynaott.com/tsportsfhd/index.m3u8",
-            },
-            {
-              label: "720p",
-              url: "https://tvsen7.aynaott.com/tsports-hd/index.m3u8",
             },
           ],
         },
         {
-          id: "star-sports-1-hindi",
-          name: "Star Sports 1 Hindi",
+          id: "star-sports-1",
+          name: "Star Sports 1",
           shortName: "SS1H",
           logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/3840px-Star_Sports_1_HD.png",
           quality: "HD",
@@ -154,7 +149,6 @@ const CHANNELS_DATA = {
     },
     {
       name: "News",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>`,
       channels: [
         {
           id: "atn-news",
@@ -276,12 +270,8 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "1080p",
-              url: "https://tplay.live/out/bangladesh/ekhontv.index.m3u8",
-            },
-            {
-              label: "720p",
-              url: "https://tvsen6.aynaott.com/ekhontv/index.m3u8",
+              label: "Youtube live",
+              url: "https://www.youtube.com/live/ShCdQy8l0SU?si=zpXsX8Omi19hTt5L",
             },
           ],
         },
@@ -293,7 +283,7 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "1080p",
+              label: "Auto",
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1704/output/index.m3u8",
             },
           ],
@@ -310,8 +300,8 @@ const CHANNELS_DATA = {
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8",
             },
             {
-              label: "480p",
-              url: "https://bozztv.com/rongo/rongo-JamunaTelevision/index.m3u8",
+              label: "Youtube live",
+              url: "https://www.youtube.com/live/dpRmnIcjKPs?si=V150TEgJMNvokl3B",
             },
           ],
         },
@@ -359,7 +349,7 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "1080p Main",
+              label: "Auto",
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1710/output/index.m3u8",
             },
           ],
@@ -368,7 +358,6 @@ const CHANNELS_DATA = {
     },
     {
       name: "General & Entertainment",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>`,
       channels: [
         {
           id: "ananda-tv",
@@ -378,14 +367,9 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "1080p",
+              label: "Auto",
               url: "https://bozztv.com/rongo/rongo-AnandaTV/index.m3u8",
             },
-            {
-              label: "720p",
-              url: "https://tvsen6.aynaott.com/anandatv/index.m3u8",
-            },
-            { label: "480p", url: "http://103.99.249.139/anandatv/index.m3u8" },
           ],
         },
         {
@@ -409,7 +393,7 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "720p",
+              label: "Auto",
               url: "https://tvsen5.aynaott.com/atnbangla/index.m3u8",
             },
           ],
@@ -422,7 +406,7 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "720p",
+              label: "Auto",
               url: "https://tvsen6.aynaott.com/banglatv/index.m3u8",
             },
           ],
@@ -450,10 +434,6 @@ const CHANNELS_DATA = {
             {
               label: "1080p",
               url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/581.ts",
-            },
-            {
-              label: "720p",
-              url: "https://tvsen6.aynaott.com/bijoytv/index.m3u8",
             },
           ],
         },
@@ -710,7 +690,6 @@ const CHANNELS_DATA = {
     // INDIAN
     {
       name: "Indian",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>`,
       channels: [
         {
           id: "zee-bangla-hd",
@@ -818,52 +797,31 @@ const CHANNELS_DATA = {
     },
     {
       name: "National Broadcasters",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
       channels: [
+        /*
         {
           id: "btv-national",
           name: "BTV National",
           shortName: "BTV",
           logo: "assets/logos/btv-world.png",
-          quality: "FHD",
+          quality: "HD",
           streams: [
             {
-              label: "1080p",
-              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8",
+              label: "Auto",
+              url: "",
             },
           ],
-        },
-        {
-          id: "btv-chattogram",
-          name: "BTV Chattogram",
-          shortName: "BTVC",
-          logo: "assets/logos/btv-chattogram.png",
-          quality: "FHD",
-          streams: [
-            {
-              label: "1080p",
-              url: "https://bozztv.com/rongo/rongo-BTVChattagram/index.m3u8",
-            },
-            {
-              label: "480p",
-              url: "https://tvsen6.aynaott.com/btvctg/index.m3u8",
-            },
-          ],
-        },
+        }, */
         {
           id: "sangsad-tv",
           name: "Sangsad TV",
           shortName: "SANG",
           logo: "assets/logos/sangsad-tv.png",
-          quality: "FHD",
+          quality: "HD",
           streams: [
             {
-              label: "1080p",
-              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/1709.m3u8",
-            },
-            {
-              label: "720p",
-              url: "https://tvsen6.aynaott.com/BTVNews/index.m3u8",
+              label: "Auto",
+              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8",
             },
           ],
         },
@@ -871,25 +829,7 @@ const CHANNELS_DATA = {
     },
     {
       name: "Kids & Family",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
       channels: [
-        {
-          id: "discovery-kids",
-          name: "Discovery Kids",
-          shortName: "DKID",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/b/be/Discovery_Kids_%282009%29.png",
-          quality: "HD",
-          streams: [
-            {
-              label: "720p",
-              url: "https://dplus.gammacdn.workers.dev/videos/113.m3u8",
-            },
-            {
-              label: "720p-2",
-              url: "https://serverbackupchannel.xyz/jiotvchannel/app/live/554/Discovery_Kids_2/index.m3u8",
-            },
-          ],
-        },
         {
           id: "doraemon",
           name: "Doraemon",
@@ -993,7 +933,6 @@ const CHANNELS_DATA = {
     },
     {
       name: "Infotainment",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
       channels: [
         {
           id: "discovery-hd",
@@ -1050,8 +989,7 @@ const CHANNELS_DATA = {
       ],
     },
     {
-      name: "Religious / Devotional",
-      icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+      name: "Religious",
       channels: [
         {
           id: "al-quran-tv",

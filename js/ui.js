@@ -46,7 +46,7 @@ function initChannels() {
     const lbl = document.createElement("div");
     lbl.className = "cat-label";
     lbl.dataset.cat = cat.name;
-    lbl.innerHTML = `<span class="cat-icon">${cat.icon}</span>${cat.name}`;
+    lbl.innerHTML = cat.name;
     $chList.appendChild(lbl);
 
     cat.channels.forEach((ch) => {
@@ -56,7 +56,8 @@ function initChannels() {
     });
   });
 
-  if ($chCount) $chCount.textContent = channels.length;
+  updateSidebarCategoryVisibility();
+  updateChannelCount();
   initHomePage();
 }
 
@@ -125,6 +126,7 @@ function initHomePage() {
 
     section.appendChild(carousel);
     $stageHome.appendChild(section);
+    updateCategorySectionVisibility(section);
   });
 
   const noHomeResults = document.createElement("div");
@@ -229,7 +231,8 @@ function onSearch(e) {
   let anyHomeVisible = false;
 
   document.querySelectorAll(".ch-item").forEach((el) => {
-    const match = !q || el.dataset.search.includes(q);
+    const isOffline = el.classList.contains("is-offline");
+    const match = !isOffline && (!q || el.dataset.search.includes(q));
     el.style.display = match ? "" : "none";
     if (match) anySidebarVisible = true;
   });
@@ -238,7 +241,8 @@ function onSearch(e) {
     let sib = lbl.nextElementSibling;
     let catVisible = false;
     while (sib && !sib.classList.contains("cat-label")) {
-      if (sib.style.display !== "none") catVisible = true;
+      if (sib.style.display !== "none" && !sib.classList.contains("is-offline"))
+        catVisible = true;
       sib = sib.nextElementSibling;
     }
     lbl.style.display = catVisible ? "" : "none";
@@ -248,8 +252,10 @@ function onSearch(e) {
     $noResults.style.display = anySidebarVisible ? "none" : "block";
 
   document.querySelectorAll(".home-ch-card").forEach((card) => {
+    const isOffline = card.classList.contains("is-offline");
     const match =
-      !q || (card.dataset.search && card.dataset.search.includes(q));
+      !isOffline &&
+      (!q || (card.dataset.search && card.dataset.search.includes(q)));
     card.style.display = match ? "" : "none";
     if (match) anyHomeVisible = true;
   });
@@ -258,7 +264,11 @@ function onSearch(e) {
     const cards = sec.querySelectorAll(".home-ch-card");
     let secVisible = false;
     cards.forEach((card) => {
-      if (card.style.display !== "none") secVisible = true;
+      if (
+        card.style.display !== "none" &&
+        !card.classList.contains("is-offline")
+      )
+        secVisible = true;
     });
     sec.style.display = secVisible ? "" : "none";
   });
@@ -269,8 +279,10 @@ function onSearch(e) {
 
   let anyWmVisible = false;
   document.querySelectorAll(".wm-card").forEach((card) => {
+    const isOffline = card.classList.contains("is-offline");
     const match =
-      !q || (card.dataset.search && card.dataset.search.includes(q));
+      !isOffline &&
+      (!q || (card.dataset.search && card.dataset.search.includes(q)));
     card.style.display = match ? "" : "none";
     if (match) anyWmVisible = true;
   });
@@ -339,13 +351,64 @@ function markChannelOnline(id) {
   }
 }
 
+function updateSidebarCategoryVisibility() {
+  document.querySelectorAll(".cat-label").forEach((lbl) => {
+    let sib = lbl.nextElementSibling;
+    let catVisible = false;
+    while (sib && !sib.classList.contains("cat-label")) {
+      if (
+        sib.style.display !== "none" &&
+        !sib.classList.contains("is-offline")
+      ) {
+        catVisible = true;
+      }
+      sib = sib.nextElementSibling;
+    }
+    lbl.style.display = catVisible ? "" : "none";
+  });
+}
+
+function updateCategorySectionVisibility(sec) {
+  if (!sec) return;
+  const cards = sec.querySelectorAll(".home-ch-card");
+  let secVisible = false;
+  cards.forEach((card) => {
+    if (
+      card.style.display !== "none" &&
+      !card.classList.contains("is-offline")
+    ) {
+      secVisible = true;
+    }
+  });
+  sec.style.display = secVisible ? "" : "none";
+}
+
+function updateChannelCount() {
+  if ($chCount) {
+    const totalOnline = document.querySelectorAll(
+      ".ch-item:not(.is-offline)",
+    ).length;
+    $chCount.textContent = totalOnline;
+  }
+}
+
 function updateChannelStatusUI(id, isOnline) {
   const $sideItem = document.getElementById(`ch-${id}`);
-  if ($sideItem) $sideItem.classList.toggle("is-offline", !isOnline);
+  if ($sideItem) {
+    $sideItem.classList.toggle("is-offline", !isOnline);
+  }
+  updateSidebarCategoryVisibility();
+  updateChannelCount();
+
   const $homeCard = document.querySelector(`.home-ch-card[data-id="${id}"]`);
-  if ($homeCard) $homeCard.classList.toggle("is-offline", !isOnline);
+  if ($homeCard) {
+    $homeCard.classList.toggle("is-offline", !isOnline);
+    updateCategorySectionVisibility($homeCard.closest(".home-section"));
+  }
   const $wmCard = document.querySelector(`.wm-card[data-id="${id}"]`);
-  if ($wmCard) $wmCard.classList.toggle("is-offline", !isOnline);
+  if ($wmCard) {
+    $wmCard.classList.toggle("is-offline", !isOnline);
+  }
 }
 
 async function checkChannelStatus(ch) {
@@ -374,9 +437,28 @@ async function checkChannelStatus(ch) {
       clearTimeout(timeoutId);
       if (!res.ok) continue;
 
-      const isTs = /\.(ts|mpegts|m2ts)(\?|$)/i.test(url);
+      const contentType = (res.headers.get("content-type") || "").toLowerCase();
+      const isHls =
+        contentType.includes("mpegurl") ||
+        contentType.includes("x-mpegurl") ||
+        /\.(m3u8)(\?|$)/i.test(url);
+      const isTs =
+        contentType.includes("mp2t") ||
+        contentType.includes("video/mp4") ||
+        contentType.includes("octet-stream") ||
+        /\.(ts|mpegts|m2ts)(\?|$)/i.test(url);
+
       if (isTs) {
         return true;
+      }
+
+      if (!isHls) {
+        if (
+          contentType.startsWith("video/") ||
+          contentType.startsWith("audio/")
+        ) {
+          return true;
+        }
       }
 
       const text = await res.text();

@@ -188,21 +188,5 @@
 .ch-item.is-offline,
 .home-ch-card.is-offline,
 .wm-card.is-offline {
-    opacity: 0.65;
-    filter: grayscale(0.5);
-    transition: all var(--transition-fast);
-}
-
-.ch-item.is-offline:hover,
-.home-ch-card.is-offline:hover,
-.wm-card.is-offline:hover {
-    opacity: 0.85;
-    filter: grayscale(0.2);
-}
-
-/* Hide live badges & dot indicators for offline channels */
-.ch-item.is-offline .ch-live-dot,
-.home-ch-card.is-offline .home-live-badge,
-.wm-card.is-offline .home-live-badge {
     display: none !important;
 }
