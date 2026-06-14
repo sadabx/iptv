@@ -360,9 +360,54 @@ document.addEventListener("DOMContentLoaded", () => {
     $logo.addEventListener("click", showHomePage);
   }
 
+  // Dynamic cue alignment function to center captions at the bottom
+  function forceCuesBottom(track) {
+    if (!track) return;
+
+    function formatCue(cue) {
+      if (!cue) return;
+      cue.snapToLines = false;
+      cue.line = 85;
+      cue.align = "center";
+      cue.position = 50;
+    }
+
+    // 1. Override addCue to intercept cues as they are added by JS (HLS.js)
+    if (!track.addCue_overridden && typeof track.addCue === "function") {
+      track.addCue_overridden = true;
+      const originalAddCue = track.addCue;
+      track.addCue = function(cue) {
+        formatCue(cue);
+        originalAddCue.call(track, cue);
+      };
+    }
+
+    // 2. If track already has cues, modify them immediately
+    if (track.cues) {
+      for (let i = 0; i < track.cues.length; i++) {
+        formatCue(track.cues[i]);
+      }
+    }
+
+    // 3. Fallback: listen to cuechange for active cues
+    track.addEventListener("cuechange", () => {
+      if (!track.activeCues) return;
+      for (let i = 0; i < track.activeCues.length; i++) {
+        formatCue(track.activeCues[i]);
+      }
+    });
+  }
+
   // Monitor native text track changes for native subtitle support
   if ($video && $video.textTracks) {
-    $video.textTracks.addEventListener("addtrack", () => {
+    for (let i = 0; i < $video.textTracks.length; i++) {
+      forceCuesBottom($video.textTracks[i]);
+    }
+
+    $video.textTracks.addEventListener("addtrack", (e) => {
+      if (e.track) {
+        forceCuesBottom(e.track);
+      }
       updateCCButtonVisibility();
       if (subtitleEnabled) {
         for (let i = 0; i < $video.textTracks.length; i++) {
