@@ -9,8 +9,10 @@
     flex-shrink: 0;
     overflow: hidden;
     z-index: 200;
-    background: var(--bg);
-    border-right: 1px solid var(--border);
+    background: rgba(15, 15, 15, 0.65) !important;
+    backdrop-filter: blur(24px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 /* ── Mobile: fixed overlay toggled via transform ── */
@@ -32,7 +34,7 @@
 
 .yt-guide-head {
     padding: 16px 20px 12px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     align-items: center;
     justify-content: space-between;
