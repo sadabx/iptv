@@ -439,6 +439,150 @@
         color: #71717a;
         cursor: not-allowed;
       }
+
+      /* Tabs in Player Card */
+      .player-tabs {
+        display: flex;
+        background: #1c1c1f;
+        border-bottom: 1px solid #27272a;
+      }
+      .tab-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: #a1a1aa;
+        padding: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s;
+        text-align: center;
+        border-bottom: 2px solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .tab-btn:hover {
+        color: #fff;
+        background: rgba(255,255,255,0.02);
+      }
+      .tab-btn.active {
+        color: #3b82f6;
+        border-bottom-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.04);
+      }
+      .tab-content {
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .tab-content.active {
+        display: flex;
+      }
+      
+      /* Decoder Tab Content */
+      .decoder-content {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        overflow-y: auto;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      .decoder-input-section {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .decoder-textarea {
+        width: 100%;
+        height: 60px;
+        background: #09090b;
+        border: 1px solid #27272a;
+        border-radius: 4px;
+        color: #fff;
+        font-family: monospace;
+        font-size: 0.75rem;
+        padding: 8px;
+        resize: none;
+        outline: none;
+      }
+      .decoder-textarea:focus {
+        border-color: #3b82f6;
+      }
+      .decoder-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .decoder-btn:hover {
+        background: #1d4ed8;
+      }
+      
+      .decoder-badge-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+      }
+
+      /* Decoder Table */
+      .decoder-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.75rem;
+      }
+      .decoder-table th,
+      .decoder-table td {
+        padding: 8px 10px;
+        text-align: left;
+        border-bottom: 1px solid #27272a;
+      }
+      .decoder-table th {
+        color: #a1a1aa;
+        font-weight: 500;
+        width: 30%;
+      }
+      .decoder-param-key {
+        font-family: monospace;
+        color: #3b82f6;
+        font-weight: 600;
+      }
+      .decoder-param-val {
+        font-family: monospace;
+        word-break: break-all;
+      }
+      .decoder-pre {
+        background: #09090b;
+        border: 1px solid #27272a;
+        border-radius: 4px;
+        padding: 10px;
+        overflow-x: auto;
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: #10b981;
+        max-height: 150px;
+        margin: 0;
+      }
+      .decoder-error-banner {
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -571,22 +715,73 @@
           </div>
         </div>
 
-        <!-- Column 3: Live Preview Player -->
+        <!-- Column 3: Live Preview Player & Token Decoder -->
         <div class="player-card">
-          <div class="player-header">
-            <span class="player-title" id="player-title">Preview: Idle</span>
-            <span class="player-engine-badge" id="player-engine">None</span>
+          <div class="player-tabs">
+            <button class="tab-btn active" id="tab-player" onclick="switchPlayerTab('player')">Live Preview</button>
+            <button class="tab-btn" id="tab-decoder" onclick="switchPlayerTab('decoder')">
+              Token Decoder<span id="decoder-indicator" style="display: none;" class="decoder-badge-dot"></span>
+            </button>
           </div>
-          <div class="player-stage">
-            <video id="preview-video" controls autoplay muted></video>
-            <div id="player-overlay" class="overlay">
-              <div class="spinner" id="player-spinner" style="display:none;"></div>
-              <div id="player-overlay-text">Waiting for stream link...</div>
+          
+          <!-- Tab Content 1: Player -->
+          <div id="content-player" class="tab-content active">
+            <div class="player-header">
+              <span class="player-title" id="player-title">Preview: Idle</span>
+              <span class="player-engine-badge" id="player-engine">None</span>
+            </div>
+            <div class="player-stage">
+              <video id="preview-video" controls autoplay muted></video>
+              <div id="player-overlay" class="overlay">
+                <div class="spinner" id="player-spinner" style="display:none;"></div>
+                <div id="player-overlay-text">Waiting for stream link...</div>
+              </div>
+            </div>
+            <div class="player-controls">
+              <button class="playback-btn" id="reload-btn" onclick="retryPreviewStream()">Reload Stream</button>
+              <span style="font-size:0.7rem; color:#71717a;">Auto-playing selected URL</span>
             </div>
           </div>
-          <div class="player-controls">
-            <button class="playback-btn" id="reload-btn" onclick="retryPreviewStream()">Reload Stream</button>
-            <span style="font-size:0.7rem; color:#71717a;">Auto-playing selected URL</span>
+          
+          <!-- Tab Content 2: Token Decoder -->
+          <div id="content-decoder" class="tab-content">
+            <div class="decoder-content">
+              <div class="decoder-input-section">
+                <div style="font-size: 0.8rem; font-weight: 600; color: #f4f4f5; display: flex; align-items: center; gap: 6px;">
+                  🔑 Paste Secure Stream URL or Raw Token
+                </div>
+                <textarea id="token-input" class="decoder-textarea"
+                  placeholder="Paste full link (e.g., https://...) or just the raw token string here"></textarea>
+                <button class="decoder-btn" onclick="processTokenManual()">🔓 Decode & Analyze Payload Matrix</button>
+                <div class="decoder-error-banner" id="decoder-error-banner"></div>
+              </div>
+              
+              <div style="font-size: 0.8rem; font-weight: 600; color: #f4f4f5; margin-top: 4px;">
+                🔎 Parsed Security Constraints
+              </div>
+              <div style="overflow-x: auto; border: 1px solid #27272a; border-radius: 4px;">
+                <table class="decoder-table">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Active Context Rule Value</th>
+                    </tr>
+                  </thead>
+                  <tbody id="decoder-analysis-body">
+                    <tr>
+                      <td colspan="2" style="color: #71717a; text-align: center; padding: 20px 10px;">
+                        No token parsed yet
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div style="font-size: 0.8rem; font-weight: 600; color: #f4f4f5; margin-top: 4px;">
+                📦 Raw Payload Object (JSON)
+              </div>
+              <pre id="decoder-json-output" class="decoder-pre">// Decoded JSON structure will render here...</pre>
+            </div>
           </div>
         </div>
       </div>
@@ -641,6 +836,9 @@
           $playerTitle.textContent = `Preview: ${name}`;
           $playerTitle.title = name;
         }
+
+        // Auto decode token if available
+        processTokenAuto(url);
 
         // Clean up previous engines
         if (hlsPlayer) {
@@ -1231,6 +1429,155 @@
         toast.textContent = msg;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 2500);
+      }
+
+      // --- Token Decoder Integration Functions ---
+      function switchPlayerTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+        document.getElementById(`content-${tabName}`).classList.add('active');
+      }
+
+      function base64UrlDecode(str) {
+        let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+        while (base64.length % 4) {
+          base64 += '=';
+        }
+        return decodeURIComponent(atob(base64).split('').map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+      }
+
+      function extractAndDecodeToken(input) {
+        let cleanInput = input.trim();
+        if (!cleanInput) return null;
+
+        // 1. If it's a full URL path, isolate the specific token block segment
+        if (cleanInput.includes('/')) {
+          const urlParts = cleanInput.split('/');
+          let lastSegment = urlParts[urlParts.length - 1];
+          if (lastSegment.includes('.')) {
+            const dotParts = lastSegment.split('.');
+            cleanInput = dotParts[0];
+          } else {
+            cleanInput = lastSegment;
+          }
+        }
+
+        // 2. JWT blocks contain 3 parts separated by dots (Header.Payload.Signature)
+        const tokenSegments = cleanInput.split('.');
+        let targetPayloadBase64 = tokenSegments.length >= 2 ? tokenSegments[1] : tokenSegments[0];
+
+        // 3. Decode the Base64URL string
+        const decodedJsonString = base64UrlDecode(targetPayloadBase64);
+        return JSON.parse(decodedJsonString);
+      }
+
+      function renderDecoderUI(payloadObj) {
+        const jsonOutput = document.getElementById('decoder-json-output');
+        const analysisBody = document.getElementById('decoder-analysis-body');
+
+        // Render pretty-printed raw JSON
+        jsonOutput.textContent = JSON.stringify(payloadObj, null, 2);
+        jsonOutput.style.color = '#10b981';
+
+        // Populate constraints table
+        analysisBody.innerHTML = '';
+        let rowsHtml = '';
+
+        for (const [key, value] of Object.entries(payloadObj)) {
+          let explanation = '';
+          let displayValue = typeof value === 'object' ? JSON.stringify(value) : value;
+
+          if (key === 'exp') {
+            const dateObj = new Date(value > 9999999999 ? value : value * 1000);
+            explanation = `<br><span style="color: #f59e0b; font-size: 11px;">⏰ Expires: ${dateObj.toLocaleString()}</span>`;
+          } else if (key === 'vip') {
+            explanation = `<br><span style="color: #ef4444; font-size: 11px;">🔒 Locked to this extraction IP address</span>`;
+          } else if (key === 'oru') {
+            explanation = `<br><span style="color: #a1a1aa; font-size: 11px;">🔗 Underlying source stream file directory</span>`;
+          } else if (key === 'uid' || key === 'sid' || key === 'did') {
+            explanation = `<br><span style="color: #a1a1aa; font-size: 11px;">ID parameter tracking hash</span>`;
+          }
+
+          rowsHtml += `
+            <tr>
+              <td><span class="decoder-param-key">${escapeHtml(key)}</span></td>
+              <td>
+                <div class="decoder-param-val">${escapeHtml(String(displayValue))}</div>
+                ${explanation}
+              </td>
+            </tr>
+          `;
+        }
+
+        analysisBody.innerHTML = rowsHtml;
+      }
+
+      function resetDecoderUI(message = "No token parsed yet") {
+        document.getElementById('decoder-json-output').textContent = "// Decoded JSON structure will render here...";
+        document.getElementById('decoder-json-output').style.color = "#a1a1aa";
+        document.getElementById('decoder-analysis-body').innerHTML = `
+          <tr>
+            <td colspan="2" style="color: #71717a; text-align: center; padding: 20px 10px;">
+              ${message}
+            </td>
+          </tr>
+        `;
+      }
+
+      function processTokenManual() {
+        const errorBanner = document.getElementById('decoder-error-banner');
+        errorBanner.style.display = 'none';
+        
+        const input = document.getElementById('token-input').value.trim();
+        if (!input) {
+          resetDecoderUI("No token parsed yet");
+          return;
+        }
+
+        try {
+          const payload = extractAndDecodeToken(input);
+          renderDecoderUI(payload);
+          showToastNotification("✓ Token decoded successfully!");
+        } catch (err) {
+          resetDecoderUI("Analysis failed");
+          errorBanner.textContent = "Error: Invalid token string format or broken Base64 layout payload.";
+          errorBanner.style.display = 'block';
+        }
+      }
+
+      function processTokenAuto(url) {
+        const indicator = document.getElementById('decoder-indicator');
+        const tokenInput = document.getElementById('token-input');
+        const errorBanner = document.getElementById('decoder-error-banner');
+        
+        if (errorBanner) errorBanner.style.display = 'none';
+
+        if (!url) {
+          if (indicator) indicator.style.display = 'none';
+          resetDecoderUI("No active stream selected");
+          return;
+        }
+
+        // Put the URL in the input field so they see what is being analyzed
+        if (tokenInput) tokenInput.value = url;
+
+        try {
+          const payload = extractAndDecodeToken(url);
+          renderDecoderUI(payload);
+          if (indicator) indicator.style.display = 'inline-block';
+        } catch (err) {
+          // Silent fail for auto-detect (it might not be a token-based stream)
+          if (indicator) indicator.style.display = 'none';
+          resetDecoderUI("No secure token detected in active stream");
+        }
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
     </script>
   </body>
