@@ -636,6 +636,9 @@ body.is-watching .np-name strong {
     }
 
     .yt-nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
         padding: 0 12px;
         gap: 8px;
         flex-wrap: nowrap;
@@ -713,13 +716,13 @@ body.is-watching .np-name strong {
 
     .yt-player-shell {
         position: sticky;
-        top: 0;
+        top: var(--nav-h);
         z-index: 100;
     }
 
     body.is-watching .yt-player-shell {
         position: sticky;
-        top: 0;
+        top: var(--nav-h);
         z-index: 100;
     }
 

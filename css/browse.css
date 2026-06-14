@@ -185,8 +185,23 @@
 }
 
 /* ── Offline Tracker Visual Styling ── */
-.ch-item.is-offline,
-.home-ch-card.is-offline,
-.wm-card.is-offline {
+body.hide-offline-active .ch-item.is-offline,
+body.hide-offline-active .home-ch-card.is-offline,
+body.hide-offline-active .wm-card.is-offline {
+    display: none !important;
+}
+
+body:not(.hide-offline-active) .ch-item.is-offline,
+body:not(.hide-offline-active) .home-ch-card.is-offline,
+body:not(.hide-offline-active) .wm-card.is-offline {
+    opacity: 0.45;
+    filter: grayscale(0.85);
+    transition: all var(--transition-fast);
+}
+
+/* Hide live badges & dot indicators for offline channels when visible */
+body:not(.hide-offline-active) .ch-item.is-offline .ch-live-dot,
+body:not(.hide-offline-active) .home-ch-card.is-offline .home-live-badge,
+body:not(.hide-offline-active) .wm-card.is-offline .home-live-badge {
     display: none !important;
 }

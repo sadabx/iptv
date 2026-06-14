@@ -321,6 +321,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Search Engine Listener
   $search.addEventListener("input", onSearch);
 
+  // Toggle Offline Listener
+  const $btnToggleOffline = document.getElementById("btn-toggle-offline");
+  if ($btnToggleOffline) {
+    $btnToggleOffline.addEventListener("click", () => {
+      const active = document.body.classList.toggle("hide-offline-active");
+      $btnToggleOffline.querySelector(".eye-open").classList.toggle("hidden", !active);
+      $btnToggleOffline.querySelector(".eye-closed").classList.toggle("hidden", active);
+      
+      updateChannelCount();
+      onSearch({ target: $search });
+    });
+  }
+
   const $logo = document.getElementById("logo-home");
   if ($logo) {
     $logo.addEventListener("click", showHomePage);

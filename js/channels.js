@@ -11,7 +11,7 @@ const CHANNELS_DATA = {
           id: "fifa-wc-2026",
           name: "FIFA 26 Live",
           shortName: "FIFA",
-          logo: "https://upload.wikimedia.org/wikipedia/en/1/17/2026_FIFA_World_Cup_emblem.svg",
+          logo: "assets/logos/fifa-wc-2026.svg",
           quality: "FHD",
           streams: [
             {
@@ -32,7 +32,7 @@ const CHANNELS_DATA = {
           id: "f1-tv",
           name: "F1 TV",
           shortName: "F1TV",
-          logo: "https://logodownload.org/wp-content/uploads/2024/05/f1-tv-logo.png",
+          logo: "assets/logos/f1-tv.png",
           quality: "HD",
           streams: [
             {
@@ -45,7 +45,7 @@ const CHANNELS_DATA = {
           id: "eurosport-hd",
           name: "Eurosport HD",
           shortName: "EURO",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Eurosport_HD_since_2015.svg/3840px-Eurosport_HD_since_2015.svg.png",
+          logo: "assets/logos/eurosport-hd.png",
           quality: "HD",
           streams: [
             {
@@ -71,7 +71,7 @@ const CHANNELS_DATA = {
           id: "star-sports-1",
           name: "Star Sports 1",
           shortName: "SS1H",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Star_Sports_1_HD.png/3840px-Star_Sports_1_HD.png",
+          logo: "assets/logos/star-sports-1.png",
           quality: "HD",
           streams: [
             {
@@ -84,7 +84,7 @@ const CHANNELS_DATA = {
           id: "sky-sports-cricket",
           name: "Sky Sports Cricket",
           shortName: "SKY",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/6/69/Sky_Sports_Cricket_-_Logo_2025.svg",
+          logo: "assets/logos/sky-sports-cricket.svg",
           quality: "HD",
           streams: [
             {
@@ -97,7 +97,7 @@ const CHANNELS_DATA = {
           id: "sony-sports-2",
           name: "Sony Sports 2 HD",
           shortName: "SS2",
-          logo: "https://assets-prod.services.toffeelive.com/w_480,q_75,f_webp/sy5m-JQBv9knK3AHYTTk/posters/5e40bf0e-633f-4d37-a3b2-3d606f0ac19a.png",
+          logo: "assets/logos/sony-sports-2.png",
           quality: "HD",
           streams: [
             {
@@ -110,7 +110,7 @@ const CHANNELS_DATA = {
           id: "sony-sports-5",
           name: "Sony Sports 5",
           shortName: "SS5",
-          logo: "https://assets-prod.services.toffeelive.com/w_256,q_75,f_webp/vi5n-JQBv9knK3AHqzTC/posters/d171fd4d-0369-4213-b0c5-e241974f5459.png",
+          logo: "assets/logos/sony-sports-5.png",
           quality: "HD",
           streams: [
             {
@@ -123,7 +123,7 @@ const CHANNELS_DATA = {
           id: "fox-sports-501",
           name: "Fox Sports 501 HD",
           shortName: "FOX501",
-          logo: "https://static.wikia.nocookie.net/logopedia/images/0/0e/Fox_Sports_501_HD.svg/revision/latest?cb=20250728202320",
+          logo: "assets/logos/fox-sports-501.svg",
           quality: "HD",
           streams: [
             {
@@ -136,7 +136,7 @@ const CHANNELS_DATA = {
           id: "willow-sports",
           name: "Willow Sports",
           shortName: "WLOW",
-          logo: "https://static.wikia.nocookie.net/logopedia/images/7/7d/Willow_2023_stacked.svg/revision/latest?cb=20240927132511",
+          logo: "assets/logos/willow-sports.svg",
           quality: "FHD",
           streams: [
             {
@@ -167,7 +167,7 @@ const CHANNELS_DATA = {
           id: "al-jazeera",
           name: "Al Jazeera English",
           shortName: "AJE",
-          logo: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Aljazeera_eng.svg/1280px-Aljazeera_eng.svg.png",
+          logo: "assets/logos/al-jazeera.png",
           quality: "HD",
           streams: [
             {
@@ -180,7 +180,7 @@ const CHANNELS_DATA = {
           id: "cna",
           name: "Channel NewsAsia",
           shortName: "CNA",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/8/83/CNA_new_logo.svg",
+          logo: "assets/logos/cna.svg",
           quality: "HD",
           streams: [
             {
@@ -309,7 +309,7 @@ const CHANNELS_DATA = {
           id: "jago-news-24",
           name: "Jago News 24",
           shortName: "JAGO",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Jago_News_24_Logo.png",
+          logo: "assets/logos/jago-news-24.png",
           quality: "HD",
           streams: [
             {
@@ -695,7 +695,7 @@ const CHANNELS_DATA = {
           id: "zee-bangla-hd",
           name: "Zee Bangla HD",
           shortName: "ZEEB",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Zee_Bangla_logo.png",
+          logo: "assets/logos/zee-bangla-hd.png",
           quality: "FHD",
           streams: [
             {
@@ -720,7 +720,7 @@ const CHANNELS_DATA = {
           id: "star-jalsha-hd",
           name: "Star Jalsha HD",
           shortName: "JALSHA",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Star_Jalsha_logo_2023.png",
+          logo: "assets/logos/star-jalsha-hd.png",
           quality: "FHD",
           streams: [
             {
@@ -741,7 +741,7 @@ const CHANNELS_DATA = {
           id: "colors-bangla-hd",
           name: "Colors Bangla HD",
           shortName: "COLORS",
-          logo: "https://upload.wikimedia.org/wikipedia/en/thumb/7/7f/Colors_Bangla_logo.svg/1280px-Colors_Bangla_logo.svg.png",
+          logo: "assets/logos/colors-bangla-hd.png",
           quality: "FHD",
           streams: [
             {
@@ -758,7 +758,7 @@ const CHANNELS_DATA = {
           id: "colors-cineplex-hd",
           name: "Colors Cineplex HD",
           shortName: "CINEPLEX",
-          logo: "https://static.wikia.nocookie.net/logopedia/images/b/b3/Colors_Cineplex.svg/revision/latest/scale-to-width-down/250?cb=20210605153257",
+          logo: "assets/logos/colors-cineplex-hd.svg",
           quality: "HD",
           streams: [
             {
@@ -771,7 +771,7 @@ const CHANNELS_DATA = {
           id: "sony-aath",
           name: "Sony AATH",
           shortName: "AATH",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Sony_Aath_logo.svg/1280px-Sony_Aath_logo.svg.png",
+          logo: "assets/logos/sony-aath.png",
           quality: "HD",
           streams: [
             {
@@ -784,7 +784,7 @@ const CHANNELS_DATA = {
           id: "zee-24-ghanta",
           name: "Zee 24 Ghanta",
           shortName: "ZEE24",
-          logo: "https://static.wikia.nocookie.net/etv-gspn-bangla/images/6/6b/Zee_24_Ghanta_English_logo_%282018%29.png/revision/latest/scale-to-width-down/1561?cb=20210528110709",
+          logo: "assets/logos/zee-24-ghanta.png",
           quality: "HD",
           streams: [
             {
@@ -834,7 +834,7 @@ const CHANNELS_DATA = {
           id: "doraemon",
           name: "Doraemon",
           shortName: "DORAEMON",
-          logo: "https://www.freepnglogos.com/uploads/doraemon-png/doraemon-logo-movies-hindi-dubbed-download-34.png",
+          logo: "assets/logos/doraemon.png",
           quality: "SD",
           streams: [
             {
@@ -864,7 +864,7 @@ const CHANNELS_DATA = {
           id: "gopal-bhar",
           name: "Gopal Bhar",
           shortName: "GOPAL",
-          logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsG-WZzuVAIRFjSxZjb8ZesBlCgIHzNquwuC9ijgvmforZoguD4T1Alcg&s=10",
+          logo: "assets/logos/gopal-bhar.png",
           quality: "SD",
           streams: [
             {
@@ -877,7 +877,7 @@ const CHANNELS_DATA = {
           id: "motu-patlu",
           name: "Motu Patlu",
           shortName: "MOTU",
-          logo: "https://upload.wikimedia.org/wikipedia/sco/c/cc/Motu_Patlu_official_logo.png",
+          logo: "assets/logos/motu-patlu.png",
           quality: "HD",
           streams: [
             {
@@ -890,7 +890,7 @@ const CHANNELS_DATA = {
           id: "pbs-kids-usa",
           name: "PBS Kids",
           shortName: "PBSK",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/PBS_Kids_logo_%282022%29.svg/1280px-PBS_Kids_logo_%282022%29.svg.png",
+          logo: "assets/logos/pbs-kids-usa.png",
           quality: "fHD",
           streams: [
             {
@@ -907,7 +907,7 @@ const CHANNELS_DATA = {
           id: "rongeen-tv",
           name: "Rongeen TV",
           shortName: "RNGN",
-          logo: "https://static.wikia.nocookie.net/etv-gspn-bangla/images/f/f6/Rongeen_TV_logo_%282019-present%29.png/revision/latest/scale-to-width-down/247?cb=20210423103847",
+          logo: "assets/logos/rongeen-tv.png",
           quality: "HD",
           streams: [
             {
@@ -920,7 +920,7 @@ const CHANNELS_DATA = {
           id: "srk-tv",
           name: "SRK TV",
           shortName: "SRK",
-          logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1746005940155.png",
+          logo: "assets/logos/srk-tv.png",
           quality: "HD",
           streams: [
             {
@@ -938,7 +938,7 @@ const CHANNELS_DATA = {
           id: "discovery-hd",
           name: "Discovery HD",
           shortName: "DSCH",
-          logo: "https://upload.wikimedia.org/wikipedia/tr/6/69/Discovery_HD_logo.PNG",
+          logo: "assets/logos/discovery-hd.PNG",
           quality: "HD",
           streams: [
             {
@@ -951,7 +951,7 @@ const CHANNELS_DATA = {
           id: "nat-geo-hd",
           name: "Nat Geo HD",
           shortName: "NATG",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/f/fc/Natgeologo.svg",
+          logo: "assets/logos/nat-geo-hd.svg",
           quality: "HD",
           streams: [
             {
@@ -964,7 +964,7 @@ const CHANNELS_DATA = {
           id: "red-bull-tv",
           name: "Red Bull TV",
           shortName: "RBTV",
-          logo: "https://static.wikia.nocookie.net/logopedia/images/3/3c/Red_Bull_TV.svg/revision/latest?cb=20180423100712",
+          logo: "assets/logos/red-bull-tv.svg",
           quality: "HD",
           streams: [
             {
@@ -977,7 +977,7 @@ const CHANNELS_DATA = {
           id: "travel-xp-uk",
           name: "Travel XP UK",
           shortName: "TRXP",
-          logo: "https://static.wikia.nocookie.net/logopedia/images/5/5b/Travelxp_HD.svg/revision/latest?cb=20200102200127",
+          logo: "assets/logos/travel-xp-uk.svg",
           quality: "HD",
           streams: [
             {

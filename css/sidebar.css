@@ -240,3 +240,35 @@
     text-align: center;
     display: none;
 }
+
+.guide-meta-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-offline-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--text3);
+    border-radius: 50%;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: all var(--transition-fast);
+}
+
+.toggle-offline-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+}
+
+.toggle-offline-btn svg {
+    display: block;
+}
+
+.toggle-offline-btn svg.hidden {
+    display: none;
+}
