@@ -142,7 +142,7 @@ function initHomePage() {
   const footer = document.createElement("footer");
   footer.className = "app-footer";
   footer.innerHTML =
-    'Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">TRIONINE</a> • <a href="link-auditor/index.html" target="_blank">Link Auditor</a>';
+    'Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">TRIONINE</a> • <a href="link-auditor.html" target="_blank">Link Auditor</a>';
   $stageHome.appendChild(footer);
 }
 
