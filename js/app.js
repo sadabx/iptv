@@ -55,6 +55,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const $btnCc = document.getElementById("ctrl-cc");
+  if ($btnCc) {
+    $btnCc.innerHTML = ICONS.cc;
+    $btnCc.addEventListener("click", () => {
+      toggleSubtitles();
+      showFlashOverlay("cc", subtitleEnabled);
+    });
+  }
+
   $sidebar = document.getElementById("sidebar");
   const $chat = document.getElementById("chat");
   $btnSB = document.getElementById("btn-sidebar");
@@ -207,6 +216,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (key === "p") {
       e.preventDefault();
       togglePiP();
+    } else if (key === "c") {
+      e.preventDefault();
+      toggleSubtitles();
+      showFlashOverlay("cc", subtitleEnabled);
     } else if (key === "l") {
       e.preventDefault();
       jumpToLive();
@@ -230,6 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ctxMute = document.getElementById("ctx-mute");
   const $ctxPip = document.getElementById("ctx-pip");
   const $ctxFs = document.getElementById("ctx-fs");
+  const $ctxCc = document.getElementById("ctx-cc");
   const $ctxStats = document.getElementById("ctx-stats");
 
   $stage.addEventListener("contextmenu", (e) => {
@@ -277,6 +291,13 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     toggleFullscreen();
   });
+  if ($ctxCc) {
+    $ctxCc.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleSubtitles();
+      showFlashOverlay("cc", subtitleEnabled);
+    });
+  }
   $ctxStats.addEventListener("click", toggleStats);
 
   // Stats close button
@@ -338,6 +359,25 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($logo) {
     $logo.addEventListener("click", showHomePage);
   }
+
+  // Monitor native text track changes for native subtitle support
+  if ($video && $video.textTracks) {
+    $video.textTracks.addEventListener("addtrack", () => {
+      updateCCButtonVisibility();
+      if (subtitleEnabled) {
+        for (let i = 0; i < $video.textTracks.length; i++) {
+          const track = $video.textTracks[i];
+          if (track.kind === "subtitles" || track.kind === "captions") {
+            track.mode = "showing";
+          }
+        }
+      }
+    });
+  }
+
+  // Restore subtitle preference from localStorage (skip toast on load)
+  const savedSubtitle = localStorage.getItem("iptv-subtitle-enabled") === "true";
+  setSubtitlesActive(savedSubtitle, true);
 
   // Hide preloader
   const $preloader = document.getElementById("preloader");

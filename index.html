@@ -121,7 +121,7 @@
       <div class="yt-main">
         <div class="yt-player-shell">
           <main class="stage">
-            <video id="player" playsinline></video>
+            <video id="player" playsinline crossorigin="anonymous"></video>
             <iframe
               id="embed-player"
               class="hidden"
@@ -209,6 +209,7 @@
               <button class="ctx-item" id="ctx-mute">Mute / Unmute</button>
               <button class="ctx-item" id="ctx-pip">Picture in Picture</button>
               <button class="ctx-item" id="ctx-fs">Toggle Fullscreen</button>
+              <button class="ctx-item hidden" id="ctx-cc">Subtitles / CC</button>
               <button class="ctx-item" id="ctx-stats">Stats for Nerds</button>
               <div class="ctx-sep"></div>
               <div class="ctx-item ctx-disabled">IPTV TV v2</div>
@@ -250,6 +251,11 @@
                   <div class="qual-menu-label">Quality</div>
                 </div>
               </div>
+              <button
+                class="ctrl-btn hidden"
+                id="ctrl-cc"
+                title="Subtitles/Closed Captions (c)"
+              ></button>
               <button
                 class="ctrl-btn"
                 id="ctrl-pip"

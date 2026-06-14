@@ -640,3 +640,28 @@ body.is-watching .yt-player-shell {
     font-size: 0.75rem;
     cursor: default;
 }
+
+/* ── Closed Captions (CC) & Subtitles Styles ── */
+.ctrl-btn#ctrl-cc.active {
+    color: var(--red) !important;
+    position: relative;
+}
+
+.ctrl-btn#ctrl-cc.active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 25%;
+    width: 50%;
+    height: 3px;
+    background-color: var(--red);
+    border-radius: 2px;
+}
+
+::cue {
+    background: rgba(8, 8, 8, 0.85);
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.95rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}

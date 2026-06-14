@@ -10,6 +10,7 @@ let currentChannel = null;
 let muted = false;
 let activeStreamIdx = 0;
 let retryCount = 0;
+let subtitleEnabled = false;
 const MAX_RETRIES = 3;
 let statsInterval = null;
 let clickTimeout = null;
@@ -25,6 +26,7 @@ const ICONS = {
         <svg id="icon-muted" width="16" height="14" viewBox="0 0 16 14" fill="currentColor" class="hidden"><path d="M6 1.67L2.67 5H0v4h2.67L6 12.33V1.67zm7.5 5.33l1.5-1.5-1.06-1.06L12.44 6l-1.5-1.5L9.88 5.56 11.38 7l-1.5 1.5 1.06 1.06L12.44 8l1.5 1.5 1.06-1.06L13.5 7z"/></svg>`,
   pip: `<svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M13 1H2C.9 1 0 1.9 0 3v9c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 11H2V3h11v9zm-1-4.5H8.5V11H12V7.5z"/></svg>`,
   fullscreen: `<svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M1 1h4V0H0v5h1V1zm9-1v1h4v4h1V0h-5zm-9 14v-4H0v5h5v-1H1zm13 0h-4v1h5v-5h-1v4z"/></svg>`,
+  cc: `<svg id="icon-cc" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 7H9.5v-.5h-2v3h2V13H11v1c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1zm8 0h-1.5v-.5h-2v3h2V13H19v1c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1z"/></svg>`,
 };
 
 // ══════════════════════════════════════════
@@ -45,6 +47,11 @@ function loadChannel(id, streamIdx) {
 
   const $idle = document.getElementById("idle-screen");
   if ($idle) $idle.style.display = "none";
+
+  const $ccBtn = document.getElementById("ctrl-cc");
+  const $ctxCc = document.getElementById("ctx-cc");
+  if ($ccBtn) $ccBtn.classList.add("hidden");
+  if ($ctxCc) $ctxCc.classList.add("hidden");
 
   document
     .querySelectorAll(".ch-item")
@@ -317,8 +324,6 @@ function startHLS(url) {
 
   if (Hls.isSupported()) {
     hls = new Hls({ enableWorker: true });
-    hls.loadSource(url);
-    hls.attachMedia($video);
 
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       retryCount = 0;
@@ -328,6 +333,16 @@ function startHLS(url) {
         buildQualMenuFromHlsLevels();
       }
     });
+
+    hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, (event, data) => {
+      updateCCButtonVisibility();
+      if (subtitleEnabled && data.subtitleTracks && data.subtitleTracks.length > 0) {
+        hls.subtitleTrack = 0;
+      }
+    });
+
+    hls.attachMedia($video);
+    hls.loadSource(url);
 
     hls.on(Hls.Events.ERROR, (_, data) => {
       if (data.fatal) {
@@ -588,6 +603,70 @@ async function togglePiP() {
   }
 }
 
+function hasTextTracks() {
+  if (!$video) return false;
+  if (hls && hls.subtitleTracks && hls.subtitleTracks.length > 0) {
+    return true;
+  }
+  const tracks = Array.from($video.textTracks || []);
+  const subTracks = tracks.filter((t) => t.kind === "subtitles" || t.kind === "captions");
+  return subTracks.length > 0;
+}
+
+function updateCCButtonVisibility() {
+  const $ccBtn = document.getElementById("ctrl-cc");
+  const $ctxCc = document.getElementById("ctx-cc");
+  const hasSubs = hasTextTracks();
+
+  if ($ccBtn) $ccBtn.classList.toggle("hidden", !hasSubs);
+  if ($ctxCc) $ctxCc.classList.toggle("hidden", !hasSubs);
+}
+
+function toggleSubtitles() {
+  setSubtitlesActive(!subtitleEnabled);
+}
+
+function setSubtitlesActive(active, skipToast = false) {
+  subtitleEnabled = active;
+  localStorage.setItem("iptv-subtitle-enabled", active);
+
+  const $ccBtn = document.getElementById("ctrl-cc");
+  const $ctxCc = document.getElementById("ctx-cc");
+
+  if ($ccBtn) {
+    $ccBtn.classList.toggle("active", active);
+    $ccBtn.title = active ? "Turn off captions (c)" : "Turn on captions (c)";
+  }
+  if ($ctxCc) {
+    $ctxCc.textContent = active ? "Subtitles: ON" : "Subtitles: OFF";
+    $ctxCc.classList.toggle("active", active);
+  }
+
+  if (hls) {
+    if (active) {
+      if (hls.subtitleTracks && hls.subtitleTracks.length > 0) {
+        hls.subtitleTrack = 0;
+      }
+    } else {
+      hls.subtitleTrack = -1;
+    }
+  } else {
+    // Only fall back to manual track mode loop if hls is not active
+    if ($video && $video.textTracks) {
+      for (let i = 0; i < $video.textTracks.length; i++) {
+        const track = $video.textTracks[i];
+        if (track.kind === "subtitles" || track.kind === "captions") {
+          track.mode = active ? "showing" : "disabled";
+        }
+      }
+    }
+  }
+
+  if (!skipToast) {
+    toast(active ? "Subtitles enabled" : "Subtitles disabled");
+  }
+}
+
 function showFlashOverlay(type, detail = "") {
   const $flash = document.getElementById("flash-overlay");
   const $icon = document.getElementById("flash-icon");
@@ -625,6 +704,10 @@ function showFlashOverlay(type, detail = "") {
       iconHtml =
         '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 7H9c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H9V9h10v10zm-9-2h6v-4h-6v4zM3 5v14H1V5c0-1.1.9-2 2-2h16v2H3z"/></svg>';
       textStr = "";
+      break;
+    case "cc":
+      iconHtml = ICONS.cc;
+      textStr = detail ? "ON" : "OFF";
       break;
     default:
       return;

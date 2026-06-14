@@ -8,23 +8,15 @@ const CHANNELS_DATA = {
       name: "Sports",
       channels: [
         {
-          id: "fifa-wc-2026",
-          name: "FIFA 26 Live",
-          shortName: "FIFA",
-          logo: "assets/logos/fifa-wc-2026.svg",
-          quality: "FHD",
+          id: "eurosport-hd",
+          name: "Eurosport HD",
+          shortName: "EURO",
+          logo: "assets/logos/eurosport-hd.png",
+          quality: "HD",
           streams: [
             {
-              label: "United Sports 2",
-              url: "http://66.102.126.10:8000/play/a022/index.m3u8",
-            },
-            {
-              label: "FIFA+",
-              url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
-            },
-            {
-              label: "Caze TV (BR)",
-              url: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
+              label: "Auto",
+              url: "http://151.80.18.177:86/Eurosport_HD/index.m3u8",
             },
           ],
         },
@@ -42,41 +34,40 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "eurosport-hd",
-          name: "Eurosport HD",
-          shortName: "EURO",
-          logo: "assets/logos/eurosport-hd.png",
-          quality: "HD",
+          id: "fifa-wc-2026",
+          name: "FIFA 26 Live",
+          shortName: "FIFA",
+          logo: "assets/logos/fifa-wc-2026.svg",
+          quality: "FHD",
           streams: [
             {
-              label: "Auto",
-              url: "http://151.80.18.177:86/Eurosport_HD/index.m3u8",
+              label: "NBC Live",
+              url: "https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8",
+            },
+            {
+              label: "United Sports 2",
+              url: "http://66.102.126.10:8000/play/a022/index.m3u8",
+            },
+            {
+              label: "FIFA+",
+              url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
+            },
+            {
+              label: "Caze TV (BR)",
+              url: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
             },
           ],
         },
         {
-          id: "t-sports",
-          name: "T Sports",
-          shortName: "TSPT",
-          logo: "assets/logos/tsports.png",
+          id: "fox-sports-501",
+          name: "Fox Sports 501 HD",
+          shortName: "FOX501",
+          logo: "assets/logos/fox-sports-501.svg",
           quality: "HD",
           streams: [
             {
               label: "Auto",
-              url: "https://tvsen7.aynaott.com/tsportsfhd/index.m3u8",
-            },
-          ],
-        },
-        {
-          id: "star-sports-1",
-          name: "Star Sports 1",
-          shortName: "SS1H",
-          logo: "assets/logos/star-sports-1.png",
-          quality: "HD",
-          streams: [
-            {
-              label: "Auto",
-              url: "http://202.70.146.135:8000/play/a01e/index.m3u8",
+              url: "http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/19146/index.m3u8",
             },
           ],
         },
@@ -88,7 +79,7 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "Token Link",
+              label: "Auto",
               url: "http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/9258/index.m3u8",
             },
           ],
@@ -114,21 +105,34 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "Cluster Link",
+              label: "Auto",
               url: "http://66.102.126.10:8000/play/a010/index.m3u8",
             },
           ],
         },
         {
-          id: "fox-sports-501",
-          name: "Fox Sports 501 HD",
-          shortName: "FOX501",
-          logo: "assets/logos/fox-sports-501.svg",
+          id: "star-sports-1",
+          name: "Star Sports 1",
+          shortName: "SS1H",
+          logo: "assets/logos/star-sports-1.png",
           quality: "HD",
           streams: [
             {
               label: "Auto",
-              url: "http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/19146/index.m3u8",
+              url: "http://202.70.146.135:8000/play/a01e/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "t-sports",
+          name: "T Sports",
+          shortName: "TSPT",
+          logo: "assets/logos/tsports.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://tvsen7.aynaott.com/tsportsfhd/index.m3u8",
             },
           ],
         },
@@ -151,19 +155,6 @@ const CHANNELS_DATA = {
       name: "News",
       channels: [
         {
-          id: "atn-news",
-          name: "ATN News",
-          shortName: "ATNN",
-          logo: "assets/logos/atn-news.png",
-          quality: "FHD",
-          streams: [
-            {
-              label: "1080p",
-              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1706/output/index.m3u8",
-            },
-          ],
-        },
-        {
           id: "al-jazeera",
           name: "Al Jazeera English",
           shortName: "AJE",
@@ -177,15 +168,15 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "cna",
-          name: "Channel NewsAsia",
-          shortName: "CNA",
-          logo: "assets/logos/cna.svg",
-          quality: "HD",
+          id: "atn-news",
+          name: "ATN News",
+          shortName: "ATNN",
+          logo: "assets/logos/atn-news.png",
+          quality: "FHD",
           streams: [
             {
-              label: "Auto",
-              url: "https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index_5.m3u8",
+              label: "1080p",
+              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1706/output/index.m3u8",
             },
           ],
         },
@@ -216,6 +207,19 @@ const CHANNELS_DATA = {
             {
               label: "1080p",
               url: "https://bozztv.com/rongo/rongo-Channel24HD/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "cna",
+          name: "Channel NewsAsia",
+          shortName: "CNA",
+          logo: "assets/logos/cna.svg",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index_5.m3u8",
             },
           ],
         },
@@ -289,6 +293,19 @@ const CHANNELS_DATA = {
           ],
         },
         {
+          id: "jago-news-24",
+          name: "Jago News 24",
+          shortName: "JAGO",
+          logo: "assets/logos/jago-news-24.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://app.ncare.live/live-orgin/jagonews24.stream/playlist.m3u8",
+            },
+          ],
+        },
+        {
           id: "jamuna-tv",
           name: "Jamuna TV",
           shortName: "JTV",
@@ -302,19 +319,6 @@ const CHANNELS_DATA = {
             {
               label: "Youtube live",
               url: "https://www.youtube.com/live/dpRmnIcjKPs?si=V150TEgJMNvokl3B",
-            },
-          ],
-        },
-        {
-          id: "jago-news-24",
-          name: "Jago News 24",
-          shortName: "JAGO",
-          logo: "assets/logos/jago-news-24.png",
-          quality: "HD",
-          streams: [
-            {
-              label: "Auto",
-              url: "https://app.ncare.live/live-orgin/jagonews24.stream/playlist.m3u8",
             },
           ],
         },
@@ -338,7 +342,14 @@ const CHANNELS_DATA = {
           logo: "assets/logos/somoy-tv.png",
           quality: "FHD",
           streams: [
-            { label: "YouTube Live", url: "https://youtu.be/ITx_k7uNFP4" },
+            {
+              label: "Auto",
+              url: "https://live.thebosstv.com:30443/dwlive/Somoy-TV/chunks.m3u8",
+            },
+            {
+              label: "YouTube Live",
+              url: "https://youtu.be/ITx_k7uNFP4",
+            },
           ],
         },
         {
@@ -368,7 +379,7 @@ const CHANNELS_DATA = {
           streams: [
             {
               label: "Auto",
-              url: "https://bozztv.com/rongo/rongo-AnandaTV/index.m3u8",
+              url: "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/anandatv.stream/tracks-v1a1/mono.m3u8",
             },
           ],
         },
@@ -432,7 +443,7 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "1080p",
+              label: "Auto",
               url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/581.ts",
             },
           ],
@@ -508,8 +519,14 @@ const CHANNELS_DATA = {
           logo: "assets/logos/ekushey-tv.png",
           quality: "HD",
           streams: [
-            { label: "480p", url: "https://ekusheyserver.com/etvlivesn.m3u8" },
-            { label: "720p", url: "https://tvsen6.aynaott.com/etv/index.m3u8" },
+            {
+              label: "480p",
+              url: "https://ekusheyserver.com/etvlivesn.m3u8",
+            },
+            {
+              label: "720p",
+              url: "https://tvsen6.aynaott.com/etv/index.m3u8",
+            },
           ],
         },
         {
@@ -571,12 +588,8 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "1080p Main",
+              label: "Auto",
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1722/output/index.m3u8",
-            },
-            {
-              label: "Sonyplex Secure",
-              url: "https://ott.sonyplex.com:444/play/EDI0B4ME7MUUyw-g59yLM0EYZFpbYzWflwzOUv40VOY/m3u8",
             },
           ],
         },
@@ -607,6 +620,19 @@ const CHANNELS_DATA = {
             {
               label: "Auto",
               url: "http://alvetv.com/moviebanglatv/8080/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "moviebox",
+          name: "Moviebox",
+          shortName: "MBBX",
+          logo: "https://w7.pngwing.com/pngs/686/422/png-transparent-black-clap-board-illustration-film-festival-world-cinema-box-office-movie-miscellaneous-television-angle-thumbnail.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://cdn1.skygo.mn/live/disk1/Moviebox/HLS-FTA/Moviebox.m3u8",
             },
           ],
         },
@@ -647,7 +673,10 @@ const CHANNELS_DATA = {
           logo: "assets/logos/rtv.png",
           quality: "FHD",
           streams: [
-            { label: "1080p", url: "http://116.204.149.16/rtvhd/index.m3u8" },
+            {
+              label: "1080p",
+              url: "http://116.204.149.16/rtvhd/index.m3u8",
+            },
             {
               label: "720p",
               url: "https://bozztv.com/rongo/rongo-RTV/index.m3u8",
@@ -686,54 +715,19 @@ const CHANNELS_DATA = {
         },
       ],
     },
-
-    // INDIAN
     {
       name: "Indian",
       channels: [
         {
-          id: "zee-bangla-hd",
-          name: "Zee Bangla HD",
-          shortName: "ZEEB",
-          logo: "assets/logos/zee-bangla-hd.png",
-          quality: "FHD",
+          id: "aakash-aath",
+          name: "Aakash Aath",
+          shortName: "AKA",
+          logo: "assets/logos/akash-aat.webp",
+          quality: "HD",
           streams: [
             {
-              label: "JioTV Backup",
-              url: "https://serverbackupchannel.xyz/jiotvchannel/app/live/625/Zee_Bangla/index.m3u8",
-            },
-            {
-              label: "Cloudfront Hub",
-              url: "https://d75dqofg5kmfk.cloudfront.net/bpk-tv/Zeebangla/default/thenayeemparvez.m3u8",
-            },
-            {
-              label: "Token Link",
-              url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/536.ts",
-            },
-            {
-              label: "Catchup Preview",
-              url: "https://catchup.yuppcdn.net/amazonv2/36/preview/zeebangla/master/chunklist.m3u8",
-            },
-          ],
-        },
-        {
-          id: "star-jalsha-hd",
-          name: "Star Jalsha HD",
-          shortName: "JALSHA",
-          logo: "assets/logos/star-jalsha-hd.png",
-          quality: "FHD",
-          streams: [
-            {
-              label: "YuppCatchup",
-              url: "https://catchup.yuppcdn.net/amazonv2/36/preview/starjalsha/master/chunklist.m3u8",
-            },
-            {
-              label: "Corpus Link",
-              url: "http://45.127.56.3:9698/live/Corpus-POL/SRV4/3/STAR-JALSHA/video.m3u8",
-            },
-            {
-              label: "Trex Server",
-              url: "http://tv.trexiptv.com/play/live.php?mac=00:1a:79:4b:66:ae&stream=155770&extension=ts&play_token=otM0DQF4Ff",
+              label: "Auto",
+              url: "https://live.thebosstv.com:30443/dwlive/AAKAASH-AATH/chunks.m3u8",
             },
           ],
         },
@@ -745,15 +739,12 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "JioCinema CDN",
-              url: "https://prod-ent-live-gm.jiocinema.com/bpk-tv/Colors_Bangla_HD_voot_MOB/Fallback/Colors_Bangla_HD_voot_MOB-audio_98835_ben=98800-video=765200.m3u8",
-            },
-            {
-              label: "Token Link",
+              label: "Auto",
               url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/532.ts",
             },
           ],
         },
+        /*
         {
           id: "colors-cineplex-hd",
           name: "Colors Cineplex HD",
@@ -762,7 +753,7 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "720p",
+              label: "Auto",
               url: "http://66.102.126.10:8000/play/a076/index.m3u8",
             },
           ],
@@ -775,8 +766,52 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "Corpus POL Server",
+              label: "Auto",
               url: "http://45.127.56.3:9698/live/Corpus-POL/SRV4/1/SONY-AATH/video.m3u8",
+            },
+          ],
+        },
+        */
+        {
+          id: "sony-max",
+          name: "Sony Max",
+          shortName: "MAX",
+          logo: "assets/logos/sony-max.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/sony_max_sd_abr/live/sony_max_sd_720/chunks.m3u8",
+            },
+          ],
+        },
+        {
+          id: "sony-sab",
+          name: "Sony SAB",
+          shortName: "SAB",
+          logo: "assets/logos/sony-sab.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/sub_hd_abr/live/sony_sub_hd_720/chunks.m3u8",
+            },
+          ],
+        },
+        {
+          id: "star-jalsha-hd",
+          name: "Star Jalsha HD",
+          shortName: "JALSHA",
+          logo: "assets/logos/star-jalsha-hd.png",
+          quality: "FHD",
+          streams: [
+            {
+              label: "Catchup",
+              url: "https://catchup.yuppcdn.net/amazonv2/36/preview/starjalsha/master/chunklist.m3u8",
+            },
+            {
+              label: "Aynaott",
+              url: "https://tvsen3.aynaott.com/n64PH4YL/tracks-v1a1/mono.ts.m3u8",
             },
           ],
         },
@@ -788,8 +823,59 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "Alternative CDN",
+              label: "Auto",
               url: "https://d2dsoyvkr33m05.cloudfront.net/index_1.m3u8",
+            },
+          ],
+        },
+        {
+          id: "zee-action",
+          name: "Zee Action",
+          shortName: "ZA",
+          logo: "assets/logos/zee-action.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/zee_action_abr/live/zee_action_720/chunks.m3u8",
+            },
+          ],
+        },
+        {
+          id: "zee-bangla-hd",
+          name: "Zee Bangla HD",
+          shortName: "ZEEB",
+          logo: "assets/logos/zee-bangla-hd.png",
+          quality: "FHD",
+          streams: [
+            {
+              label: "Epgmaker",
+              url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/536.ts",
+            },
+            {
+              label: "Catchup",
+              url: "https://catchup.yuppcdn.net/amazonv2/36/preview/zeebangla/master/chunklist.m3u8",
+            },
+            {
+              label: "JioTV Backup",
+              url: "https://serverbackupchannel.xyz/jiotvchannel/app/live/625/Zee_Bangla/index.m3u8",
+            },
+            {
+              label: "Cloudfront Hub",
+              url: "https://d75dqofg5kmfk.cloudfront.net/bpk-tv/Zeebangla/default/thenayeemparvez.m3u8",
+            },
+          ],
+        },
+        {
+          id: "zee-cinema",
+          name: "Zee Cinema",
+          shortName: "ZC",
+          logo: "assets/logos/zee-cinema.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/zee_cinema_hd_abr/live/zee_cinema_hd_720/chunks.m3u8",
             },
           ],
         },
@@ -798,20 +884,6 @@ const CHANNELS_DATA = {
     {
       name: "National Broadcasters",
       channels: [
-        /*
-        {
-          id: "btv-national",
-          name: "BTV National",
-          shortName: "BTV",
-          logo: "assets/logos/btv-world.png",
-          quality: "HD",
-          streams: [
-            {
-              label: "Auto",
-              url: "",
-            },
-          ],
-        }, */
         {
           id: "sangsad-tv",
           name: "Sangsad TV",
@@ -831,6 +903,23 @@ const CHANNELS_DATA = {
       name: "Kids & Family",
       channels: [
         {
+          id: "cartoon-network",
+          name: "Cartoon Network",
+          shortName: "CN",
+          logo: "assets/logos/cartoon-network.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "OTT Plus",
+              url: "https://stream.ottplus.bd/live/cn_sd_abr/live/cn_sd/chunks.m3u8",
+            },
+            {
+              label: "mJunoon",
+              url: "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/live/87H/chunks.m3u8",
+            },
+          ],
+        },
+        {
           id: "doraemon",
           name: "Doraemon",
           shortName: "DORAEMON",
@@ -840,23 +929,6 @@ const CHANNELS_DATA = {
             {
               label: "Auto",
               url: "https://live20.bozztv.com/giatvplayout7/giatv-209902/tracks-v1a1/mono.ts.m3u8",
-            },
-          ],
-        },
-        {
-          id: "duronto-tv",
-          name: "Duronto TV",
-          shortName: "DRNT",
-          logo: "assets/logos/duronto-tv.png",
-          quality: "HD",
-          streams: [
-            {
-              label: "720p",
-              url: "https://tvsen5.aynaott.com/durontotv/index.m3u8",
-            },
-            {
-              label: "720p-2",
-              url: "https://tvsen6.aynaott.com/durontotv-live/index.m3u8",
             },
           ],
         },
@@ -887,6 +959,32 @@ const CHANNELS_DATA = {
           ],
         },
         {
+          id: "mr-bean",
+          name: "Mr Bean",
+          shortName: "BEAN",
+          logo: "assets/logos/mr-bean.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://amg00627-amg00627c29-rakuten-it-3989.playouts.now.amagi.tv/ts-eu-w1-n2/playlist/amg00627-banijayfast-mrbeanitcc-rakutenit/cb573e196573618984c83c61cef04682ad7b3dcb0e6c886470af4a9765d9775884b7e1bfb415aa204cd717d80e0c695a4d258d13df7900d9de63b826612f4c2b859ab27ad9991309b3c8797368e62c4119e10f10d13b53309dec490cd065b429005ebe513f047fdcec0fac6b03c6d40d962c7c8eadd5373d7e5e599f093f5d916487c724993cf25ed3c50e72e77e1bb0de139d815fe3a2eb61ac32e5566ac050a0dabfa253dbd7bb5891be291c7b3d0675988b78d1be350d74ab1b58bf0b46621654eda2d3da472a8f544a53f6bda4d7df5122bceb74d21a529f089944857aec01ce58f5b119f2edd3db3381d07445d2c470809cace362f5344a50dbe883fc607598b9307046c26ce234411ebdf2d11d88cf14d9e36dd5f421256991ca05b794bc96f7f09512ca1a9c93afd82f5414325153c80debda4ade2ad677e79c43700c1d15fdcb15e28fcb5b366d57c9d10b855d4bcbbce1e6f30735df7861198207f4541f65c0386d068a0bf088396a863e4ac87511f2562098009b9c29e6accfea1631d78d91a29ecf326ebbb4e345aae9781f7f4d488eea87d4da82a6/36/1920x1080_6046040/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "oggy-and-cockroaches",
+          name: "Oggy and Cockroaches",
+          shortName: "OGGY",
+          logo: "assets/logos/oggy-and-cockroaches.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://live20.bozztv.com/giatvplayout7/giatv-210728/tracks-v1a1/mono.ts.m3u8",
+            },
+          ],
+        },
+        {
           id: "pbs-kids-usa",
           name: "PBS Kids",
           shortName: "PBSK",
@@ -904,6 +1002,19 @@ const CHANNELS_DATA = {
           ],
         },
         {
+          id: "popkids",
+          name: "Popkids",
+          shortName: "POP",
+          logo: "assets/logos/popkids.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://amg01753-narrativeentert-popkids-lggb-xyy5k.amagi.tv/ts-eu-w1-n2/playlist/amg01753-narrativeentert-popkids-lggb/cb543d187b6c678b9ad43e6fd6ef43a2f9591fde1d6988693eb5518975d1073edce2a59caa08ff16388f1ede7f0a66413a3e951fda77118fd87eb141453c5728cfffe729a2c05616b7db083429b56a062a866a68ac39437ed0e21f48a238b6720a5aa82a66443d80b846ac7254db80148b61299bce8c37683f03409a5e5afba358b1ebe8084dd83aa4e51555972617e79f43c8821da6d2d50a9b5e8227a5429993f0dad143d380f359936790547338681dcbe0435ea837b9f7957330907d29094b1bb6e3dbc947328248544fb8d1ffff34af5d9ed265b66939ed54c30f9c66de22ea28b7f142a59abedd69482deb91083669f3b3e0c2d01d07904ab7e2e5d47879d9d1117b4cc6249801232a9ff0ce5bd59743d8e66dd5fa395d0bc197448994fdd6bce7c319ca57bfad9eaf344c4a6c1311c60cf2e80af51d9d29f880435b1f27228a955ac38adc24404147948f53d15356f9ec828ddb012cd9227c7eed73d24f0a7cc6573d2eb7cd986fb6942740333f17bae0653a8484fd686c6072f311/122/1920x1080_5903040/index.m3u8",
+            },
+          ],
+        },
+        {
           id: "rongeen-tv",
           name: "Rongeen TV",
           shortName: "RNGN",
@@ -913,6 +1024,19 @@ const CHANNELS_DATA = {
             {
               label: "Auto",
               url: "https://server.thelegitpro.in/rongeentv/rongeentv/tracks-v1a1/mono.m3u8",
+            },
+          ],
+        },
+        {
+          id: "sony-yay",
+          name: "Sony Yay",
+          shortName: "YAY",
+          logo: "assets/logos/sony-yay.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/sony_yay_abr/live/sony_yay_720/chunks.m3u8",
             },
           ],
         },
@@ -935,6 +1059,19 @@ const CHANNELS_DATA = {
       name: "Infotainment",
       channels: [
         {
+          id: "animal-planet",
+          name: "Animal Planet",
+          shortName: "AP",
+          logo: "assets/logos/animal-planet.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/animal_planet_sd_abr/live/animal_plnet_sd/chunks.m3u8",
+            },
+          ],
+        },
+        {
           id: "discovery-hd",
           name: "Discovery HD",
           shortName: "DSCH",
@@ -943,7 +1080,24 @@ const CHANNELS_DATA = {
           streams: [
             {
               label: "Auto",
+              url: "https://stream.ottplus.bd/live/discovery_sd_abr/live/discovery_sd/chunks.m3u8",
+            },
+            {
+              label: "Backup",
               url: "http://202.70.146.135:8000/play/a05z/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "id-hd",
+          name: "ID HD",
+          shortName: "ID",
+          logo: "assets/logos/id-hd.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/id_hd_abr/live/id_hd/chunks.m3u8",
             },
           ],
         },
@@ -974,6 +1128,19 @@ const CHANNELS_DATA = {
           ],
         },
         {
+          id: "tlc",
+          name: "TLC",
+          shortName: "TLC",
+          logo: "assets/logos/tlc.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://stream.ottplus.bd/live/tlc_sd_abr/live/tlc_sd/chunks.m3u8",
+            },
+          ],
+        },
+        {
           id: "travel-xp-uk",
           name: "Travel XP UK",
           shortName: "TRXP",
@@ -983,6 +1150,19 @@ const CHANNELS_DATA = {
             {
               label: "Auto",
               url: "https://travelxp-travelxp-1-eu.rakuten.wurl.tv/playlist.m3u8",
+            },
+          ],
+        },
+        {
+          id: "wild-earth",
+          name: "Wild Earth",
+          shortName: "WE",
+          logo: "assets/logos/wild-earth.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://wildearth-plex.amagi.tv/masterR720P.m3u8",
             },
           ],
         },
@@ -999,12 +1179,12 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "720p",
-              url: "http://m.live.net.sa:1935/live/quran/playlist.m3u8",
+              label: "240p",
+              url: "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8",
             },
             {
-              label: "360p",
-              url: "https://cdn-globecast.akamaized.net/live/eds/saudi_quran/hls_roku/index.m3u8",
+              label: "Backup",
+              url: "http://m.live.net.sa:1935/live/quran/playlist.m3u8",
             },
           ],
         },
@@ -1016,12 +1196,12 @@ const CHANNELS_DATA = {
           quality: "HD",
           streams: [
             {
-              label: "720p",
-              url: "http://m.live.net.sa:1935/live/sunnah/playlist.m3u8",
+              label: "240p",
+              url: "https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8",
             },
             {
-              label: "360p",
-              url: "https://cdn-globecast.akamaized.net/live/eds/saudi_sunnah/hls_roku/index.m3u8",
+              label: "Backup",
+              url: "http://m.live.net.sa:1935/live/sunnah/playlist.m3u8",
             },
           ],
         },
