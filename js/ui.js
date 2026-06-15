@@ -225,13 +225,14 @@ function buildChItem(ch) {
 //  SEARCH FILTER INTERFACE
 // ══════════════════════════════════════════
 function onSearch(e) {
-  const q = e.target.value.toLowerCase().trim();
+  const q = ((e && e.target ? e.target.value : null) || ($search ? $search.value : "")).toLowerCase().trim();
+  const hideOffline = document.body.classList.contains("hide-offline-active");
   let anySidebarVisible = false;
   let anyHomeVisible = false;
 
   document.querySelectorAll(".ch-item").forEach((el) => {
     const isOffline = el.classList.contains("is-offline");
-    const match = !isOffline && (!q || el.dataset.search.includes(q));
+    const match = (!hideOffline || !isOffline) && (!q || el.dataset.search.includes(q));
     el.style.display = match ? "" : "none";
     if (match) anySidebarVisible = true;
   });
@@ -240,7 +241,7 @@ function onSearch(e) {
     let sib = lbl.nextElementSibling;
     let catVisible = false;
     while (sib && !sib.classList.contains("cat-label")) {
-      if (sib.style.display !== "none" && !sib.classList.contains("is-offline"))
+      if (sib.style.display !== "none" && (!hideOffline || !sib.classList.contains("is-offline")))
         catVisible = true;
       sib = sib.nextElementSibling;
     }
@@ -253,7 +254,7 @@ function onSearch(e) {
   document.querySelectorAll(".home-ch-card").forEach((card) => {
     const isOffline = card.classList.contains("is-offline");
     const match =
-      !isOffline &&
+      (!hideOffline || !isOffline) &&
       (!q || (card.dataset.search && card.dataset.search.includes(q)));
     card.style.display = match ? "" : "none";
     if (match) anyHomeVisible = true;
@@ -265,7 +266,7 @@ function onSearch(e) {
     cards.forEach((card) => {
       if (
         card.style.display !== "none" &&
-        !card.classList.contains("is-offline")
+        (!hideOffline || !card.classList.contains("is-offline"))
       )
         secVisible = true;
     });
@@ -280,7 +281,7 @@ function onSearch(e) {
   document.querySelectorAll(".wm-card").forEach((card) => {
     const isOffline = card.classList.contains("is-offline");
     const match =
-      !isOffline &&
+      (!hideOffline || !isOffline) &&
       (!q || (card.dataset.search && card.dataset.search.includes(q)));
     card.style.display = match ? "" : "none";
     if (match) anyWmVisible = true;
@@ -351,13 +352,14 @@ function markChannelOnline(id) {
 }
 
 function updateSidebarCategoryVisibility() {
+  const hideOffline = document.body.classList.contains("hide-offline-active");
   document.querySelectorAll(".cat-label").forEach((lbl) => {
     let sib = lbl.nextElementSibling;
     let catVisible = false;
     while (sib && !sib.classList.contains("cat-label")) {
       if (
         sib.style.display !== "none" &&
-        !sib.classList.contains("is-offline")
+        (!hideOffline || !sib.classList.contains("is-offline"))
       ) {
         catVisible = true;
       }
@@ -369,12 +371,13 @@ function updateSidebarCategoryVisibility() {
 
 function updateCategorySectionVisibility(sec) {
   if (!sec) return;
+  const hideOffline = document.body.classList.contains("hide-offline-active");
   const cards = sec.querySelectorAll(".home-ch-card");
   let secVisible = false;
   cards.forEach((card) => {
     if (
       card.style.display !== "none" &&
-      !card.classList.contains("is-offline")
+      (!hideOffline || !card.classList.contains("is-offline"))
     ) {
       secVisible = true;
     }
@@ -384,10 +387,11 @@ function updateCategorySectionVisibility(sec) {
 
 function updateChannelCount() {
   if ($chCount) {
-    const totalOnline = document.querySelectorAll(
-      ".ch-item:not(.is-offline)",
-    ).length;
-    $chCount.textContent = totalOnline;
+    const hideOffline = document.body.classList.contains("hide-offline-active");
+    const count = hideOffline
+      ? document.querySelectorAll(".ch-item:not(.is-offline)").length
+      : document.querySelectorAll(".ch-item").length;
+    $chCount.textContent = count;
   }
 }
 
