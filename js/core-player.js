@@ -18,6 +18,21 @@ let playTimeoutTimer = null;
 const STREAM_LOAD_TIMEOUT_MS = 12000;
 let isEmbedActive = false;
 
+// ── Proxy Configuration
+// If your site is hosted on HTTPS, HTTP stream links will fail due to mixed content.
+// You can define a default proxy URL here or configure it via local storage:
+// localStorage.setItem("iptv-proxy-url", "https://your-proxy.workers.dev/?url=")
+const DEFAULT_PROXY_URL = "https://iptv-proxy.sadabsiperkhan.workers.dev/";
+
+function getProxiedUrl(url) {
+  if (!url) return "";
+  const proxySetting = localStorage.getItem("iptv-proxy-url") || DEFAULT_PROXY_URL;
+  if (proxySetting && window.location.protocol === "https:" && url.startsWith("http://")) {
+    return proxySetting + encodeURIComponent(url);
+  }
+  return url;
+}
+
 // ── SVG Icons
 const ICONS = {
   play: `<svg id="icon-play" width="14" height="16" viewBox="0 0 14 16" fill="currentColor" class="hidden"><path d="M0 0L14 8L0 16V0Z"/></svg>
@@ -100,13 +115,13 @@ function loadChannel(id, streamIdx) {
     $video.classList.add("hidden");
     stopStatsInterval();
     clearPlayTimeoutWatchdog();
- 
+
     if ($embedPlayer) {
       $embedPlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
       $embedPlayer.classList.remove("hidden");
     }
     if ($stage) $stage.classList.add("is-embed");
- 
+
     showLoad(false);
     hideErr();
   } else {
@@ -118,13 +133,14 @@ function loadChannel(id, streamIdx) {
     }
     if ($stage) $stage.classList.remove("is-embed");
     $video.classList.remove("hidden");
- 
+
     showLoad(true);
     hideErr();
+    const proxiedUrl = getProxiedUrl(url);
     if (isTsUrl(url)) {
-      startMpegTS(url);
+      startMpegTS(proxiedUrl);
     } else {
-      startHLS(url);
+      startHLS(proxiedUrl);
     }
   }
 
@@ -176,9 +192,9 @@ function populateWatchMore(currentId) {
     <div class="wm-title">More Channels</div>
     <div class="wm-grid">
       ${allChannels
-        .map((ch) => {
-          const isOffline = offlineList.includes(ch.id);
-          return `
+      .map((ch) => {
+        const isOffline = offlineList.includes(ch.id);
+        return `
           <div class="wm-card${isOffline ? " is-offline" : ""}" data-id="${ch.id}" data-search="${ch.name.toLowerCase()}">
             <div class="wm-thumb">
               ${buildChannelLogo(ch, "tile")}
@@ -186,8 +202,8 @@ function populateWatchMore(currentId) {
             <div class="wm-name">${ch.name}</div>
             <div class="wm-meta">${ch.quality}</div>
           </div>`;
-        })
-        .join("")}
+      })
+      .join("")}
     </div>`;
 
   $wm.querySelectorAll(".wm-card").forEach((card) => {
@@ -327,7 +343,7 @@ function startHLS(url) {
 
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       retryCount = 0;
-      $video.play().catch(() => {});
+      $video.play().catch(() => { });
       const ch = channels.find((c) => c.id === activeId);
       if (ch && (!ch.streams || ch.streams.length <= 1)) {
         buildQualMenuFromHlsLevels();
@@ -387,7 +403,7 @@ function startHLS(url) {
   } else if ($video.canPlayType("application/vnd.apple.mpegurl")) {
     retryCount = 0;
     $video.src = url;
-    $video.play().catch(() => {});
+    $video.play().catch(() => { });
   } else {
     showLoad(false);
     showErr("HLS not supported in this browser");
@@ -440,7 +456,7 @@ function startMpegTS(url) {
         toast(`MpegTS issue. Retrying (${retryCount}/${MAX_RETRIES})...`);
         mpegtsPlayer.unload();
         mpegtsPlayer.load();
-        mpegtsPlayer.play().catch(() => {});
+        mpegtsPlayer.play().catch(() => { });
       } else {
         handleMpegTSError(type, detail, info);
       }
@@ -831,7 +847,7 @@ function updateStats() {
         break;
       }
     }
-  } catch {}
+  } catch { }
   if ($buffer) $buffer.textContent = `${bufLen.toFixed(1)}s`;
   if ($bufferHealth) $bufferHealth.textContent = `${bufLen.toFixed(1)} s`;
 
@@ -917,7 +933,7 @@ function updateStats() {
 function jumpToLive() {
   if ($video.seekable.length) {
     $video.currentTime = $video.seekable.end($video.seekable.length - 1);
-    $video.play().catch(() => {});
+    $video.play().catch(() => { });
   }
 }
 
@@ -935,10 +951,11 @@ function retryStream() {
   const url = streams[activeStreamIdx]?.url || streams[0].url;
   hideErr();
   showLoad(true);
+  const proxiedUrl = getProxiedUrl(url);
   if (isTsUrl(url)) {
-    startMpegTS(url);
+    startMpegTS(proxiedUrl);
   } else {
-    startHLS(url);
+    startHLS(proxiedUrl);
   }
 }
 

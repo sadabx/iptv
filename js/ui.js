@@ -428,8 +428,10 @@ async function checkChannelStatus(ch) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    const targetUrl = typeof getProxiedUrl === "function" ? getProxiedUrl(url) : url;
+
     try {
-      const res = await fetch(url, {
+      const res = await fetch(targetUrl, {
         method: "GET",
         signal: controller.signal,
         headers: { Accept: "*/*" },
@@ -486,7 +488,8 @@ async function checkChannelStatus(ch) {
           const subUrl = subPath.startsWith("http")
             ? subPath
             : new URL(subPath, url).href;
-          const subRes = await fetch(subUrl, {
+          const targetSubUrl = typeof getProxiedUrl === "function" ? getProxiedUrl(subUrl) : subUrl;
+          const subRes = await fetch(targetSubUrl, {
             method: "GET",
             signal: controller.signal,
           });
@@ -505,7 +508,8 @@ async function checkChannelStatus(ch) {
           let keyUrl = match[1];
           if (!keyUrl.startsWith("http://") && !keyUrl.startsWith("https://"))
             keyUrl = new URL(keyUrl, playlistUrl).href;
-          const keyRes = await fetch(keyUrl, {
+          const targetKeyUrl = typeof getProxiedUrl === "function" ? getProxiedUrl(keyUrl) : keyUrl;
+          const keyRes = await fetch(targetKeyUrl, {
             method: "GET",
             signal: controller.signal,
           });

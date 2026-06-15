@@ -829,6 +829,18 @@
   </div>
 
   <script>
+    // ── Proxy Configuration
+    const DEFAULT_PROXY_URL = "https://iptv-proxy.sadabsiperkhan.workers.dev/?url=";
+
+    function getProxiedUrl(url) {
+      if (!url) return "";
+      const proxySetting = localStorage.getItem("iptv-proxy-url") || DEFAULT_PROXY_URL;
+      if (proxySetting && window.location.protocol === "https:" && url.startsWith("http://")) {
+        return proxySetting + encodeURIComponent(url);
+      }
+      return url;
+    }
+
     let hlsPlayer = null;
     let mpegtsPlayer = null;
     let currentPlayingUrl = "";
@@ -881,6 +893,8 @@
       // Auto decode token if available
       processTokenAuto(url);
 
+      const proxiedUrl = getProxiedUrl(url);
+
       // Clean up previous engines
       if (hlsPlayer) {
         hlsPlayer.destroy();
@@ -911,7 +925,7 @@
           mpegtsPlayer = mpegts.createPlayer({
             type: "mpegts",
             isLive: true,
-            url: url
+            url: proxiedUrl
           }, {
             enableWorker: true,
             lazyLoadMaxDuration: 3 * 60,
@@ -942,7 +956,7 @@
 
         if (Hls.isSupported()) {
           hlsPlayer = new Hls({ enableWorker: true });
-          hlsPlayer.loadSource(url);
+          hlsPlayer.loadSource(proxiedUrl);
           hlsPlayer.attachMedia($vid);
           hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
             $vid.play()
@@ -960,7 +974,7 @@
           });
         } else if ($vid.canPlayType("application/vnd.apple.mpegurl")) {
           // Safari native HLS support
-          $vid.src = url;
+          $vid.src = proxiedUrl;
           $vid.play()
             .then(() => showPlayerLoading(false))
             .catch(() => showPlayerError("Playback failed"));
@@ -975,7 +989,7 @@
           $playerEngine.style.color = "#fff";
         }
 
-        $vid.src = url;
+        $vid.src = proxiedUrl;
         $vid.play()
           .then(() => showPlayerLoading(false))
           .catch(() => showPlayerError("Playback failed (check codec/CORS)"));
@@ -1304,8 +1318,10 @@
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 4000); // 4s slightly more aggressive timeout window
 
+        const targetUrl = getProxiedUrl(url);
+
         try {
-          const res = await fetch(url, {
+          const res = await fetch(targetUrl, {
             method: "GET",
             signal: controller.signal,
             headers: { Accept: "*/*" },
