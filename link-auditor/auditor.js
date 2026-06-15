@@ -1,11 +1,14 @@
 // ── Proxy Configuration
-const DEFAULT_PROXY_URL = "https://iptv-proxy.trionine.workers.dev/?url=";
+const DEFAULT_PROXY_URL = "https://iptv-proxy.trionine.workers.dev/";
 
 function getProxiedUrl(url) {
     if (!url) return "";
     const proxySetting = localStorage.getItem("iptv-proxy-url") || DEFAULT_PROXY_URL;
     if (proxySetting && window.location.protocol === "https:" && url.startsWith("http://")) {
-        return proxySetting + encodeURIComponent(url);
+        if (proxySetting.includes("?url=")) {
+            return proxySetting + encodeURIComponent(url);
+        }
+        return proxySetting + url;
     }
     return url;
 }
