@@ -343,12 +343,22 @@ document.addEventListener("DOMContentLoaded", () => {
   $search.addEventListener("input", onSearch);
 
   // Toggle Offline Listener
+  const savedHideOffline = localStorage.getItem("iptv-hide-offline");
+  const defaultHideOffline = savedHideOffline !== "false"; // default to true (hide offline)
+  
+  document.body.classList.toggle("hide-offline-active", defaultHideOffline);
   const $btnToggleOffline = document.getElementById("btn-toggle-offline");
   if ($btnToggleOffline) {
+    const $eyeOpen = $btnToggleOffline.querySelector(".eye-open");
+    const $eyeClosed = $btnToggleOffline.querySelector(".eye-closed");
+    if ($eyeOpen) $eyeOpen.classList.toggle("hidden", !defaultHideOffline);
+    if ($eyeClosed) $eyeClosed.classList.toggle("hidden", defaultHideOffline);
+
     $btnToggleOffline.addEventListener("click", () => {
       const active = document.body.classList.toggle("hide-offline-active");
-      $btnToggleOffline.querySelector(".eye-open").classList.toggle("hidden", !active);
-      $btnToggleOffline.querySelector(".eye-closed").classList.toggle("hidden", active);
+      localStorage.setItem("iptv-hide-offline", active);
+      if ($eyeOpen) $eyeOpen.classList.toggle("hidden", !active);
+      if ($eyeClosed) $eyeClosed.classList.toggle("hidden", active);
       
       updateChannelCount();
       onSearch({ target: $search });
