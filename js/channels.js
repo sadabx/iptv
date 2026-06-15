@@ -8,6 +8,19 @@ const CHANNELS_DATA = {
       name: "Sports",
       channels: [
         {
+          id: "beinsports1hd",
+          name: "BeinSports 1HD",
+          shortName: "BS1HD",
+          logo: "assets/logos/beinsports-1.png",
+          quality: "FHD",
+          streams: [
+            {
+              label: "Beinsport 1HD",
+              url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
+            },
+          ],
+        },
+        {
           id: "eurosport-hd",
           name: "Eurosport HD",
           shortName: "EURO",
@@ -35,11 +48,19 @@ const CHANNELS_DATA = {
         },
         {
           id: "fifa-wc-2026",
-          name: "FIFA 26 Live",
+          name: "FIFA 26",
           shortName: "FIFA",
           logo: "assets/logos/fifa-wc-2026.svg",
           quality: "FHD",
           streams: [
+            {
+              label: "Beinsport 1HD",
+              url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
+            },
+            {
+              label: "Somoy TV",
+              url: "https://live.thebosstv.com:30443/dwlive/Somoy-TV/chunks.m3u8",
+            },
             {
               label: "NBC Live",
               url: "https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8",
@@ -52,13 +73,13 @@ const CHANNELS_DATA = {
               label: "FIFA+",
               url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
             },
-            {
+            /* {
               label: "Caze TV (BR)",
               url: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
-            },
+            }, */
           ],
         },
-        {
+        /* {
           id: "fox-sports-501",
           name: "Fox Sports 501 HD",
           shortName: "FOX501",
@@ -70,7 +91,7 @@ const CHANNELS_DATA = {
               url: "http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/19146/index.m3u8",
             },
           ],
-        },
+        },*/
         {
           id: "sky-sports-cricket",
           name: "Sky Sports Cricket",
@@ -261,7 +282,7 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "1080p-2",
+              label: "Auto",
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1705/output/index.m3u8",
             },
           ],
@@ -332,6 +353,19 @@ const CHANNELS_DATA = {
             {
               label: "1080p",
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1708/output/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "sangsad-tv",
+          name: "Sangsad TV",
+          shortName: "SANG",
+          logo: "assets/logos/sangsad-tv.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8",
             },
           ],
         },
@@ -849,21 +883,25 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "Epgmaker",
-              url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/536.ts",
+              label: "Ottplus",
+              url: "https://stream.ottplus.bd/live/zee_bangla_abr/live/zee_bangla_720/chunks.m3u8",
             },
             {
               label: "Catchup",
               url: "https://catchup.yuppcdn.net/amazonv2/36/preview/zeebangla/master/chunklist.m3u8",
             },
             {
+              label: "Epgmaker",
+              url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/536.ts",
+            },
+            /*{
               label: "JioTV Backup",
               url: "https://serverbackupchannel.xyz/jiotvchannel/app/live/625/Zee_Bangla/index.m3u8",
             },
             {
               label: "Cloudfront Hub",
               url: "https://d75dqofg5kmfk.cloudfront.net/bpk-tv/Zeebangla/default/thenayeemparvez.m3u8",
-            },
+            },*/
           ],
         },
         {
@@ -881,24 +919,12 @@ const CHANNELS_DATA = {
         },
       ],
     },
-    {
+    /*{
       name: "National Broadcasters",
       channels: [
-        {
-          id: "sangsad-tv",
-          name: "Sangsad TV",
-          shortName: "SANG",
-          logo: "assets/logos/sangsad-tv.png",
-          quality: "HD",
-          streams: [
-            {
-              label: "Auto",
-              url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8",
-            },
-          ],
-        },
+        
       ],
-    },
+    },*/
     {
       name: "Kids & Family",
       channels: [
