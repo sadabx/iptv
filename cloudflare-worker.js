@@ -25,7 +25,7 @@ async function handleRequest(request) {
     const proxyDomainEndIndex = decodedReqUrl.indexOf(".workers.dev/")
     if (proxyDomainEndIndex !== -1) {
       let targetPart = decodedReqUrl.substring(proxyDomainEndIndex + ".workers.dev/".length)
-      
+
       // Fix Cloudflare's double-slash collapsing (e.g. http:/some-domain -> http://some-domain)
       if (targetPart.startsWith("http:/") && !targetPart.startsWith("http://")) {
         targetPart = "http://" + targetPart.substring(6)
@@ -42,7 +42,7 @@ async function handleRequest(request) {
   if (!targetUrl) {
     return new Response("IPTV Reverse Proxy is active! Usage: ?url=http://... or /http://...", {
       status: 200,
-      headers: { 
+      headers: {
         "Content-Type": "text/plain",
         "Access-Control-Allow-Origin": "*"
       }
@@ -51,7 +51,7 @@ async function handleRequest(request) {
 
   try {
     const ipRegex = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/
-    
+
     // Resolve raw IP hostname to use sslip.io to bypass Cloudflare IP restrictions
     let targetUrlObj
     try {
@@ -85,17 +85,17 @@ async function handleRequest(request) {
     while (response.status >= 300 && response.status < 400 && redirectCount < 10) {
       let location = response.headers.get("location")
       if (!location) break
-      
+
       if (!location.startsWith("http://") && !location.startsWith("https://")) {
         location = new URL(location, targetUrl).toString()
       }
-      
+
       const locUrlObj = new URL(location)
       if (ipRegex.test(locUrlObj.hostname)) {
         locUrlObj.hostname = locUrlObj.hostname + ".sslip.io"
       }
       targetUrl = locUrlObj.toString()
-      
+
       response = await fetch(targetUrl, {
         method: request.method,
         headers: request.headers,
@@ -126,7 +126,7 @@ async function handleRequest(request) {
 
     if (isPlaylist && response.status === 200) {
       let text = await response.text()
-      
+
       // Use path-based proxy URL prefix for absolute URLs to maintain path structure for relative segments
       const proxyUrlBase = url.origin + "/"
 
@@ -153,7 +153,7 @@ async function handleRequest(request) {
     })
 
   } catch (err) {
-    return new Response("Proxy error fetching stream: " + err.message, { 
+    return new Response("Proxy error fetching stream: " + err.message, {
       status: 500,
       headers: { "Access-Control-Allow-Origin": "*" }
     })

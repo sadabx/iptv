@@ -22,7 +22,7 @@ let isEmbedActive = false;
 // If your site is hosted on HTTPS, HTTP stream links will fail due to mixed content.
 // You can define a default proxy URL here or configure it via local storage:
 // localStorage.setItem("iptv-proxy-url", "https://your-proxy.workers.dev/?url=")
-const DEFAULT_PROXY_URL = "https://iptv-proxy.sadabsiperkhan.workers.dev/";
+const DEFAULT_PROXY_URL = "https://iptv-proxy.trionine.workers.dev/";
 
 function getProxiedUrl(url) {
   if (!url) return "";
