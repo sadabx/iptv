@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>IPTV Link Auditor</title>
+  <link rel="icon" type="image/png" href="assets/iptv.png" />
+  <link rel="apple-touch-icon" href="assets/iptv.png" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
+  <link rel="stylesheet" href="auditor.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>T9 IPTV -Bluk Link Auditor & Filtering Sandbox</h1>
+    <p>
+      High-speed parallel local link parsing sandbox with instant text
+      searching arrays and explicit color status isolators.
+    </p>
+
+    <div class="workspace">
+      <!-- Column 1: Inputs -->
+      <div>
+        <div class="input-card">
+          <h3>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              style="vertical-align: middle;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Quick Single-Link Tester
+          </h3>
+          <div class="input-row">
+            <input type="text" id="single-url" placeholder="Paste single stream URL (.m3u8 or .ts)..." />
+            <button id="check-single-btn" onclick="checkSingleLink()">Test & Play</button>
+          </div>
+          <div id="single-result-box" class="single-result">
+            <span id="single-status-dot"
+              style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#71717a;"></span>
+            <span id="single-status-text" style="font-weight:600; color:#a1a1aa;">Idle</span>
+          </div>
+        </div>
+
+        <div class="bulk-card">
+          <h3>Bulk Playlist Auditor</h3>
+          <div style="margin-bottom: 10px;">
+            <input type="text" id="bulk-base-url" placeholder="Base URL for relative sub-streams (Optional)..."
+              style="width: 100%; box-sizing: border-box; background: #09090b; border: 1px solid #27272a; border-radius: 4px; padding: 7px 10px; color: #fff; font-size: 0.75rem; outline: none;" />
+          </div>
+          <textarea id="m3u-input"
+            placeholder="#EXTM3U&#10;#EXTINF:-1,Channel Name&#10;http://example.com/stream.m3u8...&#10;&#10;Drop your entire 300+ playlist stream block copy lines directly here..."></textarea>
+          <button id="run-btn" class="run-btn" onclick="startBulkAudit()">
+            Run Concurrent Diagnostic Pipeline
+          </button>
+        </div>
+      </div>
+
+      <div class="results-panel">
+        <div class="toolbar">
+          <div class="toolbar-row">
+            <div class="search-box">
+              <input type="text" id="search-filter" oninput="applyOutputFilters()"
+                placeholder="🔍 Search specific channel by name..." />
+            </div>
+            <div class="stats">
+              <div class="stat-item total">
+                Total: <span id="stat-total">0</span>
+              </div>
+              <div class="stat-item" style="color: #a1a1aa">
+                Checked: <span id="stat-progress">0</span>
+              </div>
+              <div class="stat-item working">
+                Online: <span id="stat-working">0</span>
+              </div>
+              <div class="stat-item dead">
+                Dead: <span id="stat-dead">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="toolbar-row">
+            <div class="filter-group">
+              <button class="filter-btn active" data-filter="all" onclick="changeActiveFilter('all', this)">
+                All Channels
+              </button>
+              <button class="filter-btn" data-filter="online" onclick="changeActiveFilter('online', this)">
+                Working Logs
+              </button>
+              <button class="filter-btn green-only" data-filter="green" onclick="changeActiveFilter('green', this)">
+                🟢 Green Filter Only
+              </button>
+              <button class="filter-btn" data-filter="dead" onclick="changeActiveFilter('dead', this)">
+                Dead Only
+              </button>
+            </div>
+
+            <button class="action-btn" onclick="copyFilteredToClipboard()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+              Copy Filtered Links
+            </button>
+          </div>
+        </div>
+
+        <div class="log-output" id="console-logs">
+          <div style="color: #71717a; text-align: center; margin-top: 220px">
+            Console idle. Populate source text stream on left column area.
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: Live Preview Player & Token Decoder -->
+      <div class="player-card">
+        <div class="player-tabs">
+          <button class="tab-btn active" id="tab-player" onclick="switchPlayerTab('player')">Live Preview</button>
+          <button class="tab-btn" id="tab-decoder" onclick="switchPlayerTab('decoder')">
+            Token Decoder<span id="decoder-indicator" style="display: none;" class="decoder-badge-dot"></span>
+          </button>
+        </div>
+
+        <!-- Tab Content 1: Player -->
+        <div id="content-player" class="tab-content active">
+          <div class="player-header">
+            <span class="player-title" id="player-title">Preview: Idle</span>
+            <span class="player-engine-badge" id="player-engine">None</span>
+          </div>
+          <div class="player-stage">
+            <video id="preview-video" controls autoplay muted></video>
+            <div id="player-overlay" class="overlay">
+              <div class="spinner" id="player-spinner" style="display:none;"></div>
+              <div id="player-overlay-text">Waiting for stream link...</div>
+            </div>
+          </div>
+          <div class="player-controls">
+            <button class="playback-btn" id="reload-btn" onclick="retryPreviewStream()">Reload Stream</button>
+            <span style="font-size:0.7rem; color:#71717a;">Auto-playing selected URL</span>
+          </div>
+        </div>
+
+        <!-- Tab Content 2: Token Decoder -->
+        <div id="content-decoder" class="tab-content">
+          <div class="decoder-content">
+            <div class="decoder-input-section">
+              <div
+                style="font-size: 0.8rem; font-weight: 600; color: #f4f4f5; display: flex; align-items: center; gap: 6px;">
+                🔑 Paste Secure Stream URL or Raw Token
+              </div>
+              <textarea id="token-input" class="decoder-textarea"
+                placeholder="Paste full link (e.g., https://...) or just the raw token string here"></textarea>
+              <button class="decoder-btn" onclick="processTokenManual()">🔓 Decode & Analyze Payload Matrix</button>
+              <div class="decoder-error-banner" id="decoder-error-banner"></div>
+            </div>
+
+            <div style="font-size: 0.8rem; font-weight: 600; color: #f4f4f5; margin-top: 4px;">
+              🔎 Parsed Security Constraints
+            </div>
+            <div style="overflow-x: auto; border: 1px solid #27272a; border-radius: 4px;">
+              <table class="decoder-table">
+                <thead>
+                  <tr>
+                    <th>Property</th>
+                    <th>Active Context Rule Value</th>
+                  </tr>
+                </thead>
+                <tbody id="decoder-analysis-body">
+                  <tr>
+                    <td colspan="2" style="color: #71717a; text-align: center; padding: 20px 10px;">
+                      No token parsed yet
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="font-size: 0.8rem; font-weight: 600; color: #f4f4f5; margin-top: 4px;">
+              📦 Raw Payload Object (JSON)
+            </div>
+            <pre id="decoder-json-output" class="decoder-pre">// Decoded JSON structure will render here...</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="auditor.js"></script>
+</body>
+
+</html>
