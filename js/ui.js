@@ -71,10 +71,11 @@ function buildChannelLogo(ch, variant = "guide") {
 
   return `
     <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}">
-      ${ch.logo
-      ? `<img class="ch-logo-img" src="${ch.logo}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
-      : ""
-    }
+      ${
+        ch.logo
+          ? `<img class="ch-logo-img" src="${ch.logo}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
+          : ""
+      }
       <span class="ch-initials ch-logo-fallback">${initials}</span>
     </div>`;
 }
@@ -147,6 +148,12 @@ function initHomePage() {
 
 function showHomePage() {
   activeId = null;
+
+  // Clean URL routing: reset path to root when going home
+  if (window.location.pathname !== "/") {
+    window.history.pushState({}, "", "/");
+  }
+
   document
     .querySelectorAll(".ch-item")
     .forEach((el) => el.classList.remove("active"));
@@ -159,7 +166,8 @@ function showHomePage() {
     mpegtsPlayer.destroy();
     mpegtsPlayer = null;
   }
-  $video.src = "";
+  $video.pause();
+  $video.removeAttribute("src");
   $video.load();
 
   // Stop YouTube embed if still playing in background
@@ -225,14 +233,19 @@ function buildChItem(ch) {
 //  SEARCH FILTER INTERFACE
 // ══════════════════════════════════════════
 function onSearch(e) {
-  const q = ((e && e.target ? e.target.value : null) || ($search ? $search.value : "")).toLowerCase().trim();
+  const q = (
+    (e && e.target ? e.target.value : null) || ($search ? $search.value : "")
+  )
+    .toLowerCase()
+    .trim();
   const hideOffline = document.body.classList.contains("hide-offline-active");
   let anySidebarVisible = false;
   let anyHomeVisible = false;
 
   document.querySelectorAll(".ch-item").forEach((el) => {
     const isOffline = el.classList.contains("is-offline");
-    const match = (!hideOffline || !isOffline) && (!q || el.dataset.search.includes(q));
+    const match =
+      (!hideOffline || !isOffline) && (!q || el.dataset.search.includes(q));
     el.style.display = match ? "" : "none";
     if (match) anySidebarVisible = true;
   });
@@ -241,7 +254,10 @@ function onSearch(e) {
     let sib = lbl.nextElementSibling;
     let catVisible = false;
     while (sib && !sib.classList.contains("cat-label")) {
-      if (sib.style.display !== "none" && (!hideOffline || !sib.classList.contains("is-offline")))
+      if (
+        sib.style.display !== "none" &&
+        (!hideOffline || !sib.classList.contains("is-offline"))
+      )
         catVisible = true;
       sib = sib.nextElementSibling;
     }
@@ -431,7 +447,8 @@ async function checkChannelStatus(ch) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const targetUrl = typeof getProxiedUrl === "function" ? getProxiedUrl(url) : url;
+    const targetUrl =
+      typeof getProxiedUrl === "function" ? getProxiedUrl(url) : url;
 
     try {
       const res = await fetch(targetUrl, {
@@ -491,7 +508,10 @@ async function checkChannelStatus(ch) {
           const subUrl = subPath.startsWith("http")
             ? subPath
             : new URL(subPath, url).href;
-          const targetSubUrl = typeof getProxiedUrl === "function" ? getProxiedUrl(subUrl) : subUrl;
+          const targetSubUrl =
+            typeof getProxiedUrl === "function"
+              ? getProxiedUrl(subUrl)
+              : subUrl;
           const subRes = await fetch(targetSubUrl, {
             method: "GET",
             signal: controller.signal,
@@ -511,7 +531,10 @@ async function checkChannelStatus(ch) {
           let keyUrl = match[1];
           if (!keyUrl.startsWith("http://") && !keyUrl.startsWith("https://"))
             keyUrl = new URL(keyUrl, playlistUrl).href;
-          const targetKeyUrl = typeof getProxiedUrl === "function" ? getProxiedUrl(keyUrl) : keyUrl;
+          const targetKeyUrl =
+            typeof getProxiedUrl === "function"
+              ? getProxiedUrl(keyUrl)
+              : keyUrl;
           const keyRes = await fetch(targetKeyUrl, {
             method: "GET",
             signal: controller.signal,

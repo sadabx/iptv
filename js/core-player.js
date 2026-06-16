@@ -26,8 +26,13 @@ const DEFAULT_PROXY_URL = "https://iptv-proxy.trionine.workers.dev/";
 
 function getProxiedUrl(url) {
   if (!url) return "";
-  const proxySetting = localStorage.getItem("iptv-proxy-url") || DEFAULT_PROXY_URL;
-  if (proxySetting && window.location.protocol === "https:" && url.startsWith("http://")) {
+  const proxySetting =
+    localStorage.getItem("iptv-proxy-url") || DEFAULT_PROXY_URL;
+  if (
+    proxySetting &&
+    window.location.protocol === "https:" &&
+    url.startsWith("http://")
+  ) {
     if (proxySetting.includes("?url=")) {
       return proxySetting + encodeURIComponent(url);
     }
@@ -50,7 +55,28 @@ const ICONS = {
 // ══════════════════════════════════════════
 //  STREAM LOAD ENGINE
 // ══════════════════════════════════════════
+
+// Public API: Load a channel and push a new history entry (user-initiated clicks)
 function loadChannel(id, streamIdx) {
+  const ch = channels.find((c) => c.id === id);
+  if (!ch) return;
+
+  // Push a new history entry ONLY when explicitly clicking a new link manually
+  const cleanPath = `/tv/${id}`;
+  if (window.location.pathname !== cleanPath) {
+    window.history.pushState({ channelId: id }, "", cleanPath);
+  }
+
+  executePlayerMount(id, streamIdx);
+}
+
+// History-safe bypass: Load a channel WITHOUT pushing a history entry (used by popstate back/forward)
+function loadChannelWithoutPush(id, streamIdx) {
+  executePlayerMount(id, streamIdx);
+}
+
+// Core player mounting logic — shared by both loadChannel and loadChannelWithoutPush
+function executePlayerMount(id, streamIdx) {
   const ch = channels.find((c) => c.id === id);
   if (!ch) return;
 
@@ -195,9 +221,9 @@ function populateWatchMore(currentId) {
     <div class="wm-title">More Channels</div>
     <div class="wm-grid">
       ${allChannels
-      .map((ch) => {
-        const isOffline = offlineList.includes(ch.id);
-        return `
+        .map((ch) => {
+          const isOffline = offlineList.includes(ch.id);
+          return `
           <div class="wm-card${isOffline ? " is-offline" : ""}" data-id="${ch.id}" data-search="${ch.name.toLowerCase()}">
             <div class="wm-thumb">
               ${buildChannelLogo(ch, "tile")}
@@ -205,8 +231,8 @@ function populateWatchMore(currentId) {
             <div class="wm-name">${ch.name}</div>
             <div class="wm-meta">${ch.quality}</div>
           </div>`;
-      })
-      .join("")}
+        })
+        .join("")}
     </div>`;
 
   $wm.querySelectorAll(".wm-card").forEach((card) => {
@@ -346,7 +372,7 @@ function startHLS(url) {
 
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       retryCount = 0;
-      $video.play().catch(() => { });
+      $video.play().catch(() => {});
       const ch = channels.find((c) => c.id === activeId);
       if (ch && (!ch.streams || ch.streams.length <= 1)) {
         buildQualMenuFromHlsLevels();
@@ -355,7 +381,11 @@ function startHLS(url) {
 
     hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, (event, data) => {
       updateCCButtonVisibility();
-      if (subtitleEnabled && data.subtitleTracks && data.subtitleTracks.length > 0) {
+      if (
+        subtitleEnabled &&
+        data.subtitleTracks &&
+        data.subtitleTracks.length > 0
+      ) {
         hls.subtitleTrack = 0;
       }
     });
@@ -406,7 +436,7 @@ function startHLS(url) {
   } else if ($video.canPlayType("application/vnd.apple.mpegurl")) {
     retryCount = 0;
     $video.src = url;
-    $video.play().catch(() => { });
+    $video.play().catch(() => {});
   } else {
     showLoad(false);
     showErr("HLS not supported in this browser");
@@ -430,19 +460,23 @@ function startMpegTS(url) {
   startPlayTimeoutWatchdog();
 
   if (mpegts.getFeatureList().mseLivePlayback) {
-    mpegtsPlayer = mpegts.createPlayer({
-      type: "mpegts",
-      isLive: true,
-      url: url,
-    }, {
-      enableWorker: true,
-      lazyLoadMaxDuration: 3 * 60,
-      seekType: "range",
-    });
+    mpegtsPlayer = mpegts.createPlayer(
+      {
+        type: "mpegts",
+        isLive: true,
+        url: url,
+      },
+      {
+        enableWorker: true,
+        lazyLoadMaxDuration: 3 * 60,
+        seekType: "range",
+      },
+    );
     mpegtsPlayer.attachMediaElement($video);
     mpegtsPlayer.load();
 
-    mpegtsPlayer.play()
+    mpegtsPlayer
+      .play()
       .then(() => {
         retryCount = 0;
         $qualBtn.style.display = "none";
@@ -459,7 +493,7 @@ function startMpegTS(url) {
         toast(`MpegTS issue. Retrying (${retryCount}/${MAX_RETRIES})...`);
         mpegtsPlayer.unload();
         mpegtsPlayer.load();
-        mpegtsPlayer.play().catch(() => { });
+        mpegtsPlayer.play().catch(() => {});
       } else {
         handleMpegTSError(type, detail, info);
       }
@@ -628,7 +662,9 @@ function hasTextTracks() {
     return true;
   }
   const tracks = Array.from($video.textTracks || []);
-  const subTracks = tracks.filter((t) => t.kind === "subtitles" || t.kind === "captions");
+  const subTracks = tracks.filter(
+    (t) => t.kind === "subtitles" || t.kind === "captions",
+  );
   return subTracks.length > 0;
 }
 
@@ -850,7 +886,7 @@ function updateStats() {
         break;
       }
     }
-  } catch { }
+  } catch {}
   if ($buffer) $buffer.textContent = `${bufLen.toFixed(1)}s`;
   if ($bufferHealth) $bufferHealth.textContent = `${bufLen.toFixed(1)} s`;
 
@@ -936,7 +972,7 @@ function updateStats() {
 function jumpToLive() {
   if ($video.seekable.length) {
     $video.currentTime = $video.seekable.end($video.seekable.length - 1);
-    $video.play().catch(() => { });
+    $video.play().catch(() => {});
   }
 }
 

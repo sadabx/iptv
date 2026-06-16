@@ -345,7 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Toggle Offline Listener
   const savedHideOffline = localStorage.getItem("iptv-hide-offline");
   const defaultHideOffline = savedHideOffline !== "false"; // default to true (hide offline)
-  
+
   document.body.classList.toggle("hide-offline-active", defaultHideOffline);
   const $btnToggleOffline = document.getElementById("btn-toggle-offline");
   if ($btnToggleOffline) {
@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("iptv-hide-offline", active);
       if ($eyeOpen) $eyeOpen.classList.toggle("hidden", !active);
       if ($eyeClosed) $eyeClosed.classList.toggle("hidden", active);
-      
+
       updateChannelCount();
       onSearch({ target: $search });
     });
@@ -386,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!track.addCue_overridden && typeof track.addCue === "function") {
       track.addCue_overridden = true;
       const originalAddCue = track.addCue;
-      track.addCue = function(cue) {
+      track.addCue = function (cue) {
         formatCue(cue);
         originalAddCue.call(track, cue);
       };
@@ -431,15 +431,63 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Restore subtitle preference from localStorage (skip toast on load)
-  const savedSubtitle = localStorage.getItem("iptv-subtitle-enabled") === "true";
+  const savedSubtitle =
+    localStorage.getItem("iptv-subtitle-enabled") === "true";
   setSubtitlesActive(savedSubtitle, true);
 
   // Hide preloader
   const $preloader = document.getElementById("preloader");
   if ($preloader) $preloader.classList.add("hidden");
 
-  // Initialize
+  // Initialize channels and status checker
   initChannels();
   startAutomaticStatusCheck();
+
+  // ── Clean Path Routing Interceptor ──
+  // Check for 404.html sessionStorage redirect first (GitHub Pages SPA trick)
+  const redirectPath = sessionStorage.getItem("iptv-redirect-path");
+  if (redirectPath) {
+    sessionStorage.removeItem("iptv-redirect-path");
+    // Replace browser history so the clean URL is shown
+    window.history.replaceState({ channelId: redirectPath }, "", redirectPath);
+  }
+
+  // Parses /tv/{channel-id} on initial page load for deep-link support
+  const activePath = redirectPath || window.location.pathname;
+  const pathSegments = activePath.split("/");
+
+  if (pathSegments[1] === "tv" && pathSegments[2]) {
+    const targetChannelId = pathSegments[2];
+    const validChannelExists = channels.find((c) => c.id === targetChannelId);
+
+    if (validChannelExists) {
+      loadChannel(targetChannelId);
+    } else {
+      showHomePage();
+    }
+  } else {
+    showHomePage();
+  }
+
+  // ── Browser Back/Forward Navigation Handler ──
+  window.addEventListener("popstate", (event) => {
+    console.log("Browser navigation detected. Routing layout...");
+    const pathSegments = window.location.pathname.split("/");
+
+    if (pathSegments[1] === "tv" && pathSegments[2]) {
+      const targetChannelId = pathSegments[2];
+      const validChannelExists = channels.find((c) => c.id === targetChannelId);
+
+      if (validChannelExists) {
+        // Use the history-safe bypass to avoid pushing a duplicate history entry
+        loadChannelWithoutPush(targetChannelId);
+      } else {
+        showHomePage();
+      }
+    } else {
+      showHomePage();
+    }
+  });
+
   initLiveChat();
 });

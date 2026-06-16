@@ -58,20 +58,20 @@ const CHANNELS_DATA = {
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
             },
             {
-              label: "Somoy TV",
-              url: "https://live.thebosstv.com:30443/dwlive/Somoy-TV/chunks.m3u8",
-            },
-            {
-              label: "NBC Live",
-              url: "https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8",
-            },
-            {
               label: "United Sports 2",
               url: "http://66.102.126.10:8000/play/a022/index.m3u8",
             },
             {
+              label: "Somoy TV",
+              url: "https://live.thebosstv.com:30443/dwlive/Somoy-TV/chunks.m3u8",
+            },
+            {
               label: "FIFA+",
               url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
+            },
+            {
+              label: "NBC Live",
+              url: "https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8",
             },
             /* {
               label: "Caze TV (BR)",
@@ -296,7 +296,7 @@ const CHANNELS_DATA = {
           streams: [
             {
               label: "Youtube live",
-              url: "https://www.youtube.com/live/ShCdQy8l0SU?si=zpXsX8Omi19hTt5L",
+              url: "https://www.youtube.com/live/pW3wrbIbT7A?si=jTROGGS0y6oVMq_q",
             },
           ],
         },
@@ -339,7 +339,7 @@ const CHANNELS_DATA = {
             },
             {
               label: "Youtube live",
-              url: "https://www.youtube.com/live/dpRmnIcjKPs?si=V150TEgJMNvokl3B",
+              url: "https://www.youtube.com/live/sZQDGdHAOyQ?si=uo2VgelS1jRIn-lZ",
             },
           ],
         },
