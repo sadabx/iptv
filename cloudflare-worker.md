@@ -1,4 +1,6 @@
-```
+# Cloudflare Worker Script
+
+```js
 addEventListener("fetch", event => {
   event.respondWith(handleRequest(event.request))
 })
