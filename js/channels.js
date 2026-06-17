@@ -8,14 +8,18 @@ const CHANNELS_DATA = {
       name: "Sports",
       channels: [
         {
-          id: "beinsports1hd",
-          name: "BeinSports 1HD",
-          shortName: "BS1HD",
+          id: "beinsports1",
+          name: "BeinSports-1",
+          shortName: "BS1",
           logo: "assets/logos/beinsports-1.png",
           quality: "FHD",
           streams: [
             {
-              label: "Beinsport 1HD",
+              label: "Beinsport-Arabic",
+              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
+            },
+            {
+              label: "Beinsport-1HD",
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
             },
           ],
@@ -54,26 +58,34 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "Beinsport 1HD",
+              label: "Beinsport-Arabic",
+              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
+            },
+            {
+              label: "Arabic-2",
+              url: "https://live.kooran51.cfd/yorrr1/index.m3u8",
+            },
+            {
+              label: "Beinsport-1",
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
+            },
+            {
+              label: "Sport TV-1",
+              url: "https://fawatv.online/live/F2E62CEFFF6C6F88C237BD9DF4957C35/667.m3u8",
             },
             {
               label: "United Sports 2",
               url: "http://66.102.126.10:8000/play/a022/index.m3u8",
             },
             {
-              label: "Somoy TV",
-              url: "https://live.thebosstv.com:30443/dwlive/Somoy-TV/chunks.m3u8",
-            },
-            {
               label: "FIFA+",
               url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
             },
-            {
+            /*{
               label: "NBC Live",
               url: "https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8",
             },
-            /* {
+            {
               label: "Caze TV (BR)",
               url: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
             }, */
