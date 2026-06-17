@@ -214,10 +214,12 @@ body.is-watching #btn-chat {
     background: transparent;
     color: var(--text2);
     border-radius: 50%;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all var(--transition-fast);
+    line-height: 0; /* prevent inline text spacing from shifting icons */
 }
 
 .yt-nav-btn:hover {

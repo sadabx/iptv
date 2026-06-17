@@ -489,5 +489,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Initialize chat for the home/lobby screen.
+  // core-player.js also calls initLiveChat() on every channel switch —
+  // chat-engine.js now guards against double Firebase listeners internally.
   initLiveChat();
 });

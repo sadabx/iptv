@@ -4,6 +4,8 @@
 
 // ── YouTube Live Chat Controller ──
 let currentChatRef = null;
+let chatCloseBtnBound = false; // prevents duplicate close-btn listeners
+let currentChatChannelId = null; // tracks active channel to skip redundant re-inits
 
 function initLiveChat() {
   const $msgContainer = document.getElementById("chat-messages");
@@ -12,8 +14,9 @@ function initLiveChat() {
 
   if (!$msgContainer || !$inputArea) return;
 
-  // Close button functionality
-  if ($btnClose) {
+  // Close button functionality — bind only once to avoid stacking listeners
+  if ($btnClose && !chatCloseBtnBound) {
+    chatCloseBtnBound = true;
     $btnClose.addEventListener("click", () => {
       const $chat = document.getElementById("chat");
       const $btnChat = document.getElementById("btn-chat");
@@ -131,11 +134,20 @@ function initLiveChat() {
     FIREBASE_CONFIG.apiKey &&
     FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
 
+  // Determine target channel ID before touching any listeners
+  const targetChannelId = currentChannel ? currentChannel.id : "lobby";
+
+  // Skip full re-init if the channel hasn't changed (avoids duplicate message flash)
+  if (isFirebaseConfigured && targetChannelId === currentChatChannelId && currentChatRef) {
+    return;
+  }
+
   // Detach previous Firebase listeners
   if (currentChatRef) {
     currentChatRef.off();
     currentChatRef = null;
   }
+  currentChatChannelId = null;
 
   // Clear UI messages
   $msgContainer.innerHTML = "";
@@ -146,8 +158,8 @@ function initLiveChat() {
       firebase.initializeApp(FIREBASE_CONFIG);
     }
 
-    const channelId = currentChannel ? currentChannel.id : "lobby";
-    currentChatRef = firebase.database().ref(`chats/${channelId}`);
+    currentChatChannelId = targetChannelId;
+    currentChatRef = firebase.database().ref(`chats/${targetChannelId}`);
 
     // Auto-wipe inactivity cleanup (2 hours threshold)
     currentChatRef
