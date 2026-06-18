@@ -61,10 +61,10 @@ const CHANNELS_DATA = {
               label: "Beinsport-Arabic",
               url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
             },
-            {
+            /*{
               label: "Arabic-2",
               url: "https://live.kooran51.cfd/yorrr1/index.m3u8",
-            },
+            },*/
             {
               label: "Beinsport-1",
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
@@ -349,10 +349,10 @@ const CHANNELS_DATA = {
               label: "1080p",
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8",
             },
-            {
+            /*{
               label: "Youtube live",
               url: "https://www.youtube.com/live/sZQDGdHAOyQ?si=uo2VgelS1jRIn-lZ",
-            },
+            },*/
           ],
         },
         {
