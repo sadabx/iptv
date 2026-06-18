@@ -15,7 +15,7 @@ You can easily integrate this player into your own website:
   ```
 
 > [!WARNING]
-> **Mixed Content & HTTPS Restrictions**: Stream URLs using `http://` will fail to load if your website is hosted on `https://` due to browser mixed-content blocking. If you deploy this player on an HTTPS site, ensure your stream URLs also use `https://`.
+> **Mixed Content & HTTPS Restrictions**: Stream URLs using `http://` will fail to load if your website is hosted on `https://` due to browser mixed-content blocking. If you deploy this player on an HTTPS site, ensure your stream URLs also use `https://`. or use cloudflare worker or any other proxy for ssl termination. Or run a local server.
 
 ---
 
@@ -41,6 +41,7 @@ You can easily integrate this player into your own website:
 | ATN News | `https://owrcovcrpy.gpcdn.net/bpk-tv/1706/output/index.m3u8` |
 | Bangla TV | `https://tvsen6.aynaott.com/banglatv/index.m3u8` |
 | Bangla Vision | `https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8` |
+| BeinSports-1 | `https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8` <br> `https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8` |
 | Bijoy TV | `http://main.epgmaker.com/live/y49sz6KMQs/6115263489/581.ts` |
 | Boishakhi TV | `https://boishakhi.sonarbanglatv.com/boishakhi/boishakhitv/index.m3u8` <br> `https://tvsen6.aynaott.com/boishakhitv/index.m3u8` |
 | Cartoon Network | `https://stream.ottplus.bd/live/cn_sd_abr/live/cn_sd/chunks.m3u8` <br> `https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/live/87H/chunks.m3u8` |
@@ -56,12 +57,11 @@ You can easily integrate this player into your own website:
 | Discovery HD | `https://stream.ottplus.bd/live/discovery_sd_abr/live/discovery_sd/chunks.m3u8` <br> `http://202.70.146.135:8000/play/a05z/index.m3u8` |
 | Doraemon | `https://live20.bozztv.com/giatvplayout7/giatv-209902/tracks-v1a1/mono.ts.m3u8` |
 | Ekattor TV | `https://owrcovcrpy.gpcdn.net/bpk-tv/1705/output/index.m3u8` |
-| Ekhon TV | `https://www.youtube.com/live/ShCdQy8l0SU?si=zpXsX8Omi19hTt5L` |
+| Ekhon TV | `https://www.youtube.com/live/pW3wrbIbT7A?si=jTROGGS0y6oVMq_q` |
 | Ekushey TV | `https://ekusheyserver.com/etvlivesn.m3u8` <br> `https://tvsen6.aynaott.com/etv/index.m3u8` |
 | Eurosport HD | `http://151.80.18.177:86/Eurosport_HD/index.m3u8` |
 | F1 TV | `https://hakunamatata5.org:8088/hls/sky-f1.m3u8` |
-| FIFA 26 Live | `https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8` <br> `http://66.102.126.10:8000/play/a022/index.m3u8` <br> `https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8` <br> `https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8` |
-| Fox Sports 501 HD | `http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/19146/index.m3u8` |
+| FIFA 26 | `https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8` <br> `https://live.kooran51.cfd/yorrr1/index.m3u8` <br> `https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8` <br> `https://fawatv.online/live/F2E62CEFFF6C6F88C237BD9DF4957C35/667.m3u8` <br> `http://66.102.126.10:8000/play/a022/index.m3u8` <br> `https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8` |
 | Gazi TV (GTV) | `http://tvn1.chowdhury-shaheb.com/gazitv/index.m3u8` <br> `https://tvsen5.aynaott.com/Ravc7gPCZpxk/index.m3u8` <br> `https://ott.sonyplex.com:444/play/EDI0B4ME7MUUyw-g59yLM4a9ZIbC6ZQPO9Uw1syBicM/m3u8` |
 | Global TV | `https://tvsen6.aynaott.com/globaltvhd/index.m3u8` |
 | Gopal Bhar | `https://live20.bozztv.com/giatvplayout7/giatv-209611/tracks-v1a1/mono.ts.m3u8` |
@@ -69,7 +69,7 @@ You can easily integrate this player into your own website:
 | ID HD | `https://stream.ottplus.bd/live/id_hd_abr/live/id_hd/chunks.m3u8` |
 | Independent TV | `https://owrcovcrpy.gpcdn.net/bpk-tv/1704/output/index.m3u8` |
 | Jago News 24 | `https://app.ncare.live/live-orgin/jagonews24.stream/playlist.m3u8` |
-| Jamuna TV | `https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8` <br> `https://www.youtube.com/live/dpRmnIcjKPs?si=V150TEgJMNvokl3B` |
+| Jamuna TV | `https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8` <br> `https://www.youtube.com/live/sZQDGdHAOyQ?si=uo2VgelS1jRIn-lZ` |
 | Maasranga TV | `https://owrcovcrpy.gpcdn.net/bpk-tv/1722/output/index.m3u8` |
 | Madani Channel Bangla | `https://streaming.madanichannel.tv/static/streaming-playlists/hls/d3e49b76-ac06-4689-a641-9200445b647f/master.m3u8` |
 | Mohona TV | `https://bozztv.com/rongo/rongo-MohonaTV/index.m3u8` <br> `https://tvsen6.aynaott.com/mohonatv/index.m3u8` |
@@ -110,5 +110,5 @@ You can easily integrate this player into your own website:
 | Willow Sports | `http://main.epgmaker.com/live/y49sz6KMQs/6115263489/517.ts` |
 | Zee 24 Ghanta | `https://d2dsoyvkr33m05.cloudfront.net/index_1.m3u8` |
 | Zee Action | `https://stream.ottplus.bd/live/zee_action_abr/live/zee_action_720/chunks.m3u8` |
-| Zee Bangla HD | `http://main.epgmaker.com/live/y49sz6KMQs/6115263489/536.ts` <br> `https://catchup.yuppcdn.net/amazonv2/36/preview/zeebangla/master/chunklist.m3u8` <br> `https://serverbackupchannel.xyz/jiotvchannel/app/live/625/Zee_Bangla/index.m3u8` <br> `https://d75dqofg5kmfk.cloudfront.net/bpk-tv/Zeebangla/default/thenayeemparvez.m3u8` |
+| Zee Bangla HD | `https://stream.ottplus.bd/live/zee_bangla_abr/live/zee_bangla_720/chunks.m3u8` <br> `https://catchup.yuppcdn.net/amazonv2/36/preview/zeebangla/master/chunklist.m3u8` <br> `http://main.epgmaker.com/live/y49sz6KMQs/6115263489/536.ts` |
 | Zee Cinema | `https://stream.ottplus.bd/live/zee_cinema_hd_abr/live/zee_cinema_hd_720/chunks.m3u8` |

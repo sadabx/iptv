@@ -577,7 +577,7 @@ const CHANNELS_DATA = {
         },
         {
           id: "gazi-tv",
-          name: "Gazi TV (GTV)",
+          name: "Gazi TV",
           shortName: "GTV",
           logo: "assets/logos/gazi-tv.png",
           quality: "FHD",
