@@ -459,42 +459,6 @@ body.is-watching .np-name strong {
     color: var(--text3);
 }
 
-/* ── Preloader ── */
-.preloader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    transition: opacity 0.4s var(--ease), visibility 0.4s var(--ease);
-}
-
-.preloader.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.preloader-spinner {
-    width: 44px;
-    height: 44px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: var(--red);
-    border-radius: 50%;
-    animation: spin 0.75s linear infinite;
-}
-
-.preloader-text {
-    font-size: 0.82rem;
-    color: var(--text2);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-
 /* ── Toasts ── */
 .toasts {
     position: fixed;

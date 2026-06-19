@@ -51,6 +51,20 @@ const CHANNELS_DATA = {
           ],
         },
         {
+          id: "fifa-26-ads",
+          name: "FIFA 26 (Ads) ", //the player has ads
+          shortName: "FIFA",
+          logo: "assets/logos/fifa26.png",
+          quality: "FHD",
+          isEmbed: true,
+          streams: [
+            {
+              label: "Auto",
+              url: "https://embed.st/embed/admin/ppv-brazil-vs-haiti/1",
+            },
+          ],
+        },
+        {
           id: "fifa-wc-2026",
           name: "FIFA 26",
           shortName: "FIFA",
@@ -61,34 +75,35 @@ const CHANNELS_DATA = {
               label: "Beinsport-Arabic",
               url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
             },
-            /*{
-              label: "Arabic-2",
-              url: "https://live.kooran51.cfd/yorrr1/index.m3u8",
-            },*/
             {
               label: "Beinsport-1",
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
             },
             {
-              label: "Sport TV-1",
+              label: "Beinsport 2",
               url: "https://fawatv.online/live/F2E62CEFFF6C6F88C237BD9DF4957C35/667.m3u8",
             },
             {
               label: "United Sports 2",
               url: "http://66.102.126.10:8000/play/a022/index.m3u8",
             },
+            /*{
+              label: "Arabic-2",
+              url: "https://live.kooran51.cfd/yorrr1/index.m3u8",  //broken link
+            },
             {
               label: "FIFA+",
-              url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
+              url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",  //only shows old matches not live
             },
-            /*{
+            {
               label: "NBC Live",
-              url: "https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8",
+              url: "https://tda-nnaa-drct-pa6dy.fast.nbcuni.com/live/master_2.m3u8",  //doesnt stream live
             },
             {
               label: "Caze TV (BR)",
-              url: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",
-            }, */
+              url: "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/1080p-vtt/index.m3u8",  //broken link
+            }, 
+            */
           ],
         },
         /* {

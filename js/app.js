@@ -435,9 +435,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.getItem("iptv-subtitle-enabled") === "true";
   setSubtitlesActive(savedSubtitle, true);
 
-  // Hide preloader
-  const $preloader = document.getElementById("preloader");
-  if ($preloader) $preloader.classList.add("hidden");
 
   // Initialize channels and status checker
   initChannels();

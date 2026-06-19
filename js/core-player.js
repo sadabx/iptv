@@ -127,8 +127,8 @@ function executePlayerMount(id, streamIdx) {
   const $embedPlayer = document.getElementById("embed-player");
   const $stage = document.querySelector(".stage");
 
-  if (youtubeId) {
-    // ── YouTube Embed Mode ──
+  if (youtubeId || ch.isEmbed) {
+    // ── Embed Mode ──
     isEmbedActive = true;
     if (hls) {
       hls.destroy();
@@ -146,7 +146,15 @@ function executePlayerMount(id, streamIdx) {
     clearPlayTimeoutWatchdog();
 
     if ($embedPlayer) {
-      $embedPlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+      $embedPlayer.setAttribute("scrolling", "no");
+      $embedPlayer.setAttribute("marginheight", "0");
+      $embedPlayer.setAttribute("marginwidth", "0");
+      $embedPlayer.setAttribute("frameborder", "0");
+      if (youtubeId) {
+        $embedPlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+      } else {
+        $embedPlayer.src = url;
+      }
       $embedPlayer.classList.remove("hidden");
     }
     if ($stage) $stage.classList.add("is-embed");
