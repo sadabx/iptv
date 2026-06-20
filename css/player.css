@@ -685,3 +685,195 @@ video::cue {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
     line-height: 1.4 !important;
 }
+
+/* ── Embed Server Selector (Icon + Dropdown) ── */
+.embed-server-selector {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 20;
+    pointer-events: auto;
+}
+
+.embed-server-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(15, 15, 15, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.embed-server-toggle:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.06);
+}
+
+.embed-server-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    pointer-events: none;
+}
+
+.embed-server-toggle .server-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.55rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
+    box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+}
+
+.embed-server-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: rgba(22, 22, 22, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    min-width: 160px;
+    padding: 6px 0;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+    z-index: 25;
+    animation: embedDropIn 0.18s var(--ease);
+    pointer-events: auto;
+}
+
+.embed-server-dropdown.hidden {
+    display: none !important;
+}
+
+.embed-server-dropdown .dropdown-label {
+    padding: 8px 14px 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 2px;
+}
+
+.embed-server-dropdown .dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 14px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-radius: 0;
+}
+
+.embed-server-dropdown .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.embed-server-dropdown .dropdown-item.active {
+    color: var(--red);
+    font-weight: 600;
+}
+
+.embed-server-dropdown .dropdown-item.active::after {
+    content: '✓';
+    font-size: 0.75rem;
+    color: var(--red);
+    font-weight: 700;
+    margin-left: 8px;
+}
+
+.embed-server-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text2);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-top: 8px;
+    animation: tIn 0.25s var(--ease);
+    white-space: nowrap;
+}
+
+.embed-server-status.hidden {
+    display: none !important;
+}
+
+.embed-cancel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.embed-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes embedDropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .embed-server-selector {
+        top: 8px;
+        right: 8px;
+    }
+
+    .embed-server-toggle {
+        width: 32px;
+        height: 32px;
+    }
+
+    .embed-server-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .embed-server-dropdown {
+        min-width: 140px;
+    }
+}

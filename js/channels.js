@@ -59,8 +59,16 @@ const CHANNELS_DATA = {
           isEmbed: true,
           streams: [
             {
-              label: "Auto",
+              label: "Server 1",
               url: "https://embed.st/embed/admin/ppv-brazil-vs-haiti/1",
+            },
+            {
+              label: "Server 2",
+              url: "https://embed.st/embed/admin/ppv-brazil-vs-haiti/2",
+            },
+            {
+              label: "Server 3",
+              url: "https://embed.st/embed/admin/ppv-brazil-vs-haiti/3",
             },
           ],
         },
