@@ -435,7 +435,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.getItem("iptv-subtitle-enabled") === "true";
   setSubtitlesActive(savedSubtitle, true);
 
-
   // Initialize channels and status checker
   initChannels();
   startAutomaticStatusCheck();
@@ -449,11 +448,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({ channelId: redirectPath }, "", redirectPath);
   }
 
-  // Parses /tv/{channel-id} on initial page load for deep-link support
+  // Parses /{category}/{channel-id} or /tv/{channel-id} on initial page load
   const activePath = redirectPath || window.location.pathname;
   const pathSegments = activePath.split("/");
 
-  if (pathSegments[1] === "tv" && pathSegments[2]) {
+  if (pathSegments[1] && pathSegments[2]) {
     const targetChannelId = pathSegments[2];
     const validChannelExists = channels.find((c) => c.id === targetChannelId);
 
@@ -471,7 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Browser navigation detected. Routing layout...");
     const pathSegments = window.location.pathname.split("/");
 
-    if (pathSegments[1] === "tv" && pathSegments[2]) {
+    if (pathSegments[1] && pathSegments[2]) {
       const targetChannelId = pathSegments[2];
       const validChannelExists = channels.find((c) => c.id === targetChannelId);
 

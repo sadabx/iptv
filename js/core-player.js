@@ -69,7 +69,10 @@ function loadChannel(id, streamIdx) {
   if (!ch) return;
 
   // Push a new history entry ONLY when explicitly clicking a new link manually
-  const cleanPath = `/tv/${id}`;
+  const categorySlug = ch.category
+    ? ch.category.toLowerCase().replace(/\s+/g, "-")
+    : "tv";
+  const cleanPath = `/${categorySlug}/${id}`;
   if (window.location.pathname !== cleanPath) {
     window.history.pushState({ channelId: id }, "", cleanPath);
   }

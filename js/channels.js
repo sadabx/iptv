@@ -51,7 +51,7 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "fifa-26-ads",
+          id: "fifa-26-stable",
           name: "FIFA 26 (Ads) ", //the player has ads
           shortName: "FIFA",
           logo: "assets/logos/fifa26.png",
@@ -437,7 +437,7 @@ const CHANNELS_DATA = {
       ],
     },
     {
-      name: "General & Entertainment",
+      name: "General",
       channels: [
         {
           id: "ananda-tv",
@@ -961,7 +961,7 @@ const CHANNELS_DATA = {
       ],
     },*/
     {
-      name: "Kids & Family",
+      name: "Kids",
       channels: [
         {
           id: "cartoon-network",
@@ -1046,10 +1046,10 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "pbs-kids-usa",
+          id: "pbs-kids",
           name: "PBS Kids",
           shortName: "PBSK",
-          logo: "assets/logos/pbs-kids-usa.png",
+          logo: "assets/logos/pbs-kids.png",
           quality: "fHD",
           streams: [
             {

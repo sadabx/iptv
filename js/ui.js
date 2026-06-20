@@ -70,17 +70,20 @@ function buildChannelLogo(ch, variant = "guide") {
   const fallbackOnly = !ch.logo;
 
   // Normalize to root-relative path so logos resolve correctly even when the
-  // active URL is a deep route like /tv/channel-id (relative paths would
-  // otherwise resolve to /tv/assets/logos/... which is a 404).
+  // active URL is a deep route like /sports/channel-id (relative paths would
+  // otherwise resolve to /sports/assets/logos/... which is a 404).
   const logoSrc = ch.logo
-    ? (ch.logo.startsWith("http") || ch.logo.startsWith("/") ? ch.logo : "/" + ch.logo)
+    ? ch.logo.startsWith("http") || ch.logo.startsWith("/")
+      ? ch.logo
+      : "/" + ch.logo
     : "";
 
   return `
     <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}">
-      ${logoSrc
-        ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
-        : ""
+      ${
+        logoSrc
+          ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
+          : ""
       }
       <span class="ch-initials ch-logo-fallback">${initials}</span>
     </div>`;
