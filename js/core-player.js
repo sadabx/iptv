@@ -173,6 +173,7 @@ function executePlayerMount(id, streamIdx) {
 
   // ── Dynamic Sports Stream Interceptor ──
   const clickedCard = window.clickedCard;
+  window.clickedCard = null;
   if (id === "live-sports-automated" || (clickedCard && clickedCard.dataset.streamId)) {
     isEmbedActive = true;
     resetPlayerState();
