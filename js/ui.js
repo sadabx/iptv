@@ -132,13 +132,25 @@ function buildMatchLogo(match) {
 
 async function loadLiveMatches(carouselTrack) {
   try {
-    const res = await fetch("https://streamed.pk/api/matches/live");
+    const res = await fetch("https://streamed.pk/api/matches/all");
     if (!res.ok) throw new Error("API response error");
     const matches = await res.json();
 
-    const liveSports = matches.filter(
-      (m) => (m.category === "football" || m.category === "f1" || m.category === "cricket") && m.sources && m.sources.length > 0
-    );
+    const now = Date.now();
+    const liveSports = matches.filter((m) => {
+      const validCategories = ["football", "f1", "cricket"];
+      const isSports = validCategories.includes(m.category);
+      const hasSources = m.sources && m.sources.length > 0;
+
+      const hoursSinceStart = (now - m.date) / (1000 * 60 * 60);
+
+      let maxHours = 3;
+      if (m.category === "cricket") maxHours = 8;
+
+      const isLive = hoursSinceStart >= -0.25 && hoursSinceStart <= maxHours;
+
+      return isSports && hasSources && isLive;
+    });
 
     if (liveSports.length === 0) {
       const sec = carouselTrack.closest(".home-section");
@@ -393,7 +405,7 @@ function onSearch(e) {
 
   const anyHomeVisible = filterCards(".home-ch-card", q, hideOffline);
   document.querySelectorAll(".home-section").forEach(updateCategorySectionVisibility);
-  
+
   const $homeNoResults = document.getElementById("home-no-results");
   if ($homeNoResults) $homeNoResults.style.display = anyHomeVisible ? "none" : "flex";
 
