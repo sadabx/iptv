@@ -30,6 +30,8 @@ let $video,
   $btnSB,
   setGuideOpen;
 
+let channels = [];
+
 // ══════════════════════════════════════════
 //  CHANNEL LIST & DOM BUILDERS
 // ══════════════════════════════════════════
@@ -56,6 +58,17 @@ function initChannels() {
     });
   });
 
+  // Add virtual channel for dynamic live sports matches so routing and lookups don't fail
+  channels.push({
+    id: "live-sports-automated",
+    name: "Live Sports Engine",
+    shortName: "LIVE",
+    quality: "FHD",
+    stream: "DYNAMIC_SPORTS_STREAMED_PK",
+    isEmbed: true,
+    category: "Sports"
+  });
+
   updateSidebarCategoryVisibility();
   updateChannelCount();
   initHomePage();
@@ -80,13 +93,91 @@ function buildChannelLogo(ch, variant = "guide") {
 
   return `
     <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}">
-      ${
-        logoSrc
-          ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
-          : ""
-      }
+      ${logoSrc
+      ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
+      : ""
+    }
       <span class="ch-initials ch-logo-fallback">${initials}</span>
     </div>`;
+}
+
+function buildMatchLogo(match) {
+  const isTeamSport = match.category === "football" || match.category === "cricket";
+  const hasBadges = isTeamSport && match.teams && match.teams.home && match.teams.away && match.teams.home.badge && match.teams.away.badge;
+
+  if (hasBadges) {
+    const homeSrc = `https://streamed.pk/api/images/badge/${match.teams.home.badge}.webp`;
+    const awaySrc = `https://streamed.pk/api/images/badge/${match.teams.away.badge}.webp`;
+    return `
+      <div class="ch-logo-box ch-logo-box--tile" style="display: flex; gap: 4px; align-items: center; justify-content: center; padding: 4px; background: #ffffff;">
+        <img class="ch-logo-img" src="${homeSrc}" alt="${match.teams.home.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
+        <img class="ch-logo-img" src="${awaySrc}" alt="${match.teams.away.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
+      </div>`;
+  }
+
+  if (match.poster) {
+    const posterSrc = `https://streamed.pk${match.poster}`;
+    return `
+      <div class="ch-logo-box ch-logo-box--tile" style="background: #111; display: flex; align-items: center; justify-content: center;">
+        <img class="ch-logo-img" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy" style="height: 100%; width: 100%; object-fit: cover;">
+      </div>`;
+  }
+
+  const initials = match.title ? match.title.slice(0, 3).toUpperCase() : "LIVE";
+  return `
+    <div class="ch-logo-box ch-logo-box--tile logo-failed">
+      <span class="ch-initials ch-logo-fallback" style="display: grid;">${initials}</span>
+    </div>`;
+}
+
+async function loadLiveMatches(carouselTrack) {
+  try {
+    const res = await fetch("https://streamed.pk/api/matches/live");
+    if (!res.ok) throw new Error("API response error");
+    const matches = await res.json();
+
+    const liveSports = matches.filter(
+      (m) => (m.category === "football" || m.category === "f1" || m.category === "cricket") && m.sources && m.sources.length > 0
+    );
+
+    if (liveSports.length === 0) {
+      const sec = carouselTrack.closest(".home-section");
+      if (sec) sec.style.display = "none";
+      return;
+    }
+
+    carouselTrack.innerHTML = "";
+    liveSports.forEach((match) => {
+      const card = document.createElement("div");
+      card.className = "yt-tile home-ch-card";
+
+      card.dataset.streamSource = match.sources[0].source;
+      card.dataset.streamId = match.sources[0].id;
+      card.dataset.matchTitle = match.title;
+      card.dataset.id = "live-sports-automated";
+      card.dataset.search = match.title.toLowerCase();
+
+      card.innerHTML = `
+        <div class="yt-tile-thumb">
+          ${buildMatchLogo(match)}
+          <span class="yt-tile-live home-live-badge">LIVE</span>
+        </div>
+        <p class="yt-tile-title home-ch-name" title="${match.title}">${match.title}</p>
+        <p class="yt-tile-meta">SPORTS • FHD</p>
+      `;
+
+      card.addEventListener("click", () => {
+        window.clickedCard = card;
+        loadChannel("live-sports-automated");
+      });
+
+      carouselTrack.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Error loading dynamic sports matches:", err);
+    const sec = carouselTrack.closest(".home-section");
+    if (sec) sec.style.display = "none";
+  }
 }
 
 function initHomePage() {
@@ -96,6 +187,24 @@ function initHomePage() {
 
   $stageHome.innerHTML = "";
   const offlineList = getOfflineChannels();
+
+  // Inject Live Match Center row
+  const liveSection = document.createElement("div");
+  liveSection.className = "home-section";
+
+  const liveTitle = document.createElement("h2");
+  liveTitle.className = "yt-row-title";
+  liveTitle.textContent = "Live Matches";
+  liveSection.appendChild(liveTitle);
+
+  const liveCarousel = document.createElement("div");
+  liveCarousel.className = "carousel-track";
+  liveCarousel.innerHTML = `<div style="padding:16px;font-size:0.85rem;color:var(--text3)">Loading live matches...</div>`;
+  liveSection.appendChild(liveCarousel);
+
+  $stageHome.appendChild(liveSection);
+
+  loadLiveMatches(liveCarousel);
 
   CHANNELS_DATA.categories.forEach((cat) => {
     const section = document.createElement("div");
@@ -150,8 +259,30 @@ function initHomePage() {
 
   const footer = document.createElement("footer");
   footer.className = "app-footer";
-  footer.innerHTML =
-    'Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">TRIONINE</a> • <a href="/link-auditor" target="_blank">Link Auditor</a>';
+  footer.innerHTML = `
+    <div class="footer-left">
+      <div class="footer-brand">
+        <span style="color: var(--accent); font-weight: 700; font-size: 1.2rem; margin-right: 4px;">TN</span>
+        <span style="font-weight: 700; color: var(--text1); font-size: 1.1rem; vertical-align: middle;">TV</span>
+      </div>
+      <p class="footer-desc">A collection of live TV channels<br>and sports events, available for free.</p>
+      <div class="footer-dev">Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">trionine</a></div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-col">
+        <div class="footer-col-title">QUICK LINKS</div>
+        <a href="/">Home</a>
+        <a href="/link-auditor" target="_blank">Link Auditor</a>
+        <a href="https://discord.gg/JxZ4RS4Y7x" target="_blank" rel="noopener">Discord ↗</a>
+        <a href="https://github.com/sadabx/iptv" target="_blank" rel="noopener">Contribute on GitHub ↗</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">DISCLAIMER</div>
+        <p class="footer-disclaimer">External links are not endorsed.<br>Use at your own discretion.</p>
+        <div class="footer-copyright">© ${new Date().getFullYear()} TNTV</div>
+      </div>
+    </div>
+  `;
   $stageHome.appendChild(footer);
 }
 
@@ -241,77 +372,32 @@ function buildChItem(ch) {
 // ══════════════════════════════════════════
 //  SEARCH FILTER INTERFACE
 // ══════════════════════════════════════════
+function filterCards(selector, q, hideOffline) {
+  let anyVisible = false;
+  document.querySelectorAll(selector).forEach((card) => {
+    const isOffline = card.classList.contains("is-offline");
+    const match = (!hideOffline || !isOffline) && (!q || (card.dataset.search && card.dataset.search.includes(q)));
+    card.style.display = match ? "" : "none";
+    if (match) anyVisible = true;
+  });
+  return anyVisible;
+}
+
 function onSearch(e) {
-  const q = (
-    (e && e.target ? e.target.value : null) || ($search ? $search.value : "")
-  )
-    .toLowerCase()
-    .trim();
+  const q = ((e && e.target ? e.target.value : null) || ($search ? $search.value : "")).toLowerCase().trim();
   const hideOffline = document.body.classList.contains("hide-offline-active");
-  let anySidebarVisible = false;
-  let anyHomeVisible = false;
 
-  document.querySelectorAll(".ch-item").forEach((el) => {
-    const isOffline = el.classList.contains("is-offline");
-    const match =
-      (!hideOffline || !isOffline) && (!q || el.dataset.search.includes(q));
-    el.style.display = match ? "" : "none";
-    if (match) anySidebarVisible = true;
-  });
+  const anySidebarVisible = filterCards(".ch-item", q, hideOffline);
+  updateSidebarCategoryVisibility();
+  if ($noResults) $noResults.style.display = anySidebarVisible ? "none" : "block";
 
-  document.querySelectorAll(".cat-label").forEach((lbl) => {
-    let sib = lbl.nextElementSibling;
-    let catVisible = false;
-    while (sib && !sib.classList.contains("cat-label")) {
-      if (
-        sib.style.display !== "none" &&
-        (!hideOffline || !sib.classList.contains("is-offline"))
-      )
-        catVisible = true;
-      sib = sib.nextElementSibling;
-    }
-    lbl.style.display = catVisible ? "" : "none";
-  });
-
-  if ($noResults)
-    $noResults.style.display = anySidebarVisible ? "none" : "block";
-
-  document.querySelectorAll(".home-ch-card").forEach((card) => {
-    const isOffline = card.classList.contains("is-offline");
-    const match =
-      (!hideOffline || !isOffline) &&
-      (!q || (card.dataset.search && card.dataset.search.includes(q)));
-    card.style.display = match ? "" : "none";
-    if (match) anyHomeVisible = true;
-  });
-
-  document.querySelectorAll(".home-section").forEach((sec) => {
-    const cards = sec.querySelectorAll(".home-ch-card");
-    let secVisible = false;
-    cards.forEach((card) => {
-      if (
-        card.style.display !== "none" &&
-        (!hideOffline || !card.classList.contains("is-offline"))
-      )
-        secVisible = true;
-    });
-    sec.style.display = secVisible ? "" : "none";
-  });
-
+  const anyHomeVisible = filterCards(".home-ch-card", q, hideOffline);
+  document.querySelectorAll(".home-section").forEach(updateCategorySectionVisibility);
+  
   const $homeNoResults = document.getElementById("home-no-results");
-  if ($homeNoResults)
-    $homeNoResults.style.display = anyHomeVisible ? "none" : "flex";
+  if ($homeNoResults) $homeNoResults.style.display = anyHomeVisible ? "none" : "flex";
 
-  let anyWmVisible = false;
-  document.querySelectorAll(".wm-card").forEach((card) => {
-    const isOffline = card.classList.contains("is-offline");
-    const match =
-      (!hideOffline || !isOffline) &&
-      (!q || (card.dataset.search && card.dataset.search.includes(q)));
-    card.style.display = match ? "" : "none";
-    if (match) anyWmVisible = true;
-  });
-
+  const anyWmVisible = filterCards(".wm-card", q, hideOffline);
   const $wmTitle = document.querySelector(".wm-title");
   if ($wmTitle) $wmTitle.style.display = anyWmVisible ? "" : "none";
 }
@@ -382,11 +468,9 @@ function updateSidebarCategoryVisibility() {
     let sib = lbl.nextElementSibling;
     let catVisible = false;
     while (sib && !sib.classList.contains("cat-label")) {
-      if (
-        sib.style.display !== "none" &&
-        (!hideOffline || !sib.classList.contains("is-offline"))
-      ) {
+      if (sib.style.display !== "none" && (!hideOffline || !sib.classList.contains("is-offline"))) {
         catVisible = true;
+        break; // Optimization: early exit
       }
       sib = sib.nextElementSibling;
     }
@@ -398,15 +482,9 @@ function updateCategorySectionVisibility(sec) {
   if (!sec) return;
   const hideOffline = document.body.classList.contains("hide-offline-active");
   const cards = sec.querySelectorAll(".home-ch-card");
-  let secVisible = false;
-  cards.forEach((card) => {
-    if (
-      card.style.display !== "none" &&
-      (!hideOffline || !card.classList.contains("is-offline"))
-    ) {
-      secVisible = true;
-    }
-  });
+  const secVisible = Array.from(cards).some((card) =>
+    card.style.display !== "none" && (!hideOffline || !card.classList.contains("is-offline"))
+  );
   sec.style.display = secVisible ? "" : "none";
 }
 
@@ -450,7 +528,7 @@ async function checkChannelStatus(ch) {
 
   const streams = getStreams(ch);
   if (!streams.length) return false;
-  if (streams.some((s) => getYouTubeId(s.url))) return true;
+  if (streams.some((s) => isYouTubeUrl(s.url))) return true;
 
   const url = streams[0]?.url;
   if (!url) return false;

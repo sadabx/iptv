@@ -9,9 +9,7 @@
     flex-shrink: 0;
     overflow: hidden;
     z-index: 200;
-    background: rgba(15, 15, 15, 0.65) !important;
-    backdrop-filter: blur(24px) saturate(160%) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    background: var(--bg) !important;
     border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
@@ -22,13 +20,19 @@
         top: var(--nav-h);
         left: 0;
         bottom: 0;
-        width: var(--guide-w);
+        width: min(290px, 85vw);
         transition: transform 0.28s var(--ease);
         transform: translateX(-100%);
     }
 
     .yt-guide:not(.closed) {
         transform: translateX(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .yt-guide {
+        width: min(290px, 92vw);
     }
 }
 

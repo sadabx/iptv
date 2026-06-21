@@ -51,28 +51,6 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "fifa-26-stable",
-          name: "FIFA 26 (Ads) ", //the player has ads
-          shortName: "FIFA",
-          logo: "assets/logos/fifa26.png",
-          quality: "FHD",
-          isEmbed: true,
-          streams: [
-            {
-              label: "Server 1",
-              url: "https://embed.st/embed/admin/ppv-brazil-vs-haiti/1",
-            },
-            {
-              label: "Server 2",
-              url: "https://embed.st/embed/admin/ppv-brazil-vs-haiti/2",
-            },
-            {
-              label: "Server 3",
-              url: "https://embed.st/embed/admin/ppv-brazil-vs-haiti/3",
-            },
-          ],
-        },
-        {
           id: "fifa-wc-2026",
           name: "FIFA 26",
           shortName: "FIFA",
@@ -90,10 +68,6 @@ const CHANNELS_DATA = {
             {
               label: "Beinsport 2",
               url: "https://fawatv.online/live/F2E62CEFFF6C6F88C237BD9DF4957C35/667.m3u8",
-            },
-            {
-              label: "United Sports 2",
-              url: "http://66.102.126.10:8000/play/a022/index.m3u8",
             },
             /*{
               label: "Arabic-2",
@@ -179,7 +153,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
+        /*{
           id: "t-sports",
           name: "T Sports",
           shortName: "TSPT",
@@ -191,7 +165,7 @@ const CHANNELS_DATA = {
               url: "https://tvsen7.aynaott.com/tsportsfhd/index.m3u8",
             },
           ],
-        },
+        },*/
         {
           id: "willow-sports",
           name: "Willow Sports",
@@ -331,7 +305,7 @@ const CHANNELS_DATA = {
           streams: [
             {
               label: "Youtube live",
-              url: "https://www.youtube.com/live/pW3wrbIbT7A?si=jTROGGS0y6oVMq_q",
+              url: "https://www.youtube.com/live/PRvnQNOaTFg?si=eso9StsMEEnoIZ2K",
             },
           ],
         },
@@ -372,10 +346,10 @@ const CHANNELS_DATA = {
               label: "1080p",
               url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8",
             },
-            /*{
+            {
               label: "Youtube live",
-              url: "https://www.youtube.com/live/sZQDGdHAOyQ?si=uo2VgelS1jRIn-lZ",
-            },*/
+              url: "https://www.youtube.com/live/0mWPK8U8jo0?si=PvmDqAuISJsC3Oxw",
+            },
           ],
         },
         {
@@ -452,7 +426,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
+        /*{
           id: "asian-tv",
           name: "Asian TV",
           shortName: "ASIAN",
@@ -490,7 +464,7 @@ const CHANNELS_DATA = {
               url: "https://tvsen6.aynaott.com/banglatv/index.m3u8",
             },
           ],
-        },
+        },*/
         {
           id: "bangla-vision",
           name: "Bangla Vision",
@@ -598,7 +572,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
+        /*{
           id: "gazi-tv",
           name: "Gazi TV",
           shortName: "GTV",
@@ -648,7 +622,7 @@ const CHANNELS_DATA = {
               url: "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/greentv.stream/live-orgin/greentv.stream/chunks.m3u8",
             },
           ],
-        },
+        },*/
         {
           id: "maasranga-tv",
           name: "Maasranga TV",
@@ -705,7 +679,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
+        /*{
           id: "my-tv",
           name: "My TV",
           shortName: "MYTV",
@@ -717,7 +691,7 @@ const CHANNELS_DATA = {
               url: "https://tvsen6.aynaott.com/mytv/index.m3u8",
             },
           ],
-        },
+        },*/
         {
           id: "ntv",
           name: "NTV",
@@ -735,7 +709,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
+        /*{
           id: "rtv",
           name: "RTV",
           shortName: "RTV",
@@ -751,7 +725,7 @@ const CHANNELS_DATA = {
               url: "https://bozztv.com/rongo/rongo-RTV/index.m3u8",
             },
           ],
-        },
+        },*/
         {
           id: "sa-tv",
           name: "SA TV",
@@ -769,7 +743,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
+        /*{
           id: "vokta-tv",
           name: "Vokta TV",
           shortName: "VKTA",
@@ -781,7 +755,7 @@ const CHANNELS_DATA = {
               url: "https://vokta.raytahost.com/live/voktatv/index.m3u8",
             },
           ],
-        },
+        },*/
       ],
     },
     {
@@ -864,6 +838,19 @@ const CHANNELS_DATA = {
             {
               label: "Auto",
               url: "https://stream.ottplus.bd/live/sub_hd_abr/live/sony_sub_hd_720/chunks.m3u8",
+            },
+          ],
+        },
+        {
+          id: "star-bharat",
+          name: "Star Bharat",
+          shortName: "SB",
+          logo: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Star_Bharat_Logo.png/250px-Star_Bharat_Logo.png",
+          quality: "HD",
+          streams: [
+            {
+              label: "Auto",
+              url: "http://66.102.126.10:8000/play/a022/index.m3u8",
             },
           ],
         },

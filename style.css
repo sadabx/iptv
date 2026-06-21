@@ -8,6 +8,8 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface3) transparent;
 }
 
 .hidden {
@@ -957,7 +959,7 @@ body.is-watching .np-name strong {
     }
 
     .yt-guide {
-        width: 92vw;
+        width: min(290px, 92vw);
     }
 
     .yt-guide-head {

@@ -25,10 +25,50 @@ let userInteractedWithEmbed = false;
 let embedWatchdogSecondsLeft = 12;
 const EMBED_LOAD_TIMEOUT_SECONDS = 12;
 
+
 // ── Proxy Configuration
 // If your site is hosted on HTTPS, HTTP stream links will fail due to mixed content.
 // You can define a default proxy URL here or configure it via local storage:
 // localStorage.setItem("iptv-proxy-url", "https://your-proxy.workers.dev/?url=")
+// ── Shared Helpers
+function resetPlayerState() {
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+  if (mpegtsPlayer) {
+    mpegtsPlayer.destroy();
+    mpegtsPlayer = null;
+  }
+  if (typeof $video !== "undefined" && $video) {
+    $video.pause();
+    $video.removeAttribute("src");
+    $video.load();
+  }
+  stopStatsInterval();
+  clearPlayTimeoutWatchdog();
+}
+
+function handleStreamError(detail) {
+  if (!activeId) return;
+  const ch = channels.find((c) => c.id === activeId);
+  if (ch) {
+    const streams = getStreams(ch);
+    if (activeStreamIdx + 1 < streams.length) {
+      const nextIdx = activeStreamIdx + 1;
+      toast(`Stream failed. Switching to backup ${streams[nextIdx].label}...`);
+      clearPlayTimeoutWatchdog();
+      setTimeout(() => {
+        if (activeId) loadChannel(activeId, nextIdx);
+      }, 500);
+      return;
+    }
+  }
+  showLoad(false);
+  showErr(detail || "Stream error");
+  markChannelOffline(activeId);
+}
+
 const DEFAULT_PROXY_URL = "https://iptv-proxy.trionine.workers.dev/";
 
 function getProxiedUrl(url) {
@@ -47,6 +87,7 @@ function getProxiedUrl(url) {
   }
   return url;
 }
+
 
 // ── SVG Icons
 const ICONS = {
@@ -130,38 +171,63 @@ function executePlayerMount(id, streamIdx) {
 
   buildQualMenu(ch);
 
+  // ── Dynamic Sports Stream Interceptor ──
+  const clickedCard = window.clickedCard;
+  if (id === "live-sports-automated" || (clickedCard && clickedCard.dataset.streamId)) {
+    isEmbedActive = true;
+    resetPlayerState();
+    $video.classList.add("hidden");
+    clearEmbedWatchdog();
+
+    const $existing = document.querySelector(".embed-server-selector");
+    if ($existing) $existing.remove();
+
+    showLoad(true);
+    hideErr();
+
+    let source = clickedCard?.dataset.streamSource;
+    let streamId = clickedCard?.dataset.streamId;
+    let matchTitle = clickedCard?.dataset.matchTitle || ch.name;
+
+    if (!source || !streamId) {
+      fetchFirstLiveMatch(id, streamIdx);
+      return;
+    }
+
+    $npName.textContent = matchTitle;
+    $ctrlChName.textContent = matchTitle;
+
+    fetchStreamAndMount(source, streamId, matchTitle, streamIdx);
+
+    populateWatchMore(id);
+    currentChannel = ch;
+    if (typeof initLiveChat === "function") {
+      initLiveChat();
+    }
+    return;
+  }
+
   const streams = getStreams(ch);
   const url = streams[activeStreamIdx]?.url || streams[0].url;
 
-  const youtubeId = getYouTubeId(url);
+  const isYt = isYouTubeUrl(url);
+  const youtubeEmbedUrl = getYouTubeEmbedUrl(url);
   const $embedPlayer = document.getElementById("embed-player");
   const $stage = document.querySelector(".stage");
 
-  if (youtubeId || ch.isEmbed) {
+  if (isYt || ch.isEmbed) {
     // ── Embed Mode ──
     isEmbedActive = true;
-    if (hls) {
-      hls.destroy();
-      hls = null;
-    }
-    if (mpegtsPlayer) {
-      mpegtsPlayer.destroy();
-      mpegtsPlayer = null;
-    }
-    $video.pause();
-    $video.removeAttribute("src");
-    $video.load();
+    resetPlayerState();
     $video.classList.add("hidden");
-    stopStatsInterval();
-    clearPlayTimeoutWatchdog();
 
     if ($embedPlayer) {
       $embedPlayer.setAttribute("scrolling", "no");
       $embedPlayer.setAttribute("marginheight", "0");
       $embedPlayer.setAttribute("marginwidth", "0");
       $embedPlayer.setAttribute("frameborder", "0");
-      if (youtubeId) {
-        $embedPlayer.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+      if (isYt) {
+        $embedPlayer.src = youtubeEmbedUrl;
       } else {
         $embedPlayer.src = url;
       }
@@ -169,7 +235,7 @@ function executePlayerMount(id, streamIdx) {
     }
     if ($stage) $stage.classList.add("is-embed");
 
-    if (ch.isEmbed && !youtubeId) {
+    if (ch.isEmbed && !isYt) {
       renderEmbedServerSelector(ch);
       startEmbedWatchdog(ch);
     } else {
@@ -211,13 +277,7 @@ function executePlayerMount(id, streamIdx) {
   initLiveChat();
 }
 
-function getYouTubeId(url) {
-  if (!url) return null;
-  const regExp =
-    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|live\/)([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  return match && match[2].length === 11 ? match[2] : null;
-}
+
 
 function isTsUrl(url) {
   if (!url) return false;
@@ -383,19 +443,7 @@ function buildQualMenuFromHlsLevels() {
 }
 
 function startHLS(url) {
-  if (hls) {
-    hls.destroy();
-    hls = null;
-  }
-  if (mpegtsPlayer) {
-    mpegtsPlayer.destroy();
-    mpegtsPlayer = null;
-  }
-  $video.pause();
-  $video.removeAttribute("src");
-  $video.load();
-  stopStatsInterval();
-  clearPlayTimeoutWatchdog();
+  resetPlayerState();
   startPlayTimeoutWatchdog();
 
   if (Hls.isSupported()) {
@@ -475,19 +523,7 @@ function startHLS(url) {
 }
 
 function startMpegTS(url) {
-  if (hls) {
-    hls.destroy();
-    hls = null;
-  }
-  if (mpegtsPlayer) {
-    mpegtsPlayer.destroy();
-    mpegtsPlayer = null;
-  }
-  $video.pause();
-  $video.removeAttribute("src");
-  $video.load();
-  stopStatsInterval();
-  clearPlayTimeoutWatchdog();
+  resetPlayerState();
   startPlayTimeoutWatchdog();
 
   if (mpegts.getFeatureList().mseLivePlayback) {
@@ -536,63 +572,15 @@ function startMpegTS(url) {
 }
 
 function handleMpegTSError(type, detail, info) {
-  if (!activeId) return;
-  const ch = channels.find((c) => c.id === activeId);
-  if (ch) {
-    const streams = getStreams(ch);
-    if (activeStreamIdx + 1 < streams.length) {
-      const nextIdx = activeStreamIdx + 1;
-      toast(`Stream failed. Switching to backup ${streams[nextIdx].label}...`);
-      clearPlayTimeoutWatchdog();
-      setTimeout(() => {
-        if (activeId) loadChannel(activeId, nextIdx);
-      }, 500);
-      return;
-    }
-  }
-  showLoad(false);
-  showErr(detail || "MpegTS error");
-  markChannelOffline(activeId);
+  handleStreamError(detail || "MpegTS error");
 }
 
 function handleFatalError(data) {
-  if (!activeId) return;
-  const ch = channels.find((c) => c.id === activeId);
-  if (ch) {
-    const streams = getStreams(ch);
-    if (activeStreamIdx + 1 < streams.length) {
-      const nextIdx = activeStreamIdx + 1;
-      toast(`Stream failed. Switching to backup ${streams[nextIdx].label}...`);
-      clearPlayTimeoutWatchdog();
-      setTimeout(() => {
-        if (activeId) loadChannel(activeId, nextIdx);
-      }, 500);
-      return;
-    }
-  }
-  showLoad(false);
-  showErr(data.details || "Stream error");
-  markChannelOffline(activeId);
+  handleStreamError(data.details || "Stream error");
 }
 
 function handleNativeVideoError() {
-  if (!activeId) return;
-  const ch = channels.find((c) => c.id === activeId);
-  if (ch) {
-    const streams = getStreams(ch);
-    if (activeStreamIdx + 1 < streams.length) {
-      const nextIdx = activeStreamIdx + 1;
-      toast(`Stream failed. Switching to backup ${streams[nextIdx].label}...`);
-      clearPlayTimeoutWatchdog();
-      setTimeout(() => {
-        if (activeId) loadChannel(activeId, nextIdx);
-      }, 500);
-      return;
-    }
-  }
-  showLoad(false);
-  showErr("Native playback failed");
-  markChannelOffline(activeId);
+  handleStreamError("Native playback failed");
 }
 
 function startPlayTimeoutWatchdog() {
@@ -627,143 +615,7 @@ function clearPlayTimeoutWatchdog() {
   }
 }
 
-function clearEmbedWatchdog() {
-  if (embedWatchdogTimer) {
-    clearTimeout(embedWatchdogTimer);
-    embedWatchdogTimer = null;
-  }
-  if (embedCountdownInterval) {
-    clearInterval(embedCountdownInterval);
-    embedCountdownInterval = null;
-  }
-  const $status = document.querySelector(".embed-server-status");
-  if ($status) {
-    $status.classList.add("hidden");
-  }
-}
 
-function startEmbedWatchdog(ch) {
-  clearEmbedWatchdog();
-  userInteractedWithEmbed = false;
-  embedWatchdogSecondsLeft = EMBED_LOAD_TIMEOUT_SECONDS;
-
-  const streams = getStreams(ch);
-  if (streams.length <= 1) return;
-
-  const $status = document.querySelector(".embed-server-status");
-  if ($status) {
-    $status.classList.remove("hidden");
-  }
-
-  // Start the 1-second countdown interval
-  embedCountdownInterval = setInterval(() => {
-    embedWatchdogSecondsLeft--;
-    const $countdown = document.querySelector(".embed-countdown");
-    if ($countdown) {
-      $countdown.textContent = embedWatchdogSecondsLeft;
-    }
-
-    if (embedWatchdogSecondsLeft <= 0) {
-      clearInterval(embedCountdownInterval);
-      embedCountdownInterval = null;
-    }
-  }, 1000);
-
-  // Start the fallback trigger timeout
-  embedWatchdogTimer = setTimeout(() => {
-    if (userInteractedWithEmbed) return;
-
-    if (activeStreamIdx + 1 < streams.length) {
-      const nextIdx = activeStreamIdx + 1;
-      toast(
-        `Server ${activeStreamIdx + 1} did not respond. Auto-switching to Server ${nextIdx + 1}...`,
-      );
-      activeStreamIdx = nextIdx;
-      loadChannel(ch.id, nextIdx);
-    } else {
-      clearEmbedWatchdog();
-      showLoad(false);
-      showErr("All backup streams failed to respond.");
-      markChannelOffline(ch.id);
-    }
-  }, EMBED_LOAD_TIMEOUT_SECONDS * 1000);
-}
-
-function renderEmbedServerSelector(ch) {
-  // First, remove any existing selector
-  const $existing = document.querySelector(".embed-server-selector");
-  if ($existing) $existing.remove();
-
-  if (!ch || !ch.isEmbed) return;
-
-  const streams = getStreams(ch);
-  if (streams.length <= 1) return;
-
-  const $selector = document.createElement("div");
-  $selector.className = "embed-server-selector";
-
-  // Build dropdown items
-  let dropdownItems = "";
-  streams.forEach((s, idx) => {
-    const isActive = idx === activeStreamIdx;
-    dropdownItems += `<div class="dropdown-item${isActive ? " active" : ""}" data-index="${idx}">${s.label}</div>`;
-  });
-
-  $selector.innerHTML = `
-    <button class="embed-server-toggle" title="Switch server">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-      <span class="server-badge">${streams.length}</span>
-    </button>
-    <div class="embed-server-dropdown hidden">
-      <div class="dropdown-label">Servers</div>
-      ${dropdownItems}
-    </div>
-  `;
-
-  const $stage = document.querySelector(".stage");
-  if ($stage) {
-    $stage.appendChild($selector);
-  }
-
-  const $toggle = $selector.querySelector(".embed-server-toggle");
-  const $dropdown = $selector.querySelector(".embed-server-dropdown");
-
-  // Toggle dropdown on icon click
-  $toggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    $dropdown.classList.toggle("hidden");
-  });
-
-  // Close dropdown when clicking outside
-  const closeDropdown = (e) => {
-    if (!$selector.contains(e.target)) {
-      $dropdown.classList.add("hidden");
-    }
-  };
-  document.addEventListener("click", closeDropdown);
-
-  // Hook up dropdown item events
-  $dropdown.querySelectorAll(".dropdown-item").forEach(($item) => {
-    $item.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const idx = parseInt($item.getAttribute("data-index"), 10);
-      if (idx === activeStreamIdx) return;
-
-      clearEmbedWatchdog();
-      activeStreamIdx = idx;
-      $dropdown.classList.add("hidden");
-      loadChannel(ch.id, idx);
-    });
-  });
-
-  const $cancelBtn = $selector.querySelector(".embed-cancel-btn");
-  if ($cancelBtn) {
-    $cancelBtn.addEventListener("click", () => {
-      clearEmbedWatchdog();
-      toast("Auto-switching cancelled");
-    });
-  }
-}
 
 // ══════════════════════════════════════════
 //  UI MEDIA INTERFACES
@@ -947,6 +799,37 @@ function showFlashOverlay(type, detail = "") {
   }, 600);
 }
 
+
+function jumpToLive() {
+  if ($video.seekable.length) {
+    $video.currentTime = $video.seekable.end($video.seekable.length - 1);
+    $video.play().catch(() => {});
+  }
+}
+
+function toggleFullscreen() {
+  const stage = document.querySelector(".stage");
+  if (!document.fullscreenElement) stage.requestFullscreen?.();
+  else document.exitFullscreen?.();
+}
+
+function retryStream() {
+  if (isEmbedActive) return;
+  const ch = channels.find((c) => c.id === activeId);
+  if (!ch) return;
+  const streams = ch.streams || [{ label: "Auto", url: ch.stream }];
+  const url = streams[activeStreamIdx]?.url || streams[0].url;
+  hideErr();
+  showLoad(true);
+  const proxiedUrl = getProxiedUrl(url);
+  if (isTsUrl(url)) {
+    startMpegTS(proxiedUrl);
+  } else {
+    startHLS(proxiedUrl);
+  }
+}
+
+// ── Stats for Nerds Panel
 function toggleStats(e) {
   if (e) e.stopPropagation();
   const $stats = document.getElementById("stats-panel");
@@ -970,7 +853,6 @@ function stopStatsInterval() {
   }
 }
 
-// Helper to generate a random sCPN-like string
 function generateSCPN() {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
@@ -983,7 +865,6 @@ function generateSCPN() {
   return result;
 }
 
-// Enhanced stats panel like YouTube's "Stats for Nerds"
 function updateStats() {
   const $channel = document.getElementById("stats-channel");
   const $source = document.getElementById("stats-source");
@@ -1019,7 +900,6 @@ function updateStats() {
     $source.textContent = "—";
   }
 
-  // Resolution & frames
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
   if ($viewport) $viewport.textContent = `${viewportWidth}x${viewportHeight}`;
@@ -1031,7 +911,6 @@ function updateStats() {
       videoWidth && videoHeight ? `${videoWidth}x${videoHeight}` : "—";
   }
 
-  // Dropped frames
   let droppedFrames = 0;
   let totalFrames = 0;
   if ($video.getVideoPlaybackQuality) {
@@ -1045,7 +924,6 @@ function updateStats() {
       : "—";
   }
 
-  // Buffer health
   let bufLen = 0;
   const time = $video.currentTime;
   try {
@@ -1059,10 +937,8 @@ function updateStats() {
   if ($buffer) $buffer.textContent = `${bufLen.toFixed(1)}s`;
   if ($bufferHealth) $bufferHealth.textContent = `${bufLen.toFixed(1)} s`;
 
-  // Bitrate
   if (hls && hls.levels && hls.levels.length) {
     if (hls.currentLevel === -1) {
-      // Auto: try to get estimated bandwidth
       if (hls.bandwidthEstimate) {
         let currentBitrate = hls.bandwidthEstimate;
         if ($bitrate)
@@ -1100,11 +976,9 @@ function updateStats() {
     if ($connection) $connection.textContent = "—";
   }
 
-  // Network activity (simulated)
   if ($networkActivity)
     $networkActivity.textContent = `${Math.floor(Math.random() * 30 + 10)} s`;
 
-  // Codecs (simulated, but can be extended with MediaSource)
   if ($codecs) {
     let videoCodec = "unknown";
     let audioCodec = "unknown";
@@ -1118,14 +992,11 @@ function updateStats() {
     $codecs.textContent = `${videoCodec} / ${audioCodec}`;
   }
 
-  // Color
   if ($color) $color.textContent = "bt709 / bt709";
 
-  // sCPN (randomized on each stats open)
   if ($sCPN && !window._scpn) window._scpn = generateSCPN();
   if ($sCPN) $sCPN.textContent = window._scpn || generateSCPN();
 
-  // Volume
   if ($volumeRow) {
     const volPercent = Math.round(($video.volume || 0) * 100);
     $volumeRow.innerHTML = `<span>Volume / Normalized</span><span>${volPercent}% / 100% DRC (cont.-18.0dB tgt.-14.0dB)</span>`;
@@ -1138,36 +1009,6 @@ function updateStats() {
   }
 }
 
-function jumpToLive() {
-  if ($video.seekable.length) {
-    $video.currentTime = $video.seekable.end($video.seekable.length - 1);
-    $video.play().catch(() => {});
-  }
-}
-
-function toggleFullscreen() {
-  const stage = document.querySelector(".stage");
-  if (!document.fullscreenElement) stage.requestFullscreen?.();
-  else document.exitFullscreen?.();
-}
-
-function retryStream() {
-  if (isEmbedActive) return;
-  const ch = channels.find((c) => c.id === activeId);
-  if (!ch) return;
-  const streams = ch.streams || [{ label: "Auto", url: ch.stream }];
-  const url = streams[activeStreamIdx]?.url || streams[0].url;
-  hideErr();
-  showLoad(true);
-  const proxiedUrl = getProxiedUrl(url);
-  if (isTsUrl(url)) {
-    startMpegTS(proxiedUrl);
-  } else {
-    startHLS(proxiedUrl);
-  }
-}
-
-// Add copy debug info functionality
 function copyDebugInfo() {
   const stats = {
     channel: document.getElementById("stats-channel")?.textContent,
@@ -1189,16 +1030,4 @@ function copyDebugInfo() {
     .then(() => toast("Debug info copied"));
 }
 
-// Listen to window blur to check if the user clicked/focused the iframe
-window.addEventListener("blur", () => {
-  if (isEmbedActive && !userInteractedWithEmbed) {
-    setTimeout(() => {
-      const $embedPlayer = document.getElementById("embed-player");
-      if ($embedPlayer && document.activeElement === $embedPlayer) {
-        userInteractedWithEmbed = true;
-        clearEmbedWatchdog();
-        toast("Interacted with stream player. Auto-switch disabled.");
-      }
-    }, 100);
-  }
-});
+

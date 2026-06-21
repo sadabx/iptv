@@ -159,28 +159,92 @@
 
 /* ── Footer ── */
 .app-footer {
-    margin: auto auto 0;
+    margin: 40px auto 0;
     width: 100%;
-    max-width: 320px;
-    padding: 20px 20px 0px;
-    text-align: center;
-    font-size: 0.75rem;
+    padding: 40px 0 20px;
+    text-align: left;
+    font-size: 0.8rem;
     color: var(--text3);
-    letter-spacing: 0.03em;
-    flex-shrink: 0;
     border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 300px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    color: var(--text1);
+    margin-bottom: 4px;
+}
+
+.footer-desc {
+    line-height: 1.5;
+    margin: 0;
+}
+
+.footer-dev {
+    margin-top: 12px;
+}
+
+.footer-right {
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 150px;
+}
+
+.footer-col-title {
+    color: var(--text2);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.footer-disclaimer {
+    margin: 0;
+    line-height: 1.5;
+    max-width: 250px;
+}
+
+.footer-copyright {
+    margin-top: 12px;
 }
 
 .app-footer a {
-    color: var(--text2);
+    color: var(--text3);
     text-decoration: none;
-    font-weight: 500;
-    letter-spacing: 0.03em;
     transition: color var(--transition-fast);
+    width: fit-content;
 }
 
 .app-footer a:hover {
-    color: var(--accent);
+    color: var(--text1);
+}
+
+.footer-dev a {
+    color: var(--text2);
+    font-weight: 500;
+}
+
+.footer-dev a:hover {
+    color: var(--text1);
     text-decoration: underline;
 }
 
@@ -204,4 +268,64 @@ body:not(.hide-offline-active) .ch-item.is-offline .ch-live-dot,
 body:not(.hide-offline-active) .home-ch-card.is-offline .home-live-badge,
 body:not(.hide-offline-active) .wm-card.is-offline .home-live-badge {
     display: none !important;
+}
+
+/* ── Responsive / Mobile Media Queries ── */
+@media (max-width: 768px) {
+    .yt-browse {
+        padding: 16px 14px 40px;
+        gap: 24px;
+    }
+
+    .section-title,
+    .yt-row-title {
+        font-size: 1rem;
+        margin-bottom: 6px;
+    }
+
+    .carousel-track {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+        padding: 4px 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .carousel-track {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 2px 0;
+    }
+
+    .ch-logo-box--tile {
+        padding: 4px 6px;
+    }
+    
+    .ch-logo-box--tile .ch-logo-fallback {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .yt-browse {
+        padding: 12px 10px 40px;
+        gap: 18px;
+    }
+
+    .section-title,
+    .yt-row-title {
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+    }
+
+    .home-ch-name,
+    .yt-tile-title {
+        font-size: 0.78rem;
+        margin-top: 8px;
+    }
+
+    .yt-tile-meta {
+        font-size: 0.68rem;
+        margin-top: 2px;
+    }
 }
