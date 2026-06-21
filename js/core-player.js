@@ -51,7 +51,7 @@ function resetPlayerState() {
 
 function handleStreamError(detail) {
   if (!activeId) return;
-  const ch = channels.find((c) => c.id === activeId);
+  const ch = findChannel(activeId);
   if (ch) {
     const streams = getStreams(ch);
     if (activeStreamIdx + 1 < streams.length) {
@@ -100,13 +100,24 @@ const ICONS = {
   cc: `<svg id="icon-cc" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 7H9.5v-.5h-2v3h2V13H11v1c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1zm8 0h-1.5v-.5h-2v3h2V13H19v1c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1z"/></svg>`,
 };
 
+function findChannel(id) {
+  if (!id) return null;
+  const ch = channels.find((c) => c.id === id);
+  if (ch) return ch;
+  if (id.startsWith("live_")) {
+    return channels.find((c) => c.id === "live-sports-automated");
+  }
+  return null;
+}
+
+
 // ══════════════════════════════════════════
 //  STREAM LOAD ENGINE
 // ══════════════════════════════════════════
 
 // Public API: Load a channel and push a new history entry (user-initiated clicks)
 function loadChannel(id, streamIdx) {
-  const ch = channels.find((c) => c.id === id);
+  const ch = findChannel(id);
   if (!ch) return;
 
   // Push a new history entry ONLY when explicitly clicking a new link manually
@@ -128,7 +139,7 @@ function loadChannelWithoutPush(id, streamIdx) {
 
 // Core player mounting logic — shared by both loadChannel and loadChannelWithoutPush
 function executePlayerMount(id, streamIdx) {
-  const ch = channels.find((c) => c.id === id);
+  const ch = findChannel(id);
   if (!ch) return;
 
   document.body.classList.add("is-watching");
@@ -178,7 +189,7 @@ function executePlayerMount(id, streamIdx) {
   // ── Dynamic Sports Stream Interceptor ──
   const clickedCard = window.clickedCard;
   window.clickedCard = null;
-  if (id === "live-sports-automated" || (clickedCard && clickedCard.dataset.streamId)) {
+  if (id.startsWith("live_") || (clickedCard && clickedCard.dataset.streamId)) {
     isEmbedActive = true;
     resetPlayerState();
     $video.classList.add("hidden");
@@ -193,6 +204,17 @@ function executePlayerMount(id, streamIdx) {
     let source = clickedCard?.dataset.streamSource;
     let streamId = clickedCard?.dataset.streamId;
     let matchTitle = clickedCard?.dataset.matchTitle || ch.name;
+
+    if (!source || !streamId) {
+      const parts = id.split("_");
+      if (parts.length >= 3) {
+        source = parts[1];
+        streamId = parts.slice(2).join("_");
+        matchTitle = streamId
+          .replace(/-/g, " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase());
+      }
+    }
 
     if (!source || !streamId) {
       fetchFirstLiveMatch(id, streamIdx);
@@ -511,7 +533,7 @@ function startHLS(url) {
             const isManifestError =
               data.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR ||
               data.details === Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT;
-            const ch = channels.find((c) => c.id === activeId);
+            const ch = findChannel(activeId);
             const hasBackup = ch && ch.streams && ch.streams.length > 1;
 
             if (isManifestError && hasBackup) {
@@ -619,7 +641,7 @@ function startPlayTimeoutWatchdog() {
   playTimeoutTimer = setTimeout(() => {
     if (!activeId) return;
     if ($video.paused || $video.seeking || !$video.currentTime) {
-      const ch = channels.find((c) => c.id === activeId);
+      const ch = findChannel(activeId);
       if (ch) {
         const streams = getStreams(ch);
         if (activeStreamIdx + 1 < streams.length) {
@@ -846,7 +868,7 @@ function toggleFullscreen() {
 
 function retryStream() {
   if (isEmbedActive) return;
-  const ch = channels.find((c) => c.id === activeId);
+  const ch = findChannel(activeId);
   if (!ch) return;
   const streams = ch.streams || [{ label: "Auto", url: ch.stream }];
   const url = streams[activeStreamIdx]?.url || streams[0].url;
@@ -913,7 +935,7 @@ function updateStats() {
   const $viewport = document.getElementById("stats-viewport");
   const $volumeRow = document.getElementById("stats-volume");
 
-  const ch = channels.find((c) => c.id === activeId);
+  const ch = findChannel(activeId);
   if ($channel) $channel.textContent = ch ? ch.name : "—";
 
   if ($source && ch) {

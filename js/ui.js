@@ -166,7 +166,7 @@ async function loadLiveMatches(carouselTrack) {
       card.dataset.streamSource = match.sources[0].source;
       card.dataset.streamId = match.sources[0].id;
       card.dataset.matchTitle = match.title;
-      card.dataset.id = "live-sports-automated";
+      card.dataset.id = `live_${match.sources[0].source}_${match.sources[0].id}`;
       card.dataset.search = match.title.toLowerCase();
 
       card.innerHTML = `
@@ -180,7 +180,7 @@ async function loadLiveMatches(carouselTrack) {
 
       card.addEventListener("click", () => {
         window.clickedCard = card;
-        loadChannel("live-sports-automated");
+        loadChannel(card.dataset.id);
       });
 
       carouselTrack.appendChild(card);

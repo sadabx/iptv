@@ -470,7 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (pathSegments[1] && pathSegments[2]) {
     const targetChannelId = pathSegments[2];
-    const validChannelExists = channels.find((c) => c.id === targetChannelId);
+    const validChannelExists = findChannel(targetChannelId);
 
     if (validChannelExists) {
       loadChannel(targetChannelId);
@@ -488,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pathSegments[1] && pathSegments[2]) {
       const targetChannelId = pathSegments[2];
-      const validChannelExists = channels.find((c) => c.id === targetChannelId);
+      const validChannelExists = findChannel(targetChannelId);
 
       if (validChannelExists) {
         // Use the history-safe bypass to avoid pushing a duplicate history entry
