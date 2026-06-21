@@ -169,7 +169,11 @@ function executePlayerMount(id, streamIdx) {
     startStatsInterval();
   }
 
-  buildQualMenu(ch);
+  const $qualWrap = document.getElementById("qual-wrap");
+  if ($qualWrap) $qualWrap.style.display = "none";
+  if ($qualBtn) $qualBtn.style.display = "none";
+
+  buildServerMenu(ch);
 
   // ── Dynamic Sports Stream Interceptor ──
   const clickedCard = window.clickedCard;
@@ -293,61 +297,87 @@ function populateWatchMore(currentId) {
   const $wm = document.getElementById("watch-more");
   if (!$wm) return;
 
-  const allChannels = [];
-  CHANNELS_DATA.categories.forEach((cat) => {
-    cat.channels.forEach((ch) => {
-      if (ch.id !== currentId) {
-        allChannels.push(ch);
-      }
-    });
-  });
-
-  if (!allChannels.length) {
-    $wm.innerHTML = "";
-    return;
-  }
-
+  const isRelatedOnly = localStorage.getItem("iptv-wm-related-only") === "true";
   const offlineList = getOfflineChannels();
 
-  $wm.innerHTML = `
-    <div class="wm-title">More Channels</div>
-    <div class="wm-grid">
-      ${allChannels
-        .map((ch) => {
-          const isOffline = offlineList.includes(ch.id);
-          return `
-          <div class="wm-card${isOffline ? " is-offline" : ""}" data-id="${ch.id}" data-search="${ch.name.toLowerCase()}">
-            <div class="wm-thumb">
-              ${buildChannelLogo(ch, "tile")}
-            </div>
-            <div class="wm-name">${ch.name}</div>
-            <div class="wm-meta">${ch.quality}</div>
-          </div>`;
-        })
-        .join("")}
-    </div>`;
+  let currentCategoryName = null;
+  CHANNELS_DATA.categories.forEach((cat) => {
+    if (cat.channels.some((c) => c.id === currentId)) {
+      currentCategoryName = cat.name;
+    }
+  });
+
+  let html = `
+    <div class="wm-header">
+      <div class="wm-title">More Channels</div>
+      <button id="wm-toggle-btn" class="wm-toggle-btn">${isRelatedOnly ? "Show All Categories" : "Related Only"}</button>
+    </div>
+  `;
+
+  CHANNELS_DATA.categories.forEach((cat) => {
+    if (isRelatedOnly && currentCategoryName && cat.name !== currentCategoryName) {
+      return;
+    }
+
+    const validChannels = cat.channels.filter((ch) => ch.id !== currentId);
+    if (validChannels.length === 0) return;
+
+    html += `
+      <div class="wm-category">
+        <div class="yt-row-title wm-cat-title">${cat.name}</div>
+        <div class="wm-grid">
+          ${validChannels.map((ch) => {
+      const isOffline = offlineList.includes(ch.id);
+      return `
+            <div class="wm-card${isOffline ? " is-offline" : ""}" data-id="${ch.id}" data-search="${ch.name.toLowerCase()}">
+              <div class="wm-thumb">
+                ${buildChannelLogo(ch, "tile")}
+              </div>
+              <div class="wm-name">${ch.name}</div>
+              <div class="wm-meta">${ch.quality}</div>
+            </div>`;
+    }).join("")}
+        </div>
+      </div>
+    `;
+  });
+
+  $wm.innerHTML = html;
+
+  const toggleBtn = document.getElementById("wm-toggle-btn");
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      localStorage.setItem("iptv-wm-related-only", !isRelatedOnly);
+      populateWatchMore(currentId);
+    });
+  }
 
   $wm.querySelectorAll(".wm-card").forEach((card) => {
     card.addEventListener("click", () => loadChannel(card.dataset.id));
   });
 
-  if ($search && $search.value) {
-    onSearch({ target: $search });
+  if (typeof $search !== "undefined" && $search && $search.value) {
+    if (typeof onSearch === "function") {
+      onSearch({ target: $search });
+    }
   }
 }
 
-function buildQualMenu(ch) {
+function buildServerMenu(ch) {
   const streams = getStreams(ch);
-  const header = $qualMenu.querySelector(".qual-menu-label");
-  $qualMenu.innerHTML = "";
-  if (header) $qualMenu.appendChild(header);
+  const $srvWrap = document.getElementById("srv-wrap");
+  const header = $srvMenu.querySelector(".qual-menu-label");
+  $srvMenu.innerHTML = "";
+  if (header) $srvMenu.appendChild(header);
 
   if (streams.length <= 1) {
-    $qualBtn.style.display = "none";
-    $qualLabel.textContent = streams[0]?.label || "AUTO";
+    if ($srvWrap) $srvWrap.style.display = "none";
+    $srvBtn.style.display = "none";
+    $srvLabel.textContent = streams[0]?.label || "SERVER";
     return;
   }
-  $qualBtn.style.display = "";
+  if ($srvWrap) $srvWrap.style.display = "";
+  $srvBtn.style.display = "";
 
   streams.forEach((s, i) => {
     const item = document.createElement("div");
@@ -355,29 +385,32 @@ function buildQualMenu(ch) {
     item.innerHTML = `${s.label}${s.bitrate ? `<span class="qual-bitrate">${s.bitrate}</span>` : ""}`;
     item.addEventListener("click", (e) => {
       e.stopPropagation();
-      $qualMenu.classList.add("hidden");
+      $srvMenu.classList.add("hidden");
       if (i === activeStreamIdx) return;
       activeStreamIdx = i;
-      $qualLabel.textContent = s.label.toUpperCase();
+      $srvLabel.textContent = s.label.toUpperCase();
       loadChannel(activeId, i);
-      $qualMenu
+      $srvMenu
         .querySelectorAll(".qual-item")
         .forEach((el, j) => el.classList.toggle("active", j === i));
-      toast(`Quality: ${s.label}`);
+      toast(`Server: ${s.label}`);
     });
-    $qualMenu.appendChild(item);
+    $srvMenu.appendChild(item);
   });
-  $qualLabel.textContent = (
-    streams[activeStreamIdx]?.label || "AUTO"
+  $srvLabel.textContent = (
+    streams[activeStreamIdx]?.label || "SERVER"
   ).toUpperCase();
 }
 
 function buildQualMenuFromHlsLevels() {
+  const $qualWrap = document.getElementById("qual-wrap");
   if (!hls || !hls.levels || hls.levels.length <= 1) {
+    if ($qualWrap) $qualWrap.style.display = "none";
     $qualBtn.style.display = "none";
     return;
   }
 
+  if ($qualWrap) $qualWrap.style.display = "";
   $qualBtn.style.display = "";
   const header = $qualMenu.querySelector(".qual-menu-label");
   $qualMenu.innerHTML = "";
@@ -409,10 +442,10 @@ function buildQualMenuFromHlsLevels() {
     let label = height ? `${height}p` : `Level ${idx + 1}`;
     let bitrateLabel = bitrateMbps ? `${bitrateMbps} Mbps` : "";
 
-    // Emulate YouTube's "Premium" or "Enhanced bitrate" style for high quality
+    // "Enhanced bitrate" for high quality
     if (height >= 1080 && bitrateMbps && bitrateMbps > 5) {
-      label = `${height}p Premium HD`;
-      bitrateLabel = `Enhanced bitrate • ${bitrateMbps} Mbps`;
+      label = `${height}p`;
+      bitrateLabel = `${bitrateMbps} Mbps`;
     } else if (height >= 720 && bitrateMbps) {
       bitrateLabel = `${bitrateMbps} Mbps`;
     }
@@ -452,11 +485,8 @@ function startHLS(url) {
 
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       retryCount = 0;
-      $video.play().catch(() => {});
-      const ch = channels.find((c) => c.id === activeId);
-      if (ch && (!ch.streams || ch.streams.length <= 1)) {
-        buildQualMenuFromHlsLevels();
-      }
+      $video.play().catch(() => { });
+      buildQualMenuFromHlsLevels();
     });
 
     hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, (event, data) => {
@@ -516,7 +546,7 @@ function startHLS(url) {
   } else if ($video.canPlayType("application/vnd.apple.mpegurl")) {
     retryCount = 0;
     $video.src = url;
-    $video.play().catch(() => {});
+    $video.play().catch(() => { });
   } else {
     showLoad(false);
     showErr("HLS not supported in this browser");
@@ -561,7 +591,7 @@ function startMpegTS(url) {
         toast(`MpegTS issue. Retrying (${retryCount}/${MAX_RETRIES})...`);
         mpegtsPlayer.unload();
         mpegtsPlayer.load();
-        mpegtsPlayer.play().catch(() => {});
+        mpegtsPlayer.play().catch(() => { });
       } else {
         handleMpegTSError(type, detail, info);
       }
@@ -804,7 +834,7 @@ function showFlashOverlay(type, detail = "") {
 function jumpToLive() {
   if ($video.seekable.length) {
     $video.currentTime = $video.seekable.end($video.seekable.length - 1);
-    $video.play().catch(() => {});
+    $video.play().catch(() => { });
   }
 }
 
@@ -934,7 +964,7 @@ function updateStats() {
         break;
       }
     }
-  } catch {}
+  } catch { }
   if ($buffer) $buffer.textContent = `${bufLen.toFixed(1)}s`;
   if ($bufferHealth) $bufferHealth.textContent = `${bufLen.toFixed(1)} s`;
 

@@ -258,28 +258,28 @@ function initHomePage() {
   $stageHome.appendChild(noHomeResults);
 
   const footer = document.createElement("footer");
-  footer.className = "app-footer";
+  footer.className = "site-footer";
   footer.innerHTML = `
-    <div class="footer-left">
+    <div class="footer-inner">
       <div class="footer-brand">
-        <span style="color: var(--accent); font-weight: 700; font-size: 1.2rem; margin-right: 4px;">TN</span>
-        <span style="font-weight: 700; color: var(--text1); font-size: 1.1rem; vertical-align: middle;">TV</span>
+        <div class="footer-logo">
+          <span class="logo-pi">TN</span>
+          <span>TV</span>
+        </div>
+        <p class="footer-tagline">A collection of live TV channels<br>and sports events, available for free.</p>
+        <div class="footer-dev">Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">trionine</a></div>
       </div>
-      <p class="footer-desc">A collection of live TV channels<br>and sports events, available for free.</p>
-      <div class="footer-dev">Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">trionine</a></div>
-    </div>
-    <div class="footer-right">
-      <div class="footer-col">
-        <div class="footer-col-title">QUICK LINKS</div>
+      <div class="footer-links">
+        <div class="footer-col-label">QUICK LINKS</div>
         <a href="/">Home</a>
         <a href="/link-auditor" target="_blank">Link Auditor</a>
         <a href="https://discord.gg/JxZ4RS4Y7x" target="_blank" rel="noopener">Discord ↗</a>
         <a href="https://github.com/sadabx/iptv" target="_blank" rel="noopener">Contribute on GitHub ↗</a>
       </div>
-      <div class="footer-col">
-        <div class="footer-col-title">DISCLAIMER</div>
-        <p class="footer-disclaimer">External links are not endorsed.<br>Use at your own discretion.</p>
-        <div class="footer-copyright">© ${new Date().getFullYear()} TNTV</div>
+      <div class="footer-meta">
+        <div class="footer-col-label">DISCLAIMER</div>
+        <p class="footer-note">External links are not endorsed.<br>Use at your own discretion.</p>
+        <div class="footer-copy">© ${new Date().getFullYear()} TNTV</div>
       </div>
     </div>
   `;

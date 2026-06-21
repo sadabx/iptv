@@ -221,6 +221,9 @@ body.is-watching .yt-player-shell {
 }
 
 .ctrl-qual-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     height: 32px;
     padding: 0 12px;
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -238,6 +241,14 @@ body.is-watching .yt-player-shell {
 .ctrl-qual-btn:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
+}
+
+.ctrl-qual-btn svg {
+    width: 13px;
+    height: 13px;
+    color: inherit;
+    flex-shrink: 0;
+    display: block;
 }
 
 .qual-menu {

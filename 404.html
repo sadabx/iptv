@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <base href="/" />
   <meta charset="UTF-8" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +18,7 @@
   <link rel="stylesheet" href="style.css?v=1.2" />
   <link rel="stylesheet" href="css/player.css" />
   <link rel="stylesheet" href="css/sidebar.css?v=1.2" />
-  <link rel="stylesheet" href="css/browse.css?v=1.2" />
+  <link rel="stylesheet" href="css/browse.css?v=2.3" />
   <link rel="stylesheet" href="css/chat.css" />
   <!-- Firebase SDK (v8 compat) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -190,12 +191,30 @@
             <div class="ctrl-spacer"></div>
             <span class="ctrl-channel-name" id="ctrl-ch-name"></span>
             <div class="ctrl-spacer"></div>
-            <div class="qual-wrap">
+            <div class="qual-wrap" id="srv-wrap">
+              <button class="ctrl-qual-btn" id="ctrl-srv" title="Server">
+                <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                  <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                  <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                  <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                </svg>
+                <span id="srv-label">SERVER 1</span>
+              </button>
+              <div class="qual-menu hidden" id="srv-menu">
+                <div class="qual-menu-label">Servers</div>
+              </div>
+            </div>
+            <div class="qual-wrap" id="qual-wrap">
               <button class="ctrl-qual-btn" id="ctrl-qual" title="Quality">
+                <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
                 <span id="qual-label">AUTO</span>
               </button>
               <div class="qual-menu hidden" id="qual-menu">
-                <div class="qual-menu-label">Servers</div>
+                <div class="qual-menu-label">Quality</div>
               </div>
             </div>
             <button class="ctrl-btn hidden" id="ctrl-cc" title="Subtitles/Closed Captions (c)"></button>

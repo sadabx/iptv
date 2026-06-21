@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
   $qualBtn = document.getElementById("ctrl-qual");
   $qualLabel = document.getElementById("qual-label");
   $qualMenu = document.getElementById("qual-menu");
+  $srvBtn = document.getElementById("ctrl-srv");
+  $srvLabel = document.getElementById("srv-label");
+  $srvMenu = document.getElementById("srv-menu");
 
   $btnPip = document.getElementById("ctrl-pip");
   if ($btnPip) {
@@ -168,11 +171,24 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("retry-btn").addEventListener("click", retryStream);
 
   // Quality picker toggle
-  $qualBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    $qualMenu.classList.toggle("hidden");
-  });
-  document.addEventListener("click", () => $qualMenu.classList.add("hidden"));
+  if ($qualBtn) {
+    $qualBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      $qualMenu.classList.toggle("hidden");
+      if ($srvMenu) $srvMenu.classList.add("hidden");
+    });
+    document.addEventListener("click", () => $qualMenu.classList.add("hidden"));
+  }
+
+  // Server picker toggle
+  if ($srvBtn) {
+    $srvBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      $srvMenu.classList.toggle("hidden");
+      if ($qualMenu) $qualMenu.classList.add("hidden");
+    });
+    document.addEventListener("click", () => $srvMenu.classList.add("hidden"));
+  }
 
   // Video click & double-click interactions (skip when YouTube embed is active)
   $video.addEventListener("click", (e) => {
