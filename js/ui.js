@@ -69,6 +69,36 @@ function initChannels() {
     category: "Sports"
   });
 
+  channels.push({
+    id: "f1-live",
+    name: "Live F1 Match",
+    shortName: "F1 LIVE",
+    quality: "FHD",
+    stream: "DYNAMIC_SPORTS_STREAMED_PK",
+    isEmbed: true,
+    category: "Sports"
+  });
+
+  channels.push({
+    id: "fifa-live",
+    name: "Live Football Match",
+    shortName: "FIFA LIVE",
+    quality: "FHD",
+    stream: "DYNAMIC_SPORTS_STREAMED_PK",
+    isEmbed: true,
+    category: "Sports"
+  });
+
+  channels.push({
+    id: "cricket-live",
+    name: "Live Cricket Match",
+    shortName: "CRIC LIVE",
+    quality: "FHD",
+    stream: "DYNAMIC_SPORTS_STREAMED_PK",
+    isEmbed: true,
+    category: "Sports"
+  });
+
   updateSidebarCategoryVisibility();
   updateChannelCount();
   initHomePage();
@@ -102,6 +132,14 @@ function buildChannelLogo(ch, variant = "guide") {
 }
 
 function buildMatchLogo(match) {
+  if (match.poster) {
+    const posterSrc = `https://streamed.pk${match.poster}`;
+    return `
+      <div class="ch-logo-box ch-logo-box--tile" style="background: #111; display: flex; align-items: center; justify-content: center;">
+        <img class="ch-logo-img" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy" style="height: 100%; width: 100%; object-fit: cover;">
+      </div>`;
+  }
+
   const isTeamSport = match.category === "football" || match.category === "cricket";
   const hasBadges = isTeamSport && match.teams && match.teams.home && match.teams.away && match.teams.home.badge && match.teams.away.badge;
 
@@ -112,14 +150,6 @@ function buildMatchLogo(match) {
       <div class="ch-logo-box ch-logo-box--tile" style="display: flex; gap: 4px; align-items: center; justify-content: center; padding: 4px; background: #ffffff;">
         <img class="ch-logo-img" src="${homeSrc}" alt="${match.teams.home.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
         <img class="ch-logo-img" src="${awaySrc}" alt="${match.teams.away.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
-      </div>`;
-  }
-
-  if (match.poster) {
-    const posterSrc = `https://streamed.pk${match.poster}`;
-    return `
-      <div class="ch-logo-box ch-logo-box--tile" style="background: #111; display: flex; align-items: center; justify-content: center;">
-        <img class="ch-logo-img" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy" style="height: 100%; width: 100%; object-fit: cover;">
       </div>`;
   }
 
@@ -147,7 +177,7 @@ async function loadLiveMatches(carouselTrack) {
       let maxHours = 3;
       if (m.category === "cricket") maxHours = 8;
 
-      const isLive = hoursSinceStart >= -0.25 && hoursSinceStart <= maxHours;
+      const isLive = hoursSinceStart >= -1.5 && hoursSinceStart <= maxHours;
 
       return isSports && hasSources && isLive;
     });
@@ -210,7 +240,7 @@ function initHomePage() {
   liveSection.appendChild(liveTitle);
 
   const liveCarousel = document.createElement("div");
-  liveCarousel.className = "carousel-track";
+  liveCarousel.className = "carousel-track live-carousel-track";
   liveCarousel.innerHTML = `<div style="padding:16px;font-size:0.85rem;color:var(--text3)">Loading live matches...</div>`;
   liveSection.appendChild(liveCarousel);
 

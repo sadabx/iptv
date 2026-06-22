@@ -189,7 +189,8 @@ function executePlayerMount(id, streamIdx) {
   // ── Dynamic Sports Stream Interceptor ──
   const clickedCard = window.clickedCard;
   window.clickedCard = null;
-  if (id.startsWith("live_") || (clickedCard && clickedCard.dataset.streamId)) {
+  const isLiveSportsAlias = id === "f1-live" || id === "fifa-live" || id === "cricket-live";
+  if (id.startsWith("live_") || isLiveSportsAlias || (clickedCard && clickedCard.dataset.streamId)) {
     isEmbedActive = true;
     resetPlayerState();
     $video.classList.add("hidden");
@@ -206,6 +207,14 @@ function executePlayerMount(id, streamIdx) {
     let matchTitle = clickedCard?.dataset.matchTitle || ch.name;
 
     if (!source || !streamId) {
+      if (isLiveSportsAlias) {
+        let targetCategory = "f1";
+        if (id === "fifa-live") targetCategory = "football";
+        if (id === "cricket-live") targetCategory = "cricket";
+        fetchLiveMatchByCategory(targetCategory, id, streamIdx);
+        return;
+      }
+
       const parts = id.split("_");
       if (parts.length >= 3) {
         source = parts[1];

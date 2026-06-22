@@ -297,6 +297,54 @@ async function fetchFirstLiveMatch(id, streamIdx) {
   }
 }
 
+async function fetchLiveMatchByCategory(category, channelId, streamIdx) {
+  try {
+    const res = await fetch("https://streamed.pk/api/matches/all");
+    if (!res.ok) throw new Error("Failed to fetch matches");
+    const matches = await res.json();
+
+    const now = Date.now();
+    const liveSports = matches.filter((m) => {
+      if (m.category !== category) return false;
+      const hasSources = m.sources && m.sources.length > 0;
+      
+      const hoursSinceStart = (now - m.date) / (1000 * 60 * 60);
+      let maxHours = 3;
+      if (m.category === "cricket") maxHours = 8;
+
+      const isLive = hoursSinceStart >= -1.5 && hoursSinceStart <= maxHours;
+      return hasSources && isLive;
+    });
+
+    if (liveSports.length === 0) {
+      const categoryLabel = category === "football" ? "FIFA/Football" : category.toUpperCase();
+      throw new Error(`No live ${categoryLabel} matches currently running`);
+    }
+
+    const match = liveSports[0];
+    const source = match.sources[0].source;
+    const streamId = match.sources[0].id;
+    const title = match.title;
+
+    // Push state redirecting the clean alias URL to the specific match URL
+    const categorySlug = "sports";
+    const cleanPath = `/${categorySlug}/live_${source}_${streamId}`;
+    window.history.replaceState({ channelId: `live_${source}_${streamId}` }, "", cleanPath);
+    
+    // Set up activeId to the specific stream ID so other controls work
+    activeId = `live_${source}_${streamId}`;
+
+    $npName.textContent = title;
+    $ctrlChName.textContent = title;
+
+    fetchStreamAndMount(source, streamId, title, streamIdx);
+  } catch (err) {
+    console.error(`Error fetching live match for category ${category}:`, err);
+    showLoad(false);
+    showErr(err.message || "Live match unavailable");
+  }
+}
+
 function renderDynamicEmbedServerSelector(streamList, title, source, streamId) {
   // First, remove any existing selector
   const $existing = document.querySelector(".embed-server-selector");

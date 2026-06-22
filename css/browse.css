@@ -42,6 +42,13 @@
     padding: 8px 0;
 }
 
+@media (min-width: 769px) {
+    .live-carousel-track {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 24px;
+    }
+}
+
 .home-ch-card,
 .yt-tile {
     width: 100%;
