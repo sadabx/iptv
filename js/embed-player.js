@@ -357,8 +357,13 @@ function renderDynamicEmbedServerSelector(streamList, title, source, streamId) {
   let dropdownItems = "";
   streamList.forEach((s, idx) => {
     const isActive = idx === activeStreamIdx;
-    const label = `Server ${s.streamNo || (idx + 1)}`;
-    dropdownItems += `<div class="dropdown-item${isActive ? " active" : ""}" data-index="${idx}">${label}</div>`;
+    const streamNo = s.streamNo || (idx + 1);
+    const quality = (s.hd === true || s.hd === "true") ? "HD" : "SD";
+    const lang = s.language ? ` • ${s.language}` : "";
+    const label = `Server ${streamNo} (${quality}${lang})`;
+    dropdownItems += `<div class="dropdown-item${
+      isActive ? " active" : ""
+    }" data-index="${idx}">${label}</div>`;
   });
 
   $selector.innerHTML = `

@@ -512,7 +512,16 @@ function startHLS(url) {
   startPlayTimeoutWatchdog();
 
   if (Hls.isSupported()) {
-    hls = new Hls({ enableWorker: true });
+    hls = new Hls({
+      enableWorker: true,
+      lowLatencyMode: true,
+      maxBufferLength: 20,
+      maxMaxBufferLength: 40,
+      maxBufferSize: 30 * 1000 * 1000,
+      maxBufferHole: 0.5,
+      liveSyncDurationCount: 3,
+      liveMaxLatencyDurationCount: 10,
+    });
 
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       retryCount = 0;

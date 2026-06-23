@@ -189,6 +189,16 @@ async function loadLiveMatches(carouselTrack) {
     }
 
     carouselTrack.innerHTML = "";
+
+    // Create fragment for prepending matches to the sidebar
+    const sidebarFragment = document.createDocumentFragment();
+
+    const lbl = document.createElement("div");
+    lbl.className = "cat-label";
+    lbl.dataset.cat = "Live Matches";
+    lbl.innerHTML = "Live Matches";
+    sidebarFragment.appendChild(lbl);
+
     liveSports.forEach((match) => {
       const card = document.createElement("div");
       card.className = "yt-tile home-ch-card";
@@ -214,7 +224,37 @@ async function loadLiveMatches(carouselTrack) {
       });
 
       carouselTrack.appendChild(card);
+
+      // Build corresponding channel item for the sidebar
+      let matchLogo = "";
+      if (match.poster) {
+        matchLogo = `https://streamed.pk${match.poster}`;
+      } else if (match.teams && match.teams.home && match.teams.home.badge) {
+        matchLogo = `https://streamed.pk/api/images/badge/${match.teams.home.badge}.webp`;
+      }
+
+      const matchCh = {
+        id: card.dataset.id,
+        name: match.title,
+        shortName: "LIVE",
+        quality: "FHD",
+        logo: matchLogo,
+        isEmbed: true,
+        category: "Live Matches"
+      };
+
+      // Push to the global channels list so searching, selection, and direct routing resolve
+      channels.push(matchCh);
+
+      const chItem = buildChItem(matchCh);
+      sidebarFragment.appendChild(chItem);
     });
+
+    $chList.prepend(sidebarFragment);
+
+    // Update sidebar counters & visibility styling
+    updateSidebarCategoryVisibility();
+    updateChannelCount();
   } catch (err) {
     console.error("Error loading dynamic sports matches:", err);
     const sec = carouselTrack.closest(".home-section");

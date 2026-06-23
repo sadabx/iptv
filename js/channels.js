@@ -15,16 +15,16 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "BeIN-IR",
-              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
-            },
-            {
               label: "online24",
               url: "http://ua.online24.pm/play/1101/350B326FB34F4B8/video.m3u8",
             },
             {
               label: "StreamHost",
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
+            },
+            {
+              label: "BeIN-IR",
+              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
             },
           ],
         },
@@ -62,10 +62,6 @@ const CHANNELS_DATA = {
           quality: "FHD",
           streams: [
             {
-              label: "BeIN-IR",
-              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
-            },
-            {
               label: "StreamHost",
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
             },
@@ -73,19 +69,22 @@ const CHANNELS_DATA = {
               label: "FawaTV",
               url: "https://fawatv.online/live/F2E62CEFFF6C6F88C237BD9DF4957C35/667.m3u8",
             },
+            {
+              label: "BeIN-IR",
+              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
+            },
+            {
+              label: "FIFA+",
+              url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
+            },
             /*
             {
               label: "Kooran",
               url: "https://live.kooran51.cfd/yorrr1/index.m3u8",
             },
-            {
-              label: "Wurl",
-              url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
-            },
             */
           ],
         },
-        /*
         {
           id: "fox-sports-501",
           name: "Fox Sports 501 HD",
@@ -99,7 +98,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        */
         {
           id: "sky-sports-cricket",
           name: "Sky Sports Cricket",
