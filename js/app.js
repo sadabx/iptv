@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $chList = document.getElementById("ch-list");
   $npName = document.getElementById("np-name");
   $ctrlChName = document.getElementById("ctrl-ch-name");
-  $search = document.getElementById("search-input");
+  $search = document.getElementById("searchField");
   $ovLoad = document.getElementById("overlay-loading");
   $ovErr = document.getElementById("overlay-error");
   $errSub = document.getElementById("err-sub");
@@ -358,6 +358,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // Search Engine Listener
   $search.addEventListener("input", onSearch);
 
+  // Mobile search toggle
+  const $mobileSearchBtn = document.getElementById("mobile-search-btn");
+  if ($mobileSearchBtn) {
+    $mobileSearchBtn.addEventListener("click", toggleMobileSearch);
+  }
+
+  // Click outside search container closes mobile search
+  document.addEventListener("click", (e) => {
+    const container = document.getElementById("searchContainer");
+    const btn = document.getElementById("mobile-search-btn");
+    if (container && container.classList.contains("mobile-active")) {
+      if (!container.contains(e.target) && !btn.contains(e.target)) {
+        container.classList.remove("mobile-active");
+      }
+    }
+  });
+
   // Toggle Offline Listener
   const savedHideOffline = localStorage.getItem("iptv-hide-offline");
   const defaultHideOffline = savedHideOffline !== "false"; // default to true (hide offline)
@@ -385,6 +402,47 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($logo) {
     $logo.addEventListener("click", showHomePage);
   }
+
+  // Toffee desktop nav-link tab switching
+  document.querySelectorAll(".desktop-nav-links .nav-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelectorAll(".desktop-nav-links .nav-link").forEach((l) => l.classList.remove("active"));
+      link.classList.add("active");
+
+      const target = link.dataset.nav;
+      if (target === "home") {
+        showHomePage();
+        return;
+      }
+      const $sf = document.getElementById("searchField");
+      if ($sf) {
+        $sf.value = target;
+        $sf.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    });
+  });
+
+  // Bottom bar tab switching
+  const setupBottomTab = (id, navTarget) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".bottom-tab").forEach((t) => t.classList.remove("active"));
+      btn.classList.add("active");
+      if (navTarget === "home") {
+        showHomePage();
+      } else if (navTarget === "sports") {
+        const $sf = document.getElementById("searchField");
+        if ($sf) {
+          $sf.value = "sports";
+          $sf.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      }
+    });
+  };
+  setupBottomTab("btn-nav-home", "home");
+  setupBottomTab("btn-nav-sports", "sports");
 
   // Dynamic cue alignment function to center captions at the bottom
   function forceCuesBottom(track) {

@@ -17,7 +17,7 @@
   <link rel="dns-prefetch" href="https://embed.st" />
   <link rel="dns-prefetch" href="https://streamed.pk" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=1.2" />
   <link rel="stylesheet" href="css/player.css" />
@@ -30,42 +30,45 @@
 </head>
 
 <body class="hide-offline-active">
-  <header class="yt-nav">
-    <div class="yt-nav-left">
-      <button class="yt-nav-btn" id="btn-sidebar" aria-label="Open live guide">
-        <svg width="18" height="14" viewBox="0 0 18 14" fill="currentColor">
-          <rect width="18" height="2" rx="1" />
-          <rect y="6" width="18" height="2" rx="1" />
-          <rect y="12" width="18" height="2" rx="1" />
-        </svg>
-      </button>
-      <button class="yt-brand" id="logo-home" aria-label="Home">
-        <img src="assets/iptv.png" alt="" class="yt-brand-icon" />
-        <span class="logo-text">TNTV</span>
-        <!-- <span class="yt-tv-badge">TV</span> -->
-      </button>
-    </div>
+  <header class="toffee-nav-wrapper">
+    <div class="nav-container">
+      <div class="nav-left-group">
+        <button class="hamburger-btn" id="btn-sidebar" aria-label="Open live guide">
+          <svg width="20" height="16" viewBox="0 0 20 16" fill="currentColor">
+            <rect width="20" height="2" rx="1" />
+            <rect y="7" width="20" height="2" rx="1" />
+            <rect y="14" width="20" height="2" rx="1" />
+          </svg>
+        </button>
+        <div class="brand-logo" id="logo-home">
+          <span class="logo-accent">TN</span>TV
+        </div>
+      </div>
 
-    <div class="yt-nav-center">
-      <div class="yt-search">
-        <svg class="yt-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-          stroke-width="1.5">
+      <nav class="desktop-nav-links">
+        <a href="#" class="nav-link active" data-nav="home">Live TV</a>
+        <a href="#" class="nav-link" data-nav="sports">Sports</a>
+      </nav>
+
+      <div class="search-bar-container" id="searchContainer">
+        <div class="search-input-wrapper">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="7" cy="7" r="5" />
+              <path d="M11 11l3 3" />
+            </svg>
+          </span>
+          <input type="text" id="searchField" placeholder="Search for channels, matches..." autocomplete="off" />
+          <span class="clear-search-btn" id="clearSearch">✕</span>
+        </div>
+      </div>
+
+      <span id="np-name" style="display:none">Browse Live TV</span>
+
+      <button class="mobile-search-toggle" id="mobile-search-btn" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="7" cy="7" r="5" />
           <path d="M11 11l3 3" />
-        </svg>
-        <input id="search-input" class="search-input" type="search" placeholder="Search live channels"
-          autocomplete="off" />
-      </div>
-    </div>
-
-    <div class="yt-nav-right">
-      <div class="yt-now-playing">
-        <span class="yt-live-dot"></span>
-        <span class="np-name"><strong id="np-name">Browse Live TV</strong></span>
-      </div>
-      <button class="yt-nav-btn" id="btn-chat" aria-label="Toggle chat">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" style="display: block">
-          <path d="M16 1H2C0.9 1 0 1.9 0 3v10c0 1.1.9 2 2 2h2.5l2.5 2.5L9.5 15H16c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z" />
         </svg>
       </button>
     </div>
@@ -92,10 +95,10 @@
               </path>
               <line x1="1" y1="1" x2="23" y2="23"></line>
             </svg>
-          </button>
-        </div>
+        </button>
       </div>
-      <div class="ch-scroll" id="ch-list"></div>
+    </div>
+    <div class="ch-scroll" id="ch-list"></div>
       <div class="no-results" id="no-results">No channels found</div>
     </aside>
 
@@ -232,6 +235,8 @@
         </main>
       </div>
 
+      <div id="toffee-hero-billboard" class="toffee-hero-billboard" style="display: none;"></div>
+
       <section class="yt-browse" id="stage-home"></section>
       <section id="watch-more" class="watch-more"></section>
     </div>
@@ -249,6 +254,35 @@
   </div>
 
   <div class="toasts" id="toasts"></div>
+
+  <div class="mobile-bottom-bar">
+    <button class="bottom-tab active" id="btn-nav-home">
+      <span class="tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      </span>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="bottom-tab" id="btn-nav-sports">
+      <span class="tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z" />
+          <path d="M2 12h20" />
+        </svg>
+      </span>
+      <span class="tab-label">Sports</span>
+    </button>
+    <button class="bottom-tab" id="btn-chat">
+      <span class="tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+        </svg>
+      </span>
+      <span class="tab-label">Chat</span>
+    </button>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
