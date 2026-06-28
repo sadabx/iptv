@@ -265,7 +265,7 @@ async function fetchFirstLiveMatch(id, streamIdx) {
     if (!res.ok) throw new Error("Failed to fetch live matches");
     const matches = await res.json();
     const liveSports = matches.filter(
-      (m) => (m.category === "football" || m.category === "f1" || m.category === "cricket") && m.sources && m.sources.length > 0
+      (m) => (m.category === "football" || m.category === "motor-sports" || m.category === "cricket") && m.sources && m.sources.length > 0
     );
 
     if (liveSports.length === 0) {
@@ -311,13 +311,16 @@ async function fetchLiveMatchByCategory(category, channelId, streamIdx) {
       const hoursSinceStart = (now - m.date) / (1000 * 60 * 60);
       let maxHours = 3;
       if (m.category === "cricket") maxHours = 8;
+      if (m.category === "motor-sports") maxHours = 5;
 
       const isLive = hoursSinceStart >= -1.5 && hoursSinceStart <= maxHours;
       return hasSources && isLive;
     });
 
     if (liveSports.length === 0) {
-      const categoryLabel = category === "football" ? "FIFA/Football" : category.toUpperCase();
+      const categoryLabel = category === "football" 
+        ? "FIFA/Football" 
+        : (category === "motor-sports" ? "F1" : category.toUpperCase());
       throw new Error(`No live ${categoryLabel} matches currently running`);
     }
 

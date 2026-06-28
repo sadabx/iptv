@@ -168,7 +168,7 @@ async function loadLiveMatches(carouselTrack) {
 
     const now = Date.now();
     const liveSports = matches.filter((m) => {
-      const validCategories = ["football", "f1", "cricket"];
+      const validCategories = ["football", "motor-sports", "cricket"];
       const isSports = validCategories.includes(m.category);
       const hasSources = m.sources && m.sources.length > 0;
 
@@ -176,6 +176,7 @@ async function loadLiveMatches(carouselTrack) {
 
       let maxHours = 3;
       if (m.category === "cricket") maxHours = 8;
+      if (m.category === "motor-sports") maxHours = 5;
 
       const isLive = hoursSinceStart >= -1.5 && hoursSinceStart <= maxHours;
 
