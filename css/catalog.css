@@ -1,5 +1,5 @@
 /* ==========================================
-   browse.css — Modern Home Screen with Smooth Tile Grids and Hover Effects
+   catalog.css — Channel catalog rows, cards, watch-more lists, footer, and offline states
    ========================================== */
 
 /* ── Browse Rows & Grid ── */
@@ -366,17 +366,23 @@ body:not(.hide-offline-active) .wm-card.is-offline .home-live-badge {
     }
 
     .carousel-track {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-flow: row;
+        grid-auto-columns: initial;
         gap: 12px;
-        padding: 4px 0;
+        padding: 6px 0 14px;
+        overflow-x: visible;
+        scroll-snap-type: none;
     }
 }
 
 @media (max-width: 500px) {
     .carousel-track {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        padding: 2px 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-flow: row;
+        grid-auto-columns: initial;
+        gap: 12px;
+        padding: 6px 0 14px;
     }
 
     .ch-logo-box--tile {

@@ -1,5 +1,5 @@
 /* ==========================================
-   chat-engine.js — Real-time Firebase State Synced per Stream Lunge
+   live-chat.js — Firebase-backed live chat state and message UI
    ========================================== */
 
 // ── YouTube Live Chat Controller ──
@@ -217,7 +217,7 @@ function initLiveChat() {
     $notice.innerHTML = `
       <div class="chat-msg-content" style="background: rgba(255, 78, 69, 0.08); padding: 8px; border-radius: 8px; border: 1px dashed rgba(255, 78, 69, 0.25); width: 100%; box-sizing: border-box;">
         <span class="chat-msg-text" style="color: #ff4e45; font-size: 0.75rem;">
-          <strong>Chat Offline:</strong> Configure Firebase at the top of <code>app.js</code> to enable real-time chat with friends.
+          <strong>Chat Offline:</strong> Configure Firebase at the top of <code>bootstrap.js</code> to enable real-time chat with friends.
         </span>
       </div>
     `;

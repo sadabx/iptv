@@ -1,5 +1,5 @@
 /* ==========================================
-   app.js — Central Orchestrator Initialization Bootstrapper
+   bootstrap.js — App startup, event wiring, routing, and integration bootstrap
    ========================================== */
 
 // ── Firebase Configuration
@@ -206,6 +206,76 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  const remoteFocusableSelector = [
+    ".focusable",
+    ".home-ch-card",
+    ".ch-item",
+    ".wm-card",
+    ".carousel-nav-btn",
+    ".ctrl-btn",
+    ".ctrl-qual-btn",
+    "button",
+    "input"
+  ].join(",");
+
+  function disableRemoteFocusMode() {
+    document.body.classList.remove("remote-nav-active");
+  }
+
+  function getRemoteFocusableElements() {
+    return Array.from(document.querySelectorAll(remoteFocusableSelector)).filter((el) => {
+      if (el.disabled || el.tabIndex < 0) return false;
+      if (el.offsetParent === null && getComputedStyle(el).position !== "fixed") return false;
+      const rect = el.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    });
+  }
+
+  function moveRemoteFocus(direction) {
+    const elements = getRemoteFocusableElements();
+    if (!elements.length) return false;
+
+    if (!document.activeElement || !elements.includes(document.activeElement)) {
+      const firstCard = elements.find((el) => el.matches(".home-ch-card, .ch-item")) || elements[0];
+      document.body.classList.add("remote-nav-active");
+      firstCard.focus({ preventScroll: false });
+      return true;
+    }
+
+    const current = document.activeElement;
+    const currentRect = current.getBoundingClientRect();
+    const currentX = currentRect.left + currentRect.width / 2;
+    const currentY = currentRect.top + currentRect.height / 2;
+    const axis = direction === "left" || direction === "right" ? "x" : "y";
+    const sign = direction === "right" || direction === "down" ? 1 : -1;
+
+    let best = null;
+    let bestScore = Infinity;
+
+    elements.forEach((el) => {
+      if (el === current) return;
+      const rect = el.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const primaryDelta = axis === "x" ? x - currentX : y - currentY;
+      const crossDelta = axis === "x" ? Math.abs(y - currentY) : Math.abs(x - currentX);
+      if (primaryDelta * sign <= 8) return;
+      const score = Math.abs(primaryDelta) + crossDelta * 2;
+      if (score < bestScore) {
+        bestScore = score;
+        best = el;
+      }
+    });
+
+    if (!best) return false;
+    best.focus({ preventScroll: false });
+    best.scrollIntoView({ block: "nearest", inline: "nearest" });
+    document.body.classList.add("remote-nav-active");
+    return true;
+  }
+
+  document.addEventListener("pointerdown", disableRemoteFocusMode, true);
+
   // Keyboard Shortcuts
   document.addEventListener("keydown", (e) => {
     if (isEmbedActive) return;
@@ -218,6 +288,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const key = e.key.toLowerCase();
+    const remoteDirection = {
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      ArrowUp: "up",
+      ArrowDown: "down"
+    }[e.key];
+
+    if (remoteDirection && (!document.body.classList.contains("is-watching") || document.activeElement?.matches(remoteFocusableSelector))) {
+      if (moveRemoteFocus(remoteDirection)) {
+        e.preventDefault();
+        return;
+      }
+    }
 
     if (key === " " || key === "k") {
       e.preventDefault();
@@ -502,7 +585,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Initialize chat for the home/lobby screen.
-  // core-player.js also calls initLiveChat() on every channel switch —
-  // chat-engine.js now guards against double Firebase listeners internally.
+  // stream-player.js also calls initLiveChat() on every channel switch.
+  // live-chat.js guards against double Firebase listeners internally.
   initLiveChat();
 });

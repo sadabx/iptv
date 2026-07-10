@@ -1,5 +1,5 @@
 /* ==========================================
-   ui.js — Sidebar States, Home Grids, Search, and Keystroke Binds
+   ui-renderer.js — Guide, catalog, search, status UI, and DOM builders
    ========================================== */
 
 // ── DOM refs
@@ -38,7 +38,7 @@ let channels = [];
 function initChannels() {
   if (typeof CHANNELS_DATA === "undefined") {
     $chList.innerHTML =
-      '<div style="padding:16px;font-size:.78rem;color:var(--text3)">channels.js not found</div>';
+      '<div style="padding:16px;font-size:.78rem;color:var(--text3)">channel-catalog.js not found</div>';
     return;
   }
   channels = [];
@@ -122,7 +122,7 @@ function buildChannelLogo(ch, variant = "guide") {
     : "";
 
   return `
-    <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}">
+    <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}"${ch.themeColor ? ` style="background: ${ch.themeColor};"` : ""}>
       ${logoSrc
       ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
       : ""
@@ -208,6 +208,7 @@ async function loadLiveMatches(carouselTrack) {
     liveSports.forEach((match) => {
       const card = document.createElement("div");
       card.className = "yt-tile home-ch-card";
+      card.tabIndex = 0;
 
       card.dataset.streamSource = match.sources[0].source;
       card.dataset.streamId = match.sources[0].id;
@@ -224,9 +225,15 @@ async function loadLiveMatches(carouselTrack) {
         <p class="yt-tile-meta">SPORTS • FHD</p>
       `;
 
-      card.addEventListener("click", () => {
+      const openMatch = () => {
         window.clickedCard = card;
         loadChannel(card.dataset.id);
+      };
+      card.addEventListener("click", openMatch);
+      card.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        openMatch();
       });
 
       carouselTrack.appendChild(card);
@@ -354,7 +361,21 @@ function createCarouselControls(section, track) {
 
   track.addEventListener("scroll", updateControls, { passive: true });
   window.addEventListener("resize", updateControls);
-  section.appendChild(controls);
+
+  const title = section.querySelector(".yt-row-title");
+  if (title) {
+    let header = title.closest(".yt-row-header");
+    if (!header) {
+      header = document.createElement("div");
+      header.className = "yt-row-header";
+      title.before(header);
+      header.appendChild(title);
+    }
+    header.appendChild(controls);
+  } else {
+    section.appendChild(controls);
+  }
+
   requestAnimationFrame(updateControls);
 
   return updateControls;
@@ -412,6 +433,7 @@ function initHomePage() {
       const card = document.createElement("div");
       card.className =
         "yt-tile home-ch-card" + (isOffline ? " is-offline" : "");
+      card.tabIndex = 0;
       card.dataset.id = ch.id;
       card.dataset.search = ch.name.toLowerCase();
 
@@ -424,8 +446,14 @@ function initHomePage() {
         <p class="yt-tile-meta">${ch.quality}</p>
       `;
 
-      card.addEventListener("click", () => {
+      const openChannel = () => {
         loadChannel(ch.id);
+      };
+      card.addEventListener("click", openChannel);
+      card.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        openChannel();
       });
 
       carousel.appendChild(card);
@@ -518,7 +546,7 @@ function showHomePage() {
     setGuideOpen(false);
   }
 
-  $npName.textContent = "Browse Live TV";
+  $npName.textContent = "Browse Channels";
   $ctrlChName.textContent = "";
 
   const $idle = document.getElementById("idle-screen");
@@ -538,6 +566,7 @@ function buildChItem(ch) {
   const isOffline = offlineList.includes(ch.id);
   const el = document.createElement("div");
   el.className = "ch-item" + (isOffline ? " is-offline" : "");
+  el.tabIndex = 0;
   el.id = `ch-${ch.id}`;
   el.dataset.id = ch.id;
   el.dataset.search = ch.name.toLowerCase();
@@ -555,7 +584,13 @@ function buildChItem(ch) {
       </div>
     </div>`;
 
-  el.addEventListener("click", () => loadChannel(ch.id));
+  const openChannel = () => loadChannel(ch.id);
+  el.addEventListener("click", openChannel);
+  el.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    openChannel();
+  });
   return el;
 }
 

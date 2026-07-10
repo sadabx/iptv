@@ -1,5 +1,5 @@
 /* ==========================================
-   embed-player.js — YouTube & 3rd-Party Embeds logic
+   embed-providers.js — YouTube and streamed.pk embed provider logic
    ========================================== */
 
 const POPULAR_MATCH_KEYWORDS = [
@@ -223,6 +223,15 @@ function getYouTubeEmbedUrl(url) {
   return url;
 }
 
+// Single delegated click handler to close embed-server-dropdown when clicking outside
+// Prevents accumulating listeners on every renderEmbedServerSelector/renderDynamicEmbedServerSelector call.
+document.addEventListener("click", (e) => {
+  const openDropdown = document.querySelector(".embed-server-dropdown:not(.hidden)");
+  if (openDropdown && !openDropdown.closest(".embed-server-selector")?.contains(e.target)) {
+    openDropdown.classList.add("hidden");
+  }
+});
+
 function clearEmbedWatchdog() {
   if (embedWatchdogTimer) {
     clearTimeout(embedWatchdogTimer);
@@ -329,14 +338,6 @@ function renderEmbedServerSelector(ch) {
     e.stopPropagation();
     $dropdown.classList.toggle("hidden");
   });
-
-  // Close dropdown when clicking outside
-  const closeDropdown = (e) => {
-    if (!$selector.contains(e.target)) {
-      $dropdown.classList.add("hidden");
-    }
-  };
-  document.addEventListener("click", closeDropdown);
 
   // Hook up dropdown item events
   $dropdown.querySelectorAll(".dropdown-item").forEach(($item) => {
@@ -562,14 +563,6 @@ function renderDynamicEmbedServerSelector(streamList, title, source, streamId) {
     e.stopPropagation();
     $dropdown.classList.toggle("hidden");
   });
-
-  // Close dropdown when clicking outside
-  const closeDropdown = (e) => {
-    if (!$selector.contains(e.target)) {
-      $dropdown.classList.add("hidden");
-    }
-  };
-  document.addEventListener("click", closeDropdown);
 
   // Hook up dropdown item events
   $dropdown.querySelectorAll(".dropdown-item").forEach(($item) => {

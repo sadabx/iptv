@@ -1,5 +1,5 @@
 /* ==========================================
-   core-player.js — Hls.js Initialization, Quality Maps, PiP, and Watchdog
+   stream-player.js — HLS/MPEG-TS/native player, controls, quality, PiP, and stats
    ========================================== */
 
 // ── State
@@ -328,7 +328,8 @@ function populateWatchMore(currentId) {
   const $wm = document.getElementById("watch-more");
   if (!$wm) return;
 
-  const isRelatedOnly = localStorage.getItem("iptv-wm-related-only") === "true";
+  const relatedOnlyPref = localStorage.getItem("iptv-wm-related-only");
+  const isRelatedOnly = relatedOnlyPref === null ? true : relatedOnlyPref === "true";
   const offlineList = getOfflineChannels();
 
   let currentCategoryName = null;
@@ -403,12 +404,12 @@ function buildServerMenu(ch) {
 
   if (streams.length <= 1) {
     if ($srvWrap) $srvWrap.style.display = "none";
-    $srvBtn.style.display = "none";
-    $srvLabel.textContent = streams[0]?.label || "SERVER";
+    if ($srvBtn) $srvBtn.style.display = "none";
+    if ($srvLabel) $srvLabel.textContent = streams[0]?.label || "SERVER";
     return;
   }
   if ($srvWrap) $srvWrap.style.display = "";
-  $srvBtn.style.display = "";
+  if ($srvBtn) $srvBtn.style.display = "";
 
   streams.forEach((s, i) => {
     const item = document.createElement("div");
@@ -437,12 +438,12 @@ function buildQualMenuFromHlsLevels() {
   const $qualWrap = document.getElementById("qual-wrap");
   if (!hls || !hls.levels || hls.levels.length <= 1) {
     if ($qualWrap) $qualWrap.style.display = "none";
-    $qualBtn.style.display = "none";
+    if ($qualBtn) $qualBtn.style.display = "none";
     return;
   }
 
   if ($qualWrap) $qualWrap.style.display = "";
-  $qualBtn.style.display = "";
+  if ($qualBtn) $qualBtn.style.display = "";
   const header = $qualMenu.querySelector(".qual-menu-label");
   $qualMenu.innerHTML = "";
   if (header) $qualMenu.appendChild(header);
@@ -617,8 +618,8 @@ function startMpegTS(url) {
       .play()
       .then(() => {
         retryCount = 0;
-        $qualBtn.style.display = "none";
-        $qualLabel.textContent = "ORIGINAL";
+        if ($qualBtn) $qualBtn.style.display = "none";
+        if ($qualLabel) $qualLabel.textContent = "ORIGINAL";
       })
       .catch((err) => {
         console.warn("MpegTS play error:", err);
@@ -1100,5 +1101,3 @@ function copyDebugInfo() {
     .writeText(debugString)
     .then(() => toast("Debug info copied"));
 }
-
-

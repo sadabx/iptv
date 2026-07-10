@@ -8,21 +8,21 @@ Web-based player for IPTV live streaming.
 .
 ├── index.html              # Main IPTV app shell
 ├── 404.html                # GitHub Pages fallback
-├── style.css               # Global app styles and layout defaults
-├── css/                    # Feature-specific stylesheets
-│   ├── home.css            # Home screen, themed topbar, carousel styles
+├── css/                    # App stylesheets by responsibility
+│   ├── app.css             # Design tokens, reset, app shell, nav, search, toasts
+│   ├── theme.css           # T9TV visual theme overrides and home carousel styling
 │   ├── player.css          # Video player and controls
-│   ├── sidebar.css         # Channel guide/sidebar
-│   ├── browse.css          # Browse grids and channel cards
+│   ├── guide.css           # Channel guide/sidebar, categories, channel logos
+│   ├── catalog.css         # Channel grids, cards, watch-more lists, offline states
 │   └── chat.css            # Live chat panel
-├── js/                     # Browser JavaScript modules
-│   ├── app.js              # App bootstrap and event wiring
-│   ├── channels.js         # Channel catalogue
-│   ├── core-player.js      # HLS/MPEG-TS player logic
-│   ├── embed-player.js     # Embedded stream provider handling
-│   ├── ui.js               # DOM rendering and UI state
-│   ├── chat-engine.js      # Firebase chat behavior
-│   └── home-carousel.js    # Home carousel behavior
+├── js/                     # Browser JavaScript by responsibility
+│   ├── channel-catalog.js  # Channel catalogue data
+│   ├── stream-player.js    # HLS/MPEG-TS/native player logic
+│   ├── embed-providers.js  # YouTube and streamed.pk embed handling
+│   ├── ui-renderer.js      # DOM rendering, search, guide, and status UI
+│   ├── live-chat.js        # Firebase live chat behavior
+│   ├── bootstrap.js        # App bootstrap, event wiring, routing
+│   └── live-carousel.js    # Live match carousel behavior
 ├── assets/                 # Icons and channel logos
 ├── cf-workers/             # Cloudflare Worker proxy
 └── link-auditor/           # Stream/link audit utility
@@ -34,7 +34,7 @@ Web-based player for IPTV live streaming.
 
 You can easily integrate this player into your own website:
 
-* **Asset Integration**: Copy the source files (`index.html`, `style.css`, `css/`, `js/`, and `assets/`) directly into your website project directory.
+* **Asset Integration**: Copy the source files (`index.html`, `css/`, `js/`, and `assets/`) directly into your website project directory.
 * **Iframe Embedding**: Embed the player as a responsive frame anywhere on your pages:
   ```html
   <iframe src="index.html" width="100%" height="600px" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>

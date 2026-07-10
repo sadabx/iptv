@@ -1,5 +1,5 @@
 /* ==========================================
-   channels.js — IPTV Channel Mapping Database
+   channel-catalog.js — IPTV channel catalogue data
    ========================================== */
 
 const CHANNELS_DATA = {
@@ -115,7 +115,7 @@ const CHANNELS_DATA = {
           id: "sony-sports-2",
           name: "Sony Sports 2 HD",
           shortName: "SS2",
-          logo: "assets/logos/sony-sports-2.png",
+          logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png",
           quality: "HD",
           streams: [
             {
@@ -128,7 +128,7 @@ const CHANNELS_DATA = {
           id: "sony-sports-5",
           name: "Sony Sports 5",
           shortName: "SS5",
-          logo: "assets/logos/sony-sports-5.png",
+          logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen5_SD_Logo_CLR.png",
           quality: "HD",
           streams: [
             {
@@ -371,6 +371,7 @@ const CHANNELS_DATA = {
           name: "Jamuna TV",
           shortName: "JTV",
           logo: "assets/logos/jamuna-tv.svg",
+          themeColor: "#AA0001",
           quality: "FHD",
           streams: [
             {
@@ -654,7 +655,6 @@ const CHANNELS_DATA = {
               label: "gpcdn",
               url: "https://byphdgllyk.gpcdn.net/hls/deeptotv/index.m3u8",
             },
-
           ],
         },
         {
@@ -786,6 +786,7 @@ const CHANNELS_DATA = {
           id: "ntv",
           name: "NTV",
           shortName: "NTV",
+          themeColor: "#00833e",
           logo: "assets/logos/ntv.svg",
           quality: "FHD",
           streams: [
@@ -873,6 +874,7 @@ const CHANNELS_DATA = {
           name: "Moviebox",
           shortName: "MBBX",
           logo: "https://w7.pngwing.com/pngs/686/422/png-transparent-black-clap-board-illustration-film-festival-world-cinema-box-office-movie-miscellaneous-television-angle-thumbnail.png",
+          themeColor: "#EEEEEE",
           quality: "HD",
           streams: [
             {
@@ -974,6 +976,7 @@ const CHANNELS_DATA = {
           id: "hindi-movies",
           name: "Hindi Movies",
           shortName: "HIND",
+          themeColor: "#000000",
           logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVljpzM91S8pNCK2WqHvoPOIbH80C0BJS6QQ&s",
           quality: "HD",
           streams: [
@@ -1028,7 +1031,7 @@ const CHANNELS_DATA = {
           id: "sony-max",
           name: "Sony Max",
           shortName: "MAX",
-          logo: "assets/logos/sony-max.png",
+          logo: "https://www.sonypicturesnetworks.com/images/logos/Sony_MAX.png",
           quality: "HD",
           streams: [
             {
@@ -1274,6 +1277,7 @@ const CHANNELS_DATA = {
           name: "PBS Kids",
           shortName: "PBSK",
           logo: "assets/logos/pbs-kids.png",
+          themeColor: "#2135C5",
           quality: "fHD",
           streams: [
             {
@@ -1330,6 +1334,7 @@ const CHANNELS_DATA = {
           name: "SRK TV",
           shortName: "SRK",
           logo: "assets/logos/srk-tv.png",
+          themeColor: "#0134FE",
           quality: "HD",
           streams: [
             {
@@ -1611,6 +1616,7 @@ const CHANNELS_DATA = {
           name: "Quran TV",
           shortName: "Q24",
           logo: "https://qurantv.in/wp-content/uploads/2023/11/logo-quran.png",
+          themeColor: "#f3e779ee",
           quality: "HD",
           streams: [
             {

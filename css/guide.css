@@ -1,5 +1,5 @@
 /* ==========================================
-   sidebar.css — Modern YouTube Live Guide with Smooth Categories (No Sticky)
+   guide.css — Live guide sidebar, channel rows, categories, and channel logos
    ========================================== */
 
 /* ── Live Guide Sidebar Base ── */
@@ -140,8 +140,12 @@
     width: auto;
     height: auto;
     object-fit: contain;
-    object-position: center;
-    display: block;
+    -webkit-user-drag: none;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .ch-logo-fallback {
