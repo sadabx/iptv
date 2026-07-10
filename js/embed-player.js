@@ -2,6 +2,175 @@
    embed-player.js — YouTube & 3rd-Party Embeds logic
    ========================================== */
 
+const POPULAR_MATCH_KEYWORDS = [
+  "world cup",
+  "fifa",
+  "uefa",
+  "champions league",
+  "europa league",
+  "conference league",
+  "premier league",
+  "la liga",
+  "serie a",
+  "bundesliga",
+  "ligue 1",
+  "fa cup",
+  "efl cup",
+  "copa america",
+  "afc",
+  "ipl",
+  "bpl",
+  "psl",
+  "big bash",
+  "bbl",
+  "the hundred",
+  "test",
+  "odi",
+  "t20",
+  "t20i",
+  "formula 1",
+  "f1",
+  "grand prix",
+  "motogp"
+];
+
+const POPULAR_MATCH_TEAMS = [
+  "argentina",
+  "brazil",
+  "france",
+  "england",
+  "spain",
+  "germany",
+  "italy",
+  "portugal",
+  "netherlands",
+  "belgium",
+  "uruguay",
+  "croatia",
+  "morocco",
+  "usa",
+  "mexico",
+  "japan",
+  "south korea",
+  "real madrid",
+  "barcelona",
+  "manchester united",
+  "manchester city",
+  "liverpool",
+  "arsenal",
+  "chelsea",
+  "tottenham",
+  "bayern",
+  "borussia dortmund",
+  "psg",
+  "paris saint-germain",
+  "juventus",
+  "inter",
+  "milan",
+  "napoli",
+  "atletico",
+  "benfica",
+  "porto",
+  "ajax",
+  "india",
+  "pakistan",
+  "bangladesh",
+  "australia",
+  "new zealand",
+  "south africa",
+  "sri lanka",
+  "west indies",
+  "afghanistan",
+  "chennai super kings",
+  "mumbai indians",
+  "royal challengers",
+  "kolkata knight riders",
+  "dhaka",
+  "comilla",
+  "rangpur"
+];
+
+function normalizeMatchText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[-_/]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getMatchSearchText(match) {
+  const teams = match && match.teams
+    ? [
+      match.teams.home && match.teams.home.name,
+      match.teams.away && match.teams.away.name
+    ]
+    : [];
+
+  return normalizeMatchText([
+    match && match.title,
+    match && match.category,
+    match && match.competition,
+    match && match.league,
+    match && match.tournament,
+    ...teams
+  ].filter(Boolean).join(" "));
+}
+
+function hasMatchKeyword(text, keywords) {
+  return keywords.some((keyword) => {
+    if (keyword.length <= 3) {
+      return new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`).test(text);
+    }
+
+    return text.includes(keyword);
+  });
+}
+
+function getMatchPopularityScore(match) {
+  if (!match) return 0;
+
+  if (match.popular === true || match.isPopular === true || match.featured === true || match.hot === true || match.mainEvent === true) {
+    return 100;
+  }
+
+  const numericFields = [
+    { name: "popularity", value: match.popularity },
+    { name: "popularityScore", value: match.popularityScore },
+    { name: "score", value: match.score },
+    { name: "viewers", value: match.viewers },
+    { name: "viewerCount", value: match.viewerCount },
+    { name: "views", value: match.views },
+    { name: "rank", value: match.rank }
+  ];
+
+  for (const field of numericFields) {
+    const value = Number(field.value);
+    if (!Number.isFinite(value)) continue;
+    if (field.name === "rank") {
+      if (value > 0 && value <= 20) return 90 - value;
+      continue;
+    }
+    if (value >= 1000) return 90;
+    if (value >= 50) return 75;
+  }
+
+  const text = getMatchSearchText(match);
+  let score = 0;
+  if (hasMatchKeyword(text, POPULAR_MATCH_KEYWORDS)) score += 45;
+  if (hasMatchKeyword(text, POPULAR_MATCH_TEAMS)) score += 45;
+  if (match.poster) score += 5;
+  if (match.teams && match.teams.home && match.teams.away) score += 5;
+
+  return score;
+}
+
+function isPopularMatch(match) {
+  return getMatchPopularityScore(match) >= 45;
+}
+
+function sortPopularMatches(a, b) {
+  return getMatchPopularityScore(b) - getMatchPopularityScore(a);
+}
 
 // ── YouTube Helper Functions
 function isYouTubeUrl(url) {
@@ -265,11 +434,11 @@ async function fetchFirstLiveMatch(id, streamIdx) {
     if (!res.ok) throw new Error("Failed to fetch live matches");
     const matches = await res.json();
     const liveSports = matches.filter(
-      (m) => (m.category === "football" || m.category === "f1" || m.category === "cricket") && m.sources && m.sources.length > 0
-    );
+      (m) => (m.category === "football" || m.category === "motor-sports" || m.category === "cricket") && m.sources && m.sources.length > 0 && isPopularMatch(m)
+    ).sort(sortPopularMatches);
 
     if (liveSports.length === 0) {
-      throw new Error("No live matches available");
+      throw new Error("No popular live matches available");
     }
 
     const match = liveSports[0];
@@ -311,14 +480,17 @@ async function fetchLiveMatchByCategory(category, channelId, streamIdx) {
       const hoursSinceStart = (now - m.date) / (1000 * 60 * 60);
       let maxHours = 3;
       if (m.category === "cricket") maxHours = 8;
+      if (m.category === "motor-sports") maxHours = 5;
 
       const isLive = hoursSinceStart >= -1.5 && hoursSinceStart <= maxHours;
-      return hasSources && isLive;
-    });
+      return hasSources && isLive && isPopularMatch(m);
+    }).sort(sortPopularMatches);
 
     if (liveSports.length === 0) {
-      const categoryLabel = category === "football" ? "FIFA/Football" : category.toUpperCase();
-      throw new Error(`No live ${categoryLabel} matches currently running`);
+      const categoryLabel = category === "football" 
+        ? "FIFA/Football" 
+        : (category === "motor-sports" ? "F1" : category.toUpperCase());
+      throw new Error(`No popular live ${categoryLabel} matches currently running`);
     }
 
     const match = liveSports[0];

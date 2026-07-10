@@ -135,8 +135,8 @@ function buildMatchLogo(match) {
   if (match.poster) {
     const posterSrc = `https://streamed.pk${match.poster}`;
     return `
-      <div class="ch-logo-box ch-logo-box--match-banner">
-        <img class="ch-logo-img data-full-bleed" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy">
+      <div class="ch-logo-box ch-logo-box--tile" style="background: #111; display: flex; align-items: center; justify-content: center;">
+        <img class="ch-logo-img" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy" style="height: 100%; width: 100%; object-fit: cover;">
       </div>`;
   }
 
@@ -147,17 +147,16 @@ function buildMatchLogo(match) {
     const homeSrc = `https://streamed.pk/api/images/badge/${match.teams.home.badge}.webp`;
     const awaySrc = `https://streamed.pk/api/images/badge/${match.teams.away.badge}.webp`;
     return `
-      <div class="ch-logo-box ch-logo-box--match-banner vs-badge-container">
-        <div class="team-badge-wrapper"><img src="${homeSrc}" referrerpolicy="no-referrer" loading="lazy"></div>
-        <span class="vs-divider">VS</span>
-        <div class="team-badge-wrapper"><img src="${awaySrc}" referrerpolicy="no-referrer" loading="lazy"></div>
+      <div class="ch-logo-box ch-logo-box--tile" style="display: flex; gap: 4px; align-items: center; justify-content: center; padding: 4px; background: #ffffff;">
+        <img class="ch-logo-img" src="${homeSrc}" alt="${match.teams.home.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
+        <img class="ch-logo-img" src="${awaySrc}" alt="${match.teams.away.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
       </div>`;
   }
 
   const initials = match.title ? match.title.slice(0, 3).toUpperCase() : "LIVE";
   return `
-    <div class="ch-logo-box ch-logo-box--match-banner logo-failed">
-      <span class="ch-initials ch-logo-fallback">${initials}</span>
+    <div class="ch-logo-box ch-logo-box--tile logo-failed">
+      <span class="ch-initials ch-logo-fallback" style="display: grid;">${initials}</span>
     </div>`;
 }
 
@@ -169,7 +168,7 @@ async function loadLiveMatches(carouselTrack) {
 
     const now = Date.now();
     const liveSports = matches.filter((m) => {
-      const validCategories = ["football", "f1", "cricket"];
+      const validCategories = ["football", "motor-sports", "cricket"];
       const isSports = validCategories.includes(m.category);
       const hasSources = m.sources && m.sources.length > 0;
 
@@ -177,18 +176,21 @@ async function loadLiveMatches(carouselTrack) {
 
       let maxHours = 3;
       if (m.category === "cricket") maxHours = 8;
+      if (m.category === "motor-sports") maxHours = 5;
 
       const isLive = hoursSinceStart >= -1.5 && hoursSinceStart <= maxHours;
 
-      return isSports && hasSources && isLive;
-    });
-
-    window.liveSportsData = liveSports;
-    updateTopHeroBillboard(liveSports);
+      return isSports && hasSources && isLive && isPopularMatch(m);
+    }).sort(sortPopularMatches);
 
     if (liveSports.length === 0) {
-      const sec = carouselTrack.closest(".toffee-row-section");
-      if (sec) sec.style.display = "none";
+      carouselTrack.innerHTML = `
+        <div class="live-empty-banner">
+          <span class="home-live-badge">LIVE</span>
+          <strong>No popular live matches right now</strong>
+          <p>Check the Sports row below or open the guide for all live channels.</p>
+        </div>
+      `;
       return;
     }
 
@@ -199,13 +201,13 @@ async function loadLiveMatches(carouselTrack) {
 
     const lbl = document.createElement("div");
     lbl.className = "cat-label";
-    lbl.dataset.cat = "Live Matches";
-    lbl.innerHTML = "Live Matches";
+    lbl.dataset.cat = "Popular Matches";
+    lbl.innerHTML = "Popular Matches";
     sidebarFragment.appendChild(lbl);
 
     liveSports.forEach((match) => {
       const card = document.createElement("div");
-      card.className = "yt-tile home-ch-card is-match-featured";
+      card.className = "yt-tile home-ch-card";
 
       card.dataset.streamSource = match.sources[0].source;
       card.dataset.streamId = match.sources[0].id;
@@ -213,17 +215,13 @@ async function loadLiveMatches(carouselTrack) {
       card.dataset.id = `live_${match.sources[0].source}_${match.sources[0].id}`;
       card.dataset.search = match.title.toLowerCase();
 
-      const sportMeta = match.category ? match.category.toUpperCase() : "SPORTS";
-
       card.innerHTML = `
-        <div class="yt-tile-thumb featured-match-thumb">
+        <div class="yt-tile-thumb">
           ${buildMatchLogo(match)}
-          <div class="live-pill-badge">
-            <span class="pulse-dot"></span>LIVE
-          </div>
+          <span class="yt-tile-live home-live-badge">LIVE</span>
         </div>
         <p class="yt-tile-title home-ch-name" title="${match.title}">${match.title}</p>
-        <p class="yt-tile-meta">${sportMeta} • WORLD CUP LIVE</p>
+        <p class="yt-tile-meta">SPORTS • FHD</p>
       `;
 
       card.addEventListener("click", () => {
@@ -248,7 +246,7 @@ async function loadLiveMatches(carouselTrack) {
         quality: "FHD",
         logo: matchLogo,
         isEmbed: true,
-        category: "Live Matches"
+        category: "Popular Matches"
       };
 
       // Push to the global channels list so searching, selection, and direct routing resolve
@@ -265,56 +263,101 @@ async function loadLiveMatches(carouselTrack) {
     updateChannelCount();
   } catch (err) {
     console.error("Error loading dynamic sports matches:", err);
-    const sec = carouselTrack.closest(".toffee-row-section");
+    const sec = carouselTrack.closest(".home-section");
     if (sec) sec.style.display = "none";
   }
 }
 
-// ── Hero Billboard — streamed.pk poster banner ──
-function updateTopHeroBillboard(liveSports) {
-  const billboard = document.getElementById("toffee-hero-billboard");
-  if (!billboard) return;
+function enableDragScroll(track) {
+  if (!track || track.dataset.dragScrollEnabled === "true") return;
+  track.dataset.dragScrollEnabled = "true";
 
-  const featuredMatch = liveSports.find(match => match.poster);
+  let isDown = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let dragged = false;
 
-  if (!featuredMatch) {
-    billboard.style.display = "none";
-    return;
-  }
+  track.addEventListener("pointerdown", (event) => {
+    if (event.button !== undefined && event.button !== 0) return;
+    isDown = true;
+    dragged = false;
+    startX = event.clientX;
+    startScrollLeft = track.scrollLeft;
+  });
 
-  const posterUrl = `https://streamed.pk${featuredMatch.poster}`;
-  const targetSource = featuredMatch.sources[0].source;
-  const targetId = featuredMatch.sources[0].id;
-  const targetStreamId = `live_${targetSource}_${targetId}`;
+  track.addEventListener("pointermove", (event) => {
+    if (!isDown) return;
+    const delta = event.clientX - startX;
+    if (Math.abs(delta) > 10) {
+      dragged = true;
+      track.classList.add("is-dragging");
+    }
+    if (!dragged) return;
+    track.scrollLeft = startScrollLeft - delta;
+  });
 
-  const sportCategory = featuredMatch.category ? featuredMatch.category.toUpperCase() : "LIVE MATCH";
+  const stopDragging = (event) => {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove("is-dragging");
+  };
 
-  billboard.innerHTML = `
-    <div class="hero-backdrop" style="background-image: url('${posterUrl}')"></div>
-    <div class="hero-gradient-overlay"></div>
-    <div class="hero-billboard-content">
-      <div class="hero-live-tag">
-        <span class="pulse-dot-white"></span> LIVE MATCH CENTER
-      </div>
-      <p class="hero-category-meta">${sportCategory} • WORLD CUP FIXTURE</p>
-      <h1 class="hero-match-title">${featuredMatch.title}</h1>
-      <button class="hero-watch-btn" onclick="triggerHeroPlayback('${targetStreamId}')">
-        <span class="play-icon">▶</span> WATCH STREAM NOW
-      </button>
-    </div>
-  `;
+  track.addEventListener("pointerup", stopDragging);
+  track.addEventListener("pointercancel", stopDragging);
+  track.addEventListener("pointerleave", stopDragging);
 
-  billboard.style.display = "block";
+  track.addEventListener("click", (event) => {
+    if (!dragged) return;
+    event.preventDefault();
+    event.stopPropagation();
+    dragged = false;
+  }, true);
 }
 
-function triggerHeroPlayback(streamId) {
-  const targetCard = document.querySelector(`[data-id="${streamId}"]`);
-  if (targetCard) {
-    window.clickedCard = targetCard;
-    loadChannel(streamId);
-  } else {
-    loadChannel(streamId);
-  }
+function createCarouselControls(section, track) {
+  const controls = document.createElement("div");
+  controls.className = "carousel-controls";
+  controls.innerHTML = `
+    <button class="carousel-nav-btn" type="button" data-dir="-1" aria-label="Previous channels">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </button>
+    <button class="carousel-nav-btn" type="button" data-dir="1" aria-label="Next channels">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 6l6 6-6 6"></path>
+      </svg>
+    </button>
+  `;
+
+  const updateControls = () => {
+    const canScroll = track.scrollWidth > track.clientWidth + 2;
+    const prev = controls.querySelector('[data-dir="-1"]');
+    const next = controls.querySelector('[data-dir="1"]');
+
+    controls.classList.toggle("is-hidden", !canScroll);
+    if (!canScroll) return;
+
+    prev.disabled = track.scrollLeft <= 1;
+    next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+  };
+
+  controls.addEventListener("click", (event) => {
+    const button = event.target.closest(".carousel-nav-btn");
+    if (!button) return;
+    const direction = Number(button.dataset.dir);
+    track.scrollBy({
+      left: direction * Math.max(track.clientWidth * 0.85, 240),
+      behavior: "smooth"
+    });
+  });
+
+  track.addEventListener("scroll", updateControls, { passive: true });
+  window.addEventListener("resize", updateControls);
+  section.appendChild(controls);
+  requestAnimationFrame(updateControls);
+
+  return updateControls;
 }
 
 function initHomePage() {
@@ -325,44 +368,44 @@ function initHomePage() {
   $stageHome.innerHTML = "";
   const offlineList = getOfflineChannels();
 
-  const container = document.createElement("div");
-  container.className = "toffee-container";
-
-  // Hero Live Match zone
-  const liveSection = document.createElement("section");
-  liveSection.className = "toffee-row-section hero-live-zone";
-
-  const liveHeader = document.createElement("div");
-  liveHeader.className = "row-header";
+  // Inject Popular Match Center row
+  const liveSection = document.createElement("div");
+  liveSection.className = "home-section live-banner-section";
 
   const liveTitle = document.createElement("h2");
-  liveTitle.textContent = "Live Matches";
-  liveHeader.appendChild(liveTitle);
-  liveSection.appendChild(liveHeader);
+  liveTitle.className = "yt-row-title live-banner-title";
+  liveTitle.textContent = "Popular Matches";
+  liveSection.appendChild(liveTitle);
 
   const liveCarousel = document.createElement("div");
-  liveCarousel.className = "toffee-row-carousel sports-cards";
-  liveCarousel.innerHTML = `<div style="padding:16px;font-size:0.85rem;color:var(--text3);flex-shrink:0;">Loading live matches...</div>`;
+  liveCarousel.className = "carousel-track live-carousel-track";
+  liveCarousel.innerHTML = `
+    <div class="live-empty-banner">
+      <span class="home-live-badge">LIVE</span>
+      <strong>Loading popular matches</strong>
+      <p>Finding major football, cricket, and motorsport streams.</p>
+    </div>
+  `;
   liveSection.appendChild(liveCarousel);
+  enableDragScroll(liveCarousel);
+  const updateLiveControls = createCarouselControls(liveSection, liveCarousel);
 
-  container.appendChild(liveSection);
-  loadLiveMatches(liveCarousel);
+  $stageHome.appendChild(liveSection);
 
-  // Category swimlanes (circular channels)
+  loadLiveMatches(liveCarousel).finally(updateLiveControls);
+
   CHANNELS_DATA.categories.forEach((cat) => {
-    const section = document.createElement("section");
-    section.className = "toffee-row-section";
-
-    const header = document.createElement("div");
-    header.className = "row-header";
+    const section = document.createElement("div");
+    section.className = "home-section";
 
     const title = document.createElement("h2");
+    title.className = "yt-row-title";
     title.textContent = cat.name;
-    header.appendChild(title);
-    section.appendChild(header);
+    section.appendChild(title);
 
     const carousel = document.createElement("div");
-    carousel.className = "toffee-row-carousel circular-channels";
+    carousel.className = "carousel-track";
+    enableDragScroll(carousel);
 
     cat.channels.forEach((ch) => {
       const isOffline = offlineList.includes(ch.id);
@@ -389,7 +432,8 @@ function initHomePage() {
     });
 
     section.appendChild(carousel);
-    container.appendChild(section);
+    createCarouselControls(section, carousel);
+    $stageHome.appendChild(section);
     updateCategorySectionVisibility(section);
   });
 
@@ -401,7 +445,7 @@ function initHomePage() {
     <div class="no-results-content">No channels found</div>
     <div class="no-results-sub">Try searching for another query</div>
   `;
-  container.appendChild(noHomeResults);
+  $stageHome.appendChild(noHomeResults);
 
   const footer = document.createElement("footer");
   footer.className = "site-footer";
@@ -425,13 +469,11 @@ function initHomePage() {
       <div class="footer-meta">
         <div class="footer-col-label">DISCLAIMER</div>
         <p class="footer-note">External links are not endorsed.<br>Use at your own discretion.</p>
-        <div class="footer-copy">© ${new Date().getFullYear()} TNTV</div>
+        <div class="footer-copy">© ${new Date().getFullYear()} T9TV</div>
       </div>
     </div>
   `;
-  container.appendChild(footer);
-
-  $stageHome.appendChild(container);
+  $stageHome.appendChild(footer);
 }
 
 function showHomePage() {
@@ -479,13 +521,6 @@ function showHomePage() {
   $npName.textContent = "Browse Live TV";
   $ctrlChName.textContent = "";
 
-  // Clear search field so all channels show
-  const $sf = document.getElementById("searchField");
-  if ($sf && $sf.value) {
-    $sf.value = "";
-    $sf.dispatchEvent(new Event("input", { bubbles: true }));
-  }
-
   const $idle = document.getElementById("idle-screen");
   if ($idle) $idle.style.display = "";
 
@@ -527,44 +562,6 @@ function buildChItem(ch) {
 // ══════════════════════════════════════════
 //  SEARCH FILTER INTERFACE
 // ══════════════════════════════════════════
-
-// Toffee mobile search helpers
-function toggleMobileSearch() {
-  const container = document.getElementById("searchContainer");
-  if (container) {
-    container.classList.toggle("mobile-active");
-    if (container.classList.contains("mobile-active")) {
-      const field = document.getElementById("searchField");
-      if (field) field.focus();
-    }
-  }
-}
-
-function checkSearchValue(val) {
-  const clearBtn = document.getElementById("clearSearch");
-  if (clearBtn) {
-    clearBtn.style.display = val && val.length > 0 ? "block" : "none";
-  }
-}
-
-function clearSearchField() {
-  const field = document.getElementById("searchField");
-  if (field) {
-    field.value = "";
-    checkSearchValue("");
-    field.focus();
-    field.dispatchEvent(new Event("input", { bubbles: true }));
-  }
-}
-
-function loadCategory(cat) {
-  const field = document.getElementById("searchField");
-  if (field) {
-    field.value = cat.toLowerCase();
-    field.dispatchEvent(new Event("input", { bubbles: true }));
-  }
-}
-
 function filterCards(selector, q, hideOffline) {
   let anyVisible = false;
   document.querySelectorAll(selector).forEach((card) => {
@@ -577,9 +574,7 @@ function filterCards(selector, q, hideOffline) {
 }
 
 function onSearch(e) {
-  const raw = e && e.target ? e.target.value : ($search ? $search.value : "");
-  checkSearchValue(raw);
-  const q = raw.toLowerCase().trim();
+  const q = ((e && e.target ? e.target.value : null) || ($search ? $search.value : "")).toLowerCase().trim();
   const hideOffline = document.body.classList.contains("hide-offline-active");
 
   const anySidebarVisible = filterCards(".ch-item", q, hideOffline);
@@ -587,7 +582,7 @@ function onSearch(e) {
   if ($noResults) $noResults.style.display = anySidebarVisible ? "none" : "block";
 
   const anyHomeVisible = filterCards(".home-ch-card", q, hideOffline);
-  document.querySelectorAll(".toffee-row-section").forEach(updateCategorySectionVisibility);
+  document.querySelectorAll(".home-section").forEach(updateCategorySectionVisibility);
 
   const $homeNoResults = document.getElementById("home-no-results");
   if ($homeNoResults) $homeNoResults.style.display = anyHomeVisible ? "none" : "flex";
@@ -704,7 +699,7 @@ function updateChannelStatusUI(id, isOnline) {
   const $homeCard = document.querySelector(`.home-ch-card[data-id="${id}"]`);
   if ($homeCard) {
     $homeCard.classList.toggle("is-offline", !isOnline);
-    updateCategorySectionVisibility($homeCard.closest(".toffee-row-section"));
+    updateCategorySectionVisibility($homeCard.closest(".home-section"));
   }
   const $wmCard = document.querySelector(`.wm-card[data-id="${id}"]`);
   if ($wmCard) {

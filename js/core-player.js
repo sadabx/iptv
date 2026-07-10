@@ -208,7 +208,7 @@ function executePlayerMount(id, streamIdx) {
 
     if (!source || !streamId) {
       if (isLiveSportsAlias) {
-        let targetCategory = "f1";
+        let targetCategory = "motor-sports";
         if (id === "fifa-live") targetCategory = "football";
         if (id === "cricket-live") targetCategory = "cricket";
         fetchLiveMatchByCategory(targetCategory, id, streamIdx);

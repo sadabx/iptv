@@ -6,106 +6,97 @@
   <meta charset="UTF-8" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="IPTV - Watch live TV channels for free. No login, no ads" />
-  <title>T9 - Live TV</title>
+  <meta name="description"
+    content="T9TV - live IPTV channels, sports, movies, guide, and catch-up style browsing." />
+  <title>T9TV</title>
   <link rel="icon" type="image/png" href="assets/iptv.png" />
   <link rel="apple-touch-icon" href="assets/iptv.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://embed.st" crossorigin />
   <link rel="preconnect" href="https://streamed.pk" crossorigin />
   <link rel="dns-prefetch" href="https://embed.st" />
   <link rel="dns-prefetch" href="https://streamed.pk" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
-    rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=1.2" />
   <link rel="stylesheet" href="css/player.css" />
   <link rel="stylesheet" href="css/sidebar.css?v=1.2" />
   <link rel="stylesheet" href="css/browse.css?v=2.4" />
   <link rel="stylesheet" href="css/chat.css" />
-  <!-- Firebase SDK (v8 compat) -->
+  <link rel="stylesheet" href="css/home.css" />
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 
-<body class="hide-offline-active">
-  <header class="toffee-nav-wrapper">
-    <div class="nav-container">
-      <div class="nav-left-group">
-        <button class="hamburger-btn" id="btn-sidebar" aria-label="Open live guide">
-          <svg width="20" height="16" viewBox="0 0 20 16" fill="currentColor">
-            <rect width="20" height="2" rx="1" />
-            <rect y="7" width="20" height="2" rx="1" />
-            <rect y="14" width="20" height="2" rx="1" />
-          </svg>
-        </button>
-        <div class="brand-logo" id="logo-home">
-          <span class="logo-accent">TN</span>TV
-        </div>
+<body class="hide-offline-active streamdeck-theme">
+  <header class="yt-nav tv-topbar">
+    <div class="yt-nav-left">
+      <button class="yt-nav-btn tv-icon-btn focusable" id="btn-sidebar" aria-label="Open live guide">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true">
+          <rect width="18" height="2" rx="1"></rect>
+          <rect y="6" width="18" height="2" rx="1"></rect>
+          <rect y="12" width="18" height="2" rx="1"></rect>
+        </svg>
+      </button>
+      <button class="yt-brand tv-brand focusable" id="logo-home" aria-label="Home">
+        <span class="brand-mark"></span>
+        <span class="logo-text">T9TV</span>
+      </button>
+    </div>
+
+    <div class="yt-nav-center">
+      <div class="yt-search tv-search">
+        <svg class="yt-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+          stroke-width="1.5" aria-hidden="true">
+          <circle cx="7" cy="7" r="5"></circle>
+          <path d="M11 11l3 3"></path>
+        </svg>
+        <input id="search-input" class="search-input focusable" type="search" placeholder="Search live channels"
+          autocomplete="off" />
       </div>
+    </div>
 
-      <nav class="desktop-nav-links">
-        <a href="#" class="nav-link active" data-nav="home">Live TV</a>
-        <a href="#" class="nav-link" data-nav="sports">Sports</a>
-      </nav>
-
-      <div class="search-bar-container" id="searchContainer">
-        <div class="search-input-wrapper">
-          <span class="search-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="7" cy="7" r="5" />
-              <path d="M11 11l3 3" />
-            </svg>
-          </span>
-          <input type="text" id="searchField" placeholder="Search for channels, matches..." autocomplete="off" />
-          <span class="clear-search-btn" id="clearSearch">✕</span>
-        </div>
+    <div class="yt-nav-right">
+      <div class="yt-now-playing tv-now-playing">
+        <span class="yt-live-dot"></span>
+        <span class="np-name"><strong id="np-name">Browse Live TV</strong></span>
       </div>
-
-      <span id="np-name" style="display:none">Browse Live TV</span>
-
-      <button class="mobile-search-toggle" id="mobile-search-btn" aria-label="Search">
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="7" cy="7" r="5" />
-          <path d="M11 11l3 3" />
+      <button class="yt-nav-btn tv-icon-btn focusable" id="btn-chat" aria-label="Toggle chat">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true">
+          <path d="M16 1H2C0.9 1 0 1.9 0 3v10c0 1.1.9 2 2 2h2.5l2.5 2.5L9.5 15H16c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z">
+          </path>
         </svg>
       </button>
     </div>
   </header>
 
-  <div class="app">
-    <aside class="yt-guide closed" id="sidebar">
+  <div class="app tv-app">
+    <aside class="yt-guide closed tv-guide" id="sidebar">
       <div class="yt-guide-head">
         <h2 class="yt-guide-title">Channels</h2>
         <div class="guide-meta-wrap">
-          <span class="channel-count" id="channel-count">—</span>
-          <button class="toggle-offline-btn" id="btn-toggle-offline" title="Hide/Show Offline Channels">
-            <!-- eye icon (toggle is on/active: showing online channels only, offline hidden) -->
+          <span class="channel-count" id="channel-count">-</span>
+          <button class="toggle-offline-btn focusable" id="btn-toggle-offline" title="Hide/Show Offline Channels">
             <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
               <circle cx="12" cy="12" r="3"></circle>
             </svg>
-            <!-- eye-off icon (toggle is off/inactive: showing all channels, offlines visible) -->
             <svg class="eye-closed hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path
                 d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
               </path>
               <line x1="1" y1="1" x2="23" y2="23"></line>
             </svg>
-        </button>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="ch-scroll" id="ch-list"></div>
+      <div class="ch-scroll" id="ch-list"></div>
       <div class="no-results" id="no-results">No channels found</div>
     </aside>
 
     <div class="yt-backdrop" id="guide-backdrop"></div>
 
-    <div class="yt-main">
-      <div class="yt-player-shell">
+    <div class="yt-main tv-main">
+      <div class="yt-player-shell tv-player-shell">
         <main class="stage">
           <video id="player" playsinline crossorigin="anonymous"></video>
           <iframe id="embed-player" class="hidden" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"
@@ -113,9 +104,9 @@
 
           <div class="yt-idle-screen" id="idle-screen">
             <div class="yt-idle-icon">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2" opacity="0.2" />
-                <path d="M20 16l16 8-16 8V16z" fill="currentColor" opacity="0.5" />
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2" opacity="0.2"></circle>
+                <path d="M20 16l16 8-16 8V16z" fill="currentColor" opacity="0.5"></path>
               </svg>
             </div>
             <p class="yt-idle-text">Select a channel to start watching</p>
@@ -144,32 +135,16 @@
           <div class="stats-panel hidden" id="stats-panel">
             <div class="stats-header">
               <span>Stats for Nerds</span>
-              <button class="stats-close" id="stats-close-btn">
-                &times;
-              </button>
+              <button class="stats-close" id="stats-close-btn">&times;</button>
             </div>
             <div class="stats-body">
-              <div class="stats-row">
-                <span>Channel:</span><span id="stats-channel">-</span>
-              </div>
-              <div class="stats-row">
-                <span>Source:</span><span id="stats-source" class="stats-scrollable">-</span>
-              </div>
-              <div class="stats-row">
-                <span>Resolution:</span><span id="stats-resolution">-</span>
-              </div>
-              <div class="stats-row">
-                <span>Buffer:</span><span id="stats-buffer">-</span>
-              </div>
-              <div class="stats-row">
-                <span>Bitrate:</span><span id="stats-bitrate">-</span>
-              </div>
-              <div class="stats-row">
-                <span>Dropped:</span><span id="stats-dropped">-</span>
-              </div>
-              <div class="stats-row">
-                <span>Engine:</span><span id="stats-engine">-</span>
-              </div>
+              <div class="stats-row"><span>Channel:</span><span id="stats-channel">-</span></div>
+              <div class="stats-row"><span>Source:</span><span id="stats-source" class="stats-scrollable">-</span></div>
+              <div class="stats-row"><span>Resolution:</span><span id="stats-resolution">-</span></div>
+              <div class="stats-row"><span>Buffer:</span><span id="stats-buffer">-</span></div>
+              <div class="stats-row"><span>Bitrate:</span><span id="stats-bitrate">-</span></div>
+              <div class="stats-row"><span>Dropped:</span><span id="stats-dropped">-</span></div>
+              <div class="stats-row"><span>Engine:</span><span id="stats-engine">-</span></div>
             </div>
           </div>
 
@@ -178,19 +153,16 @@
             <button class="ctx-item" id="ctx-mute">Mute / Unmute</button>
             <button class="ctx-item" id="ctx-pip">Picture in Picture</button>
             <button class="ctx-item" id="ctx-fs">Toggle Fullscreen</button>
-            <button class="ctx-item hidden" id="ctx-cc">
-              Subtitles / CC
-            </button>
+            <button class="ctx-item hidden" id="ctx-cc">Subtitles / CC</button>
             <button class="ctx-item" id="ctx-stats">Stats for Nerds</button>
             <div class="ctx-sep"></div>
-            <div class="ctx-item ctx-disabled">IPTV TV v2</div>
+            <div class="ctx-item ctx-disabled">T9TV</div>
           </div>
 
           <div class="ctrl-bar">
             <button class="ctrl-btn" id="ctrl-play" title="Play / Pause"></button>
-            <button class="ctrl-live-btn" id="ctrl-live" title="Jump to live">
-              <span class="ctrl-live-dot"></span>LIVE
-            </button>
+            <button class="ctrl-live-btn" id="ctrl-live" title="Jump to live"><span
+                class="ctrl-live-dot"></span>LIVE</button>
             <div class="vol-wrap">
               <button class="ctrl-btn" id="ctrl-mute" title="Mute / Unmute"></button>
               <input class="vol-slider" id="vol-slider" type="range" min="0" max="1" step="0.02" value="1" />
@@ -201,7 +173,7 @@
             <div class="qual-wrap" id="srv-wrap">
               <button class="ctrl-qual-btn" id="ctrl-srv" title="Server">
                 <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
                   <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
                   <line x1="6" y1="6" x2="6.01" y2="6"></line>
@@ -216,7 +188,7 @@
             <div class="qual-wrap" id="qual-wrap">
               <button class="ctrl-qual-btn" id="ctrl-qual" title="Quality">
                 <svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path
                     d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
@@ -228,25 +200,21 @@
                 <div class="qual-menu-label">Quality</div>
               </div>
             </div>
-            <button class="ctrl-btn hidden" id="ctrl-cc" title="Subtitles/Closed Captions (c)"></button>
+            <button class="ctrl-btn hidden" id="ctrl-cc" title="Subtitles/Closed Captions"></button>
             <button class="ctrl-btn" id="ctrl-pip" title="Picture-in-Picture"></button>
             <button class="ctrl-btn" id="ctrl-fs" title="Fullscreen"></button>
           </div>
         </main>
       </div>
 
-      <div id="toffee-hero-billboard" class="toffee-hero-billboard" style="display: none;"></div>
-
-      <section class="yt-browse" id="stage-home"></section>
+      <section class="yt-browse tv-browse" id="stage-home"></section>
       <section id="watch-more" class="watch-more"></section>
     </div>
 
     <aside class="yt-chat closed" id="chat">
       <div class="chat-header">
         <span class="chat-live-badge">LIVE CHAT</span>
-        <button class="chat-close-btn" id="btn-close-chat" aria-label="Close chat">
-          &times;
-        </button>
+        <button class="chat-close-btn" id="btn-close-chat" aria-label="Close chat">&times;</button>
       </div>
       <div class="chat-messages" id="chat-messages"></div>
       <div class="chat-input-area" id="chat-input-area"></div>
@@ -254,35 +222,6 @@
   </div>
 
   <div class="toasts" id="toasts"></div>
-
-  <div class="mobile-bottom-bar">
-    <button class="bottom-tab active" id="btn-nav-home">
-      <span class="tab-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      </span>
-      <span class="tab-label">Home</span>
-    </button>
-    <button class="bottom-tab" id="btn-nav-sports">
-      <span class="tab-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z" />
-          <path d="M2 12h20" />
-        </svg>
-      </span>
-      <span class="tab-label">Sports</span>
-    </button>
-    <button class="bottom-tab" id="btn-chat">
-      <span class="tab-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-        </svg>
-      </span>
-      <span class="tab-label">Chat</span>
-    </button>
-  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
@@ -292,6 +231,7 @@
   <script src="js/ui.js?v=2.1"></script>
   <script src="js/chat-engine.js"></script>
   <script src="js/app.js?v=1.3"></script>
+  <script src="js/home-carousel.js"></script>
 </body>
 
 </html>
