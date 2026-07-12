@@ -499,10 +499,10 @@ async function fetchLiveMatchByCategory(category, channelId, streamIdx) {
     const streamId = match.sources[0].id;
     const title = match.title;
 
-    // Push state redirecting the clean alias URL to the specific match URL
+    // Push state redirecting the clean alias URL to the specific match URL (use pushState for back button support)
     const categorySlug = "sports";
     const cleanPath = `/${categorySlug}/live_${source}_${streamId}`;
-    window.history.replaceState({ channelId: `live_${source}_${streamId}` }, "", cleanPath);
+    window.history.pushState({ channelId: `live_${source}_${streamId}`, fromCategory: true }, "", cleanPath);
     
     // Set up activeId to the specific stream ID so other controls work
     activeId = `live_${source}_${streamId}`;

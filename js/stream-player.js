@@ -171,6 +171,7 @@ function executePlayerMount(id, streamIdx) {
   activeId = id;
   activeStreamIdx = streamIdx ?? 0;
   localStorage.setItem("iptv-last-channel", id);
+  localStorage.setItem("iptv-last-quality", activeStreamIdx);
   $npName.textContent = ch.name;
   $ctrlChName.textContent = ch.name;
 
@@ -420,6 +421,7 @@ function buildServerMenu(ch) {
       $srvMenu.classList.add("hidden");
       if (i === activeStreamIdx) return;
       activeStreamIdx = i;
+      localStorage.setItem("iptv-last-quality", i);
       $srvLabel.textContent = s.label.toUpperCase();
       loadChannel(activeId, i);
       $srvMenu
@@ -489,6 +491,7 @@ function buildQualMenuFromHlsLevels() {
       e.stopPropagation();
       $qualMenu.classList.add("hidden");
       hls.currentLevel = idx;
+      localStorage.setItem("iptv-last-quality", idx);
       $qualLabel.textContent = label.toUpperCase();
       $qualMenu
         .querySelectorAll(".qual-item")
@@ -717,6 +720,8 @@ function setMuted(val) {
     $video.volume = $video.volume || 1;
   }
   localStorage.setItem("iptv-muted", muted);
+  showFlashOverlay(muted ? "mute" : "volume");
+  toast(muted ? "Muted" : "Unmuted", 1200);
 }
 
 function adjustVolume(delta) {
@@ -739,9 +744,11 @@ async function togglePiP() {
     if (document.pictureInPictureElement) {
       await document.exitPictureInPicture();
       showFlashOverlay("pip", false);
+      toast("Exited PiP", 1200);
     } else {
       await $video.requestPictureInPicture();
       showFlashOverlay("pip", true);
+      toast("Picture-in-Picture", 1200);
     }
   } catch (err) {
     console.error("PiP Error:", err);
@@ -857,6 +864,16 @@ function showFlashOverlay(type, detail = "") {
       iconHtml = ICONS.cc;
       textStr = detail ? "ON" : "OFF";
       break;
+    case "fullscreen":
+      iconHtml =
+        '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M5 5h4V3H5v4zm0 14h4v-4H5v4zM3 5v14h16V5H3zm14 14h4v-4h-4v4zm4-16v4h4V5h-4z"/></svg>';
+      textStr = "";
+      break;
+    case "fullscreen-exit":
+      iconHtml =
+        '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9l-5 5 5 5-1.41 1.41-5-5 5-5 1.41 1.41z"/></svg>';
+      textStr = "";
+      break;
     default:
       return;
   }
@@ -881,8 +898,17 @@ function jumpToLive() {
 
 function toggleFullscreen() {
   const stage = document.querySelector(".stage");
-  if (!document.fullscreenElement) stage.requestFullscreen?.();
-  else document.exitFullscreen?.();
+  if (!document.fullscreenElement) {
+    stage.requestFullscreen?.().then(() => {
+      toast("Fullscreen", 1000);
+      showFlashOverlay("fullscreen");
+    });
+  } else {
+    document.exitFullscreen?.().then(() => {
+      toast("Exited fullscreen", 1000);
+      showFlashOverlay("fullscreen-exit");
+    });
+  }
 }
 
 function retryStream() {
@@ -1078,6 +1104,47 @@ function updateStats() {
     if (hls) $engine.textContent = "HLS.js";
     else if (mpegtsPlayer) $engine.textContent = "MpegTS.js";
     else $engine.textContent = "Native";
+  }
+
+  // Control bar quality & buffer indicator
+  const $qualityBadge = document.getElementById("ctrl-quality-badge");
+  const $bufferFill = document.getElementById("ctrl-buffer-fill");
+  const $bufferText = document.getElementById("ctrl-buffer-text");
+  const $ctrlQualityInd = document.getElementById("ctrl-quality-indicator");
+
+  if ($qualityBadge && $ctrlQualityInd) {
+    let qualityText = "—";
+    if (hls && hls.levels && hls.levels.length) {
+      if (hls.currentLevel === -1) {
+        qualityText = "AUTO";
+      } else {
+        const lvl = hls.levels[hls.currentLevel];
+        qualityText = lvl?.height ? `${lvl.height}p` : "—";
+      }
+    } else if (mpegtsPlayer) {
+      qualityText = "TS";
+    } else if ($video.videoHeight) {
+      qualityText = `${$video.videoHeight}p`;
+    }
+    $qualityBadge.textContent = qualityText;
+    $qualityBadge.classList.toggle("hidden", qualityText === "—");
+    $ctrlQualityInd.classList.toggle("hidden", qualityText === "—");
+  }
+
+  if ($bufferFill && $bufferText && $ctrlQualityInd) {
+    const bufPercent = Math.min(100, Math.max(0, (bufLen / 30) * 100));
+    $bufferFill.style.width = `${bufPercent}%`;
+    $bufferText.textContent = `Buffer: ${bufLen.toFixed(1)}s`;
+    $bufferFill.classList.toggle("filled", bufLen > 2);
+  }
+
+  if ($bufferIndicator && $bufferBars) {
+    const bufPercent = Math.min(100, Math.max(0, (bufLen / 30) * 100));
+    const filledBars = Math.round((bufPercent / 100) * 3);
+    $bufferBars.forEach((bar, i) => {
+      bar.classList.toggle("filled", i < filledBars);
+    });
+    $bufferIndicator.classList.toggle("hidden", bufLen < 0.5);
   }
 }
 

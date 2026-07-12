@@ -68,7 +68,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   $sidebar = document.getElementById("sidebar");
+  const $chScroll = document.getElementById("ch-list").parentElement; // .ch-scroll
   const $chat = document.getElementById("chat");
+
+  // Restore sidebar scroll position
+  if ($chScroll) {
+    const savedScroll = sessionStorage.getItem("iptv-sidebar-scroll");
+    if (savedScroll) $chScroll.scrollTop = parseInt(savedScroll, 10);
+    $chScroll.addEventListener(
+      "scroll",
+      () => {
+        sessionStorage.setItem(
+          "iptv-sidebar-scroll",
+          $chScroll.scrollTop.toString(),
+        );
+      },
+      { passive: true },
+    );
+  }
   $btnSB = document.getElementById("btn-sidebar");
   const $btnChat = document.getElementById("btn-chat");
   $backdrop = document.getElementById("guide-backdrop");
@@ -95,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const isOpen = !$chat.classList.contains("closed");
     $btnChat.classList.toggle("on", isOpen);
     document.body.classList.toggle("chat-open", isOpen);
+    toast(isOpen ? "Chat opened" : "Chat closed", 1000);
   });
 
   // Close guide after picking a channel (only on mobile/tablet/overlay widths)
@@ -168,7 +186,56 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("ctrl-fs")
     .addEventListener("click", toggleFullscreen);
-  document.getElementById("retry-btn").addEventListener("click", retryStream);
+
+  const $retryBtn =
+    document.getElementById("err-retry") ||
+    document.getElementById("retry-btn");
+  if ($retryBtn) {
+    $retryBtn.addEventListener("click", () => {
+      retryStream();
+      toast("Retrying...", 1000);
+    });
+  }
+
+  // Error bar action buttons
+  document.getElementById("err-retry")?.addEventListener("click", () => {
+    retryStream();
+    toast("Retrying...", 1000);
+  });
+
+  document.getElementById("err-next-server")?.addEventListener("click", () => {
+    if (!activeId) return;
+    const ch = findChannel(activeId);
+    if (ch) {
+      const streams = getStreams(ch);
+      if (activeStreamIdx + 1 < streams.length) {
+        const nextIdx = activeStreamIdx + 1;
+        toast(`Switching to ${streams[nextIdx].label}...`, 1500);
+        loadChannel(activeId, nextIdx);
+      } else {
+        toast("No backup servers available", 1500);
+      }
+    }
+  });
+
+  document.getElementById("err-proxy")?.addEventListener("click", () => {
+    const currentProxy =
+      localStorage.getItem("iptv-proxy-url") || DEFAULT_PROXY_URL;
+    const newProxy = prompt(
+      "Enter proxy URL (leave empty to disable):",
+      currentProxy,
+    );
+    if (newProxy !== null) {
+      if (newProxy.trim()) {
+        localStorage.setItem("iptv-proxy-url", newProxy.trim());
+        toast("Proxy updated. Retrying...", 1500);
+      } else {
+        localStorage.removeItem("iptv-proxy-url");
+        toast("Proxy disabled. Retrying...", 1500);
+      }
+      retryStream();
+    }
+  });
 
   // Quality picker toggle
   if ($qualBtn) {
@@ -215,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ".ctrl-btn",
     ".ctrl-qual-btn",
     "button",
-    "input"
+    "input",
   ].join(",");
 
   function disableRemoteFocusMode() {
@@ -223,9 +290,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getRemoteFocusableElements() {
-    return Array.from(document.querySelectorAll(remoteFocusableSelector)).filter((el) => {
+    return Array.from(
+      document.querySelectorAll(remoteFocusableSelector),
+    ).filter((el) => {
       if (el.disabled || el.tabIndex < 0) return false;
-      if (el.offsetParent === null && getComputedStyle(el).position !== "fixed") return false;
+      if (el.offsetParent === null && getComputedStyle(el).position !== "fixed")
+        return false;
       const rect = el.getBoundingClientRect();
       return rect.width > 0 && rect.height > 0;
     });
@@ -236,7 +306,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!elements.length) return false;
 
     if (!document.activeElement || !elements.includes(document.activeElement)) {
-      const firstCard = elements.find((el) => el.matches(".home-ch-card, .ch-item")) || elements[0];
+      const firstCard =
+        elements.find((el) => el.matches(".home-ch-card, .ch-item")) ||
+        elements[0];
       document.body.classList.add("remote-nav-active");
       firstCard.focus({ preventScroll: false });
       return true;
@@ -258,7 +330,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
       const primaryDelta = axis === "x" ? x - currentX : y - currentY;
-      const crossDelta = axis === "x" ? Math.abs(y - currentY) : Math.abs(x - currentX);
+      const crossDelta =
+        axis === "x" ? Math.abs(y - currentY) : Math.abs(x - currentX);
       if (primaryDelta * sign <= 8) return;
       const score = Math.abs(primaryDelta) + crossDelta * 2;
       if (score < bestScore) {
@@ -292,10 +365,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowUp: "up",
-      ArrowDown: "down"
+      ArrowDown: "down",
     }[e.key];
 
-    if (remoteDirection && (!document.body.classList.contains("is-watching") || document.activeElement?.matches(remoteFocusableSelector))) {
+    if (
+      remoteDirection &&
+      (!document.body.classList.contains("is-watching") ||
+        document.activeElement?.matches(remoteFocusableSelector))
+    ) {
       if (moveRemoteFocus(remoteDirection)) {
         e.preventDefault();
         return;
@@ -312,6 +389,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (key === "f") {
       e.preventDefault();
       toggleFullscreen();
+      showFlashOverlay(
+        document.fullscreenElement ? "fullscreen" : "fullscreen-exit",
+      );
     } else if (key === "p") {
       e.preventDefault();
       togglePiP();
@@ -438,8 +518,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Search Engine Listener
-  $search.addEventListener("input", onSearch);
+  // Search Engine Listener (debounced)
+  let searchDebounceTimer = null;
+  $search.addEventListener("input", (e) => {
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(() => onSearch(e), 180);
+  });
+
+  // Search clear button
+  const $searchClear = document.getElementById("search-clear");
+  if ($searchClear) {
+    $search.addEventListener("input", () => {
+      $searchClear.classList.toggle("hidden", !$search.value);
+    });
+    $searchClear.addEventListener("click", () => {
+      $search.value = "";
+      $searchClear.classList.add("hidden");
+      $search.focus();
+      onSearch({ target: $search });
+    });
+    // Escape to clear
+    $search.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && $search.value) {
+        e.preventDefault();
+        $search.value = "";
+        $searchClear.classList.add("hidden");
+        onSearch({ target: $search });
+      }
+    });
+  }
 
   // Toggle Offline Listener
   const savedHideOffline = localStorage.getItem("iptv-hide-offline");
@@ -461,6 +568,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       updateChannelCount();
       onSearch({ target: $search });
+      toast(
+        active ? "Offline channels hidden" : "Offline channels shown",
+        1200,
+      );
     });
   }
 
@@ -561,13 +672,28 @@ document.addEventListener("DOMContentLoaded", () => {
       showHomePage();
     }
   } else {
-    showHomePage();
+    // Restore last channel from localStorage if available
+    const lastChannel = localStorage.getItem("iptv-last-channel");
+    const lastQuality = localStorage.getItem("iptv-last-quality");
+    if (lastChannel && findChannel(lastChannel)) {
+      const qualityIdx = lastQuality ? parseInt(lastQuality, 10) : undefined;
+      loadChannel(lastChannel, qualityIdx);
+    } else {
+      showHomePage();
+    }
   }
 
   // ── Browser Back/Forward Navigation Handler ──
   window.addEventListener("popstate", (event) => {
     console.log("Browser navigation detected. Routing layout...");
     const pathSegments = window.location.pathname.split("/");
+    const state = event.state || {};
+
+    // If navigating back from a match stream to the category page
+    if (state.fromCategory && pathSegments[1] === "sports" && pathSegments[2]) {
+      showHomePage();
+      return;
+    }
 
     if (pathSegments[1] && pathSegments[2]) {
       const targetChannelId = pathSegments[2];

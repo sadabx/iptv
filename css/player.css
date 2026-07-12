@@ -433,9 +433,51 @@ body.is-watching .yt-player-shell {
     max-width: 440px;
     font-weight: 500;
     line-height: 1.4;
-}
+  }
 
-.err-bar-retry {
+  .err-bar-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .err-bar-btn {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 18px;
+    color: #f1f1f1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0;
+  }
+
+  .err-bar-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .err-bar-btn:active {
+    transform: translateY(0);
+  }
+
+  .err-bar-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+
+  .err-bar-btn.primary:hover {
+    background: var(--accent-glow);
+    border-color: var(--accent-glow);
+  }
+
+  .err-bar-retry {
     padding: 8px 20px;
     background: #f1f1f1;
     border: none;
@@ -446,11 +488,11 @@ body.is-watching .yt-player-shell {
     cursor: pointer;
     transition: background-color 0.2s ease;
     flex-shrink: 0;
-}
+  }
 
-.err-bar-retry:hover {
+  .err-bar-retry:hover {
     background: #d9d9d9;
-}
+  }
 
 /* ── Flash & Video Stats Overlays ── */
 .flash-overlay {
