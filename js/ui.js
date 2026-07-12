@@ -350,7 +350,7 @@ function initHomePage() {
           <span>TV</span>
         </div>
         <p class="footer-tagline">A collection of live TV channels<br>and sports events, available for free.</p>
-        <div class="footer-dev">Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">trionine</a></div>
+        <div class="footer-dev">Developed by <a href="https://trionine.com" target="_blank" rel="noopener">trionine</a></div>
       </div>
       <div class="footer-links">
         <div class="footer-col-label">QUICK LINKS</div>
