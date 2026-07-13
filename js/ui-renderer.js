@@ -184,13 +184,9 @@ async function loadLiveMatches(carouselTrack) {
     }).sort(sortPopularMatches);
 
     if (liveSports.length === 0) {
-      carouselTrack.innerHTML = `
-        <div class="live-empty-banner">
-          <span class="home-live-badge">LIVE</span>
-          <strong>No popular live matches right now</strong>
-          <p>Check the Sports row below or open the guide for all live channels.</p>
-        </div>
-      `;
+      if (carouselTrack.parentElement) {
+        carouselTrack.parentElement.style.display = 'none';
+      }
       return;
     }
 
@@ -222,7 +218,7 @@ async function loadLiveMatches(carouselTrack) {
           <span class="yt-tile-live home-live-badge">LIVE</span>
         </div>
         <p class="yt-tile-title home-ch-name" title="${match.title}">${match.title}</p>
-        <p class="yt-tile-meta">SPORTS • FHD</p>
+        <p class="yt-tile-meta">SPORTS</p>
       `;
 
       const openMatch = () => {
@@ -443,7 +439,6 @@ function initHomePage() {
           <span class="yt-tile-live home-live-badge">LIVE</span>
         </div>
         <p class="yt-tile-title home-ch-name">${ch.name}</p>
-        <p class="yt-tile-meta">${ch.quality}</p>
       `;
 
       const openChannel = () => {
@@ -580,7 +575,6 @@ function buildChItem(ch) {
       <div class="ch-name">${ch.name}</div>
       <div class="ch-meta">
         <span class="ch-live-dot"></span>
-        <span class="q-badge ${qClass}">${ch.quality}</span>
       </div>
     </div>`;
 

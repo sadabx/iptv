@@ -12,7 +12,6 @@ const CHANNELS_DATA = {
           name: "BeinSports-1",
           shortName: "BS1",
           logo: "assets/logos/beinsports-1.png",
-          quality: "FHD",
           streams: [
             {
               label: "online24",
@@ -33,7 +32,6 @@ const CHANNELS_DATA = {
           name: "Eurosport HD",
           shortName: "EURO",
           logo: "assets/logos/eurosport-hd.png",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -46,7 +44,6 @@ const CHANNELS_DATA = {
           name: "F1 TV",
           shortName: "F1TV",
           logo: "assets/logos/f1-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "Hakunamatata",
@@ -59,7 +56,6 @@ const CHANNELS_DATA = {
           name: "FIFA 26",
           shortName: "FIFA",
           logo: "assets/logos/fifa-wc-2026.svg",
-          quality: "FHD",
           streams: [
             {
               label: "StreamHost",
@@ -90,7 +86,6 @@ const CHANNELS_DATA = {
           name: "Fox Sports 501 HD",
           shortName: "FOX501",
           logo: "assets/logos/fox-sports-501.svg",
-          quality: "HD",
           streams: [
             {
               label: "SiauliaiRS",
@@ -103,7 +98,6 @@ const CHANNELS_DATA = {
           name: "Sky Sports Cricket",
           shortName: "SKY",
           logo: "assets/logos/sky-sports-cricket.svg",
-          quality: "HD",
           streams: [
             {
               label: "SiauliaiRS",
@@ -116,7 +110,6 @@ const CHANNELS_DATA = {
           name: "Sony Sports 2 HD",
           shortName: "SS2",
           logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png",
-          quality: "HD",
           streams: [
             {
               label: "EPGMaker",
@@ -129,7 +122,6 @@ const CHANNELS_DATA = {
           name: "Sony Sports 5",
           shortName: "SS5",
           logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen5_SD_Logo_CLR.png",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -142,7 +134,6 @@ const CHANNELS_DATA = {
           name: "Sport TV",
           shortName: "STV1",
           logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Sport_TV1_%282023%29.svg",
-          quality: "HD",
           streams: [
             {
               label: "StreamHost",
@@ -155,7 +146,6 @@ const CHANNELS_DATA = {
           name: "Fox 5",
           shortName: "Fox-5",
           logo: "https://images.squarespace-cdn.com/content/v1/5d853c9bd277641ad03a954e/1602625218587-ELV3ORCIQOQ5ORCE0XAS/FOx5news.png",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -168,7 +158,6 @@ const CHANNELS_DATA = {
           name: "Star Sports 1",
           shortName: "SS1H",
           logo: "assets/logos/star-sports-1.png",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -185,7 +174,6 @@ const CHANNELS_DATA = {
           name: "T Sports",
           shortName: "TSPT",
           logo: "assets/logos/tsports.png",
-          quality: "HD",
           streams: [
             {
               label: "rgkkw",
@@ -202,7 +190,6 @@ const CHANNELS_DATA = {
           name: "Thunder Er",
           shortName: "THUN",
           logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770380791303.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -215,7 +202,6 @@ const CHANNELS_DATA = {
           name: "TNT Sports",
           shortName: "TNT",
           logo: "https://abusaeeidx.github.io/Tv-Channel-Logo/CricHD/runded/tnt.png",
-          quality: "HD",
           streams: [
             {
               label: "StreamHost",
@@ -228,7 +214,6 @@ const CHANNELS_DATA = {
           name: "Willow Sports",
           shortName: "WLOW",
           logo: "assets/logos/willow-sports.svg",
-          quality: "FHD",
           streams: [
             {
               label: "EPGMaker",
@@ -246,7 +231,6 @@ const CHANNELS_DATA = {
           name: "ATN News",
           shortName: "ATNN",
           logo: "assets/logos/atn-news.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -259,7 +243,6 @@ const CHANNELS_DATA = {
           name: "Channel 1",
           shortName: "CH1",
           logo: "assets/logos/channel-1.svg",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -272,7 +255,6 @@ const CHANNELS_DATA = {
           name: "Channel 24",
           shortName: "CH24",
           logo: "assets/logos/channel-24.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -289,7 +271,6 @@ const CHANNELS_DATA = {
           name: "DBC News",
           shortName: "DBC",
           logo: "assets/logos/dbc-news.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -302,7 +283,6 @@ const CHANNELS_DATA = {
           name: "Desh TV",
           shortName: "DESH",
           logo: "assets/logos/desh-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -319,7 +299,6 @@ const CHANNELS_DATA = {
           name: "Ekattor TV",
           shortName: "71TV",
           logo: "assets/logos/ekattor-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -332,7 +311,6 @@ const CHANNELS_DATA = {
           name: "Ekhon TV",
           shortName: "EKHON",
           logo: "assets/logos/ekhon-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "YouTube",
@@ -345,7 +323,6 @@ const CHANNELS_DATA = {
           name: "Independent TV",
           shortName: "ITV",
           logo: "assets/logos/independent-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -358,7 +335,6 @@ const CHANNELS_DATA = {
           name: "Jago News 24",
           shortName: "JAGO",
           logo: "assets/logos/jago-news-24.png",
-          quality: "HD",
           streams: [
             {
               label: "ncare",
@@ -372,7 +348,6 @@ const CHANNELS_DATA = {
           shortName: "JTV",
           logo: "assets/logos/jamuna-tv.svg",
           themeColor: "#AA0001",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -389,7 +364,6 @@ const CHANNELS_DATA = {
           name: "News 24",
           shortName: "N24",
           logo: "assets/logos/news-24.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -402,7 +376,6 @@ const CHANNELS_DATA = {
           name: "Sangsad TV",
           shortName: "SANG",
           logo: "assets/logos/sangsad-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -415,7 +388,6 @@ const CHANNELS_DATA = {
           name: "Somoy TV",
           shortName: "SOMOY",
           logo: "assets/logos/somoy-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "BossTV",
@@ -432,7 +404,6 @@ const CHANNELS_DATA = {
           name: "Star News",
           shortName: "STAR",
           logo: "assets/logos/star-news.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -450,7 +421,6 @@ const CHANNELS_DATA = {
           name: "Al Jazeera English",
           shortName: "AJE",
           logo: "assets/logos/al-jazeera.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -463,7 +433,6 @@ const CHANNELS_DATA = {
           name: "CNA",
           shortName: "CNA",
           logo: "assets/logos/cna.svg",
-          quality: "HD",
           streams: [
             {
               label: "CloudFront",
@@ -476,7 +445,6 @@ const CHANNELS_DATA = {
           name: "CNN",
           shortName: "CNN ",
           logo: "https://upload.wikimedia.org/wikipedia/commons/b/b1/CNN.svg",
-          quality: "HD",
           streams: [
             {
               label: "WarnerMedia",
@@ -489,7 +457,6 @@ const CHANNELS_DATA = {
           name: "Press TV Iran",
           shortName: "PRES",
           logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Press_TV_logo.svg/1280px-Press_TV_logo.svg.png",
-          quality: "HD",
           streams: [
             {
               label: "PressTV",
@@ -507,7 +474,6 @@ const CHANNELS_DATA = {
           name: "Ananda TV",
           shortName: "AND",
           logo: "assets/logos/ananda-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "JagoBD",
@@ -521,7 +487,6 @@ const CHANNELS_DATA = {
           name: "Asian TV",
           shortName: "ASIAN",
           logo: "assets/logos/asian-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "AynaOTT",
@@ -534,7 +499,6 @@ const CHANNELS_DATA = {
           name: "ATN Bangla",
           shortName: "ATNB",
           logo: "assets/logos/atn-bangla.svg",
-          quality: "HD",
           streams: [
             {
               label: "AynaOTT",
@@ -548,7 +512,6 @@ const CHANNELS_DATA = {
           name: "ATN Music",
           shortName: "ATN ",
           logo: "assets/logos/atn-music.jpg",
-          quality: "HD",
           streams: [
             {
               label: "ncare",
@@ -562,7 +525,6 @@ const CHANNELS_DATA = {
           name: "Bangla TV",
           shortName: "BNG",
           logo: "assets/logos/bangla-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "AynaOTT",
@@ -576,7 +538,6 @@ const CHANNELS_DATA = {
           name: "Bangla Vision",
           shortName: "BV",
           logo: "assets/logos/bangla-vision.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -589,7 +550,6 @@ const CHANNELS_DATA = {
           name: "Bijoy TV",
           shortName: "BIJOY",
           logo: "assets/logos/bijoy-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "EPGMaker",
@@ -602,7 +562,6 @@ const CHANNELS_DATA = {
           name: "Boishakhi TV",
           shortName: "BOIS",
           logo: "assets/logos/boishakhi-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "SonarBangla",
@@ -619,7 +578,6 @@ const CHANNELS_DATA = {
           name: "Channel 9",
           shortName: "CH9",
           logo: "assets/logos/channel-9.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -632,7 +590,6 @@ const CHANNELS_DATA = {
           name: "Channel I",
           shortName: "CHI",
           logo: "assets/logos/channel-i.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -645,7 +602,6 @@ const CHANNELS_DATA = {
           name: "Deepto TV",
           shortName: "DPTO",
           logo: "assets/logos/deepto-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -662,7 +618,6 @@ const CHANNELS_DATA = {
           name: "Ekushey TV",
           shortName: "ETV",
           logo: "assets/logos/ekushey-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "EkusheyServ",
@@ -680,7 +635,6 @@ const CHANNELS_DATA = {
           name: "Gazi TV",
           shortName: "GTV",
           logo: "assets/logos/gazi-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "ChowdhuryS",
@@ -701,7 +655,6 @@ const CHANNELS_DATA = {
           name: "Global TV",
           shortName: "GLB",
           logo: "assets/logos/global-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "AynaOTT",
@@ -714,7 +667,6 @@ const CHANNELS_DATA = {
           name: "Green TV",
           shortName: "GRN",
           logo: "assets/logos/green-tv.jpg",
-          quality: "FHD",
           streams: [
             {
               label: "ncare",
@@ -729,7 +681,6 @@ const CHANNELS_DATA = {
           name: "Maasranga TV",
           shortName: "MSTV",
           logo: "assets/logos/maasranga-tv.png",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -741,8 +692,7 @@ const CHANNELS_DATA = {
           id: "mohona-tv",
           name: "Mohona TV",
           shortName: "MOHO",
-          logo: "assets/logos/mohona-tv.png",
-          quality: "FHD",
+          logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/94/Mohona_tv_Logo.svg/250px-Mohona_tv_Logo.svg.png",
           streams: [
             {
               label: "BozzTV",
@@ -758,8 +708,7 @@ const CHANNELS_DATA = {
           id: "movie-bangla",
           name: "Movie Bangla",
           shortName: "MBNGL",
-          logo: "assets/logos/movie-bangla.jpg",
-          quality: "SD",
+          logo: "https://moviebangla.tv/wp-content/uploads/2024/06/moviebanglatv-logo-2.png",
           streams: [
             {
               label: "AlveTV",
@@ -773,7 +722,6 @@ const CHANNELS_DATA = {
           name: "My TV",
           shortName: "MYTV",
           logo: "assets/logos/my-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "AynaOTT",
@@ -788,7 +736,6 @@ const CHANNELS_DATA = {
           shortName: "NTV",
           themeColor: "#00833e",
           logo: "assets/logos/ntv.svg",
-          quality: "FHD",
           streams: [
             {
               label: "gpcdn",
@@ -806,7 +753,6 @@ const CHANNELS_DATA = {
           name: "RTV",
           shortName: "RTV",
           logo: "assets/logos/rtv.png",
-          quality: "FHD",
           streams: [
             {
               label: "Direct",
@@ -824,7 +770,6 @@ const CHANNELS_DATA = {
           name: "SA TV",
           shortName: "SATV",
           logo: "assets/logos/sa-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -842,7 +787,6 @@ const CHANNELS_DATA = {
           name: "Vokta TV",
           shortName: "VKTA",
           logo: "assets/logos/vokta-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "RaytaHost",
@@ -861,7 +805,6 @@ const CHANNELS_DATA = {
           name: "Crimes",
           shortName: "CRIM",
           logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770380126540.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -875,7 +818,6 @@ const CHANNELS_DATA = {
           shortName: "MBBX",
           logo: "https://w7.pngwing.com/pngs/686/422/png-transparent-black-clap-board-illustration-film-festival-world-cinema-box-office-movie-miscellaneous-television-angle-thumbnail.png",
           themeColor: "#EEEEEE",
-          quality: "HD",
           streams: [
             {
               label: "SkyGo",
@@ -888,7 +830,6 @@ const CHANNELS_DATA = {
           name: "Superrix HD",
           shortName: "SPRX",
           logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770348388925.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -901,7 +842,6 @@ const CHANNELS_DATA = {
           name: "Uniques HD",
           shortName: "UNIQ",
           logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770347327658.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -919,7 +859,6 @@ const CHANNELS_DATA = {
           name: "Aakash Aath",
           shortName: "AKA",
           logo: "assets/logos/akash-aat.webp",
-          quality: "HD",
           streams: [
             {
               label: "BossTV",
@@ -936,7 +875,6 @@ const CHANNELS_DATA = {
           name: "B4U Kadak",
           shortName: "B4U ",
           logo: "https://jiotvimages.cdn.jio.com/dare_images/images/channel/63ca523d57c534aae4b50f9cd4d2a80c.png",
-          quality: "HD",
           streams: [
             {
               label: "PiShow",
@@ -949,7 +887,6 @@ const CHANNELS_DATA = {
           name: "Colors Bangla HD",
           shortName: "COLORS",
           logo: "assets/logos/colors-bangla-hd.png",
-          quality: "FHD",
           streams: [
             {
               label: "EPGMaker",
@@ -963,7 +900,6 @@ const CHANNELS_DATA = {
           name: "Colors Cineplex HD",
           shortName: "CINEPLEX",
           logo: "assets/logos/colors-cineplex-hd.svg",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -978,7 +914,6 @@ const CHANNELS_DATA = {
           shortName: "HIND",
           themeColor: "#000000",
           logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVljpzM91S8pNCK2WqHvoPOIbH80C0BJS6QQ&s",
-          quality: "HD",
           streams: [
             {
               label: "BozzTV",
@@ -991,7 +926,6 @@ const CHANNELS_DATA = {
           name: "Joo Music",
           shortName: "JOOM",
           logo: "https://images.dwncdn.net/images/t_app-icon-l/p/2465677d-f07e-4f7e-90b0-74fb1d636456/2541171815/2141_4-78144111-imgingest-1692757708225709462.png",
-          quality: "HD",
           streams: [
             {
               label: "live247",
@@ -1004,7 +938,6 @@ const CHANNELS_DATA = {
           name: "Sheemaroo Bollywood",
           shortName: "SHEE",
           logo: "https://jiotvimages.cdn.jio.com/dare_images/images/channel/2f66f13b85531977f2990c18ca414e83.png",
-          quality: "HD",
           streams: [
             {
               label: "Amagi",
@@ -1018,7 +951,6 @@ const CHANNELS_DATA = {
           name: "Sony AATH",
           shortName: "AATH",
           logo: "assets/logos/sony-aath.png",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -1032,7 +964,6 @@ const CHANNELS_DATA = {
           name: "Sony Max",
           shortName: "MAX",
           logo: "https://www.sonypicturesnetworks.com/images/logos/Sony_MAX.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1045,7 +976,6 @@ const CHANNELS_DATA = {
           name: "Sony SAB",
           shortName: "SAB",
           logo: "assets/logos/sony-sab.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1058,7 +988,6 @@ const CHANNELS_DATA = {
           name: "Star Bharat",
           shortName: "SB",
           logo: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Star_Bharat_Logo.png/250px-Star_Bharat_Logo.png",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -1071,7 +1000,6 @@ const CHANNELS_DATA = {
           name: "Star Jalsha HD",
           shortName: "JALSHA",
           logo: "assets/logos/star-jalsha-hd.png",
-          quality: "FHD",
           streams: [
             {
               label: "YuppTV",
@@ -1088,7 +1016,6 @@ const CHANNELS_DATA = {
           name: "Zee 24 Ghanta",
           shortName: "ZEE24",
           logo: "assets/logos/zee-24-ghanta.png",
-          quality: "HD",
           streams: [
             {
               label: "CloudFront",
@@ -1101,7 +1028,6 @@ const CHANNELS_DATA = {
           name: "Zee Action",
           shortName: "ZA",
           logo: "assets/logos/zee-action.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1114,7 +1040,6 @@ const CHANNELS_DATA = {
           name: "Zee Bangla HD",
           shortName: "ZEEB",
           logo: "assets/logos/zee-bangla-hd.png",
-          quality: "FHD",
           streams: [
             {
               label: "OTTPlus",
@@ -1145,7 +1070,6 @@ const CHANNELS_DATA = {
           name: "Zee Cinema",
           shortName: "ZC",
           logo: "assets/logos/zee-cinema.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1169,7 +1093,6 @@ const CHANNELS_DATA = {
           name: "Cartoon Network",
           shortName: "CN",
           logo: "assets/logos/cartoon-network.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1186,7 +1109,6 @@ const CHANNELS_DATA = {
           name: "Doraemon",
           shortName: "DORAEMON",
           logo: "assets/logos/doraemon.png",
-          quality: "SD",
           streams: [
             {
               label: "BozzTV",
@@ -1199,7 +1121,6 @@ const CHANNELS_DATA = {
           name: "Funny Junior",
           shortName: "FJ",
           logo: "https://cdnhost.akashbd.net/assets/uploads/channels_images/1770007686-69716217.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -1212,7 +1133,6 @@ const CHANNELS_DATA = {
           name: "Gopal Bhar",
           shortName: "GOPAL",
           logo: "assets/logos/gopal-bhar.png",
-          quality: "SD",
           streams: [
             {
               label: "BozzTV",
@@ -1225,7 +1145,6 @@ const CHANNELS_DATA = {
           name: "Motu Patlu",
           shortName: "MOTU",
           logo: "assets/logos/motu-patlu.png",
-          quality: "HD",
           streams: [
             {
               label: "BozzTV",
@@ -1238,7 +1157,6 @@ const CHANNELS_DATA = {
           name: "Mr Bean",
           shortName: "BEAN",
           logo: "assets/logos/mr-bean.png",
-          quality: "HD",
           streams: [
             {
               label: "Amagi",
@@ -1251,7 +1169,6 @@ const CHANNELS_DATA = {
           name: "Nicklodian SONIC",
           shortName: "SONIC",
           logo: " ",
-          quality: "HD",
           streams: [
             {
               label: "BozzTV",
@@ -1264,7 +1181,6 @@ const CHANNELS_DATA = {
           name: "Oggy and Cockroaches",
           shortName: "OGGY",
           logo: "assets/logos/oggy-and-cockroaches.png",
-          quality: "HD",
           streams: [
             {
               label: "BozzTV",
@@ -1278,7 +1194,6 @@ const CHANNELS_DATA = {
           shortName: "PBSK",
           logo: "assets/logos/pbs-kids.png",
           themeColor: "#2135C5",
-          quality: "fHD",
           streams: [
             {
               label: "StreamHost",
@@ -1295,7 +1210,6 @@ const CHANNELS_DATA = {
           name: "Popkids",
           shortName: "POP",
           logo: "assets/logos/popkids.png",
-          quality: "HD",
           streams: [
             {
               label: "Amagi",
@@ -1308,7 +1222,6 @@ const CHANNELS_DATA = {
           name: "Rongeen TV",
           shortName: "RNGN",
           logo: "assets/logos/rongeen-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "LegitPro",
@@ -1321,7 +1234,6 @@ const CHANNELS_DATA = {
           name: "Sony Yay",
           shortName: "YAY",
           logo: "assets/logos/sony-yay.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1335,7 +1247,6 @@ const CHANNELS_DATA = {
           shortName: "SRK",
           logo: "assets/logos/srk-tv.png",
           themeColor: "#0134FE",
-          quality: "HD",
           streams: [
             {
               label: "ncare",
@@ -1348,7 +1259,6 @@ const CHANNELS_DATA = {
           name: "Tom & Jerry",
           shortName: "T&J ",
           logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Tom_and_Jerry_logo.svg/1280px-Tom_and_Jerry_logo.svg.png",
-          quality: "HD",
           streams: [
             {
               label: "BozzTV",
@@ -1370,7 +1280,6 @@ const CHANNELS_DATA = {
           name: "Animal Planet",
           shortName: "AP",
           logo: "assets/logos/animal-planet.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1383,7 +1292,6 @@ const CHANNELS_DATA = {
           name: "Discovery HD",
           shortName: "DSCH",
           logo: "assets/logos/discovery-hd.PNG",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1400,7 +1308,6 @@ const CHANNELS_DATA = {
           name: "ID HD",
           shortName: "ID",
           logo: "assets/logos/id-hd.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1413,7 +1320,6 @@ const CHANNELS_DATA = {
           name: "Luxell",
           shortName: "LUXE",
           logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770378560772.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -1426,7 +1332,6 @@ const CHANNELS_DATA = {
           name: "Motor Vision",
           shortName: "MOTO",
           logo: "https://motorvision.tv/wp-content/uploads/2023/09/MV_Logo_positive_light_background-2.png",
-          quality: "HD",
           streams: [
             {
               label: "OtterVision",
@@ -1439,7 +1344,6 @@ const CHANNELS_DATA = {
           name: "Nat Geo HD",
           shortName: "NATG",
           logo: "assets/logos/nat-geo-hd.svg",
-          quality: "HD",
           streams: [
             {
               label: "Direct",
@@ -1452,7 +1356,6 @@ const CHANNELS_DATA = {
           name: "REAL WILD",
           shortName: "REAL",
           logo: " ",
-          quality: "HD",
           streams: [
             {
               label: "Amagi",
@@ -1465,7 +1368,6 @@ const CHANNELS_DATA = {
           name: "Red Bull TV",
           shortName: "RBTV",
           logo: "assets/logos/red-bull-tv.svg",
-          quality: "HD",
           streams: [
             {
               label: "Akamai",
@@ -1478,7 +1380,6 @@ const CHANNELS_DATA = {
           name: "TLC",
           shortName: "TLC",
           logo: "assets/logos/tlc.png",
-          quality: "HD",
           streams: [
             {
               label: "OTTPlus",
@@ -1491,7 +1392,6 @@ const CHANNELS_DATA = {
           name: "Travel XP",
           shortName: "TRXP",
           logo: "assets/logos/travel-xp.svg",
-          quality: "HD",
           streams: [
             {
               label: "Rakuten",
@@ -1508,7 +1408,6 @@ const CHANNELS_DATA = {
           name: "Wild Earth",
           shortName: "WE",
           logo: "assets/logos/wild-earth.png",
-          quality: "HD",
           streams: [
             {
               label: "Amagi",
@@ -1526,7 +1425,6 @@ const CHANNELS_DATA = {
           name: "Al Quran Al Kareem TV",
           shortName: "MAKKA",
           logo: "assets/logos/al-quran-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "gpcdn",
@@ -1547,7 +1445,6 @@ const CHANNELS_DATA = {
           name: "Al Sunnah Al Nabawiyah TV",
           shortName: "MADINA",
           logo: "assets/logos/al-sunnah-tv.png",
-          quality: "HD",
           streams: [
             {
               label: "SaudiLive",
@@ -1564,7 +1461,6 @@ const CHANNELS_DATA = {
           name: "Ilm TV",
           shortName: "ILM",
           logo: "https://yt3.googleusercontent.com/cCETTs55ld8DoOwZ2i4nJI-Z25DOvLIUrdkejbSuvn7JRoWiLCkEPOteoz1ZeXWyAzZzm4OG6g=s900-c-k-c0x00ffffff-no-rj",
-          quality: "HD",
           streams: [
             {
               label: "tplay",
@@ -1577,7 +1473,6 @@ const CHANNELS_DATA = {
           name: "Madani Channel Bangla",
           shortName: "MCB",
           logo: "assets/logos/madani-channel.png",
-          quality: "FHD",
           streams: [
             {
               label: "MadaniTV",
@@ -1590,7 +1485,6 @@ const CHANNELS_DATA = {
           name: "Peace TV Bangla",
           shortName: "PEACE",
           logo: "assets/logos/peace-tv-bangla.png",
-          quality: "FHD",
           streams: [
             {
               label: "erbvr",
@@ -1603,7 +1497,6 @@ const CHANNELS_DATA = {
           name: "Peace TV English",
           shortName: "PTVE",
           logo: "assets/logos/peace-tv-english.png",
-          quality: "FHD",
           streams: [
             {
               label: "erbvr",
@@ -1617,7 +1510,6 @@ const CHANNELS_DATA = {
           shortName: "Q24",
           logo: "https://qurantv.in/wp-content/uploads/2023/11/logo-quran.png",
           themeColor: "#f3e779ee",
-          quality: "HD",
           streams: [
             {
               label: "Sharjah Quran",

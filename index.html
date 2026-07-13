@@ -8,19 +8,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="T9TV - live IPTV channels, sports, movies, guide, and catch-up style browsing." />
   <title>T9TV</title>
-  <link rel="icon" type="image/png" href="assets/iptv.png" />
-  <link rel="apple-touch-icon" href="assets/iptv.png" />
+  <link rel="icon" type="image/png" href="assets/t9.png" />
+  <link rel="apple-touch-icon" href="assets/t9.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://embed.st" />
   <link rel="dns-prefetch" href="https://streamed.pk" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-  <link rel="stylesheet" href="css/app.css?v=1.2" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"
+    media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="css/app.css?v=1.3" />
   <link rel="stylesheet" href="css/player.css" />
-  <link rel="stylesheet" href="css/guide.css?v=1.2" />
+  <link rel="stylesheet" href="css/guide.css?v=1.3" />
   <link rel="stylesheet" href="css/catalog.css?v=2.4" />
   <link rel="stylesheet" href="css/chat.css" />
-  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme.css?v=1.2" />
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js" defer></script>
 </head>
@@ -36,8 +37,8 @@
         </svg>
       </button>
       <button class="yt-brand tv-brand focusable" id="logo-home" aria-label="Home">
-        <img src="assets/tn.png" class="brand-logo" alt="Logo">
-        <span class="logo-text">T9TV</span>
+        <img src="assets/t9.png" class="brand-logo" alt="Logo">
+        <span class="logo-text">T9<span style="color: #6181FF; font-style: italic; ">TV</span></span>
       </button>
     </div>
 
@@ -49,9 +50,11 @@
           <path d="M11 11l3 3"></path>
         </svg>
         <input id="search-input" class="search-input focusable" type="search" placeholder="Search live channels"
-          autocomplete="off" aria-label="Search live channels" aria-controls="ch-list stage-home" aria-describedby="search-hint" />
+          autocomplete="off" aria-label="Search live channels" aria-controls="ch-list stage-home"
+          aria-describedby="search-hint" />
         <button class="search-clear-btn hidden" id="search-clear" aria-label="Clear search" type="button">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true">
             <line x1="4" y1="4" x2="12" y2="12"></line>
             <line x1="12" y1="4" x2="4" y2="12"></line>
           </svg>
@@ -189,10 +192,12 @@
             <div class="ctrl-spacer"></div>
             <span class="ctrl-channel-name" id="ctrl-ch-name"></span>
             <div class="ctrl-spacer"></div>
-            <div class="ctrl-quality-indicator hidden" id="ctrl-quality-indicator" aria-live="polite" aria-label="Stream quality">
+            <div class="ctrl-quality-indicator hidden" id="ctrl-quality-indicator" aria-live="polite"
+              aria-label="Stream quality">
               <span class="quality-badge" id="ctrl-quality-badge">AUTO</span>
               <span class="buffer-indicator" aria-hidden="true">
-                <span class="buffer-bar"><span class="buffer-fill" id="ctrl-buffer-fill" style="width: 0%"></span></span>
+                <span class="buffer-bar"><span class="buffer-fill" id="ctrl-buffer-fill"
+                    style="width: 0%"></span></span>
                 <span class="buffer-text visually-hidden" id="ctrl-buffer-text">Buffer: 0s</span>
               </span>
             </div>
@@ -247,16 +252,17 @@
     </aside>
   </div>
 
-<div class="toasts" id="toasts"></div>
+  <div class="toasts" id="toasts"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.11/dist/hls.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js" defer></script>
-  <script src="js/channel-catalog.js?v=1.5" defer></script>
+  <script src="js/channel-catalog.js?v=1.6" defer></script>
   <script src="js/stream-player.js?v=1.6" defer></script>
   <script src="js/embed-providers.js?v=1.0" defer></script>
-  <script src="js/ui-renderer.js?v=2.1" defer></script>
+  <script src="js/ui-renderer.js?v=2.3" defer></script>
   <script src="js/live-chat.js" defer></script>
-  <script src="js/bootstrap.js?v=1.3" defer></script>
+  <script src="js/bootstrap.js?v=1.5" defer></script>
   <script src="js/live-carousel.js" defer></script>
 </body>
+
 </html>

@@ -626,15 +626,22 @@ body.is-watching .np-name strong {
     body {
         height: auto;
         overflow: visible;
+        padding-bottom: var(--nav-h);
     }
 
     .yt-nav {
-        position: sticky;
-        top: 0;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        right: 0;
         z-index: 1000;
         padding: 0 12px;
         gap: 8px;
         flex-wrap: nowrap;
+        border-bottom: none;
+        border-top: 1px solid var(--border);
+        justify-content: space-between;
     }
 
     .yt-nav-left {
@@ -667,6 +674,10 @@ body.is-watching .np-name strong {
         display: none;
     }
 
+    .logo-text {
+        display: none;
+    }
+
     .yt-search .search-input {
         font-size: 0.85rem;
         height: 36px;
@@ -680,6 +691,8 @@ body.is-watching .np-name strong {
     }
 
     .search-results {
+        top: auto;
+        bottom: calc(100% + 8px);
         max-height: 50vh;
         max-width: calc(100vw - 16px);
     }
@@ -691,9 +704,9 @@ body.is-watching .np-name strong {
 
     .yt-guide {
         position: fixed;
-        top: var(--nav-h);
+        top: 0;
         left: 0;
-        bottom: 0;
+        bottom: var(--nav-h);
         width: var(--guide-w);
         background: var(--bg);
         border-right: 1px solid var(--border);
@@ -709,14 +722,18 @@ body.is-watching .np-name strong {
 
     .yt-player-shell {
         position: sticky;
-        top: var(--nav-h);
+        top: 0;
         z-index: 100;
     }
 
     body.is-watching .yt-player-shell {
         position: sticky;
-        top: var(--nav-h);
+        top: 0;
         z-index: 100;
+    }
+
+    .yt-backdrop {
+        inset: 0 0 var(--nav-h) 0;
     }
 
     .yt-main {

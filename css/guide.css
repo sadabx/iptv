@@ -17,9 +17,9 @@
 @media (max-width: 768px) {
     .yt-guide {
         position: fixed;
-        top: var(--nav-h);
+        top: 0;
         left: 0;
-        bottom: 0;
+        bottom: var(--nav-h);
         width: min(290px, 85vw);
         transition: transform 0.28s var(--ease);
         transform: translateX(-100%);

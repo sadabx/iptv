@@ -357,7 +357,12 @@ document.addEventListener("DOMContentLoaded", () => {
       (document.activeElement.tagName === "INPUT" ||
         document.activeElement.tagName === "TEXTAREA")
     ) {
-      return;
+      // Allow Up/Down arrows to escape inputs so TV remote users don't get stuck
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        // Fall through to let remote navigation handle it
+      } else {
+        return;
+      }
     }
 
     const key = e.key.toLowerCase();
@@ -672,15 +677,8 @@ document.addEventListener("DOMContentLoaded", () => {
       showHomePage();
     }
   } else {
-    // Restore last channel from localStorage if available
-    const lastChannel = localStorage.getItem("iptv-last-channel");
-    const lastQuality = localStorage.getItem("iptv-last-quality");
-    if (lastChannel && findChannel(lastChannel)) {
-      const qualityIdx = lastQuality ? parseInt(lastQuality, 10) : undefined;
-      loadChannel(lastChannel, qualityIdx);
-    } else {
-      showHomePage();
-    }
+    // Disabled auto-restore to always show the home catalog on reload
+    showHomePage();
   }
 
   // ── Browser Back/Forward Navigation Handler ──
