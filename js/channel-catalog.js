@@ -202,6 +202,7 @@ const CHANNELS_DATA = {
           name: "TNT Sports",
           shortName: "TNT",
           logo: "https://abusaeeidx.github.io/Tv-Channel-Logo/CricHD/runded/tnt.png",
+          themeColor: "#11222C",
           streams: [
             {
               label: "StreamHost",

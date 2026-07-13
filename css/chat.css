@@ -103,6 +103,15 @@
     animation: fadeInUp 0.2s var(--ease);
 }
 
+.chat-empty-state {
+    margin: auto;
+    max-width: 220px;
+    color: var(--text3);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;

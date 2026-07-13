@@ -88,7 +88,46 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   $btnSB = document.getElementById("btn-sidebar");
   const $btnChat = document.getElementById("btn-chat");
+  const $ctrlChat = document.getElementById("ctrl-chat");
   $backdrop = document.getElementById("guide-backdrop");
+  const $mobileTabHome = document.getElementById("mobile-tab-home");
+  const $mobileTabChannels = document.getElementById("mobile-tab-channels");
+  const $mobileTabSearch = document.getElementById("mobile-tab-search");
+  const $mobileTabChat = document.getElementById("mobile-tab-chat");
+
+  function setMobileTabActive(tabName) {
+    if (tabName === "chat" && !document.body.classList.contains("is-watching")) {
+      tabName = "home";
+    }
+    document.querySelectorAll(".mobile-tabbar-btn").forEach((button) => {
+      button.classList.toggle("is-active", button.id === `mobile-tab-${tabName}`);
+    });
+  }
+
+  function canUseChat() {
+    return document.body.classList.contains("is-watching");
+  }
+
+  function isMobileLayout() {
+    return window.matchMedia("(max-width: 768px)").matches;
+  }
+
+  function toggleChatPanel() {
+    if (!canUseChat()) {
+      toast("Chat is available while streaming", 1200);
+      setMobileTabActive("home");
+      return;
+    }
+
+    if (typeof initLiveChat === "function") initLiveChat();
+    $chat.classList.toggle("closed");
+    const isOpen = !$chat.classList.contains("closed");
+    $btnChat?.classList.toggle("on", isOpen);
+    $ctrlChat?.classList.toggle("on", isOpen);
+    document.body.classList.toggle("chat-open", isOpen);
+    if (isOpen) setGuideOpen(false);
+    setMobileTabActive(isOpen ? "chat" : document.body.classList.contains("is-watching") ? "channels" : "home");
+  }
 
   // Chat is hidden by default — mark button as "closed"
   $chat.classList.add("closed");
@@ -100,6 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (open && typeof showGuideCategories === "function" && !$search.value) {
       showGuideCategories();
     }
+    if (open) setMobileTabActive(document.body.classList.contains("guide-searching") ? "search" : "channels");
+    else if (!$chat || $chat.classList.contains("closed")) setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
   };
 
   // Live guide toggle
@@ -109,10 +150,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("[data-rail-home]")?.addEventListener("click", () => {
     showHomePage();
     setGuideOpen(false);
+    setMobileTabActive("home");
   });
   document.querySelector("[data-rail-search]")?.addEventListener("click", () => {
-    setGuideOpen(true);
+    setGuideOpen(false);
     if (typeof showGuideSearchResults === "function") showGuideSearchResults();
+    if (typeof renderFloatingSearchResults === "function") renderFloatingSearchResults($search?.value || "");
+    setMobileTabActive("search");
     requestAnimationFrame(() => $search?.focus());
   });
   document.getElementById("guide-back")?.addEventListener("click", () => {
@@ -125,15 +169,83 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof showGuideCategories === "function") showGuideCategories();
   });
   if ($backdrop) $backdrop.addEventListener("click", () => setGuideOpen(false));
+  document.querySelector(".mobile-browse-sheet")?.addEventListener("click", (event) => {
+    if (!event.target.closest(".mobile-browse-shell") && typeof setMobileBrowseSheetOpen === "function") {
+      setMobileBrowseSheetOpen(false);
+      setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
+    }
+  });
+  document.getElementById("mobile-browse-close")?.addEventListener("click", () => {
+    if (typeof setMobileBrowseSheetOpen === "function") setMobileBrowseSheetOpen(false);
+    setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
+  });
+  document.querySelector(".floating-search")?.addEventListener("click", (event) => {
+    if (!event.target.closest(".floating-search-shell") && typeof closeFloatingSearch === "function") {
+      closeFloatingSearch(false);
+      setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
+    }
+  });
+  document.getElementById("search-overlay-close")?.addEventListener("click", () => {
+    if (typeof closeFloatingSearch === "function") closeFloatingSearch(false);
+    setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !document.body.classList.contains("mobile-browse-open")) return;
+    event.preventDefault();
+    if (typeof setMobileBrowseSheetOpen === "function") setMobileBrowseSheetOpen(false);
+    setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
+  });
   setGuideOpen(false);
 
   // Chat toggle
   $btnChat.addEventListener("click", () => {
-    $chat.classList.toggle("closed");
-    const isOpen = !$chat.classList.contains("closed");
-    $btnChat.classList.toggle("on", isOpen);
-    document.body.classList.toggle("chat-open", isOpen);
-    toast(isOpen ? "Chat opened" : "Chat closed", 1000);
+    toggleChatPanel();
+    toast($chat.classList.contains("closed") ? "Chat closed" : "Chat opened", 1000);
+  });
+
+  $ctrlChat?.addEventListener("click", () => {
+    toggleChatPanel();
+    toast($chat.classList.contains("closed") ? "Chat closed" : "Chat opened", 1000);
+  });
+
+  $mobileTabHome?.addEventListener("click", () => {
+    showHomePage();
+    setGuideOpen(false);
+    if (typeof setMobileBrowseSheetOpen === "function") setMobileBrowseSheetOpen(false);
+    if (!$chat.classList.contains("closed")) {
+      $chat.classList.add("closed");
+      $btnChat.classList.remove("on");
+      $ctrlChat?.classList.remove("on");
+      document.body.classList.remove("chat-open");
+    }
+    setMobileTabActive("home");
+  });
+
+  $mobileTabChannels?.addEventListener("click", () => {
+    if (isMobileLayout() && typeof setMobileBrowseSheetOpen === "function") {
+      setGuideOpen(false);
+      if (typeof closeFloatingSearch === "function") closeFloatingSearch(false);
+      setMobileBrowseSheetOpen(true);
+      setMobileTabActive("channels");
+      return;
+    }
+
+    setGuideOpen(true);
+    if (typeof showGuideCategories === "function") showGuideCategories();
+    setMobileTabActive("channels");
+  });
+
+  $mobileTabSearch?.addEventListener("click", () => {
+    setGuideOpen(false);
+    if (typeof setMobileBrowseSheetOpen === "function") setMobileBrowseSheetOpen(false);
+    if (typeof showGuideSearchResults === "function") showGuideSearchResults();
+    if (typeof renderFloatingSearchResults === "function") renderFloatingSearchResults($search?.value || "");
+    setMobileTabActive("search");
+    requestAnimationFrame(() => $search?.focus());
+  });
+
+  $mobileTabChat?.addEventListener("click", () => {
+    toggleChatPanel();
   });
 
   // Close guide after picking a channel (only on mobile/tablet/overlay widths)
@@ -274,6 +386,9 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
       $qualMenu.classList.toggle("hidden");
       if ($srvMenu) $srvMenu.classList.add("hidden");
+      if (!$qualMenu.classList.contains("hidden")) {
+        requestAnimationFrame(() => $qualMenu.querySelector(".qual-item")?.focus({ preventScroll: true }));
+      }
     });
     document.addEventListener("click", () => $qualMenu.classList.add("hidden"));
   }
@@ -284,6 +399,9 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
       $srvMenu.classList.toggle("hidden");
       if ($qualMenu) $qualMenu.classList.add("hidden");
+      if (!$srvMenu.classList.contains("hidden")) {
+        requestAnimationFrame(() => $srvMenu.querySelector(".qual-item")?.focus({ preventScroll: true }));
+      }
     });
     document.addEventListener("click", () => $srvMenu.classList.add("hidden"));
   }
@@ -313,6 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ".ctrl-btn",
     ".ctrl-live-btn",
     ".ctrl-qual-btn",
+    ".qual-item",
     ".vol-slider",
     ".err-bar-btn",
     "button",
@@ -397,6 +516,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getSequentialGroupTarget(current, direction) {
     if (!current.matches(".home-ch-card, .wm-card, .ch-item")) return null;
+    const group = current.closest(".carousel-track, .wm-grid, .ch-scroll");
+    const isHorizontalCarousel = group?.classList.contains("carousel-track");
+
+    if (isHorizontalCarousel && direction !== "left" && direction !== "right") {
+      return null;
+    }
+
     const groupItems = getOrderedGroupItems(current);
     const currentIndex = groupItems.indexOf(current);
     if (currentIndex < 0) return null;
@@ -555,7 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function getVisiblePlayerControls() {
     return Array.from(
       document.querySelectorAll(
-        ".ctrl-bar .ctrl-btn, .ctrl-bar .ctrl-live-btn, .ctrl-bar .ctrl-qual-btn, .ctrl-bar .vol-slider",
+        ".ctrl-bar .ctrl-btn, .ctrl-bar .ctrl-live-btn, .ctrl-bar .ctrl-qual-btn, .ctrl-bar .vol-slider, .ctrl-bar .qual-item",
       ),
     ).filter(isRemoteFocusableVisible);
   }
@@ -579,6 +705,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isPlayerControl(current)) {
       wakePlayerControls();
+
+      if (current.matches(".qual-item")) {
+        const menu = current.closest(".qual-menu");
+        const items = Array.from(menu?.querySelectorAll(".qual-item") || [])
+          .filter(isRemoteFocusableVisible);
+
+        if ((direction === "up" || direction === "down") && items.length) {
+          const index = items.indexOf(current);
+          const offset = direction === "down" ? 1 : -1;
+          const nextIndex = Math.max(0, Math.min(items.length - 1, index + offset));
+          return focusPlayerControl(items[nextIndex] || current);
+        }
+
+        if (direction === "left" || direction === "right") {
+          menu?.classList.add("hidden");
+          const owner = menu?.id === "srv-menu" ? $srvBtn : $qualBtn;
+          return focusPlayerControl(owner);
+        }
+
+        return true;
+      }
 
       if (direction === "left" || direction === "right") {
         const index = controls.indexOf(current);
@@ -710,13 +857,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Keyboard Shortcuts
   document.addEventListener("keydown", (e) => {
+    const remoteDirection = {
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      ArrowUp: "up",
+      ArrowDown: "down",
+    }[e.key];
+
     if (
       document.activeElement &&
       (document.activeElement.tagName === "INPUT" ||
         document.activeElement.tagName === "TEXTAREA")
     ) {
+      if (document.activeElement.id === "vol-slider" && remoteDirection) {
+        // Let TV/keyboard navigation leave the volume range input.
+      }
       // Allow Up/Down arrows to escape inputs so TV remote users don't get stuck
-      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         // Fall through to let remote navigation handle it
       } else {
         return;
@@ -724,12 +881,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const key = e.key.toLowerCase();
-    const remoteDirection = {
-      ArrowLeft: "left",
-      ArrowRight: "right",
-      ArrowUp: "up",
-      ArrowDown: "down",
-    }[e.key];
 
     if (remoteDirection && handlePlayerRemoteDirection(remoteDirection)) {
       e.preventDefault();
@@ -936,6 +1087,15 @@ document.addEventListener("DOMContentLoaded", () => {
         $search.value = "";
         $searchClear.classList.add("hidden");
         onSearch({ target: $search });
+      } else if (e.key === "Escape" && typeof closeFloatingSearch === "function") {
+        e.preventDefault();
+        closeFloatingSearch(false);
+        if (typeof setMobileBrowseSheetOpen === "function") setMobileBrowseSheetOpen(false);
+        setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
+      } else if (e.key === "Escape" && document.body.classList.contains("mobile-browse-open")) {
+        e.preventDefault();
+        if (typeof setMobileBrowseSheetOpen === "function") setMobileBrowseSheetOpen(false);
+        setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
       }
     });
   }
@@ -969,7 +1129,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const $logo = document.getElementById("logo-home");
   if ($logo) {
-    $logo.addEventListener("click", showHomePage);
+    $logo.addEventListener("click", () => {
+      showHomePage();
+      setMobileTabActive("home");
+    });
   }
 
   // Dynamic cue alignment function to center captions at the bottom

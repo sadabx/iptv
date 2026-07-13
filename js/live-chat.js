@@ -20,8 +20,10 @@ function initLiveChat() {
     $btnClose.addEventListener("click", () => {
       const $chat = document.getElementById("chat");
       const $btnChat = document.getElementById("btn-chat");
+      const $ctrlChat = document.getElementById("ctrl-chat");
       if ($chat) $chat.classList.add("closed");
       if ($btnChat) $btnChat.classList.remove("on");
+      if ($ctrlChat) $ctrlChat.classList.remove("on");
       document.body.classList.remove("chat-open");
     });
   }
@@ -94,6 +96,7 @@ function initLiveChat() {
   }
 
   function addChatMessage(user, text, color, isSelf = false) {
+    $msgContainer.querySelector(".chat-empty-state")?.remove();
     const isAtBottom =
       $msgContainer.scrollHeight - $msgContainer.scrollTop <=
       $msgContainer.clientHeight + 50;
@@ -151,6 +154,10 @@ function initLiveChat() {
 
   // Clear UI messages
   $msgContainer.innerHTML = "";
+  const $emptyState = document.createElement("div");
+  $emptyState.className = "chat-empty-state";
+  $emptyState.textContent = "No messages yet. Start the chat.";
+  $msgContainer.appendChild($emptyState);
 
   if (isFirebaseConfigured) {
     // ── FIREBASE CHAT OPERATION ──

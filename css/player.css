@@ -280,18 +280,30 @@ body.is-watching .yt-player-shell {
 }
 
 .qual-item {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 0;
     padding: 10px 16px;
+    background: transparent;
     font-size: 0.85rem;
     color: var(--text2);
+    font: inherit;
+    text-align: left;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .qual-item:hover {
     background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    padding-left: 20px;
+}
+
+.qual-item:focus-visible {
+    outline: 0;
+    background: rgba(255, 255, 255, 0.12);
     color: var(--text);
     padding-left: 20px;
 }

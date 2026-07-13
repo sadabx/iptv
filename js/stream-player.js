@@ -156,7 +156,8 @@ function executePlayerMount(id, streamIdx) {
   if ($ctxCc) $ctxCc.classList.add("hidden");
 
   if (ch.category) {
-    if (typeof setGuideOpen === "function") setGuideOpen(true);
+    const isMobileView = window.matchMedia("(max-width: 768px)").matches;
+    if (typeof setGuideOpen === "function") setGuideOpen(!isMobileView);
     if (typeof showGuideCategory === "function") showGuideCategory(ch.category);
   }
 
@@ -357,18 +358,19 @@ function populateWatchMore(currentId) {
     if (validChannels.length === 0) return;
 
     html += `
-      <div class="wm-category">
+      <div class="wm-category" data-cat="${cat.name}">
         <div class="yt-row-title wm-cat-title">${cat.name}</div>
         <div class="wm-grid">
           ${validChannels.map((ch) => {
       const isOffline = offlineList.includes(ch.id);
+      const channelMeta = ch.quality || ch.category || "";
       return `
             <div class="wm-card${isOffline ? " is-offline" : ""}" tabindex="0" data-id="${ch.id}" data-search="${ch.name.toLowerCase()}">
               <div class="wm-thumb">
                 ${buildChannelLogo(ch, "tile")}
               </div>
               <div class="wm-name">${ch.name}</div>
-              <div class="wm-meta">${ch.quality}</div>
+              ${channelMeta ? `<div class="wm-meta">${channelMeta}</div>` : ""}
             </div>`;
     }).join("")}
         </div>
@@ -420,7 +422,8 @@ function buildServerMenu(ch) {
   if ($srvBtn) $srvBtn.style.display = "";
 
   streams.forEach((s, i) => {
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
     item.className = "qual-item" + (i === activeStreamIdx ? " active" : "");
     item.innerHTML = `${s.label}${s.bitrate ? `<span class="qual-bitrate">${s.bitrate}</span>` : ""}`;
     item.addEventListener("click", (e) => {
@@ -457,7 +460,8 @@ function buildQualMenuFromHlsLevels() {
   $qualMenu.innerHTML = "";
   if (header) $qualMenu.appendChild(header);
 
-  const autoItem = document.createElement("div");
+  const autoItem = document.createElement("button");
+  autoItem.type = "button";
   autoItem.className = "qual-item" + (hls.currentLevel === -1 ? " active" : "");
   autoItem.innerHTML = `Auto<span class="qual-bitrate"></span>`;
   autoItem.addEventListener("click", (e) => {
@@ -491,7 +495,8 @@ function buildQualMenuFromHlsLevels() {
       bitrateLabel = `${bitrateMbps} Mbps`;
     }
 
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
     item.className = "qual-item" + (hls.currentLevel === idx ? " active" : "");
     item.innerHTML = `${label}<span class="qual-bitrate">${bitrateLabel}</span>`;
     item.addEventListener("click", (e) => {

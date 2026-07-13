@@ -35,6 +35,8 @@ let guideMode = "categories";
 let activeGuideCategory = null;
 let guideSearchReturnCategory = null;
 
+const LIVE_MATCH_DEMO_PARAM = "demoMatches";
+
 const GUIDE_ICON_BASE =
   'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
 
@@ -47,12 +49,26 @@ const GUIDE_CATEGORY_ICONS = {
   Kids: `<svg ${GUIDE_ICON_BASE}><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle><path d="M5 8a7 7 0 0 1 14 0v4a7 7 0 0 1-14 0V8z"></path><path d="M7 4 5 2"></path><path d="m17 4 2-2"></path></svg>`,
   Entertainment: `<svg ${GUIDE_ICON_BASE}><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M8 6l2 12"></path><path d="m14 6 2 12"></path><path d="M4 10h16"></path><path d="M4 14h16"></path></svg>`,
   Infotainment: `<svg ${GUIDE_ICON_BASE}><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M8 9h8"></path><path d="M8 13h5"></path><path d="M8 17h8"></path></svg>`,
-  Religious: `<svg ${GUIDE_ICON_BASE}><path d="M12 3v18"></path><path d="M5 9h14"></path><path d="M7 21h10"></path><path d="M8 9a4 4 0 0 1 8 0"></path></svg>`,
+  Religious: `<svg ${GUIDE_ICON_BASE}><path d="M15.4 4.2a8.2 8.2 0 1 0 0 15.6 7.1 7.1 0 1 1 0-15.6z"></path><path d="m17.7 8.2 1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2.1 1.1.4-2.3-1.7-1.6 2.3-.3 1.1-2.1z"></path></svg>`,
 };
 
 // ══════════════════════════════════════════
 //  CHANNEL LIST & DOM BUILDERS
 // ══════════════════════════════════════════
+function escapeHTML(value = "") {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
+}
+
+function isLiveMatchDemoEnabled() {
+  return new URLSearchParams(window.location.search).get(LIVE_MATCH_DEMO_PARAM) === "1";
+}
+
 function initChannels() {
   if (typeof CHANNELS_DATA === "undefined") {
     $chList.innerHTML =
@@ -128,6 +144,10 @@ function getGuideCategoryIcon(name) {
   return GUIDE_CATEGORY_ICONS[name] || `<svg ${GUIDE_ICON_BASE}><rect x="5" y="5" width="14" height="14" rx="3"></rect><path d="M9 9h6v6H9z"></path></svg>`;
 }
 
+function categoryTargetId(name) {
+  return `category-${String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
+}
+
 function buildGuideCategoryButton(cat) {
   const button = document.createElement("button");
   button.className = "guide-category-btn focusable";
@@ -142,6 +162,20 @@ function buildGuideCategoryButton(cat) {
     </span>
   `;
   button.addEventListener("click", () => showGuideCategory(cat.name));
+  return button;
+}
+
+function buildMobileBrowseButton(cat) {
+  const button = document.createElement("button");
+  button.className = "mobile-browse-btn focusable";
+  button.type = "button";
+  button.dataset.cat = cat.name;
+  button.innerHTML = `
+    <span class="mobile-browse-icon">${getGuideCategoryIcon(cat.name)}</span>
+    <span class="mobile-browse-name">${cat.name}</span>
+    <span class="mobile-browse-count">${cat.channels.length}</span>
+  `;
+  button.addEventListener("click", () => openCategoryFromBrowse(cat.name));
   return button;
 }
 
@@ -169,15 +203,43 @@ function buildGuideRailButton(cat) {
 function buildGuideCategoryNavigation() {
   const categoryList = document.getElementById("guide-category-list");
   const railCategories = document.getElementById("guide-rail-categories");
+  const mobileBrowseGrid = document.getElementById("mobile-browse-grid");
   if (!categoryList || !railCategories || typeof CHANNELS_DATA === "undefined") return;
 
   categoryList.innerHTML = "";
   railCategories.innerHTML = "";
+  if (mobileBrowseGrid) mobileBrowseGrid.innerHTML = "";
 
   CHANNELS_DATA.categories.forEach((cat) => {
     categoryList.appendChild(buildGuideCategoryButton(cat));
     railCategories.appendChild(buildGuideRailButton(cat));
+    if (mobileBrowseGrid) mobileBrowseGrid.appendChild(buildMobileBrowseButton(cat));
   });
+}
+
+function setMobileBrowseSheetOpen(open) {
+  document.body.classList.toggle("mobile-browse-open", open);
+}
+
+function openCategoryFromBrowse(categoryName) {
+  setMobileBrowseSheetOpen(false);
+
+  if (document.body.classList.contains("is-watching")) {
+    if (activeId && typeof populateWatchMore === "function") {
+      localStorage.setItem("iptv-wm-related-only", "false");
+      populateWatchMore(activeId);
+    }
+
+    requestAnimationFrame(() => {
+      const target = Array.from(document.querySelectorAll("#watch-more .wm-category"))
+        .find((section) => section.dataset.cat === categoryName);
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return;
+  }
+
+  const target = document.getElementById(categoryTargetId(categoryName));
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function setGuideTitle(title, showBack) {
@@ -207,6 +269,11 @@ function showGuideCategory(categoryName) {
   document.body.classList.remove("guide-searching", "guide-categories-open");
   document.body.classList.add("guide-category-open");
   setGuideTitle(categoryName, true);
+  if ($search && $search.value) {
+    $search.value = "";
+    document.getElementById("search-clear")?.classList.add("hidden");
+    renderFloatingSearchResults("");
+  }
 
   const hideOffline = document.body.classList.contains("hide-offline-active");
   let inCategory = false;
@@ -260,11 +327,31 @@ function buildChannelLogo(ch, variant = "guide") {
 }
 
 function buildMatchLogo(match) {
+  if (match.demoPoster) {
+    const leftBadge = escapeHTML(match.demoPoster.left || "");
+    const centerBadge = escapeHTML(match.demoPoster.center || "");
+    const rightBadge = escapeHTML(match.demoPoster.right || "");
+
+    return `
+      <div class="ch-logo-box ch-logo-box--tile demo-match-poster demo-match-poster--${escapeHTML(match.demoPoster.theme || "green")}">
+        <span class="demo-match-badge demo-match-badge--left">${leftBadge}</span>
+        <span class="demo-match-badge demo-match-badge--center">${centerBadge}</span>
+        <span class="demo-match-badge demo-match-badge--right">${rightBadge}</span>
+      </div>`;
+  }
+
+  if (match.posterUrl) {
+    return `
+      <div class="ch-logo-box ch-logo-box--tile" style="background: #111; display: flex; align-items: center; justify-content: center;">
+        <img class="ch-logo-img" src="${match.posterUrl}" alt="${escapeHTML(match.title)}" referrerpolicy="no-referrer" loading="lazy" draggable="false" style="height: 100%; width: 100%; object-fit: cover;">
+      </div>`;
+  }
+
   if (match.poster) {
     const posterSrc = `https://streamed.pk${match.poster}`;
     return `
       <div class="ch-logo-box ch-logo-box--tile" style="background: #111; display: flex; align-items: center; justify-content: center;">
-        <img class="ch-logo-img" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy" draggable="false" style="height: 100%; width: 100%; object-fit: cover;">
+        <img class="ch-logo-img" src="${posterSrc}" alt="${escapeHTML(match.title)}" referrerpolicy="no-referrer" loading="lazy" draggable="false" style="height: 100%; width: 100%; object-fit: cover;">
       </div>`;
   }
 
@@ -288,9 +375,143 @@ function buildMatchLogo(match) {
     </div>`;
 }
 
-async function loadLiveMatches(carouselTrack) {
+function getMatchSubtitle(match) {
+  const categoryLabels = {
+    football: "Football",
+    cricket: "Cricket",
+    "motor-sports": "Motor Sports"
+  };
+
+  return match.league || match.competition || match.tournament || categoryLabels[match.category] || "Live Sports";
+}
+
+function getDemoLiveMatches() {
+  const now = Date.now();
+
+  return [
+    {
+      category: "football",
+      date: now,
+      demoPoster: {
+        center: "FIFA",
+        left: "FRA",
+        right: "ESP",
+        theme: "blue"
+      },
+      demoOnly: true,
+      popularityScore: 99,
+      sources: [{ source: "demo", id: "france-spain" }],
+      title: "France vs Spain",
+      tournament: "Football"
+    },
+    {
+      category: "football",
+      date: now,
+      demoPoster: {
+        center: "VS",
+        left: "ENG",
+        right: "ARG",
+        theme: "green"
+      },
+      demoOnly: true,
+      popularityScore: 96,
+      sources: [{ source: "demo", id: "england-argentina" }],
+      title: "England - Argentina",
+      tournament: "Football"
+    },
+    {
+      category: "cricket",
+      date: now,
+      demoPoster: {
+        center: "LIVE",
+        left: "BAN",
+        right: "IND",
+        theme: "red"
+      },
+      demoOnly: true,
+      popularityScore: 92,
+      sources: [{ source: "demo", id: "bangladesh-india" }],
+      title: "Bangladesh vs India",
+      tournament: "Cricket"
+    }
+  ];
+}
+
+function buildLiveMatchSection(liveSports) {
+  const liveSection = document.createElement("div");
+  liveSection.className = "home-section live-banner-section";
+
+  const liveTitle = document.createElement("h2");
+  liveTitle.className = "yt-row-title live-banner-title";
+  liveTitle.textContent = "POPULAR MATCHES";
+  liveSection.appendChild(liveTitle);
+
+  const liveCarousel = document.createElement("div");
+  liveCarousel.className = "carousel-track live-carousel-track";
+  liveSection.appendChild(liveCarousel);
+  enableDragScroll(liveCarousel);
+
+  liveSports.forEach((match) => {
+    const card = document.createElement("div");
+    card.className = "yt-tile home-ch-card live-match-card";
+    card.tabIndex = 0;
+
+    card.dataset.streamSource = match.sources[0].source;
+    card.dataset.streamId = match.sources[0].id;
+    card.dataset.matchTitle = match.title;
+    card.dataset.id = `live_${match.sources[0].source}_${match.sources[0].id}`;
+    card.dataset.search = match.title.toLowerCase();
+
+    card.innerHTML = `
+      <div class="yt-tile-thumb">
+        ${buildMatchLogo(match)}
+      </div>
+      <div class="live-match-content">
+        <span class="yt-tile-live home-live-badge">LIVE</span>
+        <h3 class="live-match-title">${escapeHTML(match.title)}</h3>
+        <p class="live-match-meta">${escapeHTML(getMatchSubtitle(match))}</p>
+        <span class="live-match-cta">Watch now</span>
+      </div>
+    `;
+
+    const openMatch = () => {
+      if (match.demoOnly) {
+        showToast("Demo match card only");
+        return;
+      }
+
+      window.clickedCard = card;
+      loadChannel(card.dataset.id);
+    };
+    card.addEventListener("click", openMatch);
+    card.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      openMatch();
+    });
+
+    liveCarousel.appendChild(card);
+  });
+
+  createCarouselControls(liveSection, liveCarousel);
+  return liveSection;
+}
+
+async function loadLiveMatches($stageHome) {
+  if (isLiveMatchDemoEnabled()) {
+    const demoMatches = getDemoLiveMatches();
+    const liveSection = buildLiveMatchSection(demoMatches);
+    $stageHome.prepend(liveSection);
+    return;
+  }
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 4000);
+
   try {
-    const res = await fetch("https://streamed.pk/api/matches/all");
+    const res = await fetch("https://streamed.pk/api/matches/all", {
+      signal: controller.signal
+    });
     if (!res.ok) throw new Error("API response error");
     const matches = await res.json();
 
@@ -311,14 +532,7 @@ async function loadLiveMatches(carouselTrack) {
       return isSports && hasSources && isLive && isPopularMatch(m);
     }).sort(sortPopularMatches);
 
-    if (liveSports.length === 0) {
-      if (carouselTrack.parentElement) {
-        carouselTrack.parentElement.style.display = 'none';
-      }
-      return;
-    }
-
-    carouselTrack.innerHTML = "";
+    if (liveSports.length === 0) return;
 
     // Create fragment for prepending matches to the sidebar
     const sidebarFragment = document.createDocumentFragment();
@@ -330,38 +544,6 @@ async function loadLiveMatches(carouselTrack) {
     sidebarFragment.appendChild(lbl);
 
     liveSports.forEach((match) => {
-      const card = document.createElement("div");
-      card.className = "yt-tile home-ch-card";
-      card.tabIndex = 0;
-
-      card.dataset.streamSource = match.sources[0].source;
-      card.dataset.streamId = match.sources[0].id;
-      card.dataset.matchTitle = match.title;
-      card.dataset.id = `live_${match.sources[0].source}_${match.sources[0].id}`;
-      card.dataset.search = match.title.toLowerCase();
-
-      card.innerHTML = `
-        <div class="yt-tile-thumb">
-          ${buildMatchLogo(match)}
-          <span class="yt-tile-live home-live-badge">LIVE</span>
-        </div>
-        <p class="yt-tile-title home-ch-name" title="${match.title}">${match.title}</p>
-        <p class="yt-tile-meta">SPORTS</p>
-      `;
-
-      const openMatch = () => {
-        window.clickedCard = card;
-        loadChannel(card.dataset.id);
-      };
-      card.addEventListener("click", openMatch);
-      card.addEventListener("keydown", (event) => {
-        if (event.key !== "Enter" && event.key !== " ") return;
-        event.preventDefault();
-        openMatch();
-      });
-
-      carouselTrack.appendChild(card);
-
       // Build corresponding channel item for the sidebar
       let matchLogo = "";
       if (match.poster) {
@@ -371,7 +553,7 @@ async function loadLiveMatches(carouselTrack) {
       }
 
       const matchCh = {
-        id: card.dataset.id,
+        id: `live_${match.sources[0].source}_${match.sources[0].id}`,
         name: match.title,
         shortName: "LIVE",
         quality: "FHD",
@@ -387,6 +569,8 @@ async function loadLiveMatches(carouselTrack) {
       sidebarFragment.appendChild(chItem);
     });
 
+    const liveSection = buildLiveMatchSection(liveSports);
+    $stageHome.prepend(liveSection);
     $chList.prepend(sidebarFragment);
 
     // Update sidebar counters & visibility styling
@@ -394,8 +578,8 @@ async function loadLiveMatches(carouselTrack) {
     updateChannelCount();
   } catch (err) {
     console.error("Error loading dynamic sports matches:", err);
-    const sec = carouselTrack.closest(".home-section");
-    if (sec) sec.style.display = "none";
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -520,35 +704,11 @@ function initHomePage() {
   $stageHome.innerHTML = "";
   const offlineList = getOfflineChannels();
 
-  // Inject Popular Match Center row
-  const liveSection = document.createElement("div");
-  liveSection.className = "home-section live-banner-section";
-
-  const liveTitle = document.createElement("h2");
-  liveTitle.className = "yt-row-title live-banner-title";
-  liveTitle.textContent = "Popular Matches";
-  liveSection.appendChild(liveTitle);
-
-  const liveCarousel = document.createElement("div");
-  liveCarousel.className = "carousel-track live-carousel-track";
-  liveCarousel.innerHTML = `
-    <div class="live-empty-banner">
-      <span class="home-live-badge">LIVE</span>
-      <strong>Loading popular matches</strong>
-      <p>Finding major football, cricket, and motorsport streams.</p>
-    </div>
-  `;
-  liveSection.appendChild(liveCarousel);
-  enableDragScroll(liveCarousel);
-  const updateLiveControls = createCarouselControls(liveSection, liveCarousel);
-
-  $stageHome.appendChild(liveSection);
-
-  loadLiveMatches(liveCarousel).finally(updateLiveControls);
-
   CHANNELS_DATA.categories.forEach((cat) => {
     const section = document.createElement("div");
     section.className = "home-section";
+    section.id = categoryTargetId(cat.name);
+    section.dataset.cat = cat.name;
 
     const title = document.createElement("h2");
     title.className = "yt-row-title";
@@ -632,6 +792,8 @@ function initHomePage() {
     </div>
   `;
   $stageHome.appendChild(footer);
+
+  loadLiveMatches($stageHome);
 }
 
 function showHomePage() {
@@ -671,6 +833,10 @@ function showHomePage() {
   stopStatsInterval();
   clearPlayTimeoutWatchdog();
   document.body.classList.remove("is-watching");
+  document.body.classList.remove("chat-open");
+  document.getElementById("chat")?.classList.add("closed");
+  document.getElementById("btn-chat")?.classList.remove("on");
+  document.getElementById("ctrl-chat")?.classList.remove("on");
 
   if (typeof setGuideOpen === "function") {
     setGuideOpen(false);
@@ -708,9 +874,6 @@ function buildChItem(ch) {
     ${buildChannelLogo(ch, "guide")}
     <div class="ch-info">
       <div class="ch-name">${ch.name}</div>
-      <div class="ch-meta">
-        <span class="ch-live-dot"></span>
-      </div>
     </div>`;
 
   const openChannel = () => loadChannel(ch.id);
@@ -737,15 +900,72 @@ function filterCards(selector, q, hideOffline) {
   return anyVisible;
 }
 
+function renderFloatingSearchResults(q) {
+  const resultsEl = document.getElementById("floating-search-results");
+  if (!resultsEl) return;
+
+  const hideOffline = document.body.classList.contains("hide-offline-active");
+  const query = (q || "").trim();
+  const matches = channels
+    .filter((ch) => {
+      if (!ch || ch.stream === "DYNAMIC_SPORTS_STREAMED_PK") return false;
+      if (hideOffline && getOfflineChannels().includes(ch.id)) return false;
+      if (!query) return false;
+      return ch.name.toLowerCase().includes(query);
+    })
+    .slice(0, 18);
+
+  if (!query) {
+    resultsEl.innerHTML = '<div class="floating-search-empty">Start typing to find a channel</div>';
+    return;
+  }
+
+  if (!matches.length) {
+    resultsEl.innerHTML = '<div class="floating-search-empty">No channels found</div>';
+    return;
+  }
+
+  resultsEl.innerHTML = matches.map((ch) => `
+    <button class="floating-search-result focusable" type="button" data-id="${ch.id}">
+      ${buildChannelLogo(ch, "guide")}
+      <span class="floating-search-result-main">
+        <span class="floating-search-result-name">${escapeHTML(ch.name)}</span>
+        <span class="floating-search-result-meta">${escapeHTML(ch.category || "Live TV")}</span>
+      </span>
+      <span class="floating-search-result-arrow" aria-hidden="true">
+        <svg ${GUIDE_ICON_BASE}><path d="m9 18 6-6-6-6"></path></svg>
+      </span>
+    </button>
+  `).join("");
+
+  resultsEl.querySelectorAll(".floating-search-result").forEach((button) => {
+    button.addEventListener("click", () => {
+      closeFloatingSearch(true);
+      loadChannel(button.dataset.id);
+    });
+  });
+}
+
+function closeFloatingSearch(clearValue = false) {
+  document.body.classList.remove("guide-searching");
+  if (clearValue && $search) {
+    $search.value = "";
+    document.getElementById("search-clear")?.classList.add("hidden");
+    renderFloatingSearchResults("");
+  }
+  if (guideMode === "search") {
+    if (activeGuideCategory) showGuideCategory(activeGuideCategory);
+    else showGuideCategories();
+  }
+}
+
 function onSearch(e) {
   const q = ((e && e.target ? e.target.value : null) || ($search ? $search.value : "")).toLowerCase().trim();
   const hideOffline = document.body.classList.contains("hide-offline-active");
+  renderFloatingSearchResults(q);
 
   if (q) {
     showGuideSearchResults();
-  } else if (guideMode === "search") {
-    if (activeGuideCategory) showGuideCategory(activeGuideCategory);
-    else showGuideCategories();
   }
 
   const anySidebarVisible = filterCards(".ch-item", q, hideOffline);
@@ -754,6 +974,9 @@ function onSearch(e) {
     document.querySelectorAll(".cat-label").forEach((lbl) => {
       lbl.style.display = "none";
     });
+  }
+  else if (guideMode === "search") {
+    // Keep the floating search overlay open while the input is empty.
   }
   else if (guideMode === "category" && activeGuideCategory) showGuideCategory(activeGuideCategory);
   else showGuideCategories();
