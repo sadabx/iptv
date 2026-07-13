@@ -289,16 +289,155 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.remove("remote-nav-active");
   }
 
+  function isRemoteFocusableVisible(el) {
+    if (el.disabled || el.tabIndex < 0) return false;
+    if (el.closest("[hidden], .hidden")) return false;
+    if (el.closest(".yt-guide.closed")) return false;
+    const style = getComputedStyle(el);
+    if (style.visibility === "hidden" || style.display === "none") return false;
+    if (el.offsetParent === null && style.position !== "fixed") return false;
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+
   function getRemoteFocusableElements() {
     return Array.from(
       document.querySelectorAll(remoteFocusableSelector),
-    ).filter((el) => {
-      if (el.disabled || el.tabIndex < 0) return false;
-      if (el.offsetParent === null && getComputedStyle(el).position !== "fixed")
-        return false;
-      const rect = el.getBoundingClientRect();
-      return rect.width > 0 && rect.height > 0;
-    });
+    ).filter(isRemoteFocusableVisible);
+  }
+
+  function getInitialRemoteFocusTarget(elements) {
+    const activeCard = activeId
+      ? elements.find((el) => el.dataset.id === activeId)
+      : null;
+    if (activeCard) return activeCard;
+
+    const mainCard = elements.find((el) =>
+      el.matches(".home-ch-card, .wm-card"),
+    );
+    if (mainCard) return mainCard;
+
+    const guideCard = elements.find((el) => el.matches(".ch-item"));
+    return guideCard || elements[0];
+  }
+
+  function getAxisOverlap(a, b, axis) {
+    if (axis === "x") {
+      return Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+    }
+    return Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+  }
+
+  function getCenterDistance(a, b, axis) {
+    const aCenter = axis === "x" ? a.left + a.width / 2 : a.top + a.height / 2;
+    const bCenter = axis === "x" ? b.left + b.width / 2 : b.top + b.height / 2;
+    return Math.abs(bCenter - aCenter);
+  }
+
+  function getDirectionalDistance(from, to, direction) {
+    if (direction === "left") return from.left - to.right;
+    if (direction === "right") return to.left - from.right;
+    if (direction === "up") return from.top - to.bottom;
+    return to.top - from.bottom;
+  }
+
+  function getDirectionalCenterDelta(from, to, direction) {
+    const fromX = from.left + from.width / 2;
+    const fromY = from.top + from.height / 2;
+    const toX = to.left + to.width / 2;
+    const toY = to.top + to.height / 2;
+    if (direction === "left") return fromX - toX;
+    if (direction === "right") return toX - fromX;
+    if (direction === "up") return fromY - toY;
+    return toY - fromY;
+  }
+
+  function getOrderedGroupItems(el) {
+    const group = el.closest(".carousel-track, .wm-grid, .ch-scroll");
+    if (!group) return [];
+    return getRemoteFocusableElements().filter(
+      (item) =>
+        item.closest(".carousel-track, .wm-grid, .ch-scroll") === group,
+    );
+  }
+
+  function getSequentialGroupTarget(current, direction) {
+    if (!current.matches(".home-ch-card, .wm-card, .ch-item")) return null;
+    const groupItems = getOrderedGroupItems(current);
+    const currentIndex = groupItems.indexOf(current);
+    if (currentIndex < 0) return null;
+
+    if (direction === "right" || direction === "down") {
+      return groupItems[currentIndex + 1] || null;
+    }
+
+    if (direction === "left" || direction === "up") {
+      return groupItems[currentIndex - 1] || null;
+    }
+
+    return null;
+  }
+
+  function scrollRemoteTargetIntoView(el) {
+    const carousel = el.closest(".carousel-track");
+    if (carousel && typeof carousel.scrollTo === "function") {
+      carousel.scrollTo({
+        left: el.offsetLeft - (carousel.clientWidth - el.offsetWidth) / 2,
+        behavior: "smooth",
+      });
+    }
+
+    const scrollArea = el.closest(".ch-scroll, .yt-browse");
+    if (scrollArea && typeof scrollArea.scrollTo === "function") {
+      const elRect = el.getBoundingClientRect();
+      const scrollRect = scrollArea.getBoundingClientRect();
+      scrollArea.scrollTo({
+        top:
+          scrollArea.scrollTop +
+          elRect.top -
+          scrollRect.top -
+          (scrollRect.height - elRect.height) / 2,
+        behavior: "smooth",
+      });
+    }
+
+    if (!carousel) {
+      el.scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+        behavior: "smooth",
+      });
+    }
+
+    const track = el.closest(".wm-grid");
+    if (track && typeof track.scrollTo === "function") {
+      const elRect = el.getBoundingClientRect();
+      const trackRect = track.getBoundingClientRect();
+      const inlineOverflow =
+        elRect.left < trackRect.left || elRect.right > trackRect.right;
+      const blockOverflow =
+        elRect.top < trackRect.top || elRect.bottom > trackRect.bottom;
+
+      if (inlineOverflow) {
+        track.scrollBy({
+          left:
+            elRect.left -
+            trackRect.left -
+            (trackRect.width - elRect.width) / 2,
+          behavior: "smooth",
+        });
+      }
+
+      if (blockOverflow) {
+        track.scrollBy({
+          top:
+            elRect.top -
+            trackRect.top -
+            (trackRect.height - elRect.height) / 2,
+          behavior: "smooth",
+        });
+      }
+    }
   }
 
   function moveRemoteFocus(direction) {
@@ -306,20 +445,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!elements.length) return false;
 
     if (!document.activeElement || !elements.includes(document.activeElement)) {
-      const firstCard =
-        elements.find((el) => el.matches(".home-ch-card, .ch-item")) ||
-        elements[0];
+      const firstCard = getInitialRemoteFocusTarget(elements);
       document.body.classList.add("remote-nav-active");
       firstCard.focus({ preventScroll: false });
+      scrollRemoteTargetIntoView(firstCard);
       return true;
     }
 
     const current = document.activeElement;
     const currentRect = current.getBoundingClientRect();
-    const currentX = currentRect.left + currentRect.width / 2;
-    const currentY = currentRect.top + currentRect.height / 2;
     const axis = direction === "left" || direction === "right" ? "x" : "y";
-    const sign = direction === "right" || direction === "down" ? 1 : -1;
+    const crossAxis = axis === "x" ? "y" : "x";
+    const currentGroup = current.closest(
+      ".carousel-track, .wm-grid, .ch-scroll, .yt-nav, .controls",
+    );
 
     let best = null;
     let bestScore = Infinity;
@@ -327,22 +466,55 @@ document.addEventListener("DOMContentLoaded", () => {
     elements.forEach((el) => {
       if (el === current) return;
       const rect = el.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      const primaryDelta = axis === "x" ? x - currentX : y - currentY;
-      const crossDelta =
-        axis === "x" ? Math.abs(y - currentY) : Math.abs(x - currentX);
-      if (primaryDelta * sign <= 8) return;
-      const score = Math.abs(primaryDelta) + crossDelta * 2;
+      const edgeDistance = getDirectionalDistance(
+        currentRect,
+        rect,
+        direction,
+      );
+      const centerDelta = getDirectionalCenterDelta(
+        currentRect,
+        rect,
+        direction,
+      );
+
+      if (edgeDistance < -12 && centerDelta <= 6) return;
+
+      const overlap = getAxisOverlap(currentRect, rect, crossAxis);
+      const crossDistance = getCenterDistance(currentRect, rect, crossAxis);
+      const sameGroup = currentGroup && currentGroup === el.closest(
+        ".carousel-track, .wm-grid, .ch-scroll, .yt-nav, .controls",
+      );
+
+      const alignedPenalty = overlap > 0 ? 0 : crossDistance * 1.9;
+      const primary = Math.max(0, edgeDistance);
+      let score = primary * 3 + alignedPenalty + crossDistance * 0.35;
+
+      if (sameGroup) score -= 24;
+      if (el.matches(".home-ch-card, .wm-card, .ch-item")) score -= 8;
+      if (current.matches(".home-ch-card, .wm-card, .ch-item") && el.matches("input")) {
+        score += 80;
+      }
+
       if (score < bestScore) {
         bestScore = score;
         best = el;
       }
     });
 
+    const sequentialTarget = getSequentialGroupTarget(current, direction);
+    const shouldStayInGroup =
+      (direction === "left" || direction === "right") &&
+      sequentialTarget &&
+      current.matches(".home-ch-card, .wm-card") &&
+      best?.closest(".carousel-track, .wm-grid, .ch-scroll") !== currentGroup;
+
+    if (shouldStayInGroup || !best) {
+      best = sequentialTarget;
+    }
+
     if (!best) return false;
     best.focus({ preventScroll: false });
-    best.scrollIntoView({ block: "nearest", inline: "nearest" });
+    scrollRemoteTargetIntoView(best);
     document.body.classList.add("remote-nav-active");
     return true;
   }
@@ -351,7 +523,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Keyboard Shortcuts
   document.addEventListener("keydown", (e) => {
-    if (isEmbedActive) return;
     if (
       document.activeElement &&
       (document.activeElement.tagName === "INPUT" ||
@@ -376,6 +547,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       remoteDirection &&
       (!document.body.classList.contains("is-watching") ||
+        document.body.classList.contains("remote-nav-active") ||
+        document.activeElement === document.body ||
         document.activeElement?.matches(remoteFocusableSelector))
     ) {
       if (moveRemoteFocus(remoteDirection)) {
@@ -386,9 +559,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (key === " " || key === "k") {
       e.preventDefault();
-      togglePlay();
-      showFlashOverlay($video.paused ? "pause" : "play");
+      if (!isEmbedActive) {
+        togglePlay();
+        showFlashOverlay($video.paused ? "pause" : "play");
+      } else if (document.activeElement?.matches(remoteFocusableSelector)) {
+        document.activeElement.click();
+      }
     } else if (key === "m") {
+      if (isEmbedActive) return;
       toggleMute();
       showFlashOverlay(muted ? "mute" : "volume");
     } else if (key === "f") {
@@ -399,13 +577,16 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     } else if (key === "p") {
       e.preventDefault();
+      if (isEmbedActive) return;
       togglePiP();
     } else if (key === "c") {
       e.preventDefault();
+      if (isEmbedActive) return;
       toggleSubtitles();
       showFlashOverlay("cc", subtitleEnabled);
     } else if (key === "l") {
       e.preventDefault();
+      if (isEmbedActive) return;
       jumpToLive();
       toast("Jumped to live");
     } else if (key === "r") {
@@ -413,9 +594,11 @@ document.addEventListener("DOMContentLoaded", () => {
       retryStream();
       toast("Reconnecting stream...");
     } else if (e.key === "ArrowUp") {
+      if (isEmbedActive) return;
       e.preventDefault();
       adjustVolume(0.05);
     } else if (e.key === "ArrowDown") {
+      if (isEmbedActive) return;
       e.preventDefault();
       adjustVolume(-0.05);
     }

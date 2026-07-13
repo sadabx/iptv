@@ -1168,7 +1168,7 @@ const CHANNELS_DATA = {
           id: "nicklodian-sonic",
           name: "Nicklodian SONIC",
           shortName: "SONIC",
-          logo: " ",
+          logo: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Sonic-india-channel.png",
           streams: [
             {
               label: "BozzTV",

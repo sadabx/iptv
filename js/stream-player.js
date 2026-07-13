@@ -362,7 +362,7 @@ function populateWatchMore(currentId) {
           ${validChannels.map((ch) => {
       const isOffline = offlineList.includes(ch.id);
       return `
-            <div class="wm-card${isOffline ? " is-offline" : ""}" data-id="${ch.id}" data-search="${ch.name.toLowerCase()}">
+            <div class="wm-card${isOffline ? " is-offline" : ""}" tabindex="0" data-id="${ch.id}" data-search="${ch.name.toLowerCase()}">
               <div class="wm-thumb">
                 ${buildChannelLogo(ch, "tile")}
               </div>
@@ -386,7 +386,13 @@ function populateWatchMore(currentId) {
   }
 
   $wm.querySelectorAll(".wm-card").forEach((card) => {
-    card.addEventListener("click", () => loadChannel(card.dataset.id));
+    const openChannel = () => loadChannel(card.dataset.id);
+    card.addEventListener("click", openChannel);
+    card.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      openChannel();
+    });
   });
 
   if (typeof $search !== "undefined" && $search && $search.value) {
