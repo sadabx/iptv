@@ -93,30 +93,30 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
-          id: "sky-sports-cricket",
-          name: "Sky Sports Cricket",
-          shortName: "SKY",
-          logo: "assets/logos/sky-sports-cricket.svg",
-          streams: [
-            {
-              label: "SiauliaiRS",
-              url: "http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/9258/index.m3u8",
-            },
-          ],
-        },
-        {
-          id: "sony-sports-2",
-          name: "Sony Sports 2 HD",
-          shortName: "SS2",
-          logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png",
-          streams: [
-            {
-              label: "EPGMaker",
-              url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/513.ts",
-            },
-          ],
-        },
+        // {
+        //   id: "sky-sports-cricket",
+        //   name: "Sky Sports Cricket",
+        //   shortName: "SKY",
+        //   logo: "assets/logos/sky-sports-cricket.svg",
+        //   streams: [
+        //     {
+        //       label: "SiauliaiRS",
+        //       url: "http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/9258/index.m3u8",
+        //     },
+        //   ],
+        // },
+        // {
+        //   id: "sony-sports-2",
+        //   name: "Sony Sports 2 HD",
+        //   shortName: "SS2",
+        //   logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png",
+        //   streams: [
+        //     {
+        //       label: "EPGMaker",
+        //       url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/513.ts",
+        //     },
+        //   ],
+        // },
         {
           id: "sony-sports-5",
           name: "Sony Sports 5",
@@ -129,30 +129,30 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
-          id: "sport-tv1",
-          name: "Sport TV",
-          shortName: "STV1",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Sport_TV1_%282023%29.svg",
-          streams: [
-            {
-              label: "StreamHost",
-              url: "https://1nyaler.streamhostingcdn.top/stream/33/index.m3u8",
-            },
-          ],
-        },
-        {
-          id: "fox-5",
-          name: "Fox 5",
-          shortName: "Fox-5",
-          logo: "https://images.squarespace-cdn.com/content/v1/5d853c9bd277641ad03a954e/1602625218587-ELV3ORCIQOQ5ORCE0XAS/FOx5news.png",
-          streams: [
-            {
-              label: "Direct",
-              url: "http://84.17.50.102/fox/index.m3u8",
-            },
-          ],
-        },
+        // {
+        //   id: "sport-tv1",
+        //   name: "Sport TV",
+        //   shortName: "STV1",
+        //   logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Sport_TV1_%282023%29.svg",
+        //   streams: [
+        //     {
+        //       label: "StreamHost",
+        //       url: "https://1nyaler.streamhostingcdn.top/stream/33/index.m3u8",
+        //     },
+        //   ],
+        // },
+        // {
+        //   id: "fox-5",
+        //   name: "Fox 5",
+        //   shortName: "Fox-5",
+        //   logo: "https://images.squarespace-cdn.com/content/v1/5d853c9bd277641ad03a954e/1602625218587-ELV3ORCIQOQ5ORCE0XAS/FOx5news.png",
+        //   streams: [
+        //     {
+        //       label: "Direct",
+        //       url: "http://84.17.50.102/fox/index.m3u8",
+        //     },
+        //   ],
+        // },
         {
           id: "star-sports-1",
           name: "Star Sports 1",
@@ -197,19 +197,19 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
-          id: "tnt-sports",
-          name: "TNT Sports",
-          shortName: "TNT",
-          logo: "https://abusaeeidx.github.io/Tv-Channel-Logo/CricHD/runded/tnt.png",
-          themeColor: "#11222C",
-          streams: [
-            {
-              label: "StreamHost",
-              url: "https://1nyaler.streamhostingcdn.top/stream/30/index.m3u8",
-            },
-          ],
-        },
+        // {
+        //   id: "tnt-sports",
+        //   name: "TNT Sports",
+        //   shortName: "TNT",
+        //   logo: "https://abusaeeidx.github.io/Tv-Channel-Logo/CricHD/runded/tnt.png",
+        //   themeColor: "#11222C",
+        //   streams: [
+        //     {
+        //       label: "StreamHost",
+        //       url: "https://1nyaler.streamhostingcdn.top/stream/30/index.m3u8",
+        //     },
+        //   ],
+        // },
         {
           id: "willow-sports",
           name: "Willow Sports",

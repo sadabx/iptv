@@ -140,8 +140,7 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-brand span span {
     letter-spacing: 0.12em;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-vertical-brand,
-.yt-guide:not(.closed) .guide-rail-vertical-brand {
+body.guide-categories-open .yt-guide:not(.closed) .guide-rail-vertical-brand {
     display: none;
 }
 

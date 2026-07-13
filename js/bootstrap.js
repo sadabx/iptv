@@ -831,6 +831,11 @@ document.addEventListener("DOMContentLoaded", () => {
       ArrowDown: "down",
     }[e.key];
 
+    if (remoteDirection && isMobileLayout()) {
+      e.preventDefault();
+      return;
+    }
+
     if (
       document.activeElement &&
       (document.activeElement.tagName === "INPUT" ||

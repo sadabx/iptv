@@ -1289,16 +1289,6 @@ body.guide-searching .floating-search {
     order: 2;
   }
 
-  .ctrl-bar .qual-wrap#srv-wrap,
-  .ctrl-bar .qual-wrap#qual-wrap {
-    display: none;
-  }
-
-  .ctrl-bar .ctrl-qual-btn#ctrl-srv,
-  .ctrl-bar .ctrl-qual-btn#ctrl-qual {
-    display: none;
-  }
-
   .ctrl-bar .ctrl-qual-btn#ctrl-qual:not([hidden]),
   .ctrl-bar .ctrl-qual-btn#ctrl-srv:not([hidden]) {
     display: inline-flex;
@@ -1994,10 +1984,41 @@ body.guide-searching .floating-search {
     body.is-watching .ctrl-bar .vol-slider,
     body.is-watching .ctrl-bar #ctrl-cc,
     body.is-watching .ctrl-bar #ctrl-chat,
-    body.is-watching .ctrl-bar .qual-wrap,
     body.is-watching .ctrl-bar .ctrl-quality-indicator,
     body.is-watching .ctrl-bar .ctrl-channel-name {
       display: none !important;
+    }
+
+    body.is-watching .ctrl-bar .qual-wrap {
+      display: flex;
+      position: relative;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    body.is-watching .ctrl-bar .ctrl-qual-btn {
+      min-width: 38px;
+      min-height: 34px;
+      height: 34px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.5);
+      font-size: 0.62rem;
+      letter-spacing: 0.02em;
+      backdrop-filter: blur(10px);
+    }
+
+    body.is-watching .ctrl-bar .ctrl-qual-btn svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    body.is-watching .ctrl-bar .qual-menu {
+      right: 0;
+      bottom: calc(100% + 8px);
+      min-width: min(210px, calc(100vw - 24px));
+      max-height: 48dvh;
+      overflow-y: auto;
     }
 
     body.is-watching .ctrl-bar .ctrl-spacer {
