@@ -6,10 +6,62 @@
   <meta charset="UTF-8" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="T9TV - live IPTV channels, sports, movies, guide, and catch-up style browsing." />
-  <title>TNTV</title>
+  <meta name="description"
+    content="TRIONINE TV is a lightweight live TV hub for browsing IPTV channels, popular sports matches, news, entertainment, kids, religious, and international streams." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#05090d" />
+  <meta name="application-name" content="TRIONINE TV" />
+  <meta name="apple-mobile-web-app-title" content="TRIONINE TV" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="canonical" href="https://iptv.trionine.com/" />
+  <title>TRIONINE TV - Live IPTV Channels and Sports Streams</title>
   <link rel="icon" type="image/png" href="assets/t9.png" />
   <link rel="apple-touch-icon" href="assets/t9.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="TRIONINE TV" />
+  <meta property="og:title" content="TRIONINE TV - Live IPTV Channels and Sports Streams" />
+  <meta property="og:description"
+    content="Browse live IPTV channels and popular sports matches in a fast TV-style interface for desktop and mobile." />
+  <meta property="og:url" content="https://iptv.trionine.com/" />
+  <meta property="og:image" content="https://iptv.trionine.com/assets/t9.png" />
+  <meta property="og:image:alt" content="TRIONINE TV logo" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="TRIONINE TV - Live IPTV Channels and Sports Streams" />
+  <meta name="twitter:description"
+    content="A lightweight live TV hub for IPTV channels, sports matches, news, entertainment, and more." />
+  <meta name="twitter:image" content="https://iptv.trionine.com/assets/t9.png" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://iptv.trionine.com/#website",
+          "url": "https://iptv.trionine.com/",
+          "name": "TRIONINE TV",
+          "alternateName": ["T9TV", "T9 TV"],
+          "description": "A lightweight live TV hub for browsing IPTV channels, sports matches, news, entertainment, kids, religious, and international streams.",
+          "inLanguage": "en"
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://iptv.trionine.com/#app",
+          "name": "TRIONINE TV",
+          "url": "https://iptv.trionine.com/",
+          "applicationCategory": "EntertainmentApplication",
+          "operatingSystem": "Any",
+          "isAccessibleForFree": true,
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "publisher": {
+            "@type": "Organization",
+            "name": "TRIONINE",
+            "url": "https://trionine.com/"
+          }
+        }
+      ]
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://embed.st" />
@@ -140,6 +192,7 @@
     <div class="yt-backdrop" id="guide-backdrop"></div>
 
     <div class="yt-main tv-main">
+      <h1 id="home-catalog-title" class="visually-hidden">TRIONINE TV live channel catalog</h1>
       <div class="yt-player-shell tv-player-shell">
         <main class="stage">
           <video id="player" playsinline crossorigin="anonymous"></video>
@@ -278,7 +331,7 @@
         </main>
       </div>
 
-      <section class="yt-browse tv-browse" id="stage-home"></section>
+      <section class="yt-browse tv-browse" id="stage-home" aria-labelledby="home-catalog-title"></section>
       <section id="watch-more" class="watch-more"></section>
     </div>
 

@@ -1,0 +1,17 @@
+{
+  "name": "TRIONINE TV",
+  "short_name": "T9TV",
+  "description": "A lightweight live TV hub for IPTV channels and popular sports matches.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#05090d",
+  "theme_color": "#05090d",
+  "icons": [
+    {
+      "src": "/assets/t9.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
