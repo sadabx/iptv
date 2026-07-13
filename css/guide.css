@@ -113,6 +113,38 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-brand span span {
     font-style: italic;
 }
 
+.guide-rail-vertical-brand {
+    flex: 1;
+    min-height: 112px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+    pointer-events: none;
+}
+
+.guide-rail-vertical-brand > span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    color: rgba(247, 248, 251, 0.5);
+    font-size: 0.94rem;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    line-height: 1;
+}
+
+.guide-rail-vertical-brand span span {
+    color: rgba(97, 129, 255, 0.78);
+    font-size: 0.68em;
+    font-style: italic;
+    letter-spacing: 0.12em;
+}
+
+body.guide-categories-open .yt-guide:not(.closed) .guide-rail-vertical-brand,
+.yt-guide:not(.closed) .guide-rail-vertical-brand {
+    display: none;
+}
+
 body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn {
     width: 100%;
     grid-template-columns: 48px 1fr auto 18px;

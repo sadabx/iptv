@@ -568,31 +568,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  function getVisibleGuideChannelItems() {
-    return Array.from(document.querySelectorAll("#ch-list .ch-item")).filter(
-      isRemoteFocusableVisible,
-    );
-  }
-
-  function focusGuideCategoryFromRail(railButton) {
-    const categoryName = railButton.dataset.cat;
-    if (!categoryName) return false;
-
-    if (
-      $sidebar?.classList.contains("closed") &&
-      typeof setGuideOpen === "function"
-    ) {
-      setGuideOpen(true);
-    }
-
-    if (typeof showGuideCategory === "function") {
-      showGuideCategory(categoryName);
-    }
-
-    const target = getVisibleGuideChannelItems()[0];
-    return focusElementForRemote(target);
-  }
-
   function focusRailCategoryFromHomeCard(card) {
     const categoryName = getHomeCategoryNameFromCard(card);
     const rowCards = getHomeCardsForRailCategory(categoryName);
@@ -771,14 +746,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const current = document.activeElement;
-    if (
-      direction === "right" &&
-      current.matches(".guide-rail-category-btn") &&
-      focusGuideCategoryFromRail(current)
-    ) {
-      return true;
-    }
-
     if (
       direction === "left" &&
       current.matches(".home-ch-card") &&
