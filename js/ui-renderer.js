@@ -440,6 +440,7 @@ function getDemoLiveMatches() {
 function buildLiveMatchSection(liveSports) {
   const liveSection = document.createElement("div");
   liveSection.className = "home-section live-banner-section";
+  const isMobileMatchCarousel = window.matchMedia("(max-width: 768px)").matches;
 
   const liveTitle = document.createElement("h2");
   liveTitle.className = "yt-row-title live-banner-title";
@@ -448,6 +449,12 @@ function buildLiveMatchSection(liveSports) {
 
   const liveCarousel = document.createElement("div");
   liveCarousel.className = "carousel-track live-carousel-track";
+  if (isMobileMatchCarousel) {
+    liveCarousel.style.gridAutoColumns = "100%";
+    liveCarousel.style.gap = "0px";
+    liveCarousel.style.overflowX = "hidden";
+    liveCarousel.style.overflowY = "hidden";
+  }
   liveSection.appendChild(liveCarousel);
   enableDragScroll(liveCarousel);
 
@@ -455,6 +462,11 @@ function buildLiveMatchSection(liveSports) {
     const card = document.createElement("div");
     card.className = "yt-tile home-ch-card live-match-card";
     card.tabIndex = 0;
+    if (isMobileMatchCarousel) {
+      card.style.width = "100%";
+      card.style.minWidth = "100%";
+      card.style.maxWidth = "100%";
+    }
 
     card.dataset.streamSource = match.sources[0].source;
     card.dataset.streamId = match.sources[0].id;
@@ -767,29 +779,34 @@ function initHomePage() {
 
   const footer = document.createElement("footer");
   footer.className = "site-footer";
-  footer.innerHTML = `
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <span class="logo-pi">TRIONINE</span>
-          <sub>TV</sub>
-        </div>
-        <p class="footer-tagline">A collection of live TV channels<br>and sports events, available for free.</p>
-        <div class="footer-dev">Developed by <a href="https://trionine.com" target="_blank" rel="noopener">trionine</a></div>
-      </div>
-      <div class="footer-links">
-        <div class="footer-col-label">QUICK LINKS</div>
-        <a href="/">Home</a>
-        <a href="/link-auditor" target="_blank">Link Auditor</a>
-        <a href="https://discord.gg/JxZ4RS4Y7x" target="_blank" rel="noopener">Discord ↗</a>
-        <a href="https://github.com/sadabx/iptv" target="_blank" rel="noopener">Contribute on GitHub ↗</a>
-      </div>
-      <div class="footer-meta">
-        <div class="footer-col-label">DISCLAIMER</div>
-        <p class="footer-note">External links are not endorsed.<br>Use at your own discretion.</p>
-        <div class="footer-copy">© ${new Date().getFullYear()} TRIONINE TV</div>
-      </div>
-    </div>
+	  footer.innerHTML = `
+	    <div class="footer-inner">
+	      <div class="footer-brand">
+	        <div class="footer-logo">
+	          <span class="footer-logo-mark"><img src="assets/t9.png" alt=""></span>
+	          <span class="footer-logo-text">TRIONINE <sub>TV</sub></span>
+	        </div>
+	        <p class="footer-tagline">Live channels, sports events, and quick access streams in one lightweight TV hub.</p>
+	        <div class="footer-chips" aria-label="Site highlights">
+	          <span>Live TV</span>
+	          <span>Sports</span>
+	          <span>IPTV</span>
+	        </div>
+	      </div>
+	      <div class="footer-links">
+	        <div class="footer-col-label">Browse</div>
+	        <a href="/">Home</a>
+	        <a href="/link-auditor" target="_blank">Link Auditor</a>
+	        <a href="https://github.com/sadabx/iptv" target="_blank" rel="noopener">Contribute on GitHub ↗</a>
+	      </div>
+	      <div class="footer-meta">
+	        <div class="footer-col-label">Network</div>
+	        <a class="footer-discord" href="https://discord.gg/JxZ4RS4Y7x" target="_blank" rel="noopener">Discord community ↗</a>
+	        <div class="footer-dev">Built by <a href="https://trionine.com" target="_blank" rel="noopener">trionine</a></div>
+	        <p class="footer-note">External streams are provided as-is.</p>
+	        <div class="footer-copy">© ${new Date().getFullYear()} TRIONINE TV</div>
+	      </div>
+	    </div>
   `;
   $stageHome.appendChild(footer);
 

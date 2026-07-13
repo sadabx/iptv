@@ -6,9 +6,47 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!track || track.dataset.carouselReady === "true") return;
 
     const getSlides = () => Array.from(track.querySelectorAll(".home-ch-card"));
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
     let activeIndex = 0;
     let intervalId = null;
     let dotsWrap = null;
+
+    const applyLayoutMode = () => {
+      const slides = getSlides();
+      if (mobileQuery.matches) {
+        track.style.gridAutoColumns = "100%";
+        track.style.gap = "0px";
+        track.style.overflowX = "hidden";
+        track.style.overflowY = "hidden";
+        slides.forEach((slide) => {
+          slide.style.width = "100%";
+          slide.style.minWidth = "100%";
+          slide.style.maxWidth = "100%";
+        });
+        return;
+      }
+
+      track.style.removeProperty("grid-auto-columns");
+      track.style.removeProperty("gap");
+      track.style.removeProperty("overflow-x");
+      track.style.removeProperty("overflow-y");
+      slides.forEach((slide) => {
+        slide.style.removeProperty("width");
+        slide.style.removeProperty("min-width");
+        slide.style.removeProperty("max-width");
+        slide.style.removeProperty("display");
+        slide.classList.remove("is-active");
+      });
+    };
+
+    const setActiveSlides = () => {
+      const slides = getSlides();
+      slides.forEach((slide, index) => {
+        const isActive = !mobileQuery.matches || index === activeIndex;
+        slide.classList.toggle("is-active", isActive);
+        slide.style.display = isActive ? "" : "none";
+      });
+    };
 
     const setActiveDot = () => {
       dotsWrap
@@ -20,6 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const slides = getSlides();
       if (!slides.length) return;
       activeIndex = (index + slides.length) % slides.length;
+      if (mobileQuery.matches) {
+        setActiveSlides();
+        setActiveDot();
+        return;
+      }
       track.scrollTo({
         left: slides[activeIndex].offsetLeft - track.offsetLeft,
         behavior: "smooth",
@@ -29,6 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const buildDots = () => {
       dotsWrap?.remove();
+      dotsWrap = null;
+      if (!mobileQuery.matches) return;
       const slides = getSlides();
       if (slides.length <= 1) return;
 
@@ -53,6 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const restart = () => {
       clearInterval(intervalId);
+      intervalId = null;
+      if (!mobileQuery.matches) return;
       const slides = getSlides();
       if (slides.length <= 1) return;
       intervalId = setInterval(() => goToSlide(activeIndex + 1), 5500);
@@ -60,7 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const refresh = () => {
       const slides = getSlides();
+      applyLayoutMode();
       activeIndex = Math.min(activeIndex, Math.max(slides.length - 1, 0));
+      setActiveSlides();
       buildDots();
       restart();
     };
@@ -72,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     track.addEventListener("mouseleave", restart);
     track.addEventListener("focusin", () => clearInterval(intervalId));
     track.addEventListener("focusout", restart);
+    mobileQuery.addEventListener("change", refresh);
     refresh();
   };
 

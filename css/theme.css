@@ -1121,10 +1121,11 @@ body.guide-searching .floating-search {
   .live-carousel-track {
     width: 100%;
     height: auto;
-    grid-auto-columns: minmax(230px, 78vw);
-    gap: 14px;
+    grid-auto-columns: 100%;
+    gap: 0;
     padding: 2px 2px 12px;
     overflow-x: auto;
+    scroll-padding-inline: 2px;
   }
 
   .live-carousel-track .home-ch-card {
@@ -1211,7 +1212,11 @@ body.guide-searching .floating-search {
   }
 
   .live-carousel-dots {
-    bottom: 14px;
+    position: static;
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    padding-top: 2px;
   }
 
   body.is-watching .tv-player-shell {
@@ -1374,8 +1379,11 @@ body.guide-searching .floating-search {
       display: grid;
       grid-template-columns: none;
       grid-auto-flow: column;
-      grid-auto-columns: minmax(230px, 78vw) !important;
+      grid-auto-columns: 100% !important;
+      gap: 0;
       height: auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
     }
 
     .home-section:not(.live-banner-section) .yt-row-title {
@@ -2079,6 +2087,27 @@ body.guide-searching .floating-search {
       font-size: 0.78rem;
     }
   }
+
+@media (max-width: 768px) {
+  .live-carousel-track {
+    display: grid !important;
+    grid-template-columns: none !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: 100% !important;
+    gap: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory !important;
+  }
+
+  .live-carousel-track>.live-match-card {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+}
 
 /* Rail-first TV shell: the left rail replaces the old top navigation bar. */
 :root {
