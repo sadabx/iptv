@@ -771,8 +771,8 @@ function initHomePage() {
     <div class="footer-inner">
       <div class="footer-brand">
         <div class="footer-logo">
-          <span class="logo-pi">TN</span>
-          <span>TV</span>
+          <span class="logo-pi">TRIONINE</span>
+          <sub>TV</sub>
         </div>
         <p class="footer-tagline">A collection of live TV channels<br>and sports events, available for free.</p>
         <div class="footer-dev">Developed by <a href="https://trionine.xyz" target="_blank" rel="noopener">trionine</a></div>
@@ -787,7 +787,7 @@ function initHomePage() {
       <div class="footer-meta">
         <div class="footer-col-label">DISCLAIMER</div>
         <p class="footer-note">External links are not endorsed.<br>Use at your own discretion.</p>
-        <div class="footer-copy">© ${new Date().getFullYear()} T9TV</div>
+        <div class="footer-copy">© ${new Date().getFullYear()} TRIONINE TV</div>
       </div>
     </div>
   `;
