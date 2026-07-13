@@ -311,6 +311,10 @@ body.is-watching #btn-chat {
     align-items: center;
 }
 
+.yt-nav-center:empty {
+    display: none;
+}
+
 .yt-search-icon {
     position: absolute;
     left: 16px;
@@ -531,14 +535,14 @@ body.is-watching .np-name strong {
         position: relative;
         top: 0;
         transform: translateX(0) !important;
-        width: 0;
-        border-right: none;
+        width: 72px;
+        border-right: 1px solid var(--border);
         flex-shrink: 0;
         transition: width 0.28s var(--ease);
     }
 
     .yt-guide:not(.closed) {
-        width: var(--guide-w);
+        width: 320px;
         border-right: 1px solid var(--border);
     }
 

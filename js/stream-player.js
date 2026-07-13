@@ -144,10 +144,6 @@ function executePlayerMount(id, streamIdx) {
 
   document.body.classList.add("is-watching");
 
-  if (window.innerWidth >= 1200 && typeof setGuideOpen === "function") {
-    setGuideOpen(true);
-  }
-
   const $stageHome = document.getElementById("stage-home");
   if ($stageHome) $stageHome.classList.add("hidden");
 
@@ -158,6 +154,11 @@ function executePlayerMount(id, streamIdx) {
   const $ctxCc = document.getElementById("ctx-cc");
   if ($ccBtn) $ccBtn.classList.add("hidden");
   if ($ctxCc) $ctxCc.classList.add("hidden");
+
+  if (ch.category) {
+    if (typeof setGuideOpen === "function") setGuideOpen(true);
+    if (typeof showGuideCategory === "function") showGuideCategory(ch.category);
+  }
 
   document
     .querySelectorAll(".ch-item")
@@ -716,6 +717,7 @@ function toggleMute() {
 }
 
 function setMuted(val) {
+  const changed = muted !== val;
   muted = val;
   $video.muted = muted;
   $iconVol.classList.toggle("hidden", muted);
@@ -726,8 +728,10 @@ function setMuted(val) {
     $video.volume = $video.volume || 1;
   }
   localStorage.setItem("iptv-muted", muted);
-  showFlashOverlay(muted ? "mute" : "volume");
-  toast(muted ? "Muted" : "Unmuted", 1200);
+  if (changed) {
+    showFlashOverlay(muted ? "mute" : "volume");
+    toast(muted ? "Muted" : "Unmuted", 1200);
+  }
 }
 
 function adjustVolume(delta) {
@@ -736,8 +740,8 @@ function adjustVolume(delta) {
   $video.volume = vol;
   $volSlider.value = vol;
   localStorage.setItem("iptv-volume", vol);
-  if (vol === 0) setMuted(true);
-  else setMuted(false);
+  if (vol === 0 && !muted) setMuted(true);
+  else if (vol > 0 && muted) setMuted(false);
   showFlashOverlay("volume", Math.round(vol * 100));
 }
 

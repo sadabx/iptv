@@ -31,6 +31,24 @@ let $video,
   setGuideOpen;
 
 let channels = [];
+let guideMode = "categories";
+let activeGuideCategory = null;
+let guideSearchReturnCategory = null;
+
+const GUIDE_ICON_BASE =
+  'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+
+const GUIDE_CATEGORY_ICONS = {
+  Sports: `<svg ${GUIDE_ICON_BASE}><circle cx="12" cy="12" r="9"></circle><path d="M8 4.8 12 8l4-3.2"></path><path d="m8 19.2 4-3.2 4 3.2"></path><path d="m3.6 10.5 4.4 1.7"></path><path d="m20.4 10.5-4.4 1.7"></path><path d="M12 8v8"></path></svg>`,
+  News: `<svg ${GUIDE_ICON_BASE}><path d="M4 5h12a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3V5z"></path><path d="M8 9h7"></path><path d="M8 13h7"></path><path d="M8 17h4"></path><path d="M19 8h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-1"></path></svg>`,
+  Bangladesh: `<svg ${GUIDE_ICON_BASE}><path d="M5 20V4"></path><path d="M5 5h14l-2 5 2 5H5"></path><circle cx="11" cy="10" r="2.6"></circle></svg>`,
+  Indian: `<svg ${GUIDE_ICON_BASE}><path d="M5 20V4"></path><path d="M5 5h14"></path><path d="M5 10h14"></path><path d="M5 15h14"></path><circle cx="12" cy="10" r="2"></circle></svg>`,
+  International: `<svg ${GUIDE_ICON_BASE}><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path></svg>`,
+  Kids: `<svg ${GUIDE_ICON_BASE}><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><circle cx="9" cy="10" r="1"></circle><circle cx="15" cy="10" r="1"></circle><path d="M5 8a7 7 0 0 1 14 0v4a7 7 0 0 1-14 0V8z"></path><path d="M7 4 5 2"></path><path d="m17 4 2-2"></path></svg>`,
+  Entertainment: `<svg ${GUIDE_ICON_BASE}><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M8 6l2 12"></path><path d="m14 6 2 12"></path><path d="M4 10h16"></path><path d="M4 14h16"></path></svg>`,
+  Infotainment: `<svg ${GUIDE_ICON_BASE}><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M8 9h8"></path><path d="M8 13h5"></path><path d="M8 17h8"></path></svg>`,
+  Religious: `<svg ${GUIDE_ICON_BASE}><path d="M12 3v18"></path><path d="M5 9h14"></path><path d="M7 21h10"></path><path d="M8 9a4 4 0 0 1 8 0"></path></svg>`,
+};
 
 // ══════════════════════════════════════════
 //  CHANNEL LIST & DOM BUILDERS
@@ -99,9 +117,119 @@ function initChannels() {
     category: "Sports"
   });
 
+  buildGuideCategoryNavigation();
+  showGuideCategories();
   updateSidebarCategoryVisibility();
   updateChannelCount();
   initHomePage();
+}
+
+function getGuideCategoryIcon(name) {
+  return GUIDE_CATEGORY_ICONS[name] || `<svg ${GUIDE_ICON_BASE}><rect x="5" y="5" width="14" height="14" rx="3"></rect><path d="M9 9h6v6H9z"></path></svg>`;
+}
+
+function buildGuideCategoryButton(cat) {
+  const button = document.createElement("button");
+  button.className = "guide-category-btn focusable";
+  button.type = "button";
+  button.dataset.cat = cat.name;
+  button.innerHTML = `
+    <span class="guide-category-icon">${getGuideCategoryIcon(cat.name)}</span>
+    <span class="guide-category-name">${cat.name}</span>
+    <span class="guide-category-count">${cat.channels.length}</span>
+    <span class="guide-category-arrow" aria-hidden="true">
+      <svg ${GUIDE_ICON_BASE}><path d="m9 18 6-6-6-6"></path></svg>
+    </span>
+  `;
+  button.addEventListener("click", () => showGuideCategory(cat.name));
+  return button;
+}
+
+function buildGuideRailButton(cat) {
+  const button = document.createElement("button");
+  button.className = "guide-rail-btn guide-rail-category-btn focusable";
+  button.type = "button";
+  button.dataset.cat = cat.name;
+  button.setAttribute("aria-label", cat.name);
+  button.innerHTML = `
+    <span class="guide-rail-icon">${getGuideCategoryIcon(cat.name)}</span>
+    <span class="guide-rail-label">${cat.name}</span>
+    <span class="guide-rail-count">${cat.channels.length}</span>
+    <span class="guide-rail-arrow" aria-hidden="true">
+      <svg ${GUIDE_ICON_BASE}><path d="m9 18 6-6-6-6"></path></svg>
+    </span>
+  `;
+  button.addEventListener("click", () => {
+    if (typeof setGuideOpen === "function") setGuideOpen(true);
+    showGuideCategory(cat.name);
+  });
+  return button;
+}
+
+function buildGuideCategoryNavigation() {
+  const categoryList = document.getElementById("guide-category-list");
+  const railCategories = document.getElementById("guide-rail-categories");
+  if (!categoryList || !railCategories || typeof CHANNELS_DATA === "undefined") return;
+
+  categoryList.innerHTML = "";
+  railCategories.innerHTML = "";
+
+  CHANNELS_DATA.categories.forEach((cat) => {
+    categoryList.appendChild(buildGuideCategoryButton(cat));
+    railCategories.appendChild(buildGuideRailButton(cat));
+  });
+}
+
+function setGuideTitle(title, showBack) {
+  const titleEl = document.querySelector(".yt-guide-title");
+  const backBtn = document.getElementById("guide-back");
+  if (titleEl) titleEl.textContent = title;
+  if (backBtn) backBtn.classList.toggle("hidden", !showBack);
+}
+
+function showGuideCategories() {
+  guideMode = "categories";
+  activeGuideCategory = null;
+  document.body.classList.remove("guide-searching", "guide-category-open");
+  document.body.classList.add("guide-categories-open");
+  setGuideTitle("Categories", false);
+  document.querySelectorAll(".cat-label, .ch-item").forEach((el) => {
+    el.style.display = "none";
+  });
+  const noResults = document.getElementById("no-results");
+  if (noResults) noResults.style.display = "none";
+}
+
+function showGuideCategory(categoryName) {
+  guideMode = "category";
+  activeGuideCategory = categoryName;
+  guideSearchReturnCategory = categoryName;
+  document.body.classList.remove("guide-searching", "guide-categories-open");
+  document.body.classList.add("guide-category-open");
+  setGuideTitle(categoryName, true);
+
+  const hideOffline = document.body.classList.contains("hide-offline-active");
+  let inCategory = false;
+  document.querySelectorAll("#ch-list > .cat-label, #ch-list > .ch-item").forEach((el) => {
+    if (el.classList.contains("cat-label")) {
+      inCategory = el.dataset.cat === categoryName;
+      el.style.display = "none";
+      return;
+    }
+
+    const isOffline = el.classList.contains("is-offline");
+    el.style.display = inCategory && (!hideOffline || !isOffline) ? "" : "none";
+  });
+
+  updateSidebarCategoryVisibility();
+}
+
+function showGuideSearchResults() {
+  guideSearchReturnCategory = activeGuideCategory;
+  guideMode = "search";
+  document.body.classList.remove("guide-categories-open", "guide-category-open");
+  document.body.classList.add("guide-searching");
+  setGuideTitle("Search", true);
 }
 
 function buildChannelLogo(ch, variant = "guide") {
@@ -124,7 +252,7 @@ function buildChannelLogo(ch, variant = "guide") {
   return `
     <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}"${ch.themeColor ? ` style="background: ${ch.themeColor};"` : ""}>
       ${logoSrc
-      ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
+      ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" draggable="false" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
       : ""
     }
       <span class="ch-initials ch-logo-fallback">${initials}</span>
@@ -136,7 +264,7 @@ function buildMatchLogo(match) {
     const posterSrc = `https://streamed.pk${match.poster}`;
     return `
       <div class="ch-logo-box ch-logo-box--tile" style="background: #111; display: flex; align-items: center; justify-content: center;">
-        <img class="ch-logo-img" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy" style="height: 100%; width: 100%; object-fit: cover;">
+        <img class="ch-logo-img" src="${posterSrc}" alt="${match.title}" referrerpolicy="no-referrer" loading="lazy" draggable="false" style="height: 100%; width: 100%; object-fit: cover;">
       </div>`;
   }
 
@@ -148,8 +276,8 @@ function buildMatchLogo(match) {
     const awaySrc = `https://streamed.pk/api/images/badge/${match.teams.away.badge}.webp`;
     return `
       <div class="ch-logo-box ch-logo-box--tile" style="display: flex; gap: 4px; align-items: center; justify-content: center; padding: 4px; background: #ffffff;">
-        <img class="ch-logo-img" src="${homeSrc}" alt="${match.teams.home.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
-        <img class="ch-logo-img" src="${awaySrc}" alt="${match.teams.away.name || ''}" referrerpolicy="no-referrer" loading="lazy" style="max-height: 80%; max-width: 45%; object-fit: contain;">
+        <img class="ch-logo-img" src="${homeSrc}" alt="${match.teams.home.name || ''}" referrerpolicy="no-referrer" loading="lazy" draggable="false" style="max-height: 80%; max-width: 45%; object-fit: contain;">
+        <img class="ch-logo-img" src="${awaySrc}" alt="${match.teams.away.name || ''}" referrerpolicy="no-referrer" loading="lazy" draggable="false" style="max-height: 80%; max-width: 45%; object-fit: contain;">
       </div>`;
   }
 
@@ -280,6 +408,10 @@ function enableDragScroll(track) {
   let startScrollLeft = 0;
   let dragged = false;
 
+  track.addEventListener("dragstart", (event) => {
+    event.preventDefault();
+  });
+
   track.addEventListener("pointerdown", (event) => {
     if (event.button !== undefined && event.button !== 0) return;
     isDown = true;
@@ -318,6 +450,9 @@ function enableDragScroll(track) {
 }
 
 function createCarouselControls(section, track) {
+  // Carousel arrow buttons are disabled; rows now use direct drag-scroll.
+  return () => {};
+
   const controls = document.createElement("div");
   controls.className = "carousel-controls";
   controls.innerHTML = `
@@ -606,8 +741,22 @@ function onSearch(e) {
   const q = ((e && e.target ? e.target.value : null) || ($search ? $search.value : "")).toLowerCase().trim();
   const hideOffline = document.body.classList.contains("hide-offline-active");
 
+  if (q) {
+    showGuideSearchResults();
+  } else if (guideMode === "search") {
+    if (activeGuideCategory) showGuideCategory(activeGuideCategory);
+    else showGuideCategories();
+  }
+
   const anySidebarVisible = filterCards(".ch-item", q, hideOffline);
-  updateSidebarCategoryVisibility();
+  if (q) {
+    updateSidebarCategoryVisibility();
+    document.querySelectorAll(".cat-label").forEach((lbl) => {
+      lbl.style.display = "none";
+    });
+  }
+  else if (guideMode === "category" && activeGuideCategory) showGuideCategory(activeGuideCategory);
+  else showGuideCategories();
   if ($noResults) $noResults.style.display = anySidebarVisible ? "none" : "block";
 
   const anyHomeVisible = filterCards(".home-ch-card", q, hideOffline);

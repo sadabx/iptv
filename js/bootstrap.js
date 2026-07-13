@@ -97,12 +97,33 @@ document.addEventListener("DOMContentLoaded", () => {
     $sidebar.classList.toggle("closed", !open);
     $btnSB.classList.toggle("on", open);
     if ($backdrop) $backdrop.classList.toggle("show", open);
+    if (open && typeof showGuideCategories === "function" && !$search.value) {
+      showGuideCategories();
+    }
   };
 
   // Live guide toggle
   $btnSB.addEventListener("click", () =>
     setGuideOpen($sidebar.classList.contains("closed")),
   );
+  document.querySelector("[data-rail-home]")?.addEventListener("click", () => {
+    showHomePage();
+    setGuideOpen(false);
+  });
+  document.querySelector("[data-rail-search]")?.addEventListener("click", () => {
+    setGuideOpen(true);
+    if (typeof showGuideSearchResults === "function") showGuideSearchResults();
+    requestAnimationFrame(() => $search?.focus());
+  });
+  document.getElementById("guide-back")?.addEventListener("click", () => {
+    if ($search && $search.value) {
+      $search.value = "";
+      document.getElementById("search-clear")?.classList.add("hidden");
+      onSearch({ target: $search });
+      return;
+    }
+    if (typeof showGuideCategories === "function") showGuideCategories();
+  });
   if ($backdrop) $backdrop.addEventListener("click", () => setGuideOpen(false));
   setGuideOpen(false);
 
@@ -179,6 +200,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (vol === 0) setMuted(true);
     else setMuted(false);
   });
+
+  const $volWrap = $btnMute.parentElement;
+  if ($volWrap && $volWrap.classList.contains("vol-wrap")) {
+    $volWrap.addEventListener("wheel", (e) => {
+      if (typeof isEmbedActive !== 'undefined' && isEmbedActive) return;
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 0.05 : -0.05;
+      adjustVolume(delta);
+    }, { passive: false });
+  }
   document.getElementById("ctrl-live").addEventListener("click", () => {
     jumpToLive();
     toast("Jumped to live");
@@ -280,7 +311,10 @@ document.addEventListener("DOMContentLoaded", () => {
     ".wm-card",
     ".carousel-nav-btn",
     ".ctrl-btn",
+    ".ctrl-live-btn",
     ".ctrl-qual-btn",
+    ".vol-slider",
+    ".err-bar-btn",
     "button",
     "input",
   ].join(",");
@@ -292,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function isRemoteFocusableVisible(el) {
     if (el.disabled || el.tabIndex < 0) return false;
     if (el.closest("[hidden], .hidden")) return false;
-    if (el.closest(".yt-guide.closed")) return false;
+    if (el.closest(".yt-guide.closed") && !el.closest(".guide-rail")) return false;
     const style = getComputedStyle(el);
     if (style.visibility === "hidden" || style.display === "none") return false;
     if (el.offsetParent === null && style.position !== "fixed") return false;
@@ -378,6 +412,74 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
+  function getHomeCategoryNameFromCard(card) {
+    const section = card.closest(".home-section");
+    const title = section?.querySelector(".yt-row-title");
+    return title?.textContent.trim() || "";
+  }
+
+  function getHomeCardsForRailCategory(categoryName) {
+    if (!categoryName) return [];
+    const sections = Array.from(
+      document.querySelectorAll("#stage-home .home-section"),
+    );
+    const section = sections.find((item) => {
+      const title = item.querySelector(".yt-row-title");
+      return title?.textContent.trim() === categoryName;
+    });
+
+    if (!section) return [];
+    return Array.from(section.querySelectorAll(".home-ch-card")).filter(
+      isRemoteFocusableVisible,
+    );
+  }
+
+  function focusElementForRemote(el) {
+    if (!el) return false;
+    document.body.classList.add("remote-nav-active");
+    el.focus({ preventScroll: true });
+    scrollRemoteTargetIntoView(el);
+    return true;
+  }
+
+  function getVisibleGuideChannelItems() {
+    return Array.from(document.querySelectorAll("#ch-list .ch-item")).filter(
+      isRemoteFocusableVisible,
+    );
+  }
+
+  function focusGuideCategoryFromRail(railButton) {
+    const categoryName = railButton.dataset.cat;
+    if (!categoryName) return false;
+
+    if (
+      $sidebar?.classList.contains("closed") &&
+      typeof setGuideOpen === "function"
+    ) {
+      setGuideOpen(true);
+    }
+
+    if (typeof showGuideCategory === "function") {
+      showGuideCategory(categoryName);
+    }
+
+    const target = getVisibleGuideChannelItems()[0];
+    return focusElementForRemote(target);
+  }
+
+  function focusRailCategoryFromHomeCard(card) {
+    const categoryName = getHomeCategoryNameFromCard(card);
+    const rowCards = getHomeCardsForRailCategory(categoryName);
+    if (rowCards[0] !== card) return false;
+
+    const railButton = Array.from(
+      document.querySelectorAll(".guide-rail-category-btn"),
+    ).find((button) => button.dataset.cat === categoryName);
+
+    if (!railButton || !isRemoteFocusableVisible(railButton)) return false;
+    return focusElementForRemote(railButton);
+  }
+
   function scrollRemoteTargetIntoView(el) {
     const carousel = el.closest(".carousel-track");
     if (carousel && typeof carousel.scrollTo === "function") {
@@ -440,6 +542,75 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function wakePlayerControls() {
+    if (!$stage) return;
+    $stage.classList.remove("idle");
+    resetIdle();
+  }
+
+  function isPlayerControl(el) {
+    return Boolean(el?.closest?.(".ctrl-bar"));
+  }
+
+  function getVisiblePlayerControls() {
+    return Array.from(
+      document.querySelectorAll(
+        ".ctrl-bar .ctrl-btn, .ctrl-bar .ctrl-live-btn, .ctrl-bar .ctrl-qual-btn, .ctrl-bar .vol-slider",
+      ),
+    ).filter(isRemoteFocusableVisible);
+  }
+
+  function focusPlayerControl(el) {
+    if (!el) return false;
+    wakePlayerControls();
+    document.body.classList.add("remote-nav-active");
+    el.focus({ preventScroll: true });
+    return true;
+  }
+
+  function handlePlayerRemoteDirection(direction) {
+    if (!direction || !document.body.classList.contains("is-watching")) {
+      return false;
+    }
+
+    const current = document.activeElement;
+    const controls = getVisiblePlayerControls();
+    if (!controls.length || isEmbedActive) return false;
+
+    if (isPlayerControl(current)) {
+      wakePlayerControls();
+
+      if (direction === "left" || direction === "right") {
+        const index = controls.indexOf(current);
+        const offset = direction === "right" ? 1 : -1;
+        const nextIndex = Math.max(
+          0,
+          Math.min(controls.length - 1, index + offset),
+        );
+        const next = controls[nextIndex];
+        return focusPlayerControl(next || current);
+      }
+
+      if (
+        current.matches("#ctrl-mute, #vol-slider") &&
+        (direction === "up" || direction === "down")
+      ) {
+        adjustVolume(direction === "up" ? 0.05 : -0.05);
+      }
+
+      return true;
+    }
+
+    if (
+      !document.body.classList.contains("remote-nav-active") &&
+      (direction === "down" || direction === "right")
+    ) {
+      return focusPlayerControl(controls[0]);
+    }
+
+    return false;
+  }
+
   function moveRemoteFocus(direction) {
     const elements = getRemoteFocusableElements();
     if (!elements.length) return false;
@@ -453,6 +624,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const current = document.activeElement;
+    if (
+      direction === "right" &&
+      current.matches(".guide-rail-category-btn") &&
+      focusGuideCategoryFromRail(current)
+    ) {
+      return true;
+    }
+
+    if (
+      direction === "left" &&
+      current.matches(".home-ch-card") &&
+      focusRailCategoryFromHomeCard(current)
+    ) {
+      return true;
+    }
+
     const currentRect = current.getBoundingClientRect();
     const axis = direction === "left" || direction === "right" ? "x" : "y";
     const crossAxis = axis === "x" ? "y" : "x";
@@ -544,15 +731,32 @@ document.addEventListener("DOMContentLoaded", () => {
       ArrowDown: "down",
     }[e.key];
 
-    if (
+    if (remoteDirection && handlePlayerRemoteDirection(remoteDirection)) {
+      e.preventDefault();
+      return;
+    }
+
+    const shouldHandleRemoteDirection =
       remoteDirection &&
       (!document.body.classList.contains("is-watching") ||
         document.body.classList.contains("remote-nav-active") ||
-        document.activeElement === document.body ||
-        document.activeElement?.matches(remoteFocusableSelector))
-    ) {
+        document.activeElement?.matches(remoteFocusableSelector));
+
+    if (shouldHandleRemoteDirection) {
+      e.preventDefault();
       if (moveRemoteFocus(remoteDirection)) {
+        return;
+      }
+      return;
+    }
+
+    if (key === " " || key === "enter") {
+      if (
+        document.activeElement?.matches(remoteFocusableSelector) &&
+        document.activeElement.tagName !== "INPUT"
+      ) {
         e.preventDefault();
+        document.activeElement.click();
         return;
       }
     }
