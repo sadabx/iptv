@@ -71,7 +71,7 @@
   <link rel="stylesheet" href="css/app.css?v=1.4" />
   <link rel="stylesheet" href="css/player.css?v=1.3" />
   <link rel="stylesheet" href="css/guide.css?v=2.6" />
-  <link rel="stylesheet" href="css/catalog.css?v=2.4" />
+  <link rel="stylesheet" href="css/catalog.css?v=2.5" />
   <link rel="stylesheet" href="css/chat.css" />
   <link rel="stylesheet" href="css/theme.css?v=2.8" />
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
@@ -331,7 +331,38 @@
         </main>
       </div>
 
-      <section class="yt-browse tv-browse" id="stage-home" aria-labelledby="home-catalog-title"></section>
+      <section class="yt-browse tv-browse" id="stage-home" aria-labelledby="home-catalog-title">
+        <div class="home-skeleton" aria-hidden="true">
+          <div class="skeleton-section skeleton-feature-row">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-track">
+              <div class="skeleton-card skeleton-card--wide"></div>
+              <div class="skeleton-card skeleton-card--wide"></div>
+              <div class="skeleton-card skeleton-card--wide"></div>
+            </div>
+          </div>
+          <div class="skeleton-section">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-track">
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+            </div>
+          </div>
+          <div class="skeleton-section">
+            <div class="skeleton-title"></div>
+            <div class="skeleton-track">
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+              <div class="skeleton-card"></div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section id="watch-more" class="watch-more"></section>
     </div>
 

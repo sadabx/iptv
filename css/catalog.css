@@ -42,6 +42,89 @@
     padding: 8px 0;
 }
 
+/* ── Initial Home Skeleton ── */
+.home-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    pointer-events: none;
+}
+
+.skeleton-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.skeleton-title,
+.skeleton-card::before,
+.skeleton-card::after {
+    display: block;
+    border-radius: 8px;
+    background:
+        linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.075), transparent),
+        rgba(255, 255, 255, 0.075);
+    background-size: 220% 100%;
+    animation: skeletonShimmer 1.35s ease-in-out infinite;
+}
+
+.skeleton-title {
+    width: clamp(128px, 18vw, 220px);
+    height: clamp(20px, 2.2vw, 28px);
+}
+
+.skeleton-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(170px, 18vw, 250px);
+    grid-template-columns: none;
+    gap: 16px;
+    overflow: hidden;
+    margin: -12px -16px -8px;
+    padding: 18px 16px 28px;
+}
+
+.skeleton-card {
+    min-width: 0;
+}
+
+.skeleton-card::before {
+    content: "";
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+}
+
+.skeleton-card::after {
+    content: "";
+    width: 72%;
+    height: 14px;
+    margin-top: 12px;
+    opacity: 0.78;
+}
+
+.skeleton-card--wide {
+    width: 100%;
+}
+
+@keyframes skeletonShimmer {
+    0% {
+        background-position: 120% 0;
+    }
+
+    100% {
+        background-position: -120% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-title,
+    .skeleton-card::before,
+    .skeleton-card::after {
+        animation: none;
+    }
+}
+
 @media (min-width: 769px) {
     .live-carousel-track {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -433,6 +516,10 @@ body:not(.hide-offline-active) .wm-card.is-offline .home-live-badge {
         gap: 24px;
     }
 
+    .home-skeleton {
+        gap: 24px;
+    }
+
     .section-title,
     .yt-row-title {
         font-size: 1rem;
@@ -447,6 +534,23 @@ body:not(.hide-offline-active) .wm-card.is-offline .home-live-badge {
         padding: 6px 0 14px;
         overflow-x: visible;
         scroll-snap-type: none;
+    }
+
+    .skeleton-track {
+        grid-auto-flow: row;
+        grid-auto-columns: initial;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin: 0;
+        padding: 6px 0 14px;
+    }
+
+    .skeleton-feature-row .skeleton-track {
+        grid-template-columns: 1fr;
+    }
+
+    .skeleton-feature-row .skeleton-card:nth-child(n + 2) {
+        display: none;
     }
 }
 
@@ -471,6 +575,10 @@ body:not(.hide-offline-active) .wm-card.is-offline .home-live-badge {
 @media (max-width: 480px) {
     .yt-browse {
         padding: 12px 10px 40px;
+        gap: 18px;
+    }
+
+    .home-skeleton {
         gap: 18px;
     }
 
