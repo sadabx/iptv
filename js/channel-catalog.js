@@ -23,7 +23,7 @@ const CHANNELS_DATA = {
             },
             {
               label: "BeIN-IR",
-              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
+              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8",
             },
           ],
         },
@@ -53,7 +53,7 @@ const CHANNELS_DATA = {
         },
         {
           id: "fifa-wc-2026",
-          name: "FIFA 26",
+          name: "FIFA World Cup 2026",
           shortName: "FIFA",
           logo: "assets/logos/fifa-wc-2026.svg",
           streams: [
@@ -73,12 +73,6 @@ const CHANNELS_DATA = {
               label: "FIFA+",
               url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
             },
-            /*
-            {
-              label: "Kooran",
-              url: "https://live.kooran51.cfd/yorrr1/index.m3u8",
-            },
-            */
           ],
         },
         {
@@ -93,30 +87,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        // {
-        //   id: "sky-sports-cricket",
-        //   name: "Sky Sports Cricket",
-        //   shortName: "SKY",
-        //   logo: "assets/logos/sky-sports-cricket.svg",
-        //   streams: [
-        //     {
-        //       label: "SiauliaiRS",
-        //       url: "http://sewv654wfcsdwfi87fwvgbngh.siauliairsavlt.pw/iptv/VCQ4ADX96VH4G8PY7URBWRQU/9258/index.m3u8",
-        //     },
-        //   ],
-        // },
-        // {
-        //   id: "sony-sports-2",
-        //   name: "Sony Sports 2 HD",
-        //   shortName: "SS2",
-        //   logo: "assets/logos/sony-sports-2.png",
-        //   streams: [
-        //     {
-        //       label: "EPGMaker",
-        //       url: "http://main.epgmaker.com/live/y49sz6KMQs/6115263489/513.ts",
-        //     },
-        //   ],
-        // },
         {
           id: "sony-sports-5",
           name: "Sony Sports 5",
@@ -129,30 +99,18 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        // {
-        //   id: "sport-tv1",
-        //   name: "Sport TV",
-        //   shortName: "STV1",
-        //   logo: "assets/logos/sport-tv1.svg",
-        //   streams: [
-        //     {
-        //       label: "StreamHost",
-        //       url: "https://1nyaler.streamhostingcdn.top/stream/33/index.m3u8",
-        //     },
-        //   ],
-        // },
-        // {
-        //   id: "fox-5",
-        //   name: "Fox 5",
-        //   shortName: "Fox-5",
-        //   logo: "assets/logos/fox-5.png",
-        //   streams: [
-        //     {
-        //       label: "Direct",
-        //       url: "http://84.17.50.102/fox/index.m3u8",
-        //     },
-        //   ],
-        // },
+        {
+          id: "sport-tv1",
+          name: "Sport TV",
+          shortName: "STV1",
+          logo: "assets/logos/sport-tv1.svg",
+          streams: [
+            {
+              label: "StreamHost",
+              url: "https://1nyaler.streamhostingcdn.top/stream/33/index.m3u8",
+            },
+          ],
+        },
         {
           id: "star-sports-1",
           name: "Star Sports 1",
@@ -482,32 +440,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
-        {
-          id: "asian-tv",
-          name: "Asian TV",
-          shortName: "ASIAN",
-          logo: "assets/logos/asian-tv.png",
-          streams: [
-            {
-              label: "AynaOTT",
-              url: "https://tvsen6.aynaott.com/asiantv/index.m3u8",
-            },
-          ],
-        },
-        {
-          id: "atn-bangla",
-          name: "ATN Bangla",
-          shortName: "ATNB",
-          logo: "assets/logos/atn-bangla.svg",
-          streams: [
-            {
-              label: "AynaOTT",
-              url: "https://tvsen5.aynaott.com/atnbangla/index.m3u8",
-            },
-          ],
-        },
-        */
         {
           id: "atn-music",
           name: "ATN Music",
@@ -520,20 +452,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
-        {
-          id: "bangla-tv",
-          name: "Bangla TV",
-          shortName: "BNG",
-          logo: "assets/logos/bangla-tv.png",
-          streams: [
-            {
-              label: "AynaOTT",
-              url: "https://tvsen6.aynaott.com/banglatv/index.m3u8",
-            },
-          ],
-        },
-        */
         {
           id: "bangla-vision",
           name: "Bangla Vision",
@@ -630,53 +548,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
-        {
-          id: "gazi-tv",
-          name: "Gazi TV",
-          shortName: "GTV",
-          logo: "assets/logos/gazi-tv.png",
-          streams: [
-            {
-              label: "ChowdhuryS",
-              url: "http://tvn1.chowdhury-shaheb.com/gazitv/index.m3u8",
-            },
-            {
-              label: "AynaOTT",
-              url: "https://tvsen5.aynaott.com/Ravc7gPCZpxk/index.m3u8",
-            },
-            {
-              label: "SonyPlex",
-              url: "https://ott.sonyplex.com:444/play/EDI0B4ME7MUUyw-g59yLM4a9ZIbC6ZQPO9Uw1syBicM/m3u8",
-            },
-          ],
-        },
-        {
-          id: "global-tv",
-          name: "Global TV",
-          shortName: "GLB",
-          logo: "assets/logos/global-tv.png",
-          streams: [
-            {
-              label: "AynaOTT",
-              url: "https://tvsen6.aynaott.com/globaltvhd/index.m3u8",
-            },
-          ],
-        },
-        {
-          id: "green-tv",
-          name: "Green TV",
-          shortName: "GRN",
-          logo: "assets/logos/green-tv.jpg",
-          streams: [
-            {
-              label: "ncare",
-              url: "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/greentv.stream/live-orgin/greentv.stream/playlist.m3u8",
-            },
-
-          ],
-        },
-        */
         {
           id: "maasranga-tv",
           name: "Maasranga TV",
@@ -717,20 +588,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
-        {
-          id: "my-tv",
-          name: "My TV",
-          shortName: "MYTV",
-          logo: "assets/logos/my-tv.png",
-          streams: [
-            {
-              label: "AynaOTT",
-              url: "https://tvsen6.aynaott.com/mytv/index.m3u8",
-            },
-          ],
-        },
-        */
         {
           id: "ntv",
           name: "NTV",
@@ -748,24 +605,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
-        {
-          id: "rtv",
-          name: "RTV",
-          shortName: "RTV",
-          logo: "assets/logos/rtv.png",
-          streams: [
-            {
-              label: "Direct",
-              url: "http://116.204.149.16/rtvhd/index.m3u8",
-            },
-            {
-              label: "BozzTV",
-              url: "https://bozztv.com/rongo/rongo-RTV/index.m3u8",
-            },
-          ],
-        },
-        */
         {
           id: "sa-tv",
           name: "SA TV",
@@ -782,20 +621,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
-        {
-          id: "vokta-tv",
-          name: "Vokta TV",
-          shortName: "VKTA",
-          logo: "assets/logos/vokta-tv.png",
-          streams: [
-            {
-              label: "RaytaHost",
-              url: "https://vokta.raytahost.com/live/voktatv/index.m3u8",
-            },
-          ],
-        },
-        */
       ],
     },
     {
@@ -884,8 +709,8 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "colors-bangla-hd",
-          name: "Colors Bangla HD",
+          id: "colors-bangla",
+          name: "Colors Bangla",
           shortName: "COLORS",
           logo: "assets/logos/colors-bangla-hd.png",
           streams: [
@@ -895,12 +720,13 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
+
         {
-          id: "colors-cineplex-hd",
-          name: "Colors Cineplex HD",
+          id: "colors-cineplex",
+          name: "Colors Cineplex",
           shortName: "CINEPLEX",
-          logo: "assets/logos/colors-cineplex-hd.svg",
+          themeColor: "#121212",
+          logo: "assets/logos/ColorsCineplex.png",
           streams: [
             {
               label: "Direct",
@@ -908,7 +734,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        */
+
         {
           id: "hindi-movies",
           name: "Hindi Movies",
@@ -946,20 +772,6 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        /*
-        {
-          id: "sony-aath",
-          name: "Sony AATH",
-          shortName: "AATH",
-          logo: "assets/logos/sony-aath.png",
-          streams: [
-            {
-              label: "Direct",
-              url: "http://45.127.56.3:9698/live/Corpus-POL/SRV4/1/SONY-AATH/video.m3u8",
-            },
-          ],
-        },
-        */
         {
           id: "sony-max",
           name: "Sony Max",
