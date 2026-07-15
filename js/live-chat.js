@@ -2,7 +2,7 @@
    live-chat.js — Firebase-backed live chat state and message UI
    ========================================== */
 
-// ── YouTube Live Chat Controller ──
+// ── Live Chat Controller ──
 let currentChatRef = null;
 let chatCloseBtnBound = false; // prevents duplicate close-btn listeners
 let currentChatChannelId = null; // tracks active channel to skip redundant re-inits
@@ -25,6 +25,12 @@ function initLiveChat() {
       if ($btnChat) $btnChat.classList.remove("on");
       if ($ctrlChat) $ctrlChat.classList.remove("on");
       document.body.classList.remove("chat-open");
+      document.querySelectorAll(".mobile-tabbar-btn").forEach((button) => {
+        const shouldActivate = document.body.classList.contains("is-watching")
+          ? button.id === "mobile-tab-channels"
+          : button.id === "mobile-tab-home";
+        button.classList.toggle("is-active", shouldActivate);
+      });
     });
   }
 

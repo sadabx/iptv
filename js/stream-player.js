@@ -1,5 +1,5 @@
 /* ==========================================
-   stream-player.js — HLS/MPEG-TS/native player, controls, quality, PiP, and stats
+   stream-player.js — HLS/MPEG-TS/native player, controls, quality, and stats
    ========================================== */
 
 // ── State
@@ -88,6 +88,21 @@ function getProxiedUrl(url) {
   return url;
 }
 
+function resetWatchingScrollPosition() {
+  window.scrollTo(0, 0);
+  document.querySelectorAll(".app-main, .tv-main").forEach((el) => {
+    el.scrollTop = 0;
+    if (typeof el.scrollTo === "function") el.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  });
+}
+
+function settleWatchingScrollPosition() {
+  resetWatchingScrollPosition();
+  requestAnimationFrame(() => {
+    resetWatchingScrollPosition();
+    requestAnimationFrame(resetWatchingScrollPosition);
+  });
+}
 
 // ── SVG Icons
 const ICONS = {
@@ -95,7 +110,6 @@ const ICONS = {
          <svg id="icon-pause" width="12" height="16" viewBox="0 0 12 16" fill="currentColor"><rect x="0" width="4" height="16" rx="1"/><rect x="8" width="4" height="16" rx="1"/></svg>`,
   vol: `<svg id="icon-vol" width="16" height="14" viewBox="0 0 16 14" fill="currentColor"><path d="M0 5v4h2.67L6 12.33V1.67L2.67 5H0zm10.5 2c0-1.77-1-3.29-2.5-4.03v8.05c1.5-.73 2.5-2.25 2.5-4.02z"/><path d="M8 0v1.56c2.37.97 4 3.31 4 6.04s-1.63 5.07-4 6.04V15c3.28-.97 5.5-4 5.5-7.5S11.28.97 8 0z"/></svg>
         <svg id="icon-muted" width="16" height="14" viewBox="0 0 16 14" fill="currentColor" class="hidden"><path d="M6 1.67L2.67 5H0v4h2.67L6 12.33V1.67zm7.5 5.33l1.5-1.5-1.06-1.06L12.44 6l-1.5-1.5L9.88 5.56 11.38 7l-1.5 1.5 1.06 1.06L12.44 8l1.5 1.5 1.06-1.06L13.5 7z"/></svg>`,
-  pip: `<svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M13 1H2C.9 1 0 1.9 0 3v9c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 11H2V3h11v9zm-1-4.5H8.5V11H12V7.5z"/></svg>`,
   fullscreen: `<svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M1 1h4V0H0v5h1V1zm9-1v1h4v4h1V0h-5zm-9 14v-4H0v5h5v-1H1zm13 0h-4v1h5v-5h-1v4z"/></svg>`,
   cc: `<svg id="icon-cc" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 7H9.5v-.5h-2v3h2V13H11v1c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1zm8 0h-1.5v-.5h-2v3h2V13H19v1c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1V10c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1z"/></svg>`,
 };
@@ -143,12 +157,15 @@ function executePlayerMount(id, streamIdx) {
   if (!ch) return;
 
   document.body.classList.add("is-watching");
+  resetWatchingScrollPosition();
 
   const $stageHome = document.getElementById("stage-home");
   if ($stageHome) $stageHome.classList.add("hidden");
 
   const $idle = document.getElementById("idle-screen");
   if ($idle) $idle.style.display = "none";
+  document.querySelector(".stage")?.classList.remove("idle");
+  settleWatchingScrollPosition();
 
   const $ccBtn = document.getElementById("ctrl-cc");
   const $ctxCc = document.getElementById("ctx-cc");
@@ -239,6 +256,7 @@ function executePlayerMount(id, streamIdx) {
     fetchStreamAndMount(source, streamId, matchTitle, streamIdx);
 
     populateWatchMore(id);
+    settleWatchingScrollPosition();
     currentChannel = ch;
     if (typeof initLiveChat === "function") {
       initLiveChat();
@@ -310,6 +328,7 @@ function executePlayerMount(id, streamIdx) {
   }
 
   populateWatchMore(id);
+  settleWatchingScrollPosition();
 
   // Initialize or update the custom YouTube-style live chat
   currentChannel = ch;
@@ -749,27 +768,6 @@ function adjustVolume(delta) {
   showFlashOverlay("volume", Math.round(vol * 100));
 }
 
-async function togglePiP() {
-  if (!document.pictureInPictureEnabled) {
-    toast("PiP not supported");
-    return;
-  }
-  try {
-    if (document.pictureInPictureElement) {
-      await document.exitPictureInPicture();
-      showFlashOverlay("pip", false);
-      toast("Exited PiP", 1200);
-    } else {
-      await $video.requestPictureInPicture();
-      showFlashOverlay("pip", true);
-      toast("Picture-in-Picture", 1200);
-    }
-  } catch (err) {
-    console.error("PiP Error:", err);
-    toast("Failed to toggle PiP");
-  }
-}
-
 function hasTextTracks() {
   if (!$video) return false;
   if (hls && hls.subtitleTracks && hls.subtitleTracks.length > 0) {
@@ -868,11 +866,6 @@ function showFlashOverlay(type, detail = "") {
       iconHtml =
         '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
       textStr = detail ? `${detail}%` : "";
-      break;
-    case "pip":
-      iconHtml =
-        '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 7H9c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H9V9h10v10zm-9-2h6v-4h-6v4zM3 5v14H1V5c0-1.1.9-2 2-2h16v2H3z"/></svg>';
-      textStr = "";
       break;
     case "cc":
       iconHtml = ICONS.cc;

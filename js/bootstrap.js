@@ -48,16 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
   $srvLabel = document.getElementById("srv-label");
   $srvMenu = document.getElementById("srv-menu");
 
-  $btnPip = document.getElementById("ctrl-pip");
-  if ($btnPip) {
-    $btnPip.innerHTML = ICONS.pip;
-    if (!document.pictureInPictureEnabled) {
-      $btnPip.style.display = "none";
-    } else {
-      $btnPip.addEventListener("click", togglePiP);
-    }
-  }
-
   const $btnCc = document.getElementById("ctrl-cc");
   if ($btnCc) {
     $btnCc.innerHTML = ICONS.cc;
@@ -126,7 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
     $ctrlChat?.classList.toggle("on", isOpen);
     document.body.classList.toggle("chat-open", isOpen);
     if (isOpen) setGuideOpen(false);
-    setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
+    const fallbackTab = document.body.classList.contains("is-watching") ? "channels" : "home";
+    setMobileTabActive(isOpen ? "chat" : fallbackTab);
   }
 
   // Chat is hidden by default — mark button as "closed"
@@ -779,9 +770,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rect,
         direction,
       );
-
       if (edgeDistance < -12 && centerDelta <= 6) return;
-
       const overlap = getAxisOverlap(currentRect, rect, crossAxis);
       const crossDistance = getCenterDistance(currentRect, rect, crossAxis);
       const sameGroup = currentGroup && currentGroup === el.closest(
@@ -904,10 +893,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showFlashOverlay(
         document.fullscreenElement ? "fullscreen" : "fullscreen-exit",
       );
-    } else if (key === "p") {
-      e.preventDefault();
-      if (isEmbedActive) return;
-      togglePiP();
     } else if (key === "c") {
       e.preventDefault();
       if (isEmbedActive) return;
@@ -937,7 +922,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ctxMenu = document.getElementById("context-menu");
   const $ctxPlay = document.getElementById("ctx-play");
   const $ctxMute = document.getElementById("ctx-mute");
-  const $ctxPip = document.getElementById("ctx-pip");
   const $ctxFs = document.getElementById("ctx-fs");
   const $ctxCc = document.getElementById("ctx-cc");
   const $ctxStats = document.getElementById("ctx-stats");
@@ -956,12 +940,6 @@ document.addEventListener("DOMContentLoaded", () => {
     $ctxPlay.textContent = $video.paused ? "Play" : "Pause";
     $ctxMute.textContent = muted ? "Unmute" : "Mute";
 
-    if (!document.pictureInPictureEnabled) {
-      $ctxPip.style.display = "none";
-    } else {
-      $ctxPip.style.display = "block";
-    }
-
     $ctxMenu.classList.remove("hidden");
   });
 
@@ -978,10 +956,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     toggleMute();
     showFlashOverlay(muted ? "mute" : "volume");
-  });
-  $ctxPip.addEventListener("click", (e) => {
-    e.stopPropagation();
-    togglePiP();
   });
   $ctxFs.addEventListener("click", (e) => {
     e.stopPropagation();

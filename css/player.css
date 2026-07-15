@@ -967,15 +967,12 @@ video::cue {
 
 @media (max-width: 768px) {
     .player-chat-toggle {
-        top: 8px;
-        right: 8px;
-        width: 32px;
-        height: 32px;
+        display: none;
     }
 
     .embed-server-selector {
         top: 8px;
-        right: 48px;
+        right: 8px;
     }
 
     .embed-server-toggle {
