@@ -62,7 +62,7 @@ body.is-watching .live-banner-section {
   transform: translateY(-3px);
 }
 
-.live-carousel-track .yt-tile-thumb {
+.live-carousel-track .channel-card-thumb {
   position: relative;
   inset: auto;
   z-index: 0;
@@ -75,7 +75,7 @@ body.is-watching .live-banner-section {
   background: #111;
 }
 
-.live-carousel-track .yt-tile-thumb::after {
+.live-carousel-track .channel-card-thumb::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -350,8 +350,8 @@ body.is-watching .live-banner-section {
     box-shadow: none;
   }
 
-  .remote-nav-active .live-carousel-track .live-match-card:focus .yt-tile-thumb,
-  .live-carousel-track .live-match-card:focus-visible .yt-tile-thumb {
+  .remote-nav-active .live-carousel-track .live-match-card:focus .channel-card-thumb,
+  .live-carousel-track .live-match-card:focus-visible .channel-card-thumb {
     border-color: rgba(53, 214, 164, 0.92);
     border-radius: 8px;
     box-shadow:

@@ -3,7 +3,7 @@
    ========================================== */
 
 /* ── Live Guide Sidebar Base ── */
-.yt-guide {
+.guide-shell {
     display: flex;
     flex-shrink: 0;
     overflow: hidden;
@@ -14,7 +14,7 @@
     transition: width 0.24s var(--ease);
 }
 
-.yt-guide.closed {
+.guide-shell.closed {
     width: 74px;
 }
 
@@ -40,7 +40,7 @@
     backdrop-filter: blur(18px);
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail {
     width: 300px;
     flex-basis: 300px;
     display: grid;
@@ -80,14 +80,14 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-categories {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-categories {
     grid-column: 1 / -1;
     align-items: stretch;
     gap: 8px;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-categories::before,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-categories::after {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-categories::before,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-categories::after {
     display: none;
 }
 
@@ -130,11 +130,11 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-categories::after 
     display: none;
 }
 
-.yt-guide:not(.closed) .guide-menu-icon-open {
+.guide-shell:not(.closed) .guide-menu-icon-open {
     display: none;
 }
 
-.yt-guide:not(.closed) .guide-menu-icon-close {
+.guide-shell:not(.closed) .guide-menu-icon-close {
     display: block;
 }
 
@@ -142,7 +142,7 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-categories::after 
     display: none;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-brand {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-brand {
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -155,13 +155,13 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-brand {
     letter-spacing: 0;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-brand img {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-brand img {
     width: 30px;
     height: 30px;
     object-fit: contain;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-brand span span {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-brand span span {
     color: #6181ff;
     font-size: 0.68em;
     font-style: italic;
@@ -194,11 +194,11 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-brand span span {
     letter-spacing: 0.12em;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-vertical-brand {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-vertical-brand {
     display: none;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn {
     width: 100%;
     display: grid;
     grid-template-columns: 48px 1fr auto 18px;
@@ -210,17 +210,17 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn {
     text-align: left;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-btn {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-btn {
     height: 48px;
     border-radius: 16px;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn {
     width: 100%;
     height: 48px;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) {
     width: 100%;
     display: grid;
     grid-template-columns: 48px 1fr;
@@ -232,52 +232,52 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:
     text-align: left;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) > svg {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) > svg {
     justify-self: center;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn .guide-rail-icon {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn .guide-rail-icon {
     width: 48px;
     height: 48px;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn .guide-rail-label,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn .guide-rail-count,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn .guide-rail-arrow {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn .guide-rail-label,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn .guide-rail-count,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn .guide-rail-arrow {
     display: inline-flex;
     align-items: center;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) .guide-rail-label {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) .guide-rail-label {
     display: inline-flex;
     align-items: center;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn .guide-rail-label {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn .guide-rail-label {
     color: var(--text2);
     font-size: 0.94rem;
     font-weight: 600;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) .guide-rail-label {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn) .guide-rail-label {
     color: var(--text2);
     font-size: 0.94rem;
     font-weight: 600;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn .guide-rail-count,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn .guide-rail-arrow {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn .guide-rail-count,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn .guide-rail-arrow {
     color: var(--text3);
     font-size: 0.8rem;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn:hover .guide-rail-label,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn:focus-visible .guide-rail-label {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn:hover .guide-rail-label,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn:focus-visible .guide-rail-label {
     color: var(--text);
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn):hover .guide-rail-label,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn):focus-visible .guide-rail-label {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn):hover .guide-rail-label,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail > .guide-rail-btn:not(.guide-rail-menu):not(.guide-rail-category-btn):focus-visible .guide-rail-label {
     color: var(--text);
 }
 
@@ -312,22 +312,22 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail > .guide-rail-btn:
         0 12px 30px rgba(0, 0, 0, 0.28);
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn:hover,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn:focus-visible,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn.is-active,
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-category-btn[aria-current="true"] {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn:hover,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn:focus-visible,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn.is-active,
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-category-btn[aria-current="true"] {
     background: rgba(255, 255, 255, 0.1);
     box-shadow: none;
 }
 
-body.guide-category-open .yt-guide:not(.closed) .guide-rail-category-btn.is-active,
-body.guide-category-open .yt-guide:not(.closed) .guide-rail-category-btn[aria-current="true"] {
+body.guide-category-open .guide-shell:not(.closed) .guide-rail-category-btn.is-active,
+body.guide-category-open .guide-shell:not(.closed) .guide-rail-category-btn[aria-current="true"] {
     background: transparent;
     box-shadow: none;
 }
 
-body.guide-category-open .yt-guide:not(.closed) .guide-rail-category-btn.is-active .guide-rail-icon,
-body.guide-category-open .yt-guide:not(.closed) .guide-rail-category-btn[aria-current="true"] .guide-rail-icon {
+body.guide-category-open .guide-shell:not(.closed) .guide-rail-category-btn.is-active .guide-rail-icon,
+body.guide-category-open .guide-shell:not(.closed) .guide-rail-category-btn[aria-current="true"] .guide-rail-icon {
     border-radius: 16px;
     background: rgba(53, 214, 164, 0.13);
     color: var(--accent);
@@ -337,7 +337,7 @@ body.guide-category-open .yt-guide:not(.closed) .guide-rail-category-btn[aria-cu
         0 12px 30px rgba(53, 214, 164, 0.08);
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-rail-menu {
+body.guide-categories-open .guide-shell:not(.closed) .guide-rail-menu {
     width: 48px;
     align-self: flex-start;
     justify-self: center;
@@ -372,7 +372,7 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-menu {
         display: none;
     }
 
-    body.is-watching .yt-guide-head {
+    body.is-watching .guide-head {
         min-height: 56px;
         padding: 10px 12px;
     }
@@ -400,13 +400,13 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-rail-menu {
     flex-direction: column;
 }
 
-body.guide-category-open .yt-guide:not(.closed),
-body.guide-searching .yt-guide:not(.closed) {
+body.guide-category-open .guide-shell:not(.closed),
+body.guide-searching .guide-shell:not(.closed) {
     width: 356px;
 }
 
-body.guide-category-open .yt-guide:not(.closed) .guide-panel,
-body.guide-searching .yt-guide:not(.closed) .guide-panel {
+body.guide-category-open .guide-shell:not(.closed) .guide-panel,
+body.guide-searching .guide-shell:not(.closed) .guide-panel {
     margin: 14px 10px 14px 0;
     min-height: calc(100dvh - 28px);
     overflow: hidden;
@@ -421,17 +421,17 @@ body.guide-searching .yt-guide:not(.closed) .guide-panel {
     backdrop-filter: blur(18px);
 }
 
-.yt-guide.closed .guide-panel {
+.guide-shell.closed .guide-panel {
     display: none;
 }
 
-body.guide-categories-open .yt-guide:not(.closed) .guide-panel {
+body.guide-categories-open .guide-shell:not(.closed) .guide-panel {
     display: none;
 }
 
 /* ── Mobile: fixed overlay toggled via transform ── */
 @media (max-width: 768px) {
-    .yt-guide {
+    .guide-shell {
         position: fixed;
         top: 0;
         left: 0;
@@ -441,18 +441,18 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-panel {
         transform: translateX(-100%);
     }
 
-    .yt-guide:not(.closed) {
+    .guide-shell:not(.closed) {
         transform: translateX(0);
     }
 }
 
 @media (max-width: 480px) {
-    .yt-guide {
+    .guide-shell {
         width: min(290px, 92vw);
     }
 }
 
-.yt-guide-head {
+.guide-head {
     min-height: 64px;
     padding: 14px 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -462,14 +462,14 @@ body.guide-categories-open .yt-guide:not(.closed) .guide-panel {
     flex-shrink: 0;
 }
 
-body.guide-category-open .yt-guide-head,
-body.guide-searching .yt-guide-head {
+body.guide-category-open .guide-head,
+body.guide-searching .guide-head {
     min-height: 58px;
     padding: 10px 14px;
     border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
-.yt-guide-title {
+.guide-title {
     flex: 1;
     font-size: 1rem;
     font-weight: 600;

@@ -243,7 +243,7 @@ function openCategoryFromBrowse(categoryName) {
 }
 
 function setGuideTitle(title, showBack) {
-  const titleEl = document.querySelector(".yt-guide-title");
+  const titleEl = document.querySelector(".guide-title");
   const backBtn = document.getElementById("guide-back");
   if (titleEl) titleEl.textContent = title;
   if (backBtn) backBtn.classList.toggle("hidden", !showBack);
@@ -454,7 +454,7 @@ function buildLiveMatchSection(liveSports) {
   const isMobileMatchCarousel = window.matchMedia("(max-width: 768px)").matches;
 
   const liveTitle = document.createElement("h2");
-  liveTitle.className = "yt-row-title live-banner-title";
+  liveTitle.className = "section-title live-banner-title";
   liveTitle.textContent = "POPULAR MATCHES";
   liveSection.appendChild(liveTitle);
 
@@ -471,7 +471,7 @@ function buildLiveMatchSection(liveSports) {
 
   liveSports.forEach((match) => {
     const card = document.createElement("div");
-    card.className = "yt-tile home-ch-card live-match-card";
+    card.className = "channel-card home-ch-card live-match-card";
     card.tabIndex = 0;
     if (isMobileMatchCarousel) {
       card.style.width = "100%";
@@ -486,11 +486,11 @@ function buildLiveMatchSection(liveSports) {
     card.dataset.search = match.title.toLowerCase();
 
     card.innerHTML = `
-      <div class="yt-tile-thumb">
+      <div class="channel-card-thumb">
         ${buildMatchLogo(match)}
       </div>
       <div class="live-match-content">
-        <span class="yt-tile-live home-live-badge">LIVE</span>
+        <span class="channel-card-live home-live-badge">LIVE</span>
         <h3 class="live-match-title">${escapeHTML(match.title)}</h3>
         <p class="live-match-meta">${escapeHTML(getMatchSubtitle(match))}</p>
         <span class="live-match-cta">Watch now</span>
@@ -701,12 +701,12 @@ function createCarouselControls(section, track) {
   track.addEventListener("scroll", updateControls, { passive: true });
   window.addEventListener("resize", updateControls);
 
-  const title = section.querySelector(".yt-row-title");
+  const title = section.querySelector(".section-title");
   if (title) {
-    let header = title.closest(".yt-row-header");
+    let header = title.closest(".section-header");
     if (!header) {
       header = document.createElement("div");
-      header.className = "yt-row-header";
+      header.className = "section-header";
       title.before(header);
       header.appendChild(title);
     }
@@ -735,7 +735,7 @@ function initHomePage() {
     section.dataset.cat = cat.name;
 
     const title = document.createElement("h2");
-    title.className = "yt-row-title";
+    title.className = "section-title";
     title.textContent = cat.name;
     section.appendChild(title);
 
@@ -747,17 +747,17 @@ function initHomePage() {
       const isOffline = offlineList.includes(ch.id);
       const card = document.createElement("div");
       card.className =
-        "yt-tile home-ch-card" + (isOffline ? " is-offline" : "");
+        "channel-card home-ch-card" + (isOffline ? " is-offline" : "");
       card.tabIndex = 0;
       card.dataset.id = ch.id;
       card.dataset.search = ch.name.toLowerCase();
 
       card.innerHTML = `
-        <div class="yt-tile-thumb">
+        <div class="channel-card-thumb">
           ${buildChannelLogo(ch, "tile")}
-          <span class="yt-tile-live home-live-badge">LIVE</span>
+          <span class="channel-card-live home-live-badge">LIVE</span>
         </div>
-        <p class="yt-tile-title home-ch-name">${ch.name}</p>
+        <p class="channel-card-title home-ch-name">${ch.name}</p>
       `;
 
       const openChannel = () => {

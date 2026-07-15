@@ -3,7 +3,7 @@
    ========================================== */
 
 /* ── Player Stage ── */
-.yt-player-shell {
+.player-shell {
     display: none;
     flex-shrink: 0;
     background: #000;
@@ -28,7 +28,7 @@ body.is-watching .stage {
     flex: 1;
 }
 
-body.is-watching .yt-player-shell {
+body.is-watching .player-shell {
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -85,11 +85,11 @@ body.is-watching .yt-player-shell {
     display: none !important;
 }
 
-.stage.is-embed .yt-idle-screen {
+.stage.is-embed .player-idle-screen {
     display: none !important;
 }
 
-.yt-idle-screen {
+.player-idle-screen {
     position: absolute;
     inset: 0;
     display: flex;
@@ -103,7 +103,7 @@ body.is-watching .yt-player-shell {
     backdrop-filter: blur(2px);
 }
 
-.yt-idle-icon {
+.player-idle-icon {
     color: var(--text2);
     animation: pulse 2s ease-in-out infinite;
 }
@@ -122,7 +122,7 @@ body.is-watching .yt-player-shell {
     }
 }
 
-.yt-idle-text {
+.player-idle-text {
     font-size: 0.9rem;
     color: var(--text3);
     font-weight: 400;
@@ -435,14 +435,14 @@ body:not(.is-watching) .player-chat-toggle {
     display: flex;
 }
 
-.yt-spinner-container {
+.stream-spinner-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
 }
 
-.yt-spinner {
+.stream-spinner {
     width: 48px;
     height: 48px;
     border: 3px solid rgba(255, 255, 255, 0.15);
@@ -451,7 +451,7 @@ body:not(.is-watching) .player-chat-toggle {
     animation: spin 0.8s linear infinite;
 }
 
-.yt-spinner-text {
+.stream-spinner-text {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.8);
     letter-spacing: 0.08em;

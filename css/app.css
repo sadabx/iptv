@@ -66,24 +66,24 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-body.is-watching .yt-browse {
+body.is-watching .catalog-view {
     display: none;
 }
 
-body.is-watching .yt-player-shell {
+body.is-watching .player-shell {
     display: flex;
     flex: 1;
 }
 
-body.is-watching .yt-idle-screen {
+body.is-watching .player-idle-screen {
     display: none;
 }
 
-body.is-watching .yt-main {
+body.is-watching .app-main {
     background: #000;
 }
 
-.yt-chat {
+.chat-panel {
     display: none !important;
 }
 
@@ -91,7 +91,7 @@ body.is-watching .yt-main {
     display: none !important;
 }
 
-body.is-watching .yt-chat {
+body.is-watching .chat-panel {
     display: flex !important;
 }
 
@@ -190,7 +190,7 @@ body.is-watching #btn-chat {
 }
 
 /* ── Top Nav ── */
-.yt-nav {
+.app-nav {
     height: var(--nav-h);
     background: var(--bg);
     border-bottom: 1px solid var(--border);
@@ -207,21 +207,21 @@ body.is-watching #btn-chat {
     background: rgba(15, 15, 15, 0.92);
 }
 
-.yt-nav-left,
-.yt-nav-right {
+.app-nav-left,
+.app-nav-right {
     display: flex;
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
 }
 
-.yt-nav-center {
+.app-nav-center {
     flex: 1;
     max-width: 600px;
     min-width: 0;
 }
 
-.yt-nav-btn {
+.app-nav-btn {
     min-width: 44px;
     width: 44px;
     height: 44px;
@@ -238,18 +238,18 @@ body.is-watching #btn-chat {
     /* prevent inline text spacing from shifting icons */
 }
 
-.yt-nav-btn:hover {
+.app-nav-btn:hover {
     background: rgba(255, 255, 255, 0.08);
     color: var(--text);
     transform: scale(1.02);
 }
 
-.yt-nav-btn.on {
+.app-nav-btn.on {
     color: var(--red);
     background: var(--accent-bg);
 }
 
-.yt-brand {
+.app-brand {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -262,12 +262,12 @@ body.is-watching #btn-chat {
     transition: all var(--transition-fast);
 }
 
-.yt-brand:hover {
+.app-brand:hover {
     background: rgba(255, 255, 255, 0.06);
     transform: scale(1.02);
 }
 
-.yt-brand-icon {
+.app-brand-icon {
     width: 32px;
     height: 32px;
     object-fit: contain;
@@ -275,7 +275,7 @@ body.is-watching #btn-chat {
     /* filter: invert(1) drop-shadow(0 1px 2px rgba(255, 255, 255, 0.15)); for inverting logo's original color*/
 }
 
-.yt-brand .brand-logo {
+.app-brand .brand-logo {
     width: 32px;
     height: 32px;
     max-width: 32px;
@@ -293,7 +293,7 @@ body.is-watching #btn-chat {
     white-space: nowrap;
 }
 
-.yt-tv-badge {
+.app-tv-badge {
     background: var(--red);
     color: #fff;
     font-size: 0.62rem;
@@ -305,17 +305,17 @@ body.is-watching #btn-chat {
     box-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
 }
 
-.yt-search {
+.search-box {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.yt-nav-center:empty {
+.app-nav-center:empty {
     display: none;
 }
 
-.yt-search-icon {
+.search-icon {
     position: absolute;
     left: 16px;
     color: var(--text3);
@@ -352,7 +352,7 @@ body.is-watching #btn-chat {
     display: none;
 }
 
-.yt-now-playing {
+.app-now-playing {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -363,7 +363,7 @@ body.is-watching #btn-chat {
     border-radius: 40px;
 }
 
-.yt-live-dot {
+.app-live-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -398,7 +398,7 @@ body.is-watching .np-name strong {
     position: relative;
 }
 
-.yt-backdrop {
+.guide-backdrop {
     position: fixed;
     inset: var(--nav-h) 0 0 0;
     background: rgba(0, 0, 0, 0.65);
@@ -409,12 +409,12 @@ body.is-watching .np-name strong {
     transition: opacity var(--transition-normal);
 }
 
-.yt-backdrop.show {
+.guide-backdrop.show {
     opacity: 1;
     pointer-events: auto;
 }
 
-.yt-main {
+.app-main {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -531,7 +531,7 @@ body.is-watching .np-name strong {
         flex-direction: row;
     }
 
-    .yt-guide {
+    .guide-shell {
         position: relative;
         top: 0;
         transform: translateX(0) !important;
@@ -541,16 +541,16 @@ body.is-watching .np-name strong {
         transition: width 0.28s var(--ease);
     }
 
-    .yt-guide:not(.closed) {
+    .guide-shell:not(.closed) {
         width: 320px;
         border-right: 1px solid var(--border);
     }
 
-    .yt-backdrop {
+    .guide-backdrop {
         display: none !important;
     }
 
-    .yt-main {
+    .app-main {
         flex: 1;
         min-width: 0;
     }
@@ -558,7 +558,7 @@ body.is-watching .np-name strong {
 
 /* ── Responsive Queries ── */
 @media (min-width: 1400px) {
-    .yt-browse {
+    .catalog-view {
         padding: 40px 56px 56px;
         gap: 48px;
     }
@@ -568,8 +568,7 @@ body.is-watching .np-name strong {
         gap: 24px;
     }
 
-    .section-title,
-    .yt-row-title {
+    .section-title {
         font-size: 1.5rem;
     }
 }
@@ -580,7 +579,7 @@ body.is-watching .np-name strong {
         --guide-w: 280px;
     }
 
-    .yt-now-playing {
+    .app-now-playing {
         max-width: 180px;
     }
 
@@ -589,7 +588,7 @@ body.is-watching .np-name strong {
         font-size: 0.82rem;
     }
 
-    .yt-browse {
+    .catalog-view {
         padding: 28px 36px 48px;
         gap: 36px;
     }
@@ -606,11 +605,11 @@ body.is-watching .np-name strong {
         --guide-w: 260px;
     }
 
-    .yt-nav-center {
+    .app-nav-center {
         max-width: 480px;
     }
 
-    .yt-browse {
+    .catalog-view {
         padding: 24px 32px 48px;
         gap: 32px;
     }
@@ -633,7 +632,7 @@ body.is-watching .np-name strong {
         padding-bottom: var(--nav-h);
     }
 
-    .yt-nav {
+    .app-nav {
         position: fixed;
         bottom: 0;
         top: auto;
@@ -648,33 +647,33 @@ body.is-watching .np-name strong {
         justify-content: space-between;
     }
 
-    .yt-nav-left {
+    .app-nav-left {
         gap: 8px;
     }
 
-    .yt-nav-center {
+    .app-nav-center {
         flex: 1;
         min-width: 0;
         max-width: none;
     }
 
-    .yt-nav-btn,
-    .yt-brand {
+    .app-nav-btn,
+    .app-brand {
         min-width: 40px;
     }
 
-    .yt-brand {
+    .app-brand {
         padding: 4px 6px;
         gap: 4px;
     }
 
-    .yt-brand-icon {
+    .app-brand-icon {
         width: 28px;
         height: 28px;
     }
 
-    .yt-tv-badge,
-    .yt-now-playing {
+    .app-tv-badge,
+    .app-now-playing {
         display: none;
     }
 
@@ -682,13 +681,13 @@ body.is-watching .np-name strong {
         display: none;
     }
 
-    .yt-search .search-input {
+    .search-box .search-input {
         font-size: 0.85rem;
         height: 36px;
         padding: 0 12px 0 36px;
     }
 
-    .yt-search-icon {
+    .search-icon {
         left: 10px;
         width: 16px;
         height: 16px;
@@ -706,7 +705,7 @@ body.is-watching .np-name strong {
         overflow: visible;
     }
 
-    .yt-guide {
+    .guide-shell {
         position: fixed;
         top: 0;
         left: 0;
@@ -720,27 +719,27 @@ body.is-watching .np-name strong {
         transform: translateX(-100%);
     }
 
-    .yt-guide:not(.closed) {
+    .guide-shell:not(.closed) {
         transform: translateX(0);
     }
 
-    .yt-player-shell {
+    .player-shell {
         position: sticky;
         top: 0;
         z-index: 100;
     }
 
-    body.is-watching .yt-player-shell {
+    body.is-watching .player-shell {
         position: sticky;
         top: 0;
         z-index: 100;
     }
 
-    .yt-backdrop {
+    .guide-backdrop {
         inset: 0 0 var(--nav-h) 0;
     }
 
-    .yt-main {
+    .app-main {
         min-height: 0;
         overflow: visible;
     }
@@ -751,7 +750,7 @@ body.is-watching .np-name strong {
         width: 100%;
     }
 
-    body.is-watching .yt-main {
+    body.is-watching .app-main {
         flex: none;
     }
 
@@ -761,12 +760,12 @@ body.is-watching .np-name strong {
         flex: none;
     }
 
-    body.is-watching .yt-player-shell {
+    body.is-watching .player-shell {
         flex-direction: column;
         flex: none;
     }
 
-    body.is-watching .yt-chat {
+    body.is-watching .chat-panel {
         height: 0 !important;
         min-height: 0 !important;
         max-height: 0 !important;
@@ -784,11 +783,11 @@ body.is-watching .np-name strong {
         overflow: hidden;
     }
 
-    body.is-watching.chat-open .yt-main {
+    body.is-watching.chat-open .app-main {
         flex: none;
     }
 
-    body.is-watching.chat-open .yt-chat {
+    body.is-watching.chat-open .chat-panel {
         flex: 1 !important;
         height: auto !important;
         min-height: 0 !important;
@@ -801,7 +800,7 @@ body.is-watching .np-name strong {
         display: none !important;
     }
 
-    .yt-chat {
+    .chat-panel {
         width: 100% !important;
         border-left: none;
     }
@@ -832,13 +831,12 @@ body.is-watching .np-name strong {
         width: 100%;
     }
 
-    .yt-browse {
+    .catalog-view {
         padding: 16px 14px 40px;
         gap: 24px;
     }
 
-    .section-title,
-    .yt-row-title {
+    .section-title {
         font-size: 1rem;
         margin-bottom: 6px;
     }
@@ -912,33 +910,33 @@ body.is-watching .np-name strong {
         --nav-h: 48px;
     }
 
-    .yt-nav {
+    .app-nav {
         padding: 0 10px;
         gap: 6px;
     }
 
-    .yt-nav-btn,
-    .yt-brand {
+    .app-nav-btn,
+    .app-brand {
         width: 40px;
         height: 40px;
     }
 
-    .yt-brand-icon {
+    .app-brand-icon {
         width: 24px;
         height: 24px;
     }
 
-    .yt-nav-center {
+    .app-nav-center {
         max-width: 160px;
     }
 
-    .yt-search .search-input {
+    .search-box .search-input {
         height: 34px;
         font-size: 0.8rem;
         padding: 0 10px 0 32px;
     }
 
-    .yt-search-icon {
+    .search-icon {
         left: 8px;
         width: 14px;
         height: 14px;
@@ -949,13 +947,12 @@ body.is-watching .np-name strong {
         gap: 8px;
     }
 
-    .yt-browse {
+    .catalog-view {
         padding: 12px 10px 40px;
         gap: 18px;
     }
 
-    .section-title,
-    .yt-row-title {
+    .section-title {
         font-size: 0.95rem;
         margin-bottom: 4px;
     }
@@ -996,23 +993,23 @@ body.is-watching .np-name strong {
     }
 
     .home-ch-name,
-    .yt-tile-title {
+    .channel-card-title {
         font-size: 0.78rem;
     }
 
-    .yt-tile-meta {
+    .channel-card-meta {
         font-size: 0.68rem;
     }
 
-    .yt-guide {
+    .guide-shell {
         width: min(290px, 92vw);
     }
 
-    .yt-guide-head {
+    .guide-head {
         padding: 12px 14px 10px;
     }
 
-    .yt-guide-title {
+    .guide-title {
         font-size: 0.95rem;
     }
 

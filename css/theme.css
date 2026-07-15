@@ -202,18 +202,18 @@ body:not(.is-watching) .stage {
   position: relative;
 }
 
-.yt-row-header {
+.section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
 }
 
-.yt-row-header .yt-row-title {
+.section-header .section-title {
   margin-bottom: 0;
 }
 
-.yt-row-title {
+.section-title {
   font-size: clamp(1.2rem, 2vw, 1.8rem);
   font-weight: 800;
 }
@@ -302,7 +302,7 @@ body:not(.is-watching) .stage {
   transform: translateY(-5px) scale(1.018);
 }
 
-.yt-tile-thumb,
+.channel-card-thumb,
 .wm-thumb {
   border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: 8px;
@@ -316,7 +316,7 @@ body:not(.is-watching) .stage {
 }
 
 .home-ch-card img,
-.yt-tile-thumb img,
+.channel-card-thumb img,
 .ch-logo-box--tile img {
   -webkit-user-select: none;
   user-select: none;
@@ -330,17 +330,17 @@ body:not(.is-watching) .stage {
 }
 
 .home-live-badge,
-.yt-tile-live {
+.channel-card-live {
   background: var(--red);
 }
 
 .home-ch-name,
-.yt-tile-title {
+.channel-card-title {
   font-weight: 800;
   letter-spacing: 0;
 }
 
-.yt-tile-meta {
+.channel-card-meta {
   color: var(--text2);
   font-weight: 700;
 }
@@ -499,7 +499,7 @@ body.guide-searching .floating-search {
 }
 
 .focusable:focus-visible,
-.yt-tile:focus-visible,
+.channel-card:focus-visible,
 .ch-item:focus-visible,
 .wm-card:focus-visible,
 .ctrl-btn:focus-visible,
@@ -513,7 +513,7 @@ body.guide-searching .floating-search {
 /* Mobile and TV optimization layer */
 @media (hover: none) and (pointer: coarse) {
 
-  .yt-nav-btn,
+  .app-nav-btn,
   .tv-brand,
   .carousel-nav-btn,
   .ctrl-btn,
@@ -544,7 +544,7 @@ body.guide-searching .floating-search {
       padding-inline: clamp(32px, 4vw, 76px);
     }
 
-    .yt-nav-btn,
+    .app-nav-btn,
     .tv-icon-btn {
       width: 58px;
       height: 58px;
@@ -577,7 +577,7 @@ body.guide-searching .floating-search {
       gap: 46px;
     }
 
-    .yt-row-title {
+    .section-title {
       font-size: clamp(1.7rem, 2.1vw, 2.35rem);
     }
 
@@ -588,16 +588,16 @@ body.guide-searching .floating-search {
     }
 
     .home-ch-name,
-    .yt-tile-title {
+    .channel-card-title {
       font-size: 1.08rem;
     }
 
-    .yt-tile-meta {
+    .channel-card-meta {
       font-size: 0.9rem;
     }
 
     .home-live-badge,
-    .yt-tile-live {
+    .channel-card-live {
       font-size: 0.78rem;
       padding: 5px 11px;
     }
@@ -621,7 +621,7 @@ body.guide-searching .floating-search {
   .remote-nav-active .ch-item:focus,
   .remote-nav-active .wm-card:focus,
   .remote-nav-active .carousel-nav-btn:focus,
-  .remote-nav-active .yt-nav-btn:focus,
+  .remote-nav-active .app-nav-btn:focus,
   .remote-nav-active .tv-brand:focus,
   .remote-nav-active .ctrl-btn:focus,
   .remote-nav-active .ctrl-live-btn:focus,
@@ -655,9 +655,9 @@ body.guide-searching .floating-search {
       0 0 0 6px rgba(53, 214, 164, 0.42);
   }
 
-  .remote-nav-active .home-ch-card:focus .yt-tile-thumb,
+  .remote-nav-active .home-ch-card:focus .channel-card-thumb,
   .remote-nav-active .wm-card:focus .wm-thumb,
-  .home-ch-card:focus-visible .yt-tile-thumb,
+  .home-ch-card:focus-visible .channel-card-thumb,
   .wm-card:focus-visible .wm-thumb {
     border-color: transparent;
     border-radius: 10px;
@@ -665,10 +665,10 @@ body.guide-searching .floating-search {
   }
 
   .remote-nav-active .home-ch-card:focus .home-ch-name,
-  .remote-nav-active .home-ch-card:focus .yt-tile-title,
+  .remote-nav-active .home-ch-card:focus .channel-card-title,
   .remote-nav-active .wm-card:focus .wm-name,
   .home-ch-card:focus-visible .home-ch-name,
-  .home-ch-card:focus-visible .yt-tile-title,
+  .home-ch-card:focus-visible .channel-card-title,
   .wm-card:focus-visible .wm-name {
     color: #080808;
     font-size: 1rem;
@@ -679,9 +679,9 @@ body.guide-searching .floating-search {
     text-overflow: clip;
   }
 
-  .remote-nav-active .home-ch-card:focus .yt-tile-meta,
+  .remote-nav-active .home-ch-card:focus .channel-card-meta,
   .remote-nav-active .wm-card:focus .wm-meta,
-  .home-ch-card:focus-visible .yt-tile-meta,
+  .home-ch-card:focus-visible .channel-card-meta,
   .wm-card:focus-visible .wm-meta {
     color: #4a4a4a;
   }
@@ -712,8 +712,8 @@ body.guide-searching .floating-search {
     background: var(--red);
   }
 
-  body.remote-nav-active .yt-guide.closed .guide-rail-btn:not(.guide-rail-menu):focus,
-  body.remote-nav-active .yt-guide:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus {
+  body.remote-nav-active .guide-shell.closed .guide-rail-btn:not(.guide-rail-menu):focus,
+  body.remote-nav-active .guide-shell:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus {
     background: #fff;
     color: #080808;
     outline: 0;
@@ -724,9 +724,9 @@ body.guide-searching .floating-search {
       0 0 0 5px rgba(53, 214, 164, 0.38);
   }
 
-  body.remote-nav-active .yt-guide:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus .guide-rail-label,
-  body.remote-nav-active .yt-guide:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus .guide-rail-count,
-  body.remote-nav-active .yt-guide:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus .guide-rail-arrow {
+  body.remote-nav-active .guide-shell:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus .guide-rail-label,
+  body.remote-nav-active .guide-shell:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus .guide-rail-count,
+  body.remote-nav-active .guide-shell:not(.closed) .guide-rail-btn:not(.guide-rail-menu):focus .guide-rail-arrow {
     color: #080808 !important;
     opacity: 1;
   }
@@ -745,7 +745,7 @@ body.guide-searching .floating-search {
     color: rgba(8, 8, 8, 0.72);
   }
 
-  body.remote-nav-active .guide-search-wrap:focus-within .yt-search-icon {
+  body.remote-nav-active .guide-search-wrap:focus-within .search-icon {
     color: #080808;
   }
 

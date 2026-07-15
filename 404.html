@@ -26,25 +26,25 @@
 </head>
 
 <body class="hide-offline-active">
-  <header class="yt-nav">
-    <div class="yt-nav-left">
-      <button class="yt-nav-btn" id="btn-sidebar" aria-label="Open live guide">
+  <header class="app-nav">
+    <div class="app-nav-left">
+      <button class="app-nav-btn" id="btn-sidebar" aria-label="Open live guide">
         <svg width="18" height="14" viewBox="0 0 18 14" fill="currentColor">
           <rect width="18" height="2" rx="1" />
           <rect y="6" width="18" height="2" rx="1" />
           <rect y="12" width="18" height="2" rx="1" />
         </svg>
       </button>
-      <button class="yt-brand" id="logo-home" aria-label="Home">
-        <img src="assets/iptv.png" alt="" class="yt-brand-icon" />
+      <button class="app-brand" id="logo-home" aria-label="Home">
+        <img src="assets/iptv.png" alt="" class="app-brand-icon" />
         <span class="logo-text">T9TV</span>
-        <!-- <span class="yt-tv-badge">TV</span> -->
+        <!-- <span class="app-tv-badge">TV</span> -->
       </button>
     </div>
 
-    <div class="yt-nav-center">
-      <div class="yt-search">
-        <svg class="yt-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+    <div class="app-nav-center">
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"
           stroke-width="1.5">
           <circle cx="7" cy="7" r="5" />
           <path d="M11 11l3 3" />
@@ -54,12 +54,12 @@
       </div>
     </div>
 
-    <div class="yt-nav-right">
-      <div class="yt-now-playing">
-        <span class="yt-live-dot"></span>
+    <div class="app-nav-right">
+      <div class="app-now-playing">
+        <span class="app-live-dot"></span>
         <span class="np-name"><strong id="np-name">Browse Live TV</strong></span>
       </div>
-      <button class="yt-nav-btn" id="btn-chat" aria-label="Toggle chat">
+      <button class="app-nav-btn" id="btn-chat" aria-label="Toggle chat">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" style="display: block">
           <path d="M16 1H2C0.9 1 0 1.9 0 3v10c0 1.1.9 2 2 2h2.5l2.5 2.5L9.5 15H16c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2z" />
         </svg>
@@ -68,9 +68,9 @@
   </header>
 
   <div class="app">
-    <aside class="yt-guide closed" id="sidebar">
-      <div class="yt-guide-head">
-        <h2 class="yt-guide-title">Channels</h2>
+    <aside class="guide-shell closed" id="sidebar">
+      <div class="guide-head">
+        <h2 class="guide-title">Channels</h2>
         <div class="guide-meta-wrap">
           <span class="channel-count" id="channel-count">—</span>
           <button class="toggle-offline-btn" id="btn-toggle-offline" title="Hide/Show Offline Channels">
@@ -95,29 +95,29 @@
       <div class="no-results" id="no-results">No channels found</div>
     </aside>
 
-    <div class="yt-backdrop" id="guide-backdrop"></div>
+    <div class="guide-backdrop" id="guide-backdrop"></div>
 
-    <div class="yt-main">
-      <div class="yt-player-shell">
+    <div class="app-main">
+      <div class="player-shell">
         <main class="stage">
           <video id="player" playsinline crossorigin="anonymous"></video>
           <iframe id="embed-player" class="hidden" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
 
-          <div class="yt-idle-screen" id="idle-screen">
-            <div class="yt-idle-icon">
+          <div class="player-idle-screen" id="idle-screen">
+            <div class="player-idle-icon">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                 <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2" opacity="0.2" />
                 <path d="M20 16l16 8-16 8V16z" fill="currentColor" opacity="0.5" />
               </svg>
             </div>
-            <p class="yt-idle-text">Select a channel to start watching</p>
+            <p class="player-idle-text">Select a channel to start watching</p>
           </div>
 
           <div class="state-overlay" id="overlay-loading">
-            <div class="yt-spinner-container">
-              <div class="yt-spinner"></div>
-              <div class="yt-spinner-text">Loading stream</div>
+            <div class="stream-spinner-container">
+              <div class="stream-spinner"></div>
+              <div class="stream-spinner-text">Loading stream</div>
             </div>
           </div>
 
@@ -228,11 +228,11 @@
         </main>
       </div>
 
-      <section class="yt-browse" id="stage-home"></section>
+      <section class="catalog-view" id="stage-home"></section>
       <section id="watch-more" class="watch-more"></section>
     </div>
 
-    <aside class="yt-chat closed" id="chat">
+    <aside class="chat-panel closed" id="chat">
       <div class="chat-header">
         <span class="chat-live-badge">LIVE CHAT</span>
         <button class="chat-close-btn" id="btn-close-chat" aria-label="Close chat">

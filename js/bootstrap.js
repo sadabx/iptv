@@ -447,7 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function isRemoteFocusableVisible(el) {
     if (el.disabled || el.tabIndex < 0) return false;
     if (el.closest("[hidden], .hidden")) return false;
-    if (el.closest(".yt-guide.closed") && !el.closest(".guide-rail")) return false;
+    if (el.closest(".guide-shell.closed") && !el.closest(".guide-rail")) return false;
     const style = getComputedStyle(el);
     if (style.visibility === "hidden" || style.display === "none") return false;
     if (el.offsetParent === null && style.position !== "fixed") return false;
@@ -542,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getHomeCategoryNameFromCard(card) {
     const section = card.closest(".home-section");
-    const title = section?.querySelector(".yt-row-title");
+    const title = section?.querySelector(".section-title");
     return title?.textContent.trim() || "";
   }
 
@@ -552,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll("#stage-home .home-section"),
     );
     const section = sections.find((item) => {
-      const title = item.querySelector(".yt-row-title");
+      const title = item.querySelector(".section-title");
       return title?.textContent.trim() === categoryName;
     });
 
@@ -592,7 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    const scrollArea = el.closest(".ch-scroll, .yt-browse");
+    const scrollArea = el.closest(".ch-scroll, .catalog-view");
     if (scrollArea && typeof scrollArea.scrollTo === "function") {
       const elRect = el.getBoundingClientRect();
       const scrollRect = scrollArea.getBoundingClientRect();
@@ -760,7 +760,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const axis = direction === "left" || direction === "right" ? "x" : "y";
     const crossAxis = axis === "x" ? "y" : "x";
     const currentGroup = current.closest(
-      ".carousel-track, .wm-grid, .ch-scroll, .yt-nav, .controls",
+      ".carousel-track, .wm-grid, .ch-scroll, .app-nav, .controls",
     );
 
     let best = null;
@@ -785,7 +785,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const overlap = getAxisOverlap(currentRect, rect, crossAxis);
       const crossDistance = getCenterDistance(currentRect, rect, crossAxis);
       const sameGroup = currentGroup && currentGroup === el.closest(
-        ".carousel-track, .wm-grid, .ch-scroll, .yt-nav, .controls",
+        ".carousel-track, .wm-grid, .ch-scroll, .app-nav, .controls",
       );
 
       const alignedPenalty = overlap > 0 ? 0 : crossDistance * 1.9;

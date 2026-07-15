@@ -359,7 +359,7 @@ function populateWatchMore(currentId) {
 
     html += `
       <div class="wm-category" data-cat="${cat.name}">
-        <div class="yt-row-title wm-cat-title">${cat.name}</div>
+        <div class="section-title wm-cat-title">${cat.name}</div>
         <div class="wm-grid">
           ${validChannels.map((ch) => {
       const isOffline = offlineList.includes(ch.id);
