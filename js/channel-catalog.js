@@ -109,7 +109,7 @@ const CHANNELS_DATA = {
         //   id: "sony-sports-2",
         //   name: "Sony Sports 2 HD",
         //   shortName: "SS2",
-        //   logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen2_SD_Logo_CLR.png",
+        //   logo: "assets/logos/sony-sports-2.png",
         //   streams: [
         //     {
         //       label: "EPGMaker",
@@ -121,7 +121,7 @@ const CHANNELS_DATA = {
           id: "sony-sports-5",
           name: "Sony Sports 5",
           shortName: "SS5",
-          logo: "https://www.sonypicturesnetworks.com/images/logos/SONY_SportsTen5_SD_Logo_CLR.png",
+          logo: "assets/logos/sony-sports-5.png",
           streams: [
             {
               label: "Direct",
@@ -133,7 +133,7 @@ const CHANNELS_DATA = {
         //   id: "sport-tv1",
         //   name: "Sport TV",
         //   shortName: "STV1",
-        //   logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Sport_TV1_%282023%29.svg",
+        //   logo: "assets/logos/sport-tv1.svg",
         //   streams: [
         //     {
         //       label: "StreamHost",
@@ -145,7 +145,7 @@ const CHANNELS_DATA = {
         //   id: "fox-5",
         //   name: "Fox 5",
         //   shortName: "Fox-5",
-        //   logo: "https://images.squarespace-cdn.com/content/v1/5d853c9bd277641ad03a954e/1602625218587-ELV3ORCIQOQ5ORCE0XAS/FOx5news.png",
+        //   logo: "assets/logos/fox-5.png",
         //   streams: [
         //     {
         //       label: "Direct",
@@ -189,7 +189,7 @@ const CHANNELS_DATA = {
           id: "thunder-er",
           name: "Thunder Er",
           shortName: "THUN",
-          logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770380791303.png",
+          logo: "assets/logos/thunder-er.png",
           streams: [
             {
               label: "gpcdn",
@@ -201,7 +201,7 @@ const CHANNELS_DATA = {
         //   id: "tnt-sports",
         //   name: "TNT Sports",
         //   shortName: "TNT",
-        //   logo: "https://abusaeeidx.github.io/Tv-Channel-Logo/CricHD/runded/tnt.png",
+        //   logo: "assets/logos/tnt-sports.png",
         //   themeColor: "#11222C",
         //   streams: [
         //     {
@@ -445,7 +445,7 @@ const CHANNELS_DATA = {
           id: "cnn-us",
           name: "CNN",
           shortName: "CNN ",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/b/b1/CNN.svg",
+          logo: "assets/logos/cnn-us.svg",
           streams: [
             {
               label: "WarnerMedia",
@@ -457,7 +457,7 @@ const CHANNELS_DATA = {
           id: "press-tv-iran",
           name: "Press TV Iran",
           shortName: "PRES",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Press_TV_logo.svg/1280px-Press_TV_logo.svg.png",
+          logo: "assets/logos/press-tv-iran.png",
           streams: [
             {
               label: "PressTV",
@@ -693,7 +693,7 @@ const CHANNELS_DATA = {
           id: "mohona-tv",
           name: "Mohona TV",
           shortName: "MOHO",
-          logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/94/Mohona_tv_Logo.svg/250px-Mohona_tv_Logo.svg.png",
+          logo: "assets/logos/mohona-tv.png",
           streams: [
             {
               label: "BozzTV",
@@ -709,7 +709,7 @@ const CHANNELS_DATA = {
           id: "movie-bangla",
           name: "Movie Bangla",
           shortName: "MBNGL",
-          logo: "https://moviebangla.tv/wp-content/uploads/2024/06/moviebanglatv-logo-2.png",
+          logo: "assets/logos/movie-bangla.jpg",
           streams: [
             {
               label: "AlveTV",
@@ -805,7 +805,7 @@ const CHANNELS_DATA = {
           id: "crimes",
           name: "Crimes",
           shortName: "CRIM",
-          logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770380126540.png",
+          logo: "assets/logos/crimes.png",
           streams: [
             {
               label: "gpcdn",
@@ -817,7 +817,7 @@ const CHANNELS_DATA = {
           id: "moviebox",
           name: "Moviebox",
           shortName: "MBBX",
-          logo: "https://w7.pngwing.com/pngs/686/422/png-transparent-black-clap-board-illustration-film-festival-world-cinema-box-office-movie-miscellaneous-television-angle-thumbnail.png",
+          logo: "assets/logos/moviebox.png",
           themeColor: "#EEEEEE",
           streams: [
             {
@@ -830,7 +830,7 @@ const CHANNELS_DATA = {
           id: "superrix-hd",
           name: "Superrix HD",
           shortName: "SPRX",
-          logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770348388925.png",
+          logo: "assets/logos/superrix-hd.png",
           streams: [
             {
               label: "gpcdn",
@@ -842,7 +842,7 @@ const CHANNELS_DATA = {
           id: "uniques-hd",
           name: "Uniques HD",
           shortName: "UNIQ",
-          logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770347327658.png",
+          logo: "assets/logos/uniques-hd.png",
           streams: [
             {
               label: "gpcdn",
@@ -875,7 +875,7 @@ const CHANNELS_DATA = {
           id: "b4u-kadak",
           name: "B4U Kadak",
           shortName: "B4U ",
-          logo: "https://jiotvimages.cdn.jio.com/dare_images/images/channel/63ca523d57c534aae4b50f9cd4d2a80c.png",
+          logo: "assets/logos/b4u-kadak.png",
           streams: [
             {
               label: "PiShow",
@@ -914,7 +914,7 @@ const CHANNELS_DATA = {
           name: "Hindi Movies",
           shortName: "HIND",
           themeColor: "#000000",
-          logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVljpzM91S8pNCK2WqHvoPOIbH80C0BJS6QQ&s",
+          logo: "assets/logos/hindi-movies.png",
           streams: [
             {
               label: "BozzTV",
@@ -926,7 +926,7 @@ const CHANNELS_DATA = {
           id: "joo-music",
           name: "Joo Music",
           shortName: "JOOM",
-          logo: "https://images.dwncdn.net/images/t_app-icon-l/p/2465677d-f07e-4f7e-90b0-74fb1d636456/2541171815/2141_4-78144111-imgingest-1692757708225709462.png",
+          logo: "assets/logos/joo-music.png",
           streams: [
             {
               label: "live247",
@@ -938,7 +938,7 @@ const CHANNELS_DATA = {
           id: "sheemaroo-bollywood",
           name: "Sheemaroo Bollywood",
           shortName: "SHEE",
-          logo: "https://jiotvimages.cdn.jio.com/dare_images/images/channel/2f66f13b85531977f2990c18ca414e83.png",
+          logo: "assets/logos/sheemaroo-bollywood.png",
           streams: [
             {
               label: "Amagi",
@@ -964,7 +964,7 @@ const CHANNELS_DATA = {
           id: "sony-max",
           name: "Sony Max",
           shortName: "MAX",
-          logo: "https://www.sonypicturesnetworks.com/images/logos/Sony_MAX.png",
+          logo: "assets/logos/sony-max.png",
           streams: [
             {
               label: "OTTPlus",
@@ -988,7 +988,7 @@ const CHANNELS_DATA = {
           id: "star-bharat",
           name: "Star Bharat",
           shortName: "SB",
-          logo: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Star_Bharat_Logo.png/250px-Star_Bharat_Logo.png",
+          logo: "assets/logos/star-bharat.png",
           streams: [
             {
               label: "Direct",
@@ -1121,7 +1121,7 @@ const CHANNELS_DATA = {
           id: "funny-junior",
           name: "Funny Junior",
           shortName: "FJ",
-          logo: "https://cdnhost.akashbd.net/assets/uploads/channels_images/1770007686-69716217.png",
+          logo: "assets/logos/funny-junior.png",
           streams: [
             {
               label: "gpcdn",
@@ -1169,7 +1169,7 @@ const CHANNELS_DATA = {
           id: "nicklodian-sonic",
           name: "Nicklodian SONIC",
           shortName: "SONIC",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Sonic-india-channel.png",
+          logo: "assets/logos/nicklodian-sonic.png",
           streams: [
             {
               label: "BozzTV",
@@ -1259,7 +1259,7 @@ const CHANNELS_DATA = {
           id: "tom-jerry",
           name: "Tom & Jerry",
           shortName: "T&J ",
-          logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Tom_and_Jerry_logo.svg/1280px-Tom_and_Jerry_logo.svg.png",
+          logo: "assets/logos/tom-jerry.png",
           streams: [
             {
               label: "BozzTV",
@@ -1320,7 +1320,7 @@ const CHANNELS_DATA = {
           id: "luxel-tv",
           name: "Luxell",
           shortName: "LUXE",
-          logo: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1770378560772.png",
+          logo: "assets/logos/luxel-tv.png",
           streams: [
             {
               label: "gpcdn",
@@ -1332,7 +1332,7 @@ const CHANNELS_DATA = {
           id: "motor-vision",
           name: "Motor Vision",
           shortName: "MOTO",
-          logo: "https://motorvision.tv/wp-content/uploads/2023/09/MV_Logo_positive_light_background-2.png",
+          logo: "assets/logos/motor-vision.png",
           streams: [
             {
               label: "OtterVision",
@@ -1356,7 +1356,7 @@ const CHANNELS_DATA = {
           id: "real-wild",
           name: "REAL WILD",
           shortName: "REAL",
-          logo: " ",
+          logo: "assets/logos/wild-tv.png",
           streams: [
             {
               label: "Amagi",
@@ -1461,7 +1461,7 @@ const CHANNELS_DATA = {
           id: "ilm-tv",
           name: "Ilm TV",
           shortName: "ILM",
-          logo: "https://yt3.googleusercontent.com/cCETTs55ld8DoOwZ2i4nJI-Z25DOvLIUrdkejbSuvn7JRoWiLCkEPOteoz1ZeXWyAzZzm4OG6g=s900-c-k-c0x00ffffff-no-rj",
+          logo: "assets/logos/ilm-tv.png",
           streams: [
             {
               label: "tplay",
@@ -1509,7 +1509,7 @@ const CHANNELS_DATA = {
           id: "quran-tv",
           name: "Quran TV",
           shortName: "Q24",
-          logo: "https://qurantv.in/wp-content/uploads/2023/11/logo-quran.png",
+          logo: "assets/logos/quran-tv.png",
           themeColor: "#f3e779ee",
           streams: [
             {

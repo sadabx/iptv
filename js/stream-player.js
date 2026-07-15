@@ -389,7 +389,10 @@ function populateWatchMore(currentId) {
   }
 
   $wm.querySelectorAll(".wm-card").forEach((card) => {
-    const openChannel = () => loadChannel(card.dataset.id);
+    const openChannel = () => {
+      if (typeof clearSearchState === "function") clearSearchState();
+      loadChannel(card.dataset.id);
+    };
     card.addEventListener("click", openChannel);
     card.addEventListener("keydown", (event) => {
       if (event.key !== "Enter" && event.key !== " ") return;
@@ -398,11 +401,7 @@ function populateWatchMore(currentId) {
     });
   });
 
-  if (typeof $search !== "undefined" && $search && $search.value) {
-    if (typeof onSearch === "function") {
-      onSearch({ target: $search });
-    }
-  }
+  if (typeof resetHomeCatalogFilters === "function") resetHomeCatalogFilters();
 }
 
 function buildServerMenu(ch) {

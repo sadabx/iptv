@@ -249,9 +249,19 @@ function setGuideTitle(title, showBack) {
   if (backBtn) backBtn.classList.toggle("hidden", !showBack);
 }
 
+function setRailActiveCategory(categoryName) {
+  document.querySelectorAll(".guide-rail-category-btn").forEach((button) => {
+    const isActive = Boolean(categoryName) && button.dataset.cat === categoryName;
+    button.classList.toggle("is-active", isActive);
+    if (isActive) button.setAttribute("aria-current", "true");
+    else button.removeAttribute("aria-current");
+  });
+}
+
 function showGuideCategories() {
   guideMode = "categories";
   activeGuideCategory = null;
+  setRailActiveCategory(null);
   document.body.classList.remove("guide-searching", "guide-category-open");
   document.body.classList.add("guide-categories-open");
   setGuideTitle("Categories", false);
@@ -266,6 +276,7 @@ function showGuideCategory(categoryName) {
   guideMode = "category";
   activeGuideCategory = categoryName;
   guideSearchReturnCategory = categoryName;
+  setRailActiveCategory(categoryName);
   document.body.classList.remove("guide-searching", "guide-categories-open");
   document.body.classList.add("guide-category-open");
   setGuideTitle(categoryName, true);
@@ -492,6 +503,7 @@ function buildLiveMatchSection(liveSports) {
         return;
       }
 
+      clearSearchState();
       window.clickedCard = card;
       loadChannel(card.dataset.id);
     };
@@ -749,6 +761,7 @@ function initHomePage() {
       `;
 
       const openChannel = () => {
+        clearSearchState();
         loadChannel(ch.id);
       };
       card.addEventListener("click", openChannel);
@@ -815,6 +828,7 @@ function initHomePage() {
 
 function showHomePage() {
   activeId = null;
+  resetHomeCatalogFilters();
 
   // Clean URL routing: reset path to root when going home
   if (window.location.pathname !== "/") {
@@ -893,7 +907,10 @@ function buildChItem(ch) {
       <div class="ch-name">${ch.name}</div>
     </div>`;
 
-  const openChannel = () => loadChannel(ch.id);
+  const openChannel = () => {
+    clearSearchState();
+    loadChannel(ch.id);
+  };
   el.addEventListener("click", openChannel);
   el.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" && event.key !== " ") return;
@@ -915,6 +932,29 @@ function filterCards(selector, q, hideOffline) {
     if (match) anyVisible = true;
   });
   return anyVisible;
+}
+
+function resetHomeCatalogFilters() {
+  document.querySelectorAll(".home-ch-card, .wm-card").forEach((card) => {
+    card.style.display = "";
+  });
+  document.querySelectorAll(".home-section").forEach((section) => {
+    section.style.display = "";
+  });
+  const homeNoResults = document.getElementById("home-no-results");
+  if (homeNoResults) homeNoResults.style.display = "none";
+  const wmTitle = document.querySelector(".wm-title");
+  if (wmTitle) wmTitle.style.display = "";
+}
+
+function clearSearchState() {
+  if ($search) {
+    $search.value = "";
+    document.getElementById("search-clear")?.classList.add("hidden");
+  }
+  renderFloatingSearchResults("");
+  document.body.classList.remove("guide-searching");
+  resetHomeCatalogFilters();
 }
 
 function renderFloatingSearchResults(q) {
@@ -957,7 +997,7 @@ function renderFloatingSearchResults(q) {
 
   resultsEl.querySelectorAll(".floating-search-result").forEach((button) => {
     button.addEventListener("click", () => {
-      closeFloatingSearch(true);
+      clearSearchState();
       loadChannel(button.dataset.id);
     });
   });
@@ -965,10 +1005,8 @@ function renderFloatingSearchResults(q) {
 
 function closeFloatingSearch(clearValue = false) {
   document.body.classList.remove("guide-searching");
-  if (clearValue && $search) {
-    $search.value = "";
-    document.getElementById("search-clear")?.classList.add("hidden");
-    renderFloatingSearchResults("");
+  if (clearValue) {
+    clearSearchState();
   }
   if (guideMode === "search") {
     if (activeGuideCategory) showGuideCategory(activeGuideCategory);

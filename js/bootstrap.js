@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $ctrlChat?.classList.toggle("on", isOpen);
     document.body.classList.toggle("chat-open", isOpen);
     if (isOpen) setGuideOpen(false);
-    setMobileTabActive(isOpen ? "chat" : document.body.classList.contains("is-watching") ? "channels" : "home");
+    setMobileTabActive(document.body.classList.contains("is-watching") ? "channels" : "home");
   }
 
   // Chat is hidden by default — mark button as "closed"
@@ -135,6 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setGuideOpen = function (open) {
     $sidebar.classList.toggle("closed", !open);
     $btnSB.classList.toggle("on", open);
+    $btnSB.setAttribute("aria-expanded", String(open));
+    $btnSB.setAttribute("aria-label", open ? "Close channels" : "Open channels");
     if ($backdrop) $backdrop.classList.toggle("show", open);
     if (open && typeof showGuideCategories === "function" && !$search.value) {
       showGuideCategories();

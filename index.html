@@ -72,8 +72,10 @@
   <link rel="stylesheet" href="css/player.css?v=1.3" />
   <link rel="stylesheet" href="css/guide.css?v=2.7" />
   <link rel="stylesheet" href="css/catalog.css?v=2.5" />
+  <link rel="stylesheet" href="css/footer.css?v=1.0" />
   <link rel="stylesheet" href="css/chat.css" />
   <link rel="stylesheet" href="css/theme.css?v=2.8" />
+  <link rel="stylesheet" href="css/live-carousel.css?v=1.0" />
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js" defer></script>
 </head>
@@ -107,17 +109,22 @@
     <aside class="yt-guide closed tv-guide" id="sidebar">
       <nav class="guide-rail" id="guide-rail" aria-label="Main navigation">
         <button class="guide-rail-btn guide-rail-menu focusable" id="btn-sidebar" type="button"
-          aria-label="Open channels">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-            stroke-linecap="round" aria-hidden="true">
+          aria-label="Open channels" aria-expanded="false">
+          <svg class="guide-menu-icon guide-menu-icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
             <path d="M4 7h16"></path>
             <path d="M4 12h16"></path>
             <path d="M4 17h16"></path>
           </svg>
+          <svg class="guide-menu-icon guide-menu-icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12"></path>
+            <path d="M18 6L6 18"></path>
+          </svg>
         </button>
         <div class="guide-rail-brand" aria-hidden="true">
           <img src="assets/t9.png" alt="">
-          <span>T9<span>TV</span></span>
+          <span>TRIONINE <span>TV</span></span>
         </div>
         <button class="guide-rail-btn focusable" type="button" data-rail-home aria-label="Home">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
@@ -268,6 +275,14 @@
             <div class="ctx-item ctx-disabled">T9TV</div>
           </div>
 
+          <button class="ctrl-btn player-chat-toggle focusable" id="ctrl-chat" title="Live Chat"
+            aria-label="Toggle chat">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+            </svg>
+          </button>
+
           <div class="ctrl-bar">
             <button class="ctrl-btn" id="ctrl-play" title="Play / Pause"></button>
             <button class="ctrl-live-btn" id="ctrl-live" title="Jump to live"><span
@@ -319,12 +334,6 @@
               </div>
             </div>
             <button class="ctrl-btn hidden" id="ctrl-cc" title="Subtitles/Closed Captions"></button>
-            <button class="ctrl-btn" id="ctrl-chat" title="Live Chat" aria-label="Toggle chat">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
-              </svg>
-            </button>
             <button class="ctrl-btn" id="ctrl-pip" title="Picture-in-Picture"></button>
             <button class="ctrl-btn" id="ctrl-fs" title="Fullscreen"></button>
           </div>
