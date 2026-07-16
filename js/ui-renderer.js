@@ -659,7 +659,7 @@ function enableDragScroll(track) {
 
 function createCarouselControls(section, track) {
   // Carousel arrow buttons are disabled; rows now use direct drag-scroll.
-  return () => {};
+  return () => { };
 
   const controls = document.createElement("div");
   controls.className = "carousel-controls";
@@ -792,7 +792,7 @@ function initHomePage() {
 
   const footer = document.createElement("footer");
   footer.className = "site-footer";
-	  footer.innerHTML = `
+  footer.innerHTML = `
 	    <div class="footer-inner">
 	      <div class="footer-brand">
 	        <div class="footer-logo">
@@ -807,9 +807,9 @@ function initHomePage() {
 	        </div>
 	      </div>
 	      <div class="footer-links">
-	        <div class="footer-col-label">Browse</div>
-	        <a href="/">Home</a>
+	        <div class="footer-col-label">Quick Links</div>
 	        <a href="/link-auditor" target="_blank">Link Auditor</a>
+          <a href="https://github.com/sadabx/TNTV/releases/download/v1.0.1/trionine-tv-v1.0.1.apk" target="_blank" rel="noopener" >Get Android TV APK ↗</a>
 	        <a href="https://github.com/sadabx/iptv" target="_blank" rel="noopener">Contribute on GitHub ↗</a>
 	      </div>
 	      <div class="footer-meta">
