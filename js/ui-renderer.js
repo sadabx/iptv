@@ -809,7 +809,7 @@ function initHomePage() {
 	      <div class="footer-links">
 	        <div class="footer-col-label">Quick Links</div>
 	        <a href="/link-auditor" target="_blank">Link Auditor</a>
-          <a href="https://github.com/sadabx/TNTV/releases/download/v1.0.1/trionine-tv-v1.0.1.apk" target="_blank" rel="noopener" >Get Android TV APK ↗</a>
+          <a id="apk-download-link" href="https://github.com/sadabx/TNTV/releases/latest" target="_blank" rel="noopener">Get Android TV APK ↗</a>
 	        <a href="https://github.com/sadabx/iptv" target="_blank" rel="noopener">Contribute on GitHub ↗</a>
 	      </div>
 	      <div class="footer-meta">
@@ -822,6 +822,20 @@ function initHomePage() {
 	    </div>
   `;
   $stageHome.appendChild(footer);
+
+  // Dynamically fetch the latest Android TV APK release link
+  const apkLink = footer.querySelector("#apk-download-link");
+  if (apkLink) {
+    fetch("https://api.github.com/repos/sadabx/TNTV/releases/latest")
+      .then(res => res.json())
+      .then(data => {
+        const apkAsset = data.assets?.find(a => a.name.endsWith(".apk"));
+        if (apkAsset) {
+          apkLink.href = apkAsset.browser_download_url;
+        }
+      })
+      .catch(err => console.warn("Failed to fetch latest APK URL", err));
+  }
 
   loadLiveMatches($stageHome);
 }
