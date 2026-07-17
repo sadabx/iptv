@@ -24,8 +24,6 @@ IPTV Website optimised for android tv, smart tv, mobile and web browser
 │   ├── live-chat.js        # Firebase live chat behavior
 │   ├── bootstrap.js        # App bootstrap, event wiring, routing
 │   └── live-carousel.js    # Live match carousel behavior
-├── data/
-│   └── channels.json       # Stable JSON feed for the TNTV Android app
 ├── assets/                 # Icons and channel logos
 ├── cf-workers/             # Cloudflare Worker proxy scripts
 └── link-auditor/           # Stream/link audit utility
@@ -59,7 +57,7 @@ You can easily integrate this player into your own website:
 
 Current active catalog: 94 channels across 9 categories.
 
-The website runtime uses `js/channel-catalog.js` for speed and easy commenting while editing. `data/channels.json` is a published mirror feed for the TNTV Android app, intended to be served from `https://iptv.trionine.com/data/channels.json` so the app is not tied to a GitHub repository name or visibility.
+The website runtime uses `js/channel-catalog.js` for speed and easy commenting while editing. The TNTV Android app keeps its hosted JSON feeds in the TNTV repository.
 
 | Channel Name | Stream URL |
 | --- | --- |
