@@ -21,10 +21,10 @@ const CHANNELS_DATA = {
               label: "StreamHost",
               url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
             },
-            {
+            /* {
               label: "BeIN-IR",
               url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8",
-            },
+            }, */
           ],
         },
         {
@@ -52,23 +52,11 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "fifa-wc-2026",
-          name: "FIFA World Cup 2026",
+          id: "fifa-plus",
+          name: "FIFA+",
           shortName: "FIFA",
-          logo: "assets/logos/fifa-wc-2026.svg",
+          logo: "assets/logos/fifaplus.png",
           streams: [
-            {
-              label: "StreamHost",
-              url: "https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8",
-            },
-            {
-              label: "FawaTV",
-              url: "https://fawatv.online/live/F2E62CEFFF6C6F88C237BD9DF4957C35/667.m3u8",
-            },
-            {
-              label: "BeIN-IR",
-              url: "https://edge22.776740.ir.cdn.ir/hls2/sport.m3u8 ",
-            },
             {
               label: "FIFA+",
               url: "https://a62dad94.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0ZJRkFQbHVzRW5nbGlzaF9ITFM/playlist.m3u8",
@@ -638,7 +626,7 @@ const CHANNELS_DATA = {
             },
           ],
         },
-        {
+        /* {
           id: "moviebox",
           name: "Moviebox",
           shortName: "MBBX",
@@ -650,7 +638,7 @@ const CHANNELS_DATA = {
               url: "https://cdn1.skygo.mn/live/disk1/Moviebox/HLS-FTA/Moviebox.m3u8",
             },
           ],
-        },
+        },*/
         {
           id: "superrix-hd",
           name: "Superrix HD",
