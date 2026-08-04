@@ -261,7 +261,7 @@ const CHANNELS_DATA = {
           streams: [
             {
               label: "YouTube",
-              url: "https://www.youtube.com/live/PRvnQNOaTFg?si=eso9StsMEEnoIZ2K",
+              url: "https://www.youtube.com/live/fY9eJwH_qeg?si=8Ys6hVDGSObwQKuw",
             },
           ],
         },
@@ -453,7 +453,7 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "bijoy-tv",
+          id: "bijoy-tv", //have some issues
           name: "Bijoy TV",
           shortName: "BIJOY",
           logo: "assets/logos/bijoy-tv.png",
@@ -521,7 +521,7 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "ekushey-tv",
+          id: "ekushey-tv", //have some issues
           name: "Ekushey TV",
           shortName: "ETV",
           logo: "assets/logos/ekushey-tv.png",
@@ -606,6 +606,19 @@ const CHANNELS_DATA = {
             {
               label: "AynaOTT",
               url: "https://tvsen6.aynaott.com/satv/index.m3u8",
+            },
+          ],
+        },
+        {
+          id: "srk-tv",
+          name: "SRK TV",
+          shortName: "SRK",
+          logo: "assets/logos/srk-tv.png",
+          themeColor: "#0134FE",
+          streams: [
+            {
+              label: "ncare",
+              url: "https://srknowapp.ncare.live/srktvhlswodrm/srktv.stream/playlist.m3u8",
             },
           ],
         },
@@ -697,7 +710,7 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "colors-bangla",
+          id: "colors-bangla", //have some issues
           name: "Colors Bangla",
           shortName: "COLORS",
           logo: "assets/logos/colors-bangla-hd.png",
@@ -809,18 +822,6 @@ const CHANNELS_DATA = {
             {
               label: "AynaOTT",
               url: "https://tvsen3.aynaott.com/n64PH4YL/tracks-v1a1/mono.ts.m3u8",
-            },
-          ],
-        },
-        {
-          id: "zee-24-ghanta",
-          name: "Zee 24 Ghanta",
-          shortName: "ZEE24",
-          logo: "assets/logos/zee-24-ghanta.png",
-          streams: [
-            {
-              label: "CloudFront",
-              url: "https://d2dsoyvkr33m05.cloudfront.net/index_1.m3u8",
             },
           ],
         },
@@ -1043,19 +1044,6 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "srk-tv",
-          name: "SRK TV",
-          shortName: "SRK",
-          logo: "assets/logos/srk-tv.png",
-          themeColor: "#0134FE",
-          streams: [
-            {
-              label: "ncare",
-              url: "https://srknowapp.ncare.live/srktvhlswodrm/srktv.stream/playlist.m3u8",
-            },
-          ],
-        },
-        {
           id: "tom-jerry",
           name: "Tom & Jerry",
           shortName: "T&J ",
@@ -1141,8 +1129,8 @@ const CHANNELS_DATA = {
           ],
         },
         {
-          id: "nat-geo-hd",
-          name: "Nat Geo HD",
+          id: "nat-geo",
+          name: "Nat Geo",
           shortName: "NATG",
           logo: "assets/logos/nat-geo-hd.svg",
           streams: [
