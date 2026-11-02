@@ -353,9 +353,11 @@ function populateWatchMore(currentId) {
   const relatedOnlyPref = localStorage.getItem("iptv-wm-related-only");
   const isRelatedOnly = relatedOnlyPref === null ? true : relatedOnlyPref === "true";
   const offlineList = getOfflineChannels();
+  const catalog = window.CHANNELS_DATA || (typeof CHANNELS_DATA !== "undefined" ? CHANNELS_DATA : null);
+  if (!catalog || !catalog.categories) return;
 
   let currentCategoryName = null;
-  CHANNELS_DATA.categories.forEach((cat) => {
+  catalog.categories.forEach((cat) => {
     if (cat.channels.some((c) => c.id === currentId)) {
       currentCategoryName = cat.name;
     }
@@ -368,7 +370,7 @@ function populateWatchMore(currentId) {
     </div>
   `;
 
-  CHANNELS_DATA.categories.forEach((cat) => {
+  catalog.categories.forEach((cat) => {
     if (isRelatedOnly && currentCategoryName && cat.name !== currentCategoryName) {
       return;
     }

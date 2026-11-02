@@ -30,7 +30,8 @@ let $video,
   $btnSB,
   setGuideOpen;
 
-let channels = [];
+var channels = [];
+window.channels = channels;
 let guideMode = "categories";
 let activeGuideCategory = null;
 let guideSearchReturnCategory = null;
@@ -69,28 +70,40 @@ function isLiveMatchDemoEnabled() {
   return new URLSearchParams(window.location.search).get(LIVE_MATCH_DEMO_PARAM) === "1";
 }
 
+function getCatalogData() {
+  return window.CHANNELS_DATA || (typeof CHANNELS_DATA !== "undefined" ? CHANNELS_DATA : null);
+}
+
 function initChannels() {
-  if (typeof CHANNELS_DATA === "undefined") {
-    $chList.innerHTML =
-      '<div style="padding:16px;font-size:.78rem;color:var(--text3)">channel-catalog.js not found</div>';
+  const catalog = getCatalogData();
+  $chList = $chList || document.getElementById("ch-list");
+  if (!catalog || !catalog.categories) {
+    if ($chList) {
+      $chList.innerHTML =
+        '<div style="padding:16px;font-size:.78rem;color:var(--text3)">No channels available</div>';
+    }
     return;
   }
+  if (!$chList) return;
+
   channels = [];
   $chList.innerHTML = "";
 
-  CHANNELS_DATA.categories.forEach((cat) => {
+  const frag = document.createDocumentFragment();
+  catalog.categories.forEach((cat) => {
     const lbl = document.createElement("div");
     lbl.className = "cat-label";
     lbl.dataset.cat = cat.name;
-    lbl.innerHTML = cat.name;
-    $chList.appendChild(lbl);
+    lbl.innerHTML = escapeHTML(cat.name);
+    frag.appendChild(lbl);
 
     cat.channels.forEach((ch) => {
       ch.category = cat.name;
       channels.push(ch);
-      $chList.appendChild(buildChItem(ch));
+      frag.appendChild(buildChItem(ch));
     });
   });
+  $chList.appendChild(frag);
 
   // Add virtual channel for dynamic live sports matches so routing and lookups don't fail
   channels.push({
@@ -201,20 +214,29 @@ function buildGuideRailButton(cat) {
 }
 
 function buildGuideCategoryNavigation() {
+  const catalog = getCatalogData();
   const categoryList = document.getElementById("guide-category-list");
   const railCategories = document.getElementById("guide-rail-categories");
   const mobileBrowseGrid = document.getElementById("mobile-browse-grid");
-  if (!categoryList || !railCategories || typeof CHANNELS_DATA === "undefined") return;
+  if (!categoryList || !railCategories || !catalog || !catalog.categories) return;
 
   categoryList.innerHTML = "";
   railCategories.innerHTML = "";
   if (mobileBrowseGrid) mobileBrowseGrid.innerHTML = "";
 
-  CHANNELS_DATA.categories.forEach((cat) => {
-    categoryList.appendChild(buildGuideCategoryButton(cat));
-    railCategories.appendChild(buildGuideRailButton(cat));
-    if (mobileBrowseGrid) mobileBrowseGrid.appendChild(buildMobileBrowseButton(cat));
+  const fragCat = document.createDocumentFragment();
+  const fragRail = document.createDocumentFragment();
+  const fragMob = mobileBrowseGrid ? document.createDocumentFragment() : null;
+
+  catalog.categories.forEach((cat) => {
+    fragCat.appendChild(buildGuideCategoryButton(cat));
+    fragRail.appendChild(buildGuideRailButton(cat));
+    if (fragMob) fragMob.appendChild(buildMobileBrowseButton(cat));
   });
+
+  categoryList.appendChild(fragCat);
+  railCategories.appendChild(fragRail);
+  if (mobileBrowseGrid && fragMob) mobileBrowseGrid.appendChild(fragMob);
 }
 
 function setMobileBrowseSheetOpen(open) {
@@ -311,26 +333,27 @@ function showGuideSearchResults() {
 }
 
 function buildChannelLogo(ch, variant = "guide") {
-  const initials = ch.shortName.slice(0, 3);
+  const sName = (ch && (ch.shortName || ch.name)) || "TV";
+  const initials = escapeHTML(sName.slice(0, 3));
   const boxClass =
     variant === "tile"
       ? "ch-logo-box ch-logo-box--tile"
       : "ch-logo-box ch-logo-box--guide";
-  const fallbackOnly = !ch.logo;
+  const fallbackOnly = !ch || !ch.logo;
 
   // Normalize to root-relative path so logos resolve correctly even when the
   // active URL is a deep route like /sports/channel-id (relative paths would
   // otherwise resolve to /sports/assets/logos/... which is a 404).
-  const logoSrc = ch.logo
+  const logoSrc = ch && ch.logo
     ? ch.logo.startsWith("http") || ch.logo.startsWith("/")
       ? ch.logo
       : "/" + ch.logo
     : "";
 
   return `
-    <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}"${ch.themeColor ? ` style="background: ${ch.themeColor};"` : ""}>
+    <div class="${boxClass}${fallbackOnly ? " logo-failed" : ""}"${ch && ch.themeColor ? ` style="background: ${ch.themeColor};"` : ""}>
       ${logoSrc
-      ? `<img class="ch-logo-img" src="${logoSrc}" alt="${ch.shortName}" referrerpolicy="no-referrer" loading="lazy" decoding="async" draggable="false" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
+      ? `<img class="ch-logo-img" src="${escapeHTML(logoSrc)}" alt="${escapeHTML(sName)}" referrerpolicy="no-referrer" loading="lazy" decoding="async" draggable="false" onerror="this.closest('.ch-logo-box').classList.add('logo-failed')">`
       : ""
     }
       <span class="ch-initials ch-logo-fallback">${initials}</span>
@@ -721,14 +744,16 @@ function createCarouselControls(section, track) {
 }
 
 function initHomePage() {
-  if (typeof CHANNELS_DATA === "undefined") return;
+  const catalog = getCatalogData();
+  if (!catalog || !catalog.categories) return;
   const $stageHome = document.getElementById("stage-home");
   if (!$stageHome) return;
 
   $stageHome.innerHTML = "";
   const offlineList = getOfflineChannels();
 
-  CHANNELS_DATA.categories.forEach((cat) => {
+  const frag = document.createDocumentFragment();
+  catalog.categories.forEach((cat) => {
     const section = document.createElement("div");
     section.className = "home-section";
     section.id = categoryTargetId(cat.name);
@@ -750,14 +775,14 @@ function initHomePage() {
         "channel-card home-ch-card" + (isOffline ? " is-offline" : "");
       card.tabIndex = 0;
       card.dataset.id = ch.id;
-      card.dataset.search = ch.name.toLowerCase();
+      card.dataset.search = (ch.name || "").toLowerCase();
 
       card.innerHTML = `
         <div class="channel-card-thumb">
           ${buildChannelLogo(ch, "tile")}
           <span class="channel-card-live home-live-badge">LIVE</span>
         </div>
-        <p class="channel-card-title home-ch-name">${ch.name}</p>
+        <p class="channel-card-title home-ch-name">${escapeHTML(ch.name || "")}</p>
       `;
 
       const openChannel = () => {
@@ -776,9 +801,10 @@ function initHomePage() {
 
     section.appendChild(carousel);
     createCarouselControls(section, carousel);
-    $stageHome.appendChild(section);
+    frag.appendChild(section);
     updateCategorySectionVisibility(section);
   });
+  $stageHome.appendChild(frag);
 
   const noHomeResults = document.createElement("div");
   noHomeResults.id = "home-no-results";
@@ -1077,6 +1103,8 @@ function hideErr() {
 }
 
 function toast(msg, ms = 2200) {
+  $toasts = $toasts || document.getElementById("toasts");
+  if (!$toasts) return;
   const t = document.createElement("div");
   t.className = "toast";
   t.textContent = msg;
@@ -1226,11 +1254,12 @@ async function checkChannelStatus(ch) {
 }
 
 async function startAutomaticStatusCheck() {
-  if (typeof CHANNELS_DATA === "undefined" || !navigator.onLine) return;
+  const catalog = getCatalogData();
+  if (!catalog || !catalog.categories || !navigator.onLine) return;
   await new Promise((r) => setTimeout(r, 5000));
 
   const allChannels = [];
-  CHANNELS_DATA.categories.forEach((cat) =>
+  catalog.categories.forEach((cat) =>
     cat.channels.forEach((ch) => allChannels.push(ch)),
   );
 

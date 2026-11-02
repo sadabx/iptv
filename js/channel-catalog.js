@@ -3,7 +3,7 @@
    Default 24/7 channels tested and active
    ========================================== */
 
-let CHANNELS_DATA = {
+var CHANNELS_DATA = {
   "categories": [
     {
       "name": "Sports",

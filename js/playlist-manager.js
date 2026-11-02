@@ -5,6 +5,24 @@
 const STORAGE_KEY_CUSTOM_PLAYLIST = "t9_custom_playlist";
 const STORAGE_KEY_PLAYLIST_META = "t9_playlist_meta";
 
+// Immediately preload saved custom playlist into window.CHANNELS_DATA before page renders
+(function preloadCustomPlaylist() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY_CUSTOM_PLAYLIST);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.categories && parsed.categories.length > 0) {
+        window.CHANNELS_DATA = parsed;
+        if (typeof CHANNELS_DATA !== "undefined") {
+          CHANNELS_DATA = parsed;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[Playlist] Failed to preload custom playlist:", err);
+  }
+})();
+
 const PUBLIC_PRESETS = [
   {
     id: "eng",
@@ -69,7 +87,8 @@ function parseM3UContent(text, playlistName = "Custom Playlist") {
       const title = titleMatch ? titleMatch[1].trim() : `Channel ${totalChannels + 1}`;
 
       const groupMatch = info.match(/group-title="([^"]*)"/i);
-      const category = (groupMatch && groupMatch[1].trim()) || "General";
+      let category = (groupMatch && groupMatch[1].trim()) || "General";
+      if (!category || category.toLowerCase() === "undefined") category = "General";
 
       const logoMatch = info.match(/tvg-logo="([^"]*)"/i);
       const logo = (logoMatch && logoMatch[1].trim()) || "";
@@ -78,10 +97,12 @@ function parseM3UContent(text, playlistName = "Custom Playlist") {
       const rawId = (idMatch && idMatch[1].trim()) || title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       const cleanId = rawId.replace(/[^a-zA-Z0-9_-]/g, "") || `ch-${totalChannels + 1}`;
 
+      const cleanShortName = (title.replace(/[^a-zA-Z0-9]/g, "") || "TV").substring(0, 4).toUpperCase();
+
       currentMeta = {
         id: cleanId,
         name: title,
-        shortName: title.substring(0, 4).toUpperCase(),
+        shortName: cleanShortName,
         logo: logo,
         category: category
       };
@@ -101,6 +122,7 @@ function parseM3UContent(text, playlistName = "Custom Playlist") {
           shortName: currentMeta.shortName,
           logo: currentMeta.logo,
           stream: streamUrl,
+          streams: [{ label: "Direct", url: streamUrl }],
           category: cat
         });
       }
@@ -110,13 +132,34 @@ function parseM3UContent(text, playlistName = "Custom Playlist") {
 
   if (totalChannels === 0) return null;
 
-  const categories = [];
+  // Group tiny categories if there are more than 25 categories to keep UI clean and fast
+  let categories = [];
+  const otherChannels = [];
   categoriesMap.forEach((channelList, catName) => {
-    categories.push({
-      name: catName,
-      channels: channelList
-    });
+    if (categoriesMap.size > 20 && channelList.length < 3 && catName !== "General") {
+      channelList.forEach(ch => {
+        ch.category = "General / Other";
+        otherChannels.push(ch);
+      });
+    } else {
+      categories.push({
+        name: catName,
+        channels: channelList
+      });
+    }
   });
+
+  if (otherChannels.length > 0) {
+    const genCat = categories.find(c => c.name.startsWith("General"));
+    if (genCat) {
+      genCat.channels.push(...otherChannels);
+    } else {
+      categories.push({ name: "General / Other", channels: otherChannels });
+    }
+  }
+
+  // Sort categories by number of channels (most populated first)
+  categories.sort((a, b) => b.channels.length - a.channels.length);
 
   return {
     name: playlistName,
@@ -130,6 +173,9 @@ function applyPlaylistData(catalogData, metaInfo) {
   if (!catalogData || !catalogData.categories || catalogData.categories.length === 0) return false;
 
   window.CHANNELS_DATA = catalogData;
+  if (typeof CHANNELS_DATA !== "undefined") {
+    CHANNELS_DATA = catalogData;
+  }
 
   // Persist if custom
   if (metaInfo && metaInfo.isCustom) {
@@ -156,28 +202,11 @@ function applyPlaylistData(catalogData, metaInfo) {
   return true;
 }
 
-// ── Restore Custom Playlist on Page Load
-function checkSavedCustomPlaylist() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY_CUSTOM_PLAYLIST);
-    const meta = localStorage.getItem(STORAGE_KEY_PLAYLIST_META);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      const parsedMeta = meta ? JSON.parse(meta) : { isCustom: true, name: "Custom Playlist" };
-      applyPlaylistData(parsed, parsedMeta);
-      console.log(`[Playlist] Loaded custom playlist: ${parsedMeta.name} (${parsedMeta.count || "?"} channels)`);
-      return true;
-    }
-  } catch (err) {
-    console.error("[Playlist] Failed to restore custom playlist:", err);
-  }
-  return false;
-}
-
 // ── Reset to Default Channels
 function resetToDefaultPlaylist() {
-  if (window.DEFAULT_CHANNELS_DATA) {
-    applyPlaylistData(window.DEFAULT_CHANNELS_DATA, { isCustom: false, name: "Default Curated" });
+  const defaultData = window.DEFAULT_CHANNELS_DATA || (typeof CHANNELS_DATA !== "undefined" ? CHANNELS_DATA : null);
+  if (defaultData) {
+    applyPlaylistData(defaultData, { isCustom: false, name: "Default Curated" });
     if (typeof toast === "function") toast("Reset to default curated channels");
     closePlaylistModal();
   }
@@ -295,8 +324,8 @@ function injectPlaylistModal() {
       <div class="pm-body">
         <div class="pm-status-banner" id="pm-status-banner">
           <div class="pm-status-info">
-            <span class="pm-status-label" id="pm-status-label">Default Curated Catalog</span>
-            <span id="pm-status-sub" style="font-size: 0.72rem; color: #8fa0b5;">Standard permanent channels active</span>
+            <span class="pm-status-label" id="pm-status-label">Default Curated Channels</span>
+            <span id="pm-status-sub" style="font-size: 0.74rem; color: var(--text3);">Permanent 24/7 channels active</span>
           </div>
           <button class="pm-reset-btn focusable" id="pm-btn-reset">Reset to Default</button>
         </div>
@@ -466,7 +495,7 @@ function updatePlaylistStatusUI() {
     } catch (e) {}
   }
 
-  if (label) label.textContent = "Default Curated Catalog";
+  if (label) label.textContent = "Default Curated Channels";
   if (sub) sub.textContent = "Permanent 24/7 channels active";
   if (resetBtn) resetBtn.style.display = "none";
 }
@@ -495,9 +524,11 @@ function closePlaylistModal() {
   if (backdrop) backdrop.classList.remove("is-open");
 }
 
-// Auto-run on script load
+// Wire modal on DOM ready
 document.addEventListener("DOMContentLoaded", () => {
   injectPlaylistModal();
-  checkSavedCustomPlaylist();
+  if (localStorage.getItem(STORAGE_KEY_CUSTOM_PLAYLIST)) {
+    document.body.classList.add("has-custom-playlist");
+  }
+  updatePlaylistStatusUI();
 });
-
