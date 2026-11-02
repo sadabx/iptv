@@ -9,42 +9,42 @@ const PUBLIC_PRESETS = [
   {
     id: "eng",
     name: "English Worldwide",
-    icon: "🌍",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#58b7ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`,
     meta: "Official global English channels",
     url: "https://iptv-org.github.io/iptv/languages/eng.m3u"
   },
   {
     id: "news",
     name: "World News",
-    icon: "📰",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#35d6a4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path><path d="M18 14h-8"></path><path d="M15 18h-5"></path><path d="M10 6h8v4h-8V6Z"></path></svg>`,
     meta: "24/7 Global news channels",
     url: "https://iptv-org.github.io/iptv/categories/news.m3u"
   },
   {
     id: "sports",
     name: "Sports Highlights",
-    icon: "⚽",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffaa33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 4H6v7a6 6 0 0 0 12 0V4Z"></path></svg>`,
     meta: "Public sports & outdoor channels",
     url: "https://iptv-org.github.io/iptv/categories/sports.m3u"
   },
   {
     id: "movies",
     name: "Movies & Cinema",
-    icon: "🎬",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>`,
     meta: "Free movie & series streams",
     url: "https://iptv-org.github.io/iptv/categories/movies.m3u"
   },
   {
     id: "music",
     name: "Music & Radio",
-    icon: "🎵",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`,
     meta: "Live music channels & festivals",
     url: "https://iptv-org.github.io/iptv/categories/music.m3u"
   },
   {
     id: "kids",
     name: "Kids & Animation",
-    icon: "👶",
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>`,
     meta: "Cartoons & educational TV",
     url: "https://iptv-org.github.io/iptv/categories/animation.m3u"
   }
@@ -277,7 +277,7 @@ function injectPlaylistModal() {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 6h16M4 12h16M4 18h10"></path>
           </svg>
-          <span>Playlist Manager</span>
+          <span>T9<span style="color: var(--accent); font-style: italic">TV</span> Playlists</span>
         </div>
         <button class="pm-close-btn focusable" id="pm-close-btn" aria-label="Close modal">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -500,3 +500,4 @@ document.addEventListener("DOMContentLoaded", () => {
   injectPlaylistModal();
   checkSavedCustomPlaylist();
 });
+
