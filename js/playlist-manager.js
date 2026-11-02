@@ -132,34 +132,37 @@ function parseM3UContent(text, playlistName = "Custom Playlist") {
 
   if (totalChannels === 0) return null;
 
-  // Group tiny categories if there are more than 25 categories to keep UI clean and fast
-  let categories = [];
+  // Sort categories by number of channels (largest first)
+  const sortedCategories = Array.from(categoriesMap.entries()).sort(
+    (a, b) => b[1].length - a[1].length
+  );
+
+  // Keep at most the top 8 largest categories to prevent sidebar bloating; group the rest into "Other"
+  const MAX_CATEGORIES = 8;
+  const categories = [];
   const otherChannels = [];
-  categoriesMap.forEach((channelList, catName) => {
-    if (categoriesMap.size > 20 && channelList.length < 3 && catName !== "General") {
-      channelList.forEach(ch => {
-        ch.category = "General / Other";
-        otherChannels.push(ch);
-      });
-    } else {
+
+  for (let idx = 0; idx < sortedCategories.length; idx++) {
+    const [catName, channelList] = sortedCategories[idx];
+    if (idx < MAX_CATEGORIES) {
       categories.push({
         name: catName,
         channels: channelList
       });
-    }
-  });
-
-  if (otherChannels.length > 0) {
-    const genCat = categories.find(c => c.name.startsWith("General"));
-    if (genCat) {
-      genCat.channels.push(...otherChannels);
     } else {
-      categories.push({ name: "General / Other", channels: otherChannels });
+      channelList.forEach((ch) => {
+        ch.category = "Other";
+        otherChannels.push(ch);
+      });
     }
   }
 
-  // Sort categories by number of channels (most populated first)
-  categories.sort((a, b) => b.channels.length - a.channels.length);
+  if (otherChannels.length > 0) {
+    categories.push({
+      name: "Other",
+      channels: otherChannels
+    });
+  }
 
   return {
     name: playlistName,

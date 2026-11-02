@@ -51,6 +51,9 @@ const GUIDE_CATEGORY_ICONS = {
   Entertainment: `<svg ${GUIDE_ICON_BASE}><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M8 6l2 12"></path><path d="m14 6 2 12"></path><path d="M4 10h16"></path><path d="M4 14h16"></path></svg>`,
   Infotainment: `<svg ${GUIDE_ICON_BASE}><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M8 9h8"></path><path d="M8 13h5"></path><path d="M8 17h8"></path></svg>`,
   Religious: `<svg ${GUIDE_ICON_BASE}><path d="M15.4 4.2a8.2 8.2 0 1 0 0 15.6 7.1 7.1 0 1 1 0-15.6z"></path><path d="m17.7 8.2 1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2.1 1.1.4-2.3-1.7-1.6 2.3-.3 1.1-2.1z"></path></svg>`,
+  Movies: `<svg ${GUIDE_ICON_BASE}><rect width="20" height="15" x="2" y="7" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>`,
+  Music: `<svg ${GUIDE_ICON_BASE}><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`,
+  General: `<svg ${GUIDE_ICON_BASE}><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>`,
 };
 
 // ══════════════════════════════════════════
@@ -153,8 +156,21 @@ function initChannels() {
   initHomePage();
 }
 
-function getGuideCategoryIcon(name) {
-  return GUIDE_CATEGORY_ICONS[name] || `<svg ${GUIDE_ICON_BASE}><rect x="5" y="5" width="14" height="14" rx="3"></rect><path d="M9 9h6v6H9z"></path></svg>`;
+function getGuideCategoryIcon(name = "") {
+  if (GUIDE_CATEGORY_ICONS[name]) return GUIDE_CATEGORY_ICONS[name];
+  const n = String(name).toLowerCase();
+  if (n.includes("sport")) return GUIDE_CATEGORY_ICONS.Sports;
+  if (n.includes("news")) return GUIDE_CATEGORY_ICONS.News;
+  if (n.includes("movie") || n.includes("cinema") || n.includes("film")) return GUIDE_CATEGORY_ICONS.Movies;
+  if (n.includes("music") || n.includes("radio")) return GUIDE_CATEGORY_ICONS.Music;
+  if (n.includes("kid") || n.includes("anim") || n.includes("cartoon")) return GUIDE_CATEGORY_ICONS.Kids;
+  if (n.includes("relig") || n.includes("islam") || n.includes("quran")) return GUIDE_CATEGORY_ICONS.Religious;
+  if (n.includes("bangla")) return GUIDE_CATEGORY_ICONS.Bangladesh;
+  if (n.includes("india")) return GUIDE_CATEGORY_ICONS.Indian;
+  if (n.includes("inter") || n.includes("world")) return GUIDE_CATEGORY_ICONS.International;
+  if (n.includes("doc") || n.includes("science") || n.includes("info")) return GUIDE_CATEGORY_ICONS.Infotainment;
+  if (n.includes("series") || n.includes("show") || n.includes("drama")) return GUIDE_CATEGORY_ICONS.Entertainment;
+  return GUIDE_CATEGORY_ICONS.General;
 }
 
 function categoryTargetId(name) {

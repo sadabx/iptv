@@ -29,6 +29,8 @@
     padding: 12px 8px;
     margin: 10px 5px;
     min-height: calc(100dvh - 20px);
+    max-height: calc(100dvh - 20px);
+    overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.11);
     border-radius: 26px;
     background:
@@ -68,6 +70,17 @@ body.guide-categories-open .guide-shell:not(.closed) .guide-rail {
     align-items: center;
     gap: var(--guide-rail-gap);
     width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: calc(100dvh - 220px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.guide-rail-categories::-webkit-scrollbar {
+    display: none;
 }
 
 .guide-rail-categories::before,
@@ -84,6 +97,10 @@ body.guide-categories-open .guide-shell:not(.closed) .guide-rail-categories {
     grid-column: 1 / -1;
     align-items: stretch;
     gap: 8px;
+    max-height: calc(100dvh - 200px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
 }
 
 body.guide-categories-open .guide-shell:not(.closed) .guide-rail-categories::before,
