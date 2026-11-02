@@ -129,12 +129,12 @@ var CHANNELS_DATA = {
           "themeColor": "#AA0001",
           "streams": [
             {
-              "label": "gpcdn",
-              "url": "https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8"
+              "label": "YouTube Live",
+              "url": "https://www.youtube.com/embed/live_stream?channel=UCN6sm8iHiPd0cnoUardDAnw"
             },
             {
-              "label": "YouTube",
-              "url": "https://www.youtube.com/live/0mWPK8U8jo0?si=PvmDqAuISJsC3Oxw"
+              "label": "Direct Live",
+              "url": "https://www.youtube.com/watch?v=gEsujOKEDA8"
             }
           ]
         },
@@ -145,12 +145,12 @@ var CHANNELS_DATA = {
           "logo": "assets/logos/somoy-tv.png",
           "streams": [
             {
-              "label": "BossTV",
-              "url": "https://live.thebosstv.com:30443/dwlive/Somoy-TV/chunks.m3u8"
+              "label": "YouTube Live",
+              "url": "https://www.youtube.com/embed/live_stream?channel=UCxHoBXkY88Tb8z1Ssj6CWsQ"
             },
             {
-              "label": "YouTube",
-              "url": "https://youtu.be/ITx_k7uNFP4"
+              "label": "Direct Live",
+              "url": "https://www.youtube.com/watch?v=YCu5ZkiSqco"
             }
           ]
         }
