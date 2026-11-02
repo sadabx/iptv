@@ -142,33 +142,33 @@ function parseM3UContent(text, playlistName = "Custom Playlist") {
   const categories = [];
   const otherChannels = [];
 
-  for (let idx = 0; idx < sortedCategories.length; idx++) {
-    const [catName, channelList] = sortedCategories[idx];
-    if (idx < MAX_CATEGORIES) {
-      categories.push({
-        name: catName,
-        channels: channelList
-      });
-    } else {
-      channelList.forEach((ch) => {
-        ch.category = "Other";
-        otherChannels.push(ch);
-      });
-    }
-  }
+      for (let idx = 0; idx < sortedCategories.length; idx++) {
+        const [catName, channelList] = sortedCategories[idx];
+        if (idx < MAX_CATEGORIES) {
+          categories.push({
+            name: catName,
+            channels: channelList
+          });
+        } else {
+          channelList.forEach((ch) => {
+            ch.category = "Other";
+            otherChannels.push(ch);
+          });
+        }
+}
 
-  if (otherChannels.length > 0) {
-    categories.push({
-      name: "Other",
-      channels: otherChannels
-    });
-  }
+if (otherChannels.length > 0) {
+  categories.push({
+    name: "Other",
+    channels: otherChannels
+  });
+}
 
-  return {
-    name: playlistName,
-    channelCount: totalChannels,
-    categories: categories
-  };
+return {
+  name: playlistName,
+  channelCount: totalChannels,
+  categories: categories
+};
 }
 
 // ── Apply Playlist to App
@@ -495,7 +495,7 @@ function updatePlaylistStatusUI() {
       sub.textContent = `${meta.count || "?"} channels loaded • ${meta.loadedAt || "Active"}`;
       if (resetBtn) resetBtn.style.display = "block";
       return;
-    } catch (e) {}
+    } catch (e) { }
   }
 
   if (label) label.textContent = "Default Curated Channels";
