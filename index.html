@@ -98,6 +98,7 @@
     <link rel="stylesheet" href="css/theme.css?v=2.8" />
     <link rel="stylesheet" href="css/mobile.css?v=1.7" />
     <link rel="stylesheet" href="css/live-carousel.css?v=1.0" />
+    <link rel="stylesheet" href="css/playlist-modal.css?v=1.0" />
     <script
       src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"
       defer
@@ -132,6 +133,29 @@
             ><strong id="np-name">Browse channels</strong></span
           >
         </div>
+        <button
+          class="app-nav-btn tv-icon-btn focusable"
+          id="btn-playlist-top"
+          aria-label="Manage playlists"
+          title="Playlist Manager (Custom M3U & Presets)"
+          type="button"
+          onclick="typeof openPlaylistModal === 'function' && openPlaylistModal()"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 6h16M4 12h16M4 18h10"></path>
+          </svg>
+          <span class="playlist-badge-dot"></span>
+        </button>
         <button
           class="app-nav-btn tv-icon-btn focusable"
           id="btn-chat"
@@ -242,6 +266,29 @@
             <span class="guide-rail-label">Search</span>
           </button>
           <div class="guide-rail-categories" id="guide-rail-categories"></div>
+          <button
+            class="guide-rail-btn focusable"
+            type="button"
+            id="rail-btn-playlist"
+            aria-label="Playlist Manager"
+            title="Playlist Manager (M3U / Presets)"
+            onclick="typeof openPlaylistModal === 'function' && openPlaylistModal()"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 6h16M4 12h16M4 18h10"></path>
+            </svg>
+            <span class="guide-rail-label">Playlist</span>
+          </button>
           <!--
         <button class="guide-rail-btn focusable" type="button" data-rail-settings aria-label="Settings">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -908,7 +955,8 @@
       src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"
       defer
     ></script>
-    <script src="js/channel-catalog.js?v=1.8" defer></script>
+    <script src="js/channel-catalog.js?v=2.0" defer></script>
+    <script src="js/playlist-manager.js?v=1.0" defer></script>
     <script src="js/stream-player.js?v=2.6" defer></script>
     <script src="js/embed-providers.js?v=1.0" defer></script>
     <script src="js/ui-renderer.js?v=3.0" defer></script>

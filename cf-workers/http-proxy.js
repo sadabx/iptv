@@ -16,6 +16,19 @@ async function handleRequest(request) {
     });
   }
 
+  // ── [SECURITY] Restrict proxy to authorized domains only ──
+  const origin = request.headers.get("Origin") || "";
+  const referer = request.headers.get("Referer") || "";
+  const isAllowedDomain =
+    origin.includes("trionine.com") ||
+    referer.includes("trionine.com") ||
+    origin.includes("sadabx.github.io") ||
+    referer.includes("sadabx.github.io") ||
+    origin.includes("localhost") ||
+    referer.includes("localhost") ||
+    origin.includes("127.0.0.1") ||
+    referer.includes("127.0.0.1");
+
   const url = new URL(request.url);
   let targetUrl = url.searchParams.get("url");
 
@@ -50,6 +63,7 @@ async function handleRequest(request) {
     }
   }
 
+  // Health check response when no URL is requested
   if (!targetUrl) {
     return new Response(
       "IPTV Reverse Proxy is active! Usage: ?url=http://... or /http://...",
@@ -61,6 +75,17 @@ async function handleRequest(request) {
         },
       },
     );
+  }
+
+  // Block unauthorized external sites, bots, scrapers, and 3rd-party IPTV players
+  if (!isAllowedDomain) {
+    return new Response("Unauthorized: Proxy access restricted to iptv.trionine.com", {
+      status: 403,
+      headers: {
+        "Content-Type": "text/plain",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   }
 
   try {

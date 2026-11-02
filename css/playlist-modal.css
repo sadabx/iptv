@@ -1,0 +1,335 @@
+/* ==========================================
+   playlist-modal.css — M3U & Custom Playlist Manager Modal
+   ========================================== */
+
+.playlist-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 14, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease-in-out;
+}
+
+.playlist-modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.playlist-modal {
+  width: 100%;
+  max-width: 580px;
+  background: #0d141e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(97, 129, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 90vh;
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.playlist-modal-backdrop.is-open .playlist-modal {
+  transform: translateY(0) scale(1);
+}
+
+.pm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111a26;
+}
+
+.pm-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pm-header-title svg {
+  color: #6181ff;
+}
+
+.pm-close-btn {
+  background: transparent;
+  border: none;
+  color: #8fa0b5;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.pm-close-btn:hover,
+.pm-close-btn:focus-visible {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+
+/* Tabs */
+.pm-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0d141e;
+  overflow-x: auto;
+}
+
+.pm-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 12px;
+  color: #8fa0b5;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.pm-tab-btn:hover {
+  color: #fff;
+}
+
+.pm-tab-btn.is-active {
+  color: #6181ff;
+  border-bottom-color: #6181ff;
+}
+
+/* Modal Body */
+.pm-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pm-tab-pane {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pm-tab-pane.is-active {
+  display: flex;
+}
+
+/* Status Banner */
+.pm-status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(97, 129, 255, 0.08);
+  border: 1px solid rgba(97, 129, 255, 0.22);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #cad8e8;
+}
+
+.pm-status-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pm-status-label {
+  font-weight: 700;
+  color: #6181ff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pm-reset-btn {
+  background: rgba(255, 75, 75, 0.15);
+  border: 1px solid rgba(255, 75, 75, 0.3);
+  color: #ff7575;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pm-reset-btn:hover {
+  background: rgba(255, 75, 75, 0.25);
+  color: #fff;
+}
+
+/* Preset Cards */
+.pm-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.pm-preset-card {
+  background: #131c28;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.pm-preset-card:hover,
+.pm-preset-card:focus-visible {
+  background: #182434;
+  border-color: #6181ff;
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.pm-preset-icon {
+  font-size: 1.4rem;
+}
+
+.pm-preset-name {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.pm-preset-meta {
+  font-size: 0.72rem;
+  color: #8fa0b5;
+}
+
+/* Form inputs */
+.pm-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pm-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #cad8e8;
+}
+
+.pm-input {
+  background: #111a26;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 10px 12px;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.pm-input:focus {
+  border-color: #6181ff;
+  box-shadow: 0 0 0 2px rgba(97, 129, 255, 0.2);
+}
+
+.pm-primary-btn {
+  background: #6181ff;
+  color: #fff;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.pm-primary-btn:hover {
+  background: #4a6ee0;
+}
+
+.pm-primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Upload Dropzone */
+.pm-dropzone {
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.pm-dropzone:hover,
+.pm-dropzone.is-dragover {
+  border-color: #6181ff;
+  background: rgba(97, 129, 255, 0.05);
+}
+
+.pm-dropzone-icon {
+  color: #6181ff;
+}
+
+.pm-dropzone-text {
+  font-size: 0.85rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.pm-dropzone-sub {
+  font-size: 0.74rem;
+  color: #8fa0b5;
+}
+
+.pm-hint {
+  font-size: 0.75rem;
+  color: #7b8e9f;
+  line-height: 1.4;
+}
+
+/* Topbar button badge */
+.playlist-badge-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  background: #35d6a4;
+  border-radius: 50%;
+  display: none;
+}
+
+.has-custom-playlist .playlist-badge-dot {
+  display: block;
+}
